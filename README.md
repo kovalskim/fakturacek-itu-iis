@@ -1,1 +1,1 @@
-# fakturacek-itu-iis
+# Projekt do předmětu ITU/IIS - Fakturáček
