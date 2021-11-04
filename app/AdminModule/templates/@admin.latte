@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width"/>
+
+        <title>
+            {ifset title}{include title|stripHtml} | {/ifset}Fakturáček
+        </title>
+
+        <!-- CSS styles -->
+
+        <!--// CSS styles -->
+    </head>
+
+    <body>
+        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+
+        {include content}
+
+        <!-- JS scripts -->
+        <script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
+        <!--// JS scripts -->
+    </body>
+</html>
