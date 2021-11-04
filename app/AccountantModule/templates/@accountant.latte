@@ -15,6 +15,7 @@
 
     <body>
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+        <a n:href="LogOut!">Odhlásit se</a>
 
         {include content}
 

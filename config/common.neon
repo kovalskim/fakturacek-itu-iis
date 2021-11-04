@@ -8,7 +8,12 @@ session:
     expiration: 14 days
 
 services:
-	- App\Router\RouterFactory::createRouter
+    - App\Router\RouterFactory::createRouter
+
+    - App\PublicModule\model\Authenticator
+
+    - App\PublicModule\forms\FormFactory
+    - App\PublicModule\forms\LogInFormFactory
 
 extensions:
     nextras.orm: Nextras\Dbal\Bridges\NetteDI\DbalExtension
