@@ -8,12 +8,20 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
 {
     public static $files = array (
         'd507e002f7fce7f0c6dbf1f22edcb902' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/functions.php',
+        'a5f26a3f3f192c1d07586b1de3779617' => __DIR__ . '/..' . '/nextras/dbal/srcCompat/compatibility.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
             'Symfony\\Thanks\\' => 15,
+        ),
+        'N' => 
+        array (
+            'Nextras\\MailPanel\\' => 18,
+            'Nextras\\FormsRendering\\' => 23,
+            'Nextras\\Dbal\\' => 13,
+            'Nextras\\Application\\UI\\' => 23,
         ),
         'A' => 
         array (
@@ -25,6 +33,22 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Symfony\\Thanks\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/thanks/src',
+        ),
+        'Nextras\\MailPanel\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nextras/mail-panel/src',
+        ),
+        'Nextras\\FormsRendering\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nextras/forms-rendering/src',
+        ),
+        'Nextras\\Dbal\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nextras/dbal/src',
+        ),
+        'Nextras\\Application\\UI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nextras/secured-links/src',
         ),
         'App\\' => 
         array (
@@ -293,7 +317,6 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Nette\\Forms\\Controls\\TextInput' => __DIR__ . '/..' . '/nette/forms/src/Forms/Controls/TextInput.php',
         'Nette\\Forms\\Controls\\UploadControl' => __DIR__ . '/..' . '/nette/forms/src/Forms/Controls/UploadControl.php',
         'Nette\\Forms\\Form' => __DIR__ . '/..' . '/nette/forms/src/Forms/Form.php',
-        'Nette\\Forms\\FormFactory' => __DIR__ . '/..' . '/nette/forms/src/Forms/FormFactory.php',
         'Nette\\Forms\\FormRenderer' => __DIR__ . '/..' . '/nette/forms/src/Forms/FormRenderer.php',
         'Nette\\Forms\\Helpers' => __DIR__ . '/..' . '/nette/forms/src/Forms/Helpers.php',
         'Nette\\Forms\\IControl' => __DIR__ . '/..' . '/nette/forms/src/compatibility.php',
@@ -345,7 +368,19 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Nette\\Neon\\Encoder' => __DIR__ . '/..' . '/nette/neon/src/Neon/Encoder.php',
         'Nette\\Neon\\Entity' => __DIR__ . '/..' . '/nette/neon/src/Neon/Entity.php',
         'Nette\\Neon\\Exception' => __DIR__ . '/..' . '/nette/neon/src/Neon/Exception.php',
+        'Nette\\Neon\\Lexer' => __DIR__ . '/..' . '/nette/neon/src/Neon/Lexer.php',
         'Nette\\Neon\\Neon' => __DIR__ . '/..' . '/nette/neon/src/Neon/Neon.php',
+        'Nette\\Neon\\Node' => __DIR__ . '/..' . '/nette/neon/src/Neon/Node.php',
+        'Nette\\Neon\\Node\\ArrayItemNode' => __DIR__ . '/..' . '/nette/neon/src/Neon/Node/ArrayItemNode.php',
+        'Nette\\Neon\\Node\\ArrayNode' => __DIR__ . '/..' . '/nette/neon/src/Neon/Node/ArrayNode.php',
+        'Nette\\Neon\\Node\\EntityChainNode' => __DIR__ . '/..' . '/nette/neon/src/Neon/Node/EntityChainNode.php',
+        'Nette\\Neon\\Node\\EntityNode' => __DIR__ . '/..' . '/nette/neon/src/Neon/Node/EntityNode.php',
+        'Nette\\Neon\\Node\\LiteralNode' => __DIR__ . '/..' . '/nette/neon/src/Neon/Node/LiteralNode.php',
+        'Nette\\Neon\\Node\\StringNode' => __DIR__ . '/..' . '/nette/neon/src/Neon/Node/StringNode.php',
+        'Nette\\Neon\\Parser' => __DIR__ . '/..' . '/nette/neon/src/Neon/Parser.php',
+        'Nette\\Neon\\Token' => __DIR__ . '/..' . '/nette/neon/src/Neon/Token.php',
+        'Nette\\Neon\\TokenStream' => __DIR__ . '/..' . '/nette/neon/src/Neon/TokenStream.php',
+        'Nette\\Neon\\Traverser' => __DIR__ . '/..' . '/nette/neon/src/Neon/Traverser.php',
         'Nette\\NotImplementedException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
         'Nette\\NotSupportedException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
         'Nette\\OutOfRangeException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
