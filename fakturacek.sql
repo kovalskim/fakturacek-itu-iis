@@ -108,7 +108,7 @@ CREATE TABLE `users` (
   `password` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `hash` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `hash_validity` datetime DEFAULT NULL,
-  `role` enum('admin','accountant','user') COLLATE utf8mb4_czech_ci NOT NULL,
+  `role` enum('admin','accountant','business') COLLATE utf8mb4_czech_ci NOT NULL,
   `deleted` int(11) NOT NULL DEFAULT 0,
   `banned` int(11) NOT NULL DEFAULT 0,
   `account_number` varchar(25) COLLATE utf8mb4_czech_ci DEFAULT NULL,
@@ -119,6 +119,10 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
+INSERT INTO `users` (`id`, `cin`, `name`, `email`, `phone`, `password`, `hash`, `hash_validity`, `role`, `deleted`, `banned`, `account_number`, `logo_path`, `street`, `city`, `zip`) VALUES
+(1,	NULL,	'Admin',	'admin@fakturacek.cz',	NULL,	'$2y$10$LtxViOPJkipfUKGGivFgle9UTcPVsm2ebuU1Jic7L.uGBgZws/FhS',	NULL,	NULL,	'admin',	0,	0,	NULL,	NULL,	NULL,	NULL,	NULL),
+(2,	NULL,	'Business',	'business@fakturacek.cz',	NULL,	'$2y$10$LtxViOPJkipfUKGGivFgle9UTcPVsm2ebuU1Jic7L.uGBgZws/FhS',	NULL,	NULL,	'business',	0,	0,	NULL,	NULL,	NULL,	NULL,	NULL),
+(3,	NULL,	'Accountant',	'accountant@fakturacek.cz',	NULL,	'$2y$10$LtxViOPJkipfUKGGivFgle9UTcPVsm2ebuU1Jic7L.uGBgZws/FhS',	NULL,	NULL,	'accountant',	0,	0,	NULL,	NULL,	NULL,	NULL,	NULL);
 
 DROP TABLE IF EXISTS `users_clients`;
 CREATE TABLE `users_clients` (
@@ -157,4 +161,4 @@ CREATE TABLE `users_last_password_change` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 
--- 2021-10-07 19:32:49
+-- 2021-11-04 11:51:05
