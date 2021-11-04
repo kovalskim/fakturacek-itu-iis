@@ -12,7 +12,7 @@ class FormFactory
     public function create(): Form
     {
         $form = new Form();
-        $form->addProtection();
+        $form->addProtection('Vaše relace vypršela. Vraťte se na domovskou stránku a zkuste to znovu.');
         $form->setHtmlAttribute('novalidate');
         return $form;
     }
