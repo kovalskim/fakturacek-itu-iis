@@ -1,21 +1,14 @@
-parameters:
-
-
 application:
 	errorPresenter: Error
 	mapping:
 		*: App\*Module\Presenters\*Presenter
 
-
 session:
-	expiration: 14 days
-
-
-di:
-	export:
-		parameters: no
-		tags: no
-
+    name: fakturacek
+    expiration: 14 days
 
 services:
 	- App\Router\RouterFactory::createRouter
+
+extensions:
+    nextras.orm: Nextras\Dbal\Bridges\NetteDI\DbalExtension
