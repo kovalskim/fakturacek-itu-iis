@@ -17,3 +17,8 @@ services:
 
 extensions:
     nextras.orm: Nextras\Dbal\Bridges\NetteDI\DbalExtension
+
+forms:
+    messages:
+        EMAIL: 'Zadejte platnou e-mailovou adresu'
+        REQUIRED: 'Povinná položka'
