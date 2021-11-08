@@ -15,6 +15,10 @@
 
     <body>
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+        <div>
+            <a href="{link :Public:Homepage:default}">Homepage</a>
+            <a href="{link :Public:Registration:default}">Registrace</a>
+        </div>
 
         {include content}
 

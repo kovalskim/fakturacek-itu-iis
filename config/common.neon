@@ -11,6 +11,7 @@ services:
     - App\Router\RouterFactory::createRouter
 
     - App\PublicModule\model\Authenticator
+    - App\PublicModule\model\UserManager
 
     - App\PublicModule\forms\FormFactory
     - App\PublicModule\forms\LogInFormFactory
