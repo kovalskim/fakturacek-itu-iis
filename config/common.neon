@@ -16,6 +16,9 @@ services:
     - App\PublicModule\forms\FormFactory
     - App\PublicModule\forms\LogInFormFactory
 
+    - App\PublicModule\repository\AllRepository
+    - App\PublicModule\repository\UserRepository
+
 extensions:
     nextras.orm: Nextras\Dbal\Bridges\NetteDI\DbalExtension
 
