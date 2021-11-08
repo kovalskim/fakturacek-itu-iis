@@ -2,29 +2,29 @@
 
 namespace App\PublicModule\model;
 
+use App\PublicModule\repository\UserRepository;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IIdentity;
 use Nette\Security\Passwords;
 use Nette\Security\SimpleIdentity;
-use Nextras\Dbal\Connection;
 
 class Authenticator implements \Nette\Security\Authenticator
 {
-    /** @var Connection */
-    private $connection;
-
     /** @var Passwords */
     private $passwords;
 
-    public function __construct(Connection $connection, Passwords $passwords)
+    /** @var UserRepository */
+    private $userRepository;
+
+    public function __construct(Passwords $passwords, UserRepository $userRepository)
     {
-        $this->connection = $connection;
         $this->passwords = $passwords;
+        $this->userRepository = $userRepository;
     }
 
     public function authenticate(string $user, string $password): IIdentity
     {
-        $row = $this->connection->query('SELECT * FROM users WHERE email = %s', $user)->fetch();
+        $row = $this->userRepository->getUserByEmail($user);
 
         if(!$row)
         {
