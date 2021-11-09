@@ -3,7 +3,6 @@
 namespace App\PublicModule\model;
 
 use App\PublicModule\repository\UserRepository;
-use Exception;
 use Nette\Security\Passwords;
 
 class UserManager

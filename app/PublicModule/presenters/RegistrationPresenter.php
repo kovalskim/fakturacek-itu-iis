@@ -30,9 +30,14 @@ final class RegistrationPresenter extends BasePresenter
     protected function createComponentRegistrationForm(): Form
     {
         $form = $this->logInFormFactory->createRegistrationForm();
-        $form->onValidate = [$this, "registrationFormValidate"];
-        $form->onSuccess = [$this, "registrationFormSucceeded"];
+        $form->onValidate[] = [$this, 'registrationFormValidate'];
+        $form->onSuccess[] = [$this, "registrationFormSucceeded"];
         return $form;
+    }
+
+    public function registrationFormValidate($form, $values)
+    {
+        $this->userManager->registrationFormValidate($form, $values);
     }
 
     /**
@@ -44,10 +49,5 @@ final class RegistrationPresenter extends BasePresenter
 
         $this->flashMessage("Registrace se povedla", "success");
         $this->redirect(":Public:Homepage:default");
-    }
-
-    public function registrationFormValidate($form, $values)
-    {
-        $this->userManager->registrationFormValidate($form, $values);
     }
 }

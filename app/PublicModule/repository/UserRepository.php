@@ -6,7 +6,7 @@ use Nextras\Dbal\Result\Row;
 
 class UserRepository extends AllRepository
 {
-    private $table = 'user';
+    private $table = 'users';
 
     public function getUserByEmail($email): ?Row
     {
