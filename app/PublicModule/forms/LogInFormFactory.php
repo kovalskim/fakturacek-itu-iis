@@ -48,7 +48,7 @@ class LogInFormFactory
         $form->addPassword('passwordAgain', 'Heslo znovu:')
             ->setRequired()
             ->setOmitted()
-            //TODO: Add rule
+            ->addRule($form::EQUAL, 'Hesla se neshodují', $form['password'])
             ->setHtmlAttribute('placeholder', 'Heslo znovu');
 
         $form->addText('cin', 'IČ:')
@@ -70,6 +70,10 @@ class LogInFormFactory
         $form->addText('phone', 'Telefon:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Telefon');
+
+        $form->addRadioList('role', 'Role:', [0 => 'OSVČ', 1 => 'Účetní'])
+            ->setDefaultValue(0)
+            ->setRequired();
 
         $form->addSubmit('registration', 'Registrovat se');
 

@@ -50,7 +50,7 @@ final class RegistrationPresenter extends BasePresenter
             $this->flashMessage($e, "danger");
             $this->redirect("this");
         }
-        $this->flashMessage("Povedlo se", "success");
+        $this->flashMessage("Registrace se povedla", "success");
         $this->redirect(":Public:Homepage:default");
 
     }
@@ -58,6 +58,11 @@ final class RegistrationPresenter extends BasePresenter
     public function registrationFormValidate($form, $values)
     {
         $this->userManager->registrationFormValidate($form, $values);
+    }
+
+    public function registrationFormInsert($form, $values)
+    {
+        $this->userManager->registrationFormInsert($form, $values);
     }
 
 
