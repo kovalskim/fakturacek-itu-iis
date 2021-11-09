@@ -63,16 +63,22 @@ class LogInFormFactory
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Ulice a č.p.:');
 
-        $form->addText('city', 'Město a PSČ:')
+        $form->addText('city', 'Město')
             ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Město a PSČ:');
+            ->setHtmlAttribute('placeholder', 'Město');
+
+        $form->addText('zip', 'PSČ')
+            ->setRequired()
+            ->setHtmlAttribute("inputmode", "numeric")
+            //TODO PSC add rule
+            ->setHtmlAttribute('placeholder', 'PSČ');
 
         $form->addText('phone', 'Telefon:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Telefon');
 
-        $form->addRadioList('role', 'Role:', [0 => 'OSVČ', 1 => 'Účetní'])
-            ->setDefaultValue(0)
+        $form->addRadioList('role', 'Role:', ["bussines" => 'OSVČ', "accountant" => 'Účetní'])
+            ->setDefaultValue("bussines")
             ->setRequired();
 
         $form->addSubmit('registration', 'Registrovat se');

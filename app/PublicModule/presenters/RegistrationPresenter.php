@@ -4,7 +4,6 @@ namespace App\PublicModule\presenters;
 
 use App\PublicModule\forms\LogInFormFactory;
 use App\PublicModule\model\UserManager;
-use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 
@@ -41,29 +40,14 @@ final class RegistrationPresenter extends BasePresenter
      */
     public function registrationFormSucceeded($form, $values)
     {
-        try
-        {
-            $this->userManager->registrationFormSucceeded($form, $values);
-        }
-        catch (Exception $e)
-        {
-            $this->flashMessage($e, "danger");
-            $this->redirect("this");
-        }
+        $this->userManager->registrationFormSucceeded($form, $values);
+
         $this->flashMessage("Registrace se povedla", "success");
         $this->redirect(":Public:Homepage:default");
-
     }
 
     public function registrationFormValidate($form, $values)
     {
         $this->userManager->registrationFormValidate($form, $values);
     }
-
-    public function registrationFormInsert($form, $values)
-    {
-        $this->userManager->registrationFormInsert($form, $values);
-    }
-
-
 }
