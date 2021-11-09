@@ -30,7 +30,7 @@ final class RegistrationPresenter extends BasePresenter
     protected function createComponentRegistrationForm(): Form
     {
         $form = $this->logInFormFactory->createRegistrationForm();
-        $form->onValidate[] = [$this, 'registrationFormValidate'];
+        $form->onValidate[] = [$this, "registrationFormValidate"];
         $form->onSuccess[] = [$this, "registrationFormSucceeded"];
         return $form;
     }

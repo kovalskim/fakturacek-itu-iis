@@ -20,7 +20,7 @@ class UserRepository extends AllRepository
 
     public function insertUser($values)
     {
-        $this->connection->query('INSERT INTO %table %values',$this->table, $values);
+        $this->connection->query('INSERT INTO %table %values',$this->table, (array) $values);
     }
 
 }

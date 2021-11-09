@@ -43,6 +43,7 @@ class LogInFormFactory
 
         $form->addPassword('password', 'Heslo:')
             ->setRequired()
+            ->addRule($form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaků', 8)
             ->setHtmlAttribute('placeholder', 'Heslo');
 
         $form->addPassword('passwordAgain', 'Heslo znovu:')
@@ -53,6 +54,7 @@ class LogInFormFactory
 
         $form->addText('cin', 'IČ:')
             ->setRequired()
+            ->addRule($form::LENGTH, 'IČ musí mít %d znaků', 8)
             ->setHtmlAttribute('placeholder', 'IČ');
 
         $form->addText('name', 'Jméno a příjmení:')
@@ -70,15 +72,13 @@ class LogInFormFactory
         $form->addText('zip', 'PSČ')
             ->setRequired()
             ->setHtmlAttribute("inputmode", "numeric")
-            //TODO PSC add rule
             ->setHtmlAttribute('placeholder', 'PSČ');
 
         $form->addText('phone', 'Telefon:')
-            ->setRequired()
             ->setHtmlAttribute('placeholder', 'Telefon');
 
-        $form->addRadioList('role', 'Role:', ["bussines" => 'OSVČ', "accountant" => 'Účetní'])
-            ->setDefaultValue("bussines")
+        $form->addRadioList('role', 'Role:', ["business" => 'OSVČ', "accountant" => 'Účetní'])
+            ->setDefaultValue("business")
             ->setRequired();
 
         $form->addSubmit('registration', 'Registrovat se');
