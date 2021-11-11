@@ -18,6 +18,7 @@ services:
 
     - App\PublicModule\repository\AllRepository
     - App\PublicModule\repository\UserRepository
+    - App\PublicModule\repository\TextRepository
 
 extensions:
     nextras.orm: Nextras\Dbal\Bridges\NetteDI\DbalExtension
