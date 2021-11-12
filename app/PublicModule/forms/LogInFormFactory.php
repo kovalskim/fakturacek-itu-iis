@@ -32,7 +32,7 @@ class LogInFormFactory
 
         return $form;
     }
-    
+
     /** Author: Radek Jůzl */
     public function createRegistrationForm(): Form
     {
