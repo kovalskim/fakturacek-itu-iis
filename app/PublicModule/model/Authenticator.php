@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Martin Kovalski */
+
 namespace App\PublicModule\model;
 
 use App\PublicModule\repository\UserRepository;

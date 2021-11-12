@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Martin Kovalski */
+
 namespace App\PublicModule\presenters;
 
 use Nette\Application\UI\Presenter;

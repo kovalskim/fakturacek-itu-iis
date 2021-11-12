@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Martin Kovalski */
+
 namespace App\PublicModule\repository;
 
 use Nextras\Dbal\Result\Row;
@@ -22,5 +24,4 @@ class UserRepository extends AllRepository
     {
         $this->connection->query('INSERT INTO %table %values',$this->table, (array) $values);
     }
-
 }

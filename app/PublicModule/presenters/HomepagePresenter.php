@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Martin Kovalski */
+
 namespace App\PublicModule\presenters;
 
 use App\PublicModule\forms\LogInFormFactory;

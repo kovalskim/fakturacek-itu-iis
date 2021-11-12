@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Martin Kovalski */
+
 namespace App\PublicModule\repository;
 
 use Nextras\Dbal\Connection;

@@ -14,6 +14,7 @@ class LogInFormFactory
         $this->formFactory = $formFactory;
     }
 
+    /** Author: Martin Kovalski */
     public function createLogInForm(): Form
     {
         $form = $this->formFactory->create();
