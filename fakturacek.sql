@@ -1,4 +1,4 @@
--- Adminer 4.3.1 MySQL dump
+-- Adminer 4.8.1 MySQL 5.5.5-10.4.21-MariaDB dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -93,10 +93,13 @@ DROP TABLE IF EXISTS `texts`;
 CREATE TABLE `texts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
-  `texts` text COLLATE utf8mb4_czech_ci NOT NULL,
+  `text` text COLLATE utf8mb4_czech_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
+INSERT INTO `texts` (`id`, `type`, `text`) VALUES
+(1,	'aboutus',	'<h1>Nadpis</h1>\r\n<p>Odstavec s <b>tučným textem</b>, s <i>kurzivou</i>.\r\n<span style=\"color: red;\">Červený text.</span></p>\r\n<h2>Nadpis druhé úrovně</h2>\r\n<p>Odstavec s <i><b>tučnou kurzivou.</b></i><br>\r\nText po zalomení řádku patří do téhož odstavce.</p>'),
+(2,	'contact',	'<p>Odstavec s <b>tučným textem</b>, s <i>kurzivou</i>.\r\n<span style=\"color: red;\">Červený text.</span></p>');
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -122,7 +125,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `cin`, `name`, `email`, `phone`, `password`, `hash`, `hash_validity`, `role`, `deleted`, `banned`, `account_number`, `logo_path`, `street`, `city`, `zip`) VALUES
 (1,	NULL,	'Admin',	'admin@fakturacek.cz',	NULL,	'$2y$10$LtxViOPJkipfUKGGivFgle9UTcPVsm2ebuU1Jic7L.uGBgZws/FhS',	NULL,	NULL,	'admin',	0,	0,	NULL,	NULL,	NULL,	NULL,	NULL),
 (2,	NULL,	'Business',	'business@fakturacek.cz',	NULL,	'$2y$10$LtxViOPJkipfUKGGivFgle9UTcPVsm2ebuU1Jic7L.uGBgZws/FhS',	NULL,	NULL,	'business',	0,	0,	NULL,	NULL,	NULL,	NULL,	NULL),
-(3,	NULL,	'Accountant',	'accountant@fakturacek.cz',	NULL,	'$2y$10$LtxViOPJkipfUKGGivFgle9UTcPVsm2ebuU1Jic7L.uGBgZws/FhS',	NULL,	NULL,	'accountant',	0,	0,	NULL,	NULL,	NULL,	NULL,	NULL);
+(3,	NULL,	'Accountant',	'accountant@fakturacek.cz',	NULL,	'$2y$10$LtxViOPJkipfUKGGivFgle9UTcPVsm2ebuU1Jic7L.uGBgZws/FhS',	NULL,	NULL,	'accountant',	0,	0,	NULL,	NULL,	NULL,	NULL,	NULL),
+(4,	'12345678',	'Radek Jůzl',	'radekjuzl@seznam.cz',	'',	'$2y$10$bRhFsdgSyzTPLLNuKj6DRO/E7vA8WBdTtmYAP3kjzpjg9ANG1dkuG',	NULL,	NULL,	'business',	0,	0,	NULL,	NULL,	'Kam 204',	'Nikam',	'39601');
 
 DROP TABLE IF EXISTS `users_clients`;
 CREATE TABLE `users_clients` (
@@ -161,4 +165,4 @@ CREATE TABLE `users_last_password_change` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 
--- 2021-11-04 11:51:05
+-- 2021-11-12 23:39:14
