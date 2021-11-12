@@ -12,9 +12,11 @@ services:
 
     - App\PublicModule\model\Authenticator
     - App\PublicModule\model\UserManager
+    - App\PublicModule\model\ContactManager
 
     - App\PublicModule\forms\FormFactory
     - App\PublicModule\forms\LogInFormFactory
+    - App\PublicModule\forms\ContactFormFactory
 
     - App\PublicModule\repository\AllRepository
     - App\PublicModule\repository\UserRepository
