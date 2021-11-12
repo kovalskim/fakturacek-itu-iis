@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Radek Jůzl */
+
 namespace App\PublicModule\model;
 
 use App\PublicModule\repository\UserRepository;

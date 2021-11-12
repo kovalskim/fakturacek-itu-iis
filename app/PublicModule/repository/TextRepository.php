@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Radek Jůzl */
+
 namespace App\PublicModule\repository;
 
 class TextRepository extends AllRepository
