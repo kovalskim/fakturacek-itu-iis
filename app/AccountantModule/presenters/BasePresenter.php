@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Martin Kovalski */
+
 namespace App\AccountantModule\presenters;
 
 use Nette\Application\AbortException;

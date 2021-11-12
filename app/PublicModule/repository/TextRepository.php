@@ -10,7 +10,4 @@ class TextRepository extends AllRepository
     {
         return $this->connection->query("SELECT text FROM %table WHERE type = %s", $this->table, $type)->fetchField();
     }
-
-
-
 }
