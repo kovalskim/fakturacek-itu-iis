@@ -9,6 +9,7 @@ use Nextras\Dbal\Result\Row;
 class UserRepository extends AllRepository
 {
     private $table = 'users';
+    private $last_password_change_table = 'users_last_password_change';
 
     public function getUserByEmail($email): ?Row
     {
@@ -39,7 +40,7 @@ class UserRepository extends AllRepository
         return $this->connection->query('SELECT hash_validity FROM %table WHERE hash = %s', $this->table, $token)->fetchField();
     }
 
-    public function setUserNewPassword($token, $new_password)
+    public function setUserNewPasswordByToken($token, $new_password)
     {
         $data = [
             'hash' => null,
@@ -47,5 +48,23 @@ class UserRepository extends AllRepository
             'password' => $new_password
         ];
         $this->connection->query('UPDATE %table SET %set WHERE hash = %s', $this->table, $data, $token);
+    }
+
+    public function getUserEmailById($user_id)
+    {
+        return $this->connection->query('SELECT email FROM %table WHERE id = %i', $this->table, $user_id)->fetchField();
+    }
+
+    public function setUserNewPasswordById($user_id, $new_password)
+    {
+        $data = [
+            'password' => $new_password
+        ];
+        $this->connection->query('UPDATE %table SET %set WHERE id = %i', $this->table, $data, $user_id);
+    }
+
+    public function setUserLastPasswordChange($user_id)
+    {
+        $this->connection->query('INSERT INTO %table %values', $this->last_password_change_table, ['users_id' => $user_id]);
     }
 }

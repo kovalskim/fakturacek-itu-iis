@@ -125,4 +125,29 @@ class LogInFormFactory
 
         return $form;
     }
+
+    /** Author: Martin Kovalski */
+    public function createChangePasswordForm(): Form
+    {
+        $form = $this->formFactory->create();
+
+        $form->addPassword('old_password', 'Staré heslo')
+            ->setRequired()
+            ->setHtmlAttribute('placeholder', 'Staré heslo')
+            ->setHtmlAttribute('autofocus');
+
+        $form->addPassword('password', 'Nové heslo')
+            ->setRequired()
+            ->setHtmlAttribute('placeholder', 'Nové heslo');
+
+        $form->addPassword('password_again', 'Nové heslo znovu')
+            ->setRequired()
+            ->setHtmlAttribute('placeholder', 'Nové heslo znovu')
+            ->addRule(Form::EQUAL, 'Hesla se neshodují.', $form['password'])
+            ->setOmitted();
+
+        $form->addSubmit('change', 'Změnit heslo');
+
+        return $form;
+    }
 }

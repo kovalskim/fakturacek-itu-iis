@@ -4,7 +4,9 @@ namespace App\PublicModule\model;
 
 use App\PublicModule\repository\UserRepository;
 use Exception;
+use Nette\Security\AuthenticationException;
 use Nette\Security\Passwords;
+use Nette\Security\User;
 use Nette\Utils\DateTime;
 
 class UserManager
@@ -15,10 +17,18 @@ class UserManager
     /** @var MailSender */
     private $mailSender;
 
-    public function __construct(UserRepository $userRepository, MailSender $mailSender)
+    /** @var User */
+    private $user;
+
+    /** @var Authenticator */
+    private $authenticator;
+
+    public function __construct(UserRepository $userRepository, MailSender $mailSender, User $user, Authenticator $authenticator)
     {
         $this->userRepository = $userRepository;
         $this->mailSender = $mailSender;
+        $this->user = $user;
+        $this->authenticator = $authenticator;
     }
 
     /** Author: Radek Jůzl */
@@ -115,6 +125,34 @@ class UserManager
     {
         /** Delete hash and validity, set new password, update in database */
         $new_password = (new Passwords)->hash($values->password);
-        $this->userRepository->setUserNewPassword($values->token, $new_password);
+        $this->userRepository->setUserNewPasswordByToken($values->token, $new_password);
+    }
+
+    /** Author: Martin Kovalski */
+    public function changePasswordFormSucceeded($form, $values)
+    {
+        $user_id = $this->user->getId();
+
+        /** Get user´s e-mail */
+        $email = $this->userRepository->getUserEmailById($user_id);
+
+        /** Autenticate user */
+        try
+        {
+            $this->authenticator->authenticate($email, $values->old_password);
+        }
+        catch (AuthenticationException $e)
+        {
+            throw new Exception('Zadané heslo není správné');
+        }
+
+        /** Create hash from new password */
+        $new_password = (new Passwords)->hash($values->password);
+
+        /** Update password in database */
+        $this->userRepository->setUserNewPasswordById($user_id, $new_password);
+
+        /** Save date of last password change */
+        $this->userRepository->setUserLastPasswordChange($user_id);
     }
 }
