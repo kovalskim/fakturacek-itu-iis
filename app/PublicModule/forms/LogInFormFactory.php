@@ -87,4 +87,42 @@ class LogInFormFactory
 
         return $form;
     }
+
+    /** Author: Martin Kovalski */
+    public function createForgottenPasswordForm(): Form
+    {
+        $form = $this->formFactory->create();
+
+        $form->addEmail('email', 'E-mail')
+            ->setRequired()
+            ->setHtmlAttribute('placeholder', 'E-mail')
+            ->setHtmlAttribute('autofocus');
+
+        $form->addSubmit('send', 'Odeslat');
+
+        return $form;
+    }
+
+    /** Author: Martin Kovalski */
+    public function createNewPasswordForm(): Form
+    {
+        $form = $this->formFactory->create();
+
+        $form->addHidden('token');
+
+        $form->addPassword('password', 'Nové heslo')
+            ->setRequired()
+            ->setHtmlAttribute('placeholder', 'Nové heslo')
+            ->setHtmlAttribute('autofocus');
+
+        $form->addPassword('password_again', 'Nové heslo znovu')
+            ->setRequired()
+            ->setHtmlAttribute('placeholder', 'Nové heslo znovu')
+            ->addRule(Form::EQUAL, 'Hesla se neshodují', $form['password'])
+            ->setOmitted();
+
+        $form->addSubmit('change', 'Změnit heslo');
+
+        return $form;
+    }
 }

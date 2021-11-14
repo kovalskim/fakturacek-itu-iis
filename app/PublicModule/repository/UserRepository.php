@@ -24,4 +24,28 @@ class UserRepository extends AllRepository
     {
         $this->connection->query('INSERT INTO %table %values',$this->table, (array) $values);
     }
+
+    public function setUserRecoveryCredentials($hash, $hash_validity, $email)
+    {
+        $data = [
+            'hash' => $hash,
+            'hash_validity' => $hash_validity
+        ];
+        $this->connection->query('UPDATE %table SET %set WHERE email = %s', $this->table, $data, $email);
+    }
+
+    public function getTokenValidity($token)
+    {
+        return $this->connection->query('SELECT hash_validity FROM %table WHERE hash = %s', $this->table, $token)->fetchField();
+    }
+
+    public function setUserNewPassword($token, $new_password)
+    {
+        $data = [
+            'hash' => null,
+            'hash_validity' => null,
+            'password' => $new_password
+        ];
+        $this->connection->query('UPDATE %table SET %set WHERE hash = %s', $this->table, $data, $token);
+    }
 }
