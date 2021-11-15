@@ -4,9 +4,9 @@
 
 namespace App\PublicModule\presenters;
 
+use App\PublicModule\model\MailSender;
 use App\PublicModule\repository\TextRepository;
 use App\PublicModule\forms\ContactFormFactory;
-use App\PublicModule\model\ContactManager;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 
@@ -18,15 +18,16 @@ final class ContactPresenter extends BasePresenter
     /** @var ContactFormFactory */
     private $contactFormFactory;
 
-    /** @var ContactManager */
-    private $contactManager;
+    /** @var MailSender */
+    private $mailSender;
 
-    public function __construct(TextRepository $textRepository, ContactFormFactory $contactFormFactory, ContactManager $contactManager)
+
+    public function __construct(TextRepository $textRepository, ContactFormFactory $contactFormFactory, MailSender $mailSender)
     {
         parent::__construct();
         $this->textRepository = $textRepository;
         $this->contactFormFactory = $contactFormFactory;
-        $this->contactManager = $contactManager;
+        $this->mailSender = $mailSender;
     }
 
     public function actionDefault()
@@ -46,10 +47,27 @@ final class ContactPresenter extends BasePresenter
      */
     public function contactFormSucceeded($form, $values)
     {
-        $this->contactManager->contactFormSucceeded($form, $values);
+        $subject = "Kontaktní formulář";
+        $body = 'contactTemplate.latte';
+        $params = [
+            'subject' => $subject,
+            'email' => $values->email,
+            'name' => $values->name,
+            'message' => $values->message
+        ];
 
-        $this->flashMessage("zpráva byla odeslána", "success");
-        $this->redirect(":Public:Contact:default");
+        try
+        {
+            $this->mailSender->sendEmail("radekjuzl@seznam.cz", $subject, $body, $params); //TODO: Komu poslat?
+            $this->flashMessage("Zpráva byla odeslána", "success");
+        }
+
+        catch (Exception $e)
+        {
+            $this->flashMessage($e->getMessage(), 'danger');
+        }
+
+        $this->redirect('this');
     }
 
     public function renderDefault()
