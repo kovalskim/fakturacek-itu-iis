@@ -12,7 +12,6 @@ services:
 
     - App\PublicModule\model\Authenticator
     - App\PublicModule\model\UserManager
-    - App\PublicModule\model\ContactManager
     - App\PublicModule\model\MailSender
 
     - App\PublicModule\forms\FormFactory
