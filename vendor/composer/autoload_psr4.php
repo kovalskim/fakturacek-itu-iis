@@ -10,6 +10,7 @@ return array(
     'Nextras\\MailPanel\\' => array($vendorDir . '/nextras/mail-panel/src'),
     'Nextras\\FormsRendering\\' => array($vendorDir . '/nextras/forms-rendering/src'),
     'Nextras\\Dbal\\' => array($vendorDir . '/nextras/dbal/src'),
+    'Nextras\\Datagrid\\' => array($vendorDir . '/nextras/datagrid/src'),
     'Nextras\\Application\\UI\\' => array($vendorDir . '/nextras/secured-links/src'),
     'App\\' => array($baseDir . '/app'),
 );

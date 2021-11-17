@@ -21,6 +21,7 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
             'Nextras\\MailPanel\\' => 18,
             'Nextras\\FormsRendering\\' => 23,
             'Nextras\\Dbal\\' => 13,
+            'Nextras\\Datagrid\\' => 17,
             'Nextras\\Application\\UI\\' => 23,
         ),
         'A' => 
@@ -45,6 +46,10 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Nextras\\Dbal\\' => 
         array (
             0 => __DIR__ . '/..' . '/nextras/dbal/src',
+        ),
+        'Nextras\\Datagrid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nextras/datagrid/src',
         ),
         'Nextras\\Application\\UI\\' => 
         array (
@@ -322,7 +327,9 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Nette\\Forms\\IControl' => __DIR__ . '/..' . '/nette/forms/src/compatibility.php',
         'Nette\\Forms\\IFormRenderer' => __DIR__ . '/..' . '/nette/forms/src/compatibility.php',
         'Nette\\Forms\\ISubmitterControl' => __DIR__ . '/..' . '/nette/forms/src/compatibility.php',
+        'Nette\\Forms\\Rendering\\DataClassGenerator' => __DIR__ . '/..' . '/nette/forms/src/Forms/Rendering/DataClassGenerator.php',
         'Nette\\Forms\\Rendering\\DefaultFormRenderer' => __DIR__ . '/..' . '/nette/forms/src/Forms/Rendering/DefaultFormRenderer.php',
+        'Nette\\Forms\\Rendering\\LatteRenderer' => __DIR__ . '/..' . '/nette/forms/src/Forms/Rendering/LatteRenderer.php',
         'Nette\\Forms\\Rule' => __DIR__ . '/..' . '/nette/forms/src/Forms/Rule.php',
         'Nette\\Forms\\Rules' => __DIR__ . '/..' . '/nette/forms/src/Forms/Rules.php',
         'Nette\\Forms\\SubmitterControl' => __DIR__ . '/..' . '/nette/forms/src/Forms/SubmitterControl.php',

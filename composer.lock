@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "96f9fba035f27b7e1ded04cd2da394b3",
+    "content-hash": "f8ff71005c6cb2cbb5584405a4f29d03",
     "packages": [
         {
             "name": "latte/latte",
@@ -616,16 +616,16 @@
         },
         {
             "name": "nette/forms",
-            "version": "v3.1.5",
+            "version": "v3.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/forms.git",
-                "reference": "2786ebc772cde724dad945e8bc2d7c578d831f4e"
+                "reference": "4ed52434b61d7e532cb3bc77b048717703b91b0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/forms/zipball/2786ebc772cde724dad945e8bc2d7c578d831f4e",
-                "reference": "2786ebc772cde724dad945e8bc2d7c578d831f4e",
+                "url": "https://api.github.com/repos/nette/forms/zipball/4ed52434b61d7e532cb3bc77b048717703b91b0b",
+                "reference": "4ed52434b61d7e532cb3bc77b048717703b91b0b",
                 "shasum": ""
             },
             "require": {
@@ -685,9 +685,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/forms/issues",
-                "source": "https://github.com/nette/forms/tree/v3.1.5"
+                "source": "https://github.com/nette/forms/tree/v3.1.6"
             },
-            "time": "2021-10-07T01:42:05+00:00"
+            "time": "2021-11-09T11:56:09+00:00"
         },
         {
             "name": "nette/http",
@@ -843,16 +843,16 @@
         },
         {
             "name": "nette/neon",
-            "version": "v3.3.0",
+            "version": "v3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/neon.git",
-                "reference": "33d262a0c4fb6c6371385f6dc8532f4e32c20ebc"
+                "reference": "1f4e5f6a30bf45b6c2c932be7396ea70692ee607"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/neon/zipball/33d262a0c4fb6c6371385f6dc8532f4e32c20ebc",
-                "reference": "33d262a0c4fb6c6371385f6dc8532f4e32c20ebc",
+                "url": "https://api.github.com/repos/nette/neon/zipball/1f4e5f6a30bf45b6c2c932be7396ea70692ee607",
+                "reference": "1f4e5f6a30bf45b6c2c932be7396ea70692ee607",
                 "shasum": ""
             },
             "require": {
@@ -862,8 +862,11 @@
             "require-dev": {
                 "nette/tester": "^2.0",
                 "phpstan/phpstan": "^0.12",
-                "tracy/tracy": "^2.3"
+                "tracy/tracy": "^2.8.8"
             },
+            "bin": [
+                "bin/neon-lint"
+            ],
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -902,9 +905,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/neon/issues",
-                "source": "https://github.com/nette/neon/tree/v3.3.0"
+                "source": "https://github.com/nette/neon/tree/v3.3.1"
             },
-            "time": "2021-10-19T22:11:22+00:00"
+            "time": "2021-11-09T01:00:15+00:00"
         },
         {
             "name": "nette/php-generator",
@@ -1321,6 +1324,62 @@
             "time": "2021-09-20T10:50:11+00:00"
         },
         {
+            "name": "nextras/datagrid",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nextras/datagrid.git",
+                "reference": "6d1d222ea49891150780694018f0ececf3a08a58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nextras/datagrid/zipball/6d1d222ea49891150780694018f0ececf3a08a58",
+                "reference": "6d1d222ea49891150780694018f0ececf3a08a58",
+                "shasum": ""
+            },
+            "require": {
+                "latte/latte": "~2.9",
+                "nette/application": "~3.0",
+                "nette/component-model": "~3.0",
+                "nette/forms": "~3.0",
+                "nette/utils": "~3.0",
+                "php": ">=7.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nextras\\Datagrid\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nextras Community",
+                    "homepage": "https://github.com/nextras/forms/graphs/contributors"
+                }
+            ],
+            "description": "Datagrid component for Nette Framework.",
+            "keywords": [
+                "datagrid",
+                "nette",
+                "nextras"
+            ],
+            "support": {
+                "issues": "https://github.com/nextras/datagrid/issues",
+                "source": "https://github.com/nextras/datagrid/tree/v3.2.0"
+            },
+            "time": "2020-11-19T18:13:25+00:00"
+        },
+        {
             "name": "nextras/dbal",
             "version": "v4.0.0",
             "source": {
@@ -1592,16 +1651,16 @@
         },
         {
             "name": "tracy/tracy",
-            "version": "v2.8.7",
+            "version": "v2.8.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tracy.git",
-                "reference": "8e708de7c611f626c8792d43f1c78812ea24e6f6"
+                "reference": "1a18df64f6b745962e9a0bdf87eccfc62309e593"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tracy/zipball/8e708de7c611f626c8792d43f1c78812ea24e6f6",
-                "reference": "8e708de7c611f626c8792d43f1c78812ea24e6f6",
+                "url": "https://api.github.com/repos/nette/tracy/zipball/1a18df64f6b745962e9a0bdf87eccfc62309e593",
+                "reference": "1a18df64f6b745962e9a0bdf87eccfc62309e593",
                 "shasum": ""
             },
             "require": {
@@ -1619,7 +1678,7 @@
                 "nette/tester": "^2.2",
                 "nette/utils": "^3.0",
                 "phpstan/phpstan": "^0.12",
-                "psr/log": "^1.0"
+                "psr/log": "^1.0 || ^2.0 || ^3.0"
             },
             "type": "library",
             "extra": {
@@ -1660,9 +1719,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/tracy/issues",
-                "source": "https://github.com/nette/tracy/tree/v2.8.7"
+                "source": "https://github.com/nette/tracy/tree/v2.8.8"
             },
-            "time": "2021-08-24T16:26:27+00:00"
+            "time": "2021-11-08T23:40:20+00:00"
         }
     ],
     "packages-dev": [
@@ -1805,7 +1864,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "nextras/datagrid": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
