@@ -4,12 +4,14 @@
 
 namespace App\PublicModule\repository;
 
+use Nextras\Dbal\Result\Row;
+
 class TextRepository extends AllRepository
 {
     private $table = "texts";
 
-    public function getTextByType($type)
+    public function getTextByType($type): ?Row
     {
-        return $this->connection->query("SELECT text FROM %table WHERE type = %s", $this->table, $type)->fetchField();
+        return $this->connection->query("SELECT text, img_path FROM %table WHERE type = %s", $this->table, $type)->fetch();
     }
 }

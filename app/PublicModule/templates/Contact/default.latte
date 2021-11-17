@@ -1,8 +1,10 @@
 {block content}
     <h1 n:block=title>Kontakt</h1>
 
+    <img src="{$basePath}/{$text->img_path}" alt="Kontakt" width="500" height="300" />
+
     <div>
-        {$text|noescape}
+        {$text->text|noescape}
     </div>
 
     {control contactForm}
