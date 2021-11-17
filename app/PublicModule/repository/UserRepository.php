@@ -83,4 +83,9 @@ class UserRepository extends AllRepository
         ];
         $this->connection->query('UPDATE %table SET %set WHERE hash = %s', $this->table, $data, $token);
     }
+
+    public function updateProfile($user_id, $values)
+    {
+        $this->connection->query("UPDATE %table SET %set WHERE id = %i", $this->table, (array) $values, $user_id);
+    }
 }

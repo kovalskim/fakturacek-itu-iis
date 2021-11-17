@@ -13,6 +13,7 @@ services:
     - App\PublicModule\model\Authenticator
     - App\PublicModule\model\UserManager
     - App\PublicModule\model\MailSender
+    - App\PublicModule\model\EditProfile
     - App\PublicModule\model\DatagridManager
 
     - App\PublicModule\forms\FormFactory
