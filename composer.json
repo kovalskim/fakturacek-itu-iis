@@ -23,7 +23,8 @@
 		"nextras/dbal": "v4.0.0",
 		"nextras/mail-panel": "v2.5.2",
 		"nextras/forms-rendering": "^1.1",
-		"nextras/secured-links": "^1.7"
+		"nextras/secured-links": "^1.7",
+		"nextras/datagrid": "v3.0.x-dev"
 	},
 	"require-dev": {
 		"nette/tester": "^2.3",

@@ -1,0 +1,161 @@
+Datagrid
+########
+
+Philosophy
+==========
+
+The main goal of Nextras Datagrid is to provide usable API for creating powerful datagrid. Very common disadvantage of other datagrids is the fact you have to use prepared datasources, form filtering inputs, etc. Also, formatting of cell contents is very often uncomfortable; you have to wrap the contents into Nette\Html instances. With Nextras Datagrid all goes really easy!
+
+Datagrid supports full AJAX support! Use "nette.ajax.js":https://github.com/vojtech-dobes/nette.ajax.js.
+
+Columns
+=======
+
+Define columns that should be shown:
+/--php
+$grid = new Nextras\Datagrid\Datagrid();
+$grid->addColumn('id');
+$grid->addColumn('created_time', 'Account created');
+$grid->addColumn('nickname')->enableSort();
+\--
+
+The first defined column is considered as a primary key column. Of course, you can change it:
+/--php
+$grid->setRowPrimaryKey('nickname');
+\--
+
+Datasource
+==========
+
+In Datagrid there is no predefined class or something similar. All you need to do is set up a callback that returns the data:
+
+/--php
+$grid->setDatasourceCallback(function($filter, $order) {
+    // get the data
+    return $data;
+});
+\--
+
+- `$filter` callback's parameter is an array that contains key/value filters; it's totally up to you how you filter the data;
+- `$order` callback's parameter is NULL or array that consist of order-column and order-direction. Eg. `['id', 'DESC']`;
+
+Possible **NAIVE** implementation for Nette\Database could look like this:
+
+/--php
+$grid->setDatasourceCallback(function($filter, $order) {
+    $filters = [];
+    foreach ($filter as $k => $v) {
+        if ($k == 'id' || is_array($v)) {
+            $filters[$k] = $v;
+        } else {
+            $filters[$k. ' LIKE ?'] = "%$v%";
+        }
+    }
+
+    $selection = $this->connection->table('user')->where($filters);
+    if (isset($order[0])) {
+        $selection->order(implode(' ', $order));
+    }
+
+    return $selection;
+});
+\--
+
+Cell rendering
+==============
+
+Would you like print clickable nickname? In Nextras Datagrid it's a piece of cake!
+
+/--php
+$grid->addCellsTemplate('./grid.my.blocks.latte');
+\--
+
+File `grid.my.blocks.latte`:
+
+/--html
+{define col-nickname}
+<td>
+    <a href="{plink Users: id => $row->id}">{$cell}</a>
+</td>
+{/define}
+\--
+
+Here is list of suitable blocks for redefinition:
+
+|--------------------------------------------------------------------
+| Block name               | Description           | Variables
+|--------------------------------------------------------------------
+| `table-open-tag`         | html `<table>` tag
+| `table-close-tag`        | html `</table>` tag
+| `global-actions`         | the bottom left block for global actions select
+| `global-filter-actions`  | cell with the buttons for filtering | `$showCancel`
+| `row-actions-edit`       | cell for rendering save & cancel buttons while editing row
+| `row-actions`            | cell for rendering row's actions | `$primary`, `$row`
+| `row`                    | row rendering, for `<tr>` tag decoration | `$rowId`, `$row`
+| `col-filter-*`           | custom filter cell rendering | `$form` - filter's `Nette\Form\IContainer`, `$column` - Column instance
+| `col-filter`             | global custom filter cell rendering; this block has lower priority than `col-filter-*` | same variables as for `col-filter-*`
+| `col-*`                  | custom cell rendering; **this block must include ''<td>'' tag**; | `$row`, `$cell`
+| `cell-*`                 | custom cell contents rendering | `$row`, `$cell`
+| `cell-edit-*`            | custom inline edit cell rendering | `$row`, `$column`, `$form`
+| `pagination`             | custom pagination | `$control`, `$paginator` - Nette\Utils\Paginator instance
+| `empty-result`           | custom implementation of table row when no results were found
+
+
+Filtering
+=========
+
+Nextras Datagrid is independent from the from input types - you will define your filtering inputs by your exact needs. All you need to do is create Nette\Forms\Container and set up inputs corresponding to column names, which you want to filter.
+
+/--php
+$grid->setFilterFormFactory(function() {
+    $form = new Nette\Forms\Container();
+    $form->addDateTimePicker('created_time'); // your custom input type
+    $form->addSearchInput('nickname', ...); // your custom input type
+
+    // set other fileds, inputs
+
+    // these buttons are not compulsory
+    $form->addSubmit('filter', 'Filter data')->getControlPrototype()->class = 'btn btn-primary';
+    $form->addSubmit('cancel', 'Cancel filter')->getControlPrototype()->class = 'btn';
+
+    return $form;
+});
+\--
+
+Inline editing
+==============
+
+Would you like edit your data inline? No problem. Define you edit form container:
+
+/--php
+$grid->setEditFormFactory(function($row) {
+    $form = new Nette\Forms\Container();
+    $form->addDateTimePicker('created_time');
+    $form->addText('nickname')->setRequired();
+    // set your own conditions
+
+    // set your own fileds, inputs
+
+    // these buttons are not compulsory
+    $form->addSubmit('save', 'Save data')->getControlPrototype()->class = 'btn btn-primary';
+    $form->addSubmit('cancel', 'Cancel editing')->getControlPrototype()->class = 'btn';
+
+    if ($row) {
+        $form->setDefaults($row);
+    }
+    return $form;
+});
+\--
+
+
+Global Actions
+==============
+
+/--php
+$grid->addGlobalAction('delete', 'Move to trash', function (array $ids, Datagrid $grid) {
+	// delete $ids
+	$grid->redrawControl('rows');
+});
+\--
+
+You may rewrite `global-actions` block to style select & button differently.
