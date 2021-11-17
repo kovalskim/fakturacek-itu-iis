@@ -1,4 +1,4 @@
--- Adminer 4.8.1 MySQL 5.5.5-10.4.21-MariaDB dump
+-- Adminer 4.3.1 MySQL dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -114,7 +114,6 @@ CREATE TABLE `users` (
   `hash_validity` datetime DEFAULT NULL,
   `role` enum('admin','accountant','business') COLLATE utf8mb4_czech_ci NOT NULL,
   `deleted` int(11) NOT NULL DEFAULT 0,
-  `banned` int(11) NOT NULL DEFAULT 0,
   `account_number` varchar(25) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `logo_path` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `street` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
@@ -125,11 +124,15 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
-INSERT INTO `users` (`id`, `cin`, `name`, `email`, `phone`, `password`, `hash`, `hash_validity`, `role`, `deleted`, `banned`, `account_number`, `logo_path`, `street`, `city`, `zip`, `verified`, `avatar_path`) VALUES
-(1,	NULL,	'Admin',	'admin@fakturacek.cz',	NULL,	'$2y$10$oBJfrptxWy7e07knXIBFs.7E8gwpAJ5sPEAA52L98rm0rK9HXV7FO',	NULL,	NULL,	'admin',	0,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	0,	NULL),
-(2,	NULL,	'Business',	'business@fakturacek.cz',	NULL,	'$2y$10$LtxViOPJkipfUKGGivFgle9UTcPVsm2ebuU1Jic7L.uGBgZws/FhS',	NULL,	NULL,	'business',	0,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	0,	NULL),
-(3,	NULL,	'Accountant',	'accountant@fakturacek.cz',	NULL,	'$2y$10$KUkctHpRXI71vM41yRI/Q.Sxm3FiYF3JX6tf88qBzdwbffeuiNQ32',	NULL,	NULL,	'accountant',	0,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	0,	NULL),
-(4,	'12345678',	'Radek Jůzl',	'radekjuzl@seznam.cz',	'',	'$2y$10$fIjseCS/5fFUq.Z8VNw.YOdGNV8D5po/AgmvLsjEy48Fd/ahff9E6',	NULL,	NULL,	'business',	0,	0,	NULL,	NULL,	'Kam 204',	'Nikam',	'39601',	0,	NULL);
+INSERT INTO `users` (`id`, `cin`, `name`, `email`, `phone`, `password`, `hash`, `hash_validity`, `role`, `deleted`, `account_number`, `logo_path`, `street`, `city`, `zip`, `verified`, `avatar_path`) VALUES
+(1,	NULL,	'Admin',	'admin@fakturacek.cz',	NULL,	'$2y$10$oBJfrptxWy7e07knXIBFs.7E8gwpAJ5sPEAA52L98rm0rK9HXV7FO',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL),
+(2,	NULL,	'Business',	'business@fakturacek.cz',	NULL,	'$2y$10$LtxViOPJkipfUKGGivFgle9UTcPVsm2ebuU1Jic7L.uGBgZws/FhS',	NULL,	NULL,	'business',	0,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL),
+(3,	NULL,	'Accountant',	'accountant@fakturacek.cz',	NULL,	'$2y$10$KUkctHpRXI71vM41yRI/Q.Sxm3FiYF3JX6tf88qBzdwbffeuiNQ32',	NULL,	NULL,	'accountant',	0,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL),
+(4,	'12345678',	'Radek Jůzl',	'radekjuzl@seznam.cz',	'',	'$2y$10$fIjseCS/5fFUq.Z8VNw.YOdGNV8D5po/AgmvLsjEy48Fd/ahff9E6',	NULL,	NULL,	'business',	0,	NULL,	NULL,	'Kam 204',	'Nikam',	'39601',	0,	'img/aboutus.jpg'),
+(5,	'12345671',	'Radek Smrdí',	'radeksmrdi@fakthodne.cz',	'123456788',	'$2y$10$N7yWDAXGJSErERJNnJPO7eHyBGbgsfPs1mYB.VjmzWB/1RYW2OWs.',	NULL,	NULL,	'business',	0,	NULL,	NULL,	'Záchod 124',	'Smradlachov',	'45323',	1,	NULL),
+(6,	NULL,	'Jouda Jouda',	'jouda@fakturacek.cz',	NULL,	'$2y$10$i.g261.CFQMNKOeOewYaP.lnPn2jn1zUMTIDWI8Rahc9QZQ2aMux.',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL),
+(7,	NULL,	'Radek Jo',	'helevole@vole.cz',	NULL,	'$2y$10$85rHJn7YQpZ/5PmsOoZi9ep7X43phJgt8keGvcX3ruGQ2zt55A0Bm',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL),
+(8,	NULL,	'Nové nemehlo',	'hele@sesnemehlo.cz',	'+420124543333',	'$2y$10$1q5Ksbm1wqhdX5okB7W7BuzjB5IdpNBSHlZn20Bh98IhtwmaYBIb2',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	'img/aboutus.jpg');
 
 DROP TABLE IF EXISTS `users_clients`;
 CREATE TABLE `users_clients` (
@@ -173,4 +176,4 @@ INSERT INTO `users_last_password_change` (`id`, `users_id`, `timestamp`) VALUES
 (3,	1,	'2021-11-15 19:26:29'),
 (4,	3,	'2021-11-15 19:27:07');
 
--- 2021-11-17 09:39:11
+-- 2021-11-17 14:55:36
