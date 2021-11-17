@@ -6,9 +6,11 @@ namespace App\AdminModule\presenters;
 
 use App\AdminModule\forms\AdministratorsFormFactory;
 use App\AdminModule\model\AdministratorsManager;
+use App\PublicModule\model\DatagridManager;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
+use Nextras\Datagrid\Datagrid;
 
 final class AdministratorsPresenter extends BasePresenter
 {
@@ -18,11 +20,17 @@ final class AdministratorsPresenter extends BasePresenter
     /** @var AdministratorsManager */
     private $administratorsManager;
 
-    public function __construct(AdministratorsFormFactory $administratorsFormFactory, AdministratorsManager $administratorsManager)
+    /** @var DatagridManager */
+    private $datagridManager;
+
+    private $userTable = 'users';
+
+    public function __construct(AdministratorsFormFactory $administratorsFormFactory, AdministratorsManager $administratorsManager, DatagridManager $datagridManager)
     {
         parent::__construct();
         $this->administratorsFormFactory = $administratorsFormFactory;
         $this->administratorsManager = $administratorsManager;
+        $this->datagridManager = $datagridManager;
     }
 
     public function actionDefault()
@@ -54,5 +62,19 @@ final class AdministratorsPresenter extends BasePresenter
         }
         $this->flashMessage('Administrátor byl vytvořen');
         $this->redirect('this');
+    }
+
+    public function createComponentDatagrid(): Datagrid
+    {
+        $grid = $this->datagridManager->createDatagrid($this->userTable, $this->getName());
+
+        /** Columns from table */
+        $grid->addColumn('avatar', 'Avatar');
+        $grid->addColumn('name', 'Jméno a příjmení')->enableSort();
+        $grid->addColumn('email', 'E-mail')->enableSort();
+        $grid->addColumn('phone', 'Telefon');
+        $grid->addColumn('status', 'Status');
+
+        return $grid;
     }
 }

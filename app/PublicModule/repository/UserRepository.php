@@ -45,7 +45,8 @@ class UserRepository extends AllRepository
         $data = [
             'hash' => null,
             'hash_validity' => null,
-            'password' => $new_password
+            'password' => $new_password,
+            'verified' => 1
         ];
         $this->connection->query('UPDATE %table SET %set WHERE hash = %s', $this->table, $data, $token);
     }

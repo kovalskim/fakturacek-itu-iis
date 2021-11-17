@@ -39,7 +39,6 @@ class AdministratorsManager
         $values->hash_validity = $this->userManager->createHashValidity();
 
         $values->role = 'admin';
-        $values->verified = 1;
 
         $this->userRepository->insertUser($values);
 
