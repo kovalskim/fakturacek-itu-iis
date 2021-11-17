@@ -31,12 +31,14 @@ class UserManager
         $this->authenticator = $authenticator;
     }
 
-    private function createHash($email): string
+    /** Author: Martin Kovalski */
+    public function createHash($email): string
     {
         return (new Passwords)->hash(new DateTime() . $email);
     }
 
-    private function createHashValidity(): DateTime
+    /** Author: Martin Kovalski */
+    public function createHashValidity(): DateTime
     {
         return new DateTime('+1 day');
     }
