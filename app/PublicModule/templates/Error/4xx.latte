@@ -1,4 +1,18 @@
-{block content}
-<h1 n:block=title>Oops...</h1>
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width"/>
 
-<p>Your browser sent a request that this server could not understand or process.</p>
+        <title>
+            {ifset title}{include title|stripHtml} | {/ifset}Fakturáček
+        </title>
+    </head>
+    <body>
+        <h1 n:block=title>Oops...</h1>
+
+        <p>Váš prohlížeč odeslal požadavek, který tento server nemohl zpracovat.</p>
+
+        <a href="{link :Public:Homepage:default}">&larr; Zpět na hlavní stránku</a>
+    </body>
+</html>

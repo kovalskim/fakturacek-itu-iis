@@ -31,11 +31,34 @@ class UserManager
         $this->authenticator = $authenticator;
     }
 
-    /** Author: Radek Jůzl */
+    private function createHash($email): string
+    {
+        return (new Passwords)->hash(new DateTime() . $email);
+    }
+
+    private function createHashValidity(): DateTime
+    {
+        return new DateTime('+1 day');
+    }
+
+    /** Author: Radek Jůzl, Martin Kovalski */
     public function registrationFormSucceeded($form, $values)
     {
         $values->password = (new Passwords)->hash($values->password);
+        $values->hash = $this->createHash($values->email);
+        $values->hash_validity = $this->createHashValidity();
         $this->userRepository->insertUser($values);
+
+        /** Prepare parameters for e-mail */
+        $subject = 'Ověření e-mailové adresy';
+        $body = 'verificationAccountTemplate.latte';
+        $params = [
+            'token' => $values->hash,
+            'subject' => $subject
+        ];
+
+        /** Send e-mail with next steps */
+        $this->mailSender->sendEmail($values->email, $subject, $body, $params);
     }
 
     /** Author: Radek Jůzl */
@@ -75,9 +98,8 @@ class UserManager
         }
 
         /** Create hash and expiration date */
-        $now = new DateTime();
-        $hash_validity = new DateTime('+1 day');
-        $hash = (new Passwords)->hash($now . $values->email);
+        $hash_validity = $this->createHashValidity();
+        $hash = $this->createHash($values->email);
 
         /** Save to database */
         $this->userRepository->setUserRecoveryCredentials($hash, $hash_validity, $values->email);

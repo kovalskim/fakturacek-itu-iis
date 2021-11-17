@@ -72,4 +72,14 @@ class UserRepository extends AllRepository
     {
         return $this->connection->query("SELECT cin, name, email, phone, street, city, zip, avatar_path FROM %table WHERE id = %i", $this->table, $user_id)->fetch();
     }
+
+    public function setAccountAsVerified($token)
+    {
+        $data = [
+            'hash' => null,
+            'hash_validity' => null,
+            'verified' => 1
+        ];
+        $this->connection->query('UPDATE %table SET %set WHERE hash = %s', $this->table, $data, $token);
+    }
 }

@@ -1,6 +1,20 @@
-{block content}
-<h1 n:block=title>Page Not Found</h1>
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width"/>
 
-<p>The page you requested has been taken off the site. We apologize for the inconvenience.</p>
+        <title>
+            {ifset title}{include title|stripHtml} | {/ifset}Fakturáček
+        </title>
+    </head>
+    <body>
+        <h1 n:block=title>Obsah nenalezen</h1>
 
-<p><small>error 410</small></p>
+        <p>Požadovaný obsah již není dostupný.</p>
+
+        <p><small>error 410</small></p>
+
+        <a href="{link :Public:Homepage:default}">&larr; Zpět na hlavní stránku</a>
+    </body>
+</html>

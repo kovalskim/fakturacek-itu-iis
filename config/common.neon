@@ -1,5 +1,5 @@
 application:
-	errorPresenter: Error
+	errorPresenter: Public:Error
 	mapping:
 		*: App\*Module\Presenters\*Presenter
 
