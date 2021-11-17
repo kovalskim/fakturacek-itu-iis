@@ -70,6 +70,6 @@ class UserRepository extends AllRepository
 
     public function getUserProfile($user_id): ?Row
     {
-        return $this->connection->query("SELECT cin, name, email, phone, account_number, street, city, zip, avatar_path FROM %table WHERE id = %i", $this->table, $user_id)->fetch();
+        return $this->connection->query("SELECT cin, name, email, phone, street, city, zip, avatar_path FROM %table WHERE id = %i", $this->table, $user_id)->fetch();
     }
 }
