@@ -61,9 +61,9 @@ final class HomepagePresenter extends BasePresenter
         {
             $this->user->login($values->email, $values->password);
         }
-        catch (AuthenticationException $e)
+        catch (Exception $e)
         {
-            $this->flashMessage('Špatně zadané přihlašovací údaje', 'danger');
+            $this->flashMessage($e->getMessage(), 'danger');
             $this->redirect('this');
         }
 
