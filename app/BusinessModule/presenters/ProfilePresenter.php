@@ -31,11 +31,9 @@ final class ProfilePresenter extends BasePresenter
         $this->template->data = $this->userRepository->getUserProfile($this->user->getId());
         if($this->template->data->avatar_path == null)
         {
-            $this->template->data->avatar_path = "img\avatar_default.svg";
         }
         if($this->template->data->phone == null)
         {
-            $this->template->data->phone = "nevyplněno";
         }
         if($this->template->data->account_number == null)
         {
