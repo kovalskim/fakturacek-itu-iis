@@ -7,6 +7,7 @@ namespace App\PublicModule\presenters;
 use App\PublicModule\forms\LogInFormFactory;
 use App\PublicModule\model\Authenticator;
 use App\PublicModule\model\UserManager;
+use App\PublicModule\repository\UserRepository;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
@@ -27,13 +28,17 @@ final class HomepagePresenter extends BasePresenter
     /** @var UserManager */
     private $userManager;
 
-    public function __construct(LogInFormFactory $logInFormFactory, Authenticator $authenticator, User $user, UserManager $userManager)
+    /** @var UserRepository */
+    private $userRepository;
+
+    public function __construct(LogInFormFactory $logInFormFactory, Authenticator $authenticator, User $user, UserManager $userManager, UserRepository $userRepository)
     {
         parent::__construct();
         $this->logInFormFactory = $logInFormFactory;
         $this->authenticator = $authenticator;
         $this->user = $user;
         $this->userManager = $userManager;
+        $this->userRepository = $userRepository;
     }
 
     public function actionDefault()
@@ -152,6 +157,26 @@ final class HomepagePresenter extends BasePresenter
         {
             $this->flashMessage($e->getMessage(), 'danger');
         }
+        $this->redirect(':Public:Homepage:default');
+    }
+
+    /**
+     * @throws AbortException
+     */
+    public function actionVerifyAccount($token)
+    {
+        try
+        {
+            $this->userManager->checkToken($token);
+        }
+        catch (Exception $e)
+        {
+            $this->flashMessage($e->getMessage(), 'danger');
+            $this->redirect(':Public:Homepage:default');
+        }
+
+        $this->userRepository->setAccountAsVerified($token);
+        $this->flashMessage('E-mailová adresa byla ověřena', 'success');
         $this->redirect(':Public:Homepage:default');
     }
 }
