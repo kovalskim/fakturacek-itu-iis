@@ -1,8 +1,20 @@
-{block content}
-<h1 n:block=title>Page Not Found</h1>
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width"/>
 
-<p>The page you requested could not be found. It is possible that the address is
-incorrect, or that the page no longer exists. Please use a search engine to find
-what you are looking for.</p>
+        <title>
+            {ifset title}{include title|stripHtml} | {/ifset}Fakturáček
+        </title>
+    </head>
+    <body>
+        <h1 n:block=title>Stránka nebyla nalezena</h1>
 
-<p><small>error 404</small></p>
+        <p>Vypadá to, že tato stránka neexistuje. Zkontrolujte prosím adresu.</p>
+
+        <p><small>error 404</small></p>
+
+        <a href="{link :Public:Homepage:default}">&larr; Zpět na hlavní stránku</a>
+    </body>
+</html>
