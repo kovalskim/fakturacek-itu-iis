@@ -17,6 +17,7 @@
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
         <a href="{link :Business:Homepage:default}">Homepage</a>
         <a href="{link :Business:ChangePassword:default}">Změna hesla</a>
+        <a href="{link :Business:Profile:default}">Profil</a>
         <a n:href="LogOut!">Odhlásit se</a>
 
         {include content}

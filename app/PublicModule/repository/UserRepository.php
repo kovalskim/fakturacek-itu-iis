@@ -67,4 +67,9 @@ class UserRepository extends AllRepository
     {
         $this->connection->query('INSERT INTO %table %values', $this->last_password_change_table, ['users_id' => $user_id]);
     }
+
+    public function getUserProfile($user_id): ?Row
+    {
+        return $this->connection->query("SELECT cin, name, email, phone, account_number, street, city, zip, avatar_path FROM %table WHERE id = %i", $this->table, $user_id)->fetch();
+    }
 }

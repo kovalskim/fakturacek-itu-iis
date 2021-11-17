@@ -1,0 +1,11 @@
+{block content}
+    <div>
+        <img src="{$basePath}/{$data->avatar_path}" alt="Avatar" width="100" height="100" /> <br />
+        Jméno: {$data->name} <br />
+        IČ: {$data->cin} <br />
+        Číslo účtu: {$data->account_number} <br />
+        Email: {$data->email} <br />
+        Telefon: {$data->phone} <br />
+        Adresa: {$data->street}, {$data->zip} {$data->city} <br />
+    </div>
+{/block}
