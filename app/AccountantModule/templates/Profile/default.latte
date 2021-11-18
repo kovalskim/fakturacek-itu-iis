@@ -1,0 +1,20 @@
+{block content}
+    <div>
+        {if $profile->avatar_path}
+            <img src="{$basePath}/{$profile->avatar_path}" alt="Avatar" width="100"/> <br>
+        {else}
+            <img src="{$basePath}/img/avatar_default.svg" alt="Avatar" width="100"/> <br>
+        {/if}
+        Jméno: {$profile->name} <br>
+        IČ: {$profile->cin} <br>
+        Email: {$profile->email} <br>
+        Telefon: {if $profile->phone}{$profile->phone}{else} nevyplněno{/if} <br>
+        Adresa: {$profile->street}, {$profile->zip} {$profile->city} <br>
+    </div>
+    <div>
+        <a href="{link :Accountant:Profile:edit}">Upravit profil</a>
+        <a href="{link :Accountant:ChangePassword:default}">Změna hesla</a>
+        <a href="{link :Accountant:Profile:upload}">Změna avataru</a>
+    </div>
+
+{/block}
