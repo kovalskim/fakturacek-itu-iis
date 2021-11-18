@@ -30,8 +30,6 @@ class UploadImage
 
     /**
      * @throws ImageException
-     * @throws UnknownImageFileException
-     * @throws Exception
      */
     public function uploadAvatarFormSucceeded($form, $values)
     {
