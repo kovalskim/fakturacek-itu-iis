@@ -15,6 +15,7 @@ services:
     - App\PublicModule\model\MailSender
     - App\PublicModule\model\EditProfile
     - App\PublicModule\model\UploadImage
+    - App\PublicModule\model\DatagridManager
 
     - App\PublicModule\forms\FormFactory
     - App\PublicModule\forms\LogInFormFactory
