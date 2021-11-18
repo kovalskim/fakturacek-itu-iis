@@ -186,5 +186,20 @@ class LogInFormFactory
         return $form;
     }
 
+    /** Author: Radek Jůzl */
+    public function createUploadAvatarForm(): Form
+    {
+        $form = $this->formFactory->create();
+
+        $form->addUpload('avatar_path', 'Avatar:')
+            ->addRule($form::IMAGE, 'Avatar musí být JPEG, PNG, GIF or WebP.')
+            ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB.', 1024 * 1024 * 5)
+            ->setRequired();
+
+        $form->addSubmit('send', 'Odeslat');
+
+        return $form;
+    }
+
 
 }

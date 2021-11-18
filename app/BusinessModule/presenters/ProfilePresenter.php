@@ -7,6 +7,7 @@ namespace App\BusinessModule\presenters;
 
 use App\PublicModule\forms\LogInFormFactory;
 use App\PublicModule\model\EditProfile;
+use App\PublicModule\model\UploadImage;
 use App\PublicModule\repository\UserRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
@@ -26,13 +27,17 @@ final class ProfilePresenter extends BasePresenter
     /** @var EditProfile */
     private $editProfile;
 
-    public function __construct(User $user, UserRepository $userRepository, LogInFormFactory $logInFormFactory, EditProfile $editProfile)
+    /** @var UploadImage */
+    private $uploadImage;
+
+    public function __construct(User $user, UserRepository $userRepository, LogInFormFactory $logInFormFactory, EditProfile $editProfile, UploadImage $uploadImage)
     {
         parent::__construct();
         $this->user = $user;
         $this->userRepository = $userRepository;
         $this->logInFormFactory = $logInFormFactory;
         $this->editProfile = $editProfile;
+        $this->uploadImage = $uploadImage;
     }
 
     public function actionDefault()
@@ -76,5 +81,32 @@ final class ProfilePresenter extends BasePresenter
         $this->redirect(":Business:Profile:default");
     }
 
+    public function actionUpload()
+    {
+
+    }
+
+    protected function createComponentUploadAvatarForm(): Form
+    {
+        $form = $this->logInFormFactory->createUploadAvatarForm();
+        $form->onSuccess[] = [$this, "uploadAvatarFormSucceeded"];
+        return $form;
+    }
+
+    public function uploadAvatarFormSucceeded($form, $values)
+    {
+        try
+        {
+            $this->uploadImage->uploadAvatarFormSucceeded($form,$values);
+        }
+        catch (Exception $e)
+        {
+            $this->flashMessage($e->getMessage(), 'danger');
+            $this->redirect(":Business:Profile:default");
+        }
+
+        $this->flashMessage("Avatar se nahrál", "success");
+        $this->redirect(":Business:Profile:default");
+    }
 
 }

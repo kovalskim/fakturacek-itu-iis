@@ -87,4 +87,10 @@ class UserRepository extends AllRepository
     {
         $this->connection->query("UPDATE %table SET %set WHERE id = %i", $this->table, (array) $values, $user_id);
     }
+
+    public function getUserAvatar($user_id)
+    {
+        return $this->connection->query("SELECT avatar_path FROM %table WHERE id = %i", $this->table, $user_id)->fetchField();
+    }
+
 }
