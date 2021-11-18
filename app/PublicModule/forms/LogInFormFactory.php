@@ -67,11 +67,11 @@ class LogInFormFactory
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Ulice a č.p.:');
 
-        $form->addText('city', '*Město')
+        $form->addText('city', '*Město:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Město');
 
-        $form->addText('zip', '*PSČ')
+        $form->addText('zip', '*PSČ:')
             ->setRequired()
             ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'PSČ');
@@ -93,7 +93,7 @@ class LogInFormFactory
     {
         $form = $this->formFactory->create();
 
-        $form->addEmail('email', 'E-mail')
+        $form->addEmail('email', 'E-mail:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'E-mail')
             ->setHtmlAttribute('autofocus');
@@ -110,12 +110,12 @@ class LogInFormFactory
 
         $form->addHidden('token');
 
-        $form->addPassword('password', 'Nové heslo')
+        $form->addPassword('password', 'Nové heslo:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Nové heslo')
             ->setHtmlAttribute('autofocus');
 
-        $form->addPassword('password_again', 'Nové heslo znovu')
+        $form->addPassword('password_again', 'Nové heslo znovu:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Nové heslo znovu')
             ->addRule(Form::EQUAL, 'Hesla se neshodují', $form['password'])
@@ -131,12 +131,12 @@ class LogInFormFactory
     {
         $form = $this->formFactory->create();
 
-        $form->addPassword('old_password', 'Staré heslo')
+        $form->addPassword('old_password', 'Staré heslo:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Staré heslo')
             ->setHtmlAttribute('autofocus');
 
-        $form->addPassword('password', 'Nové heslo')
+        $form->addPassword('password', 'Nové heslo:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Nové heslo');
 
@@ -156,7 +156,7 @@ class LogInFormFactory
     {
         $form = $this->formFactory->create();
 
-        $form->addEmail('email', '*E-mail')
+        $form->addEmail('email', '*E-mail:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'E-mail')
             ->setHtmlAttribute('autofocus');
@@ -169,36 +169,14 @@ class LogInFormFactory
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Ulice a č.p.:');
 
-        $form->addText('city', '*Město')
+        $form->addText('city', '*Město:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Město');
 
-        $form->addText('zip', '*PSČ')
+        $form->addText('zip', '*PSČ:')
             ->setRequired()
             ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'PSČ');
-
-        $form->addText('phone', 'Telefon:')
-            ->setHtmlAttribute('placeholder', 'Telefon');
-
-        $form->addSubmit('send', 'Uložit změny');
-
-        return $form;
-    }
-
-    /** Author: Radek Jůzl */
-    public function createEditProfileAdminForm(): Form
-    {
-        $form = $this->formFactory->create();
-
-        $form->addEmail('email', '*E-mail')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'E-mail')
-            ->setHtmlAttribute('autofocus');
-
-        $form->addText('name', '*Jméno a příjmení:')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Jméno a příjmení');
 
         $form->addText('phone', 'Telefon:')
             ->setHtmlAttribute('placeholder', 'Telefon');
@@ -222,6 +200,4 @@ class LogInFormFactory
 
         return $form;
     }
-
-
 }
