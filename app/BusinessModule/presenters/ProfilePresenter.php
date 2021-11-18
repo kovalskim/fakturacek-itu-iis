@@ -77,7 +77,14 @@ final class ProfilePresenter extends BasePresenter
 
     public function editProfileFormSucceeded($form, $values)
     {
-        $this->editProfile->editProfileFormSucceeded($form, $values);
+        $new_email = $this->editProfile->editProfileFormSucceeded($form, $values);
+        if($new_email)
+        {
+            $this->session->destroy();
+            $this->user->logout();
+            $this->flashMessage('Ověř si nový e-mail a přihlaš se s ním!', 'info');
+            $this->redirect(':Public:Homepage:default');
+        }
 
         $this->flashMessage("Změna se provedla", "success");
         $this->redirect(":Business:Profile:default");

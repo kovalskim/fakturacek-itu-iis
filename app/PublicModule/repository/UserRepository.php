@@ -94,4 +94,9 @@ class UserRepository extends AllRepository
         return $this->connection->query("SELECT avatar_path FROM %table WHERE id = %i", $this->table, $user_id)->fetchField();
     }
 
+    public function updateUserVerified($user_id, $verified)
+    {
+        $this->connection->query("UPDATE %table SET verified = %i WHERE id = %i", $this->table, $verified, $user_id);
+    }
+
 }

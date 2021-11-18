@@ -15,10 +15,18 @@ class EditProfile
     /** @var User*/
     public $user;
 
-    public function __construct(UserRepository $userRepository, User $user)
+    /** @var MailSender */
+    private $mailSender;
+
+    /** @var UserManager */
+    private $userManager;
+
+    public function __construct(UserRepository $userRepository, User $user, MailSender $mailSender, UserManager $userManager)
     {
         $this->userRepository = $userRepository;
         $this->user = $user;
+        $this->mailSender = $mailSender;
+        $this->userManager = $userManager;
     }
 
     public function editProfileFormValidate($form, $values)
@@ -29,13 +37,32 @@ class EditProfile
             {
                 $form["email"]->addError("Tento email se už používá.");
             }
-
         }
     }
 
-    public function editProfileFormSucceeded($form, $values)
+    public function editProfileFormSucceeded($form, $values): int
     {
-       $this->userRepository->updateProfile($this->user->getId(), $values);
+        $new_email = 0;
+        $id = $this->user->getId();
+        if($values->email != $this->userRepository->getUserEmailById($id))
+        {
+            $new_email = 1;
+            $values->hash = $this->userManager->createHash($values->email);
+            $values->hash_validity = $this->userManager->createHashValidity();
+            $this->userRepository->updateUserVerified($id, 0);
+
+            $subject = 'Ověření e-mailové adresy';
+            $body = 'verificationAccountTemplate.latte';
+            $params = [
+                'token' => $values->hash,
+                'subject' => $subject
+            ];
+
+            /** Send e-mail with next steps */
+            $this->mailSender->sendEmail($values->email, $subject, $body, $params);
+        }
+        $this->userRepository->updateProfile($this->user->getId(), $values);
+        return $new_email;
     }
 
 
