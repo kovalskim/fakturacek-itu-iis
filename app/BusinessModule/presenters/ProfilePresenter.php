@@ -12,6 +12,8 @@ use App\PublicModule\repository\UserRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
+use Nette\Utils\ImageException;
+use Nette\Utils\UnknownImageFileException;
 
 final class ProfilePresenter extends BasePresenter
 {
@@ -99,7 +101,7 @@ final class ProfilePresenter extends BasePresenter
         {
             $this->uploadImage->uploadAvatarFormSucceeded($form,$values);
         }
-        catch (Exception $e)
+        catch (UnknownImageFileException $e)
         {
             $this->flashMessage($e->getMessage(), 'danger');
             $this->redirect(":Business:Profile:default");
