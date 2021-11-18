@@ -156,24 +156,24 @@ class LogInFormFactory
     {
         $form = $this->formFactory->create();
 
-        $form->addEmail('email', 'E-mail')
+        $form->addEmail('email', '*E-mail')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'E-mail')
             ->setHtmlAttribute('autofocus');
 
-        $form->addText('name', 'Jméno a příjmení:')
+        $form->addText('name', '*Jméno a příjmení:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Jméno a příjmení');
 
-        $form->addText('street', 'Ulice a č.p.:')
+        $form->addText('street', '*Ulice a č.p.:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Ulice a č.p.:');
 
-        $form->addText('city', 'Město')
+        $form->addText('city', '*Město')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Město');
 
-        $form->addText('zip', 'PSČ')
+        $form->addText('zip', '*PSČ')
             ->setRequired()
             ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'PSČ');
@@ -181,7 +181,29 @@ class LogInFormFactory
         $form->addText('phone', 'Telefon:')
             ->setHtmlAttribute('placeholder', 'Telefon');
 
-        $form->addSubmit('send', 'Odeslat');
+        $form->addSubmit('send', 'Uložit změny');
+
+        return $form;
+    }
+
+    /** Author: Radek Jůzl */
+    public function createEditProfileAdminForm(): Form
+    {
+        $form = $this->formFactory->create();
+
+        $form->addEmail('email', '*E-mail')
+            ->setRequired()
+            ->setHtmlAttribute('placeholder', 'E-mail')
+            ->setHtmlAttribute('autofocus');
+
+        $form->addText('name', '*Jméno a příjmení:')
+            ->setRequired()
+            ->setHtmlAttribute('placeholder', 'Jméno a příjmení');
+
+        $form->addText('phone', 'Telefon:')
+            ->setHtmlAttribute('placeholder', 'Telefon');
+
+        $form->addSubmit('send', 'Uložit změny');
 
         return $form;
     }
@@ -196,7 +218,7 @@ class LogInFormFactory
             ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB.', 1024 * 1024 * 5)
             ->setRequired();
 
-        $form->addSubmit('send', 'Odeslat');
+        $form->addSubmit('send', 'Nahrát fotku');
 
         return $form;
     }
