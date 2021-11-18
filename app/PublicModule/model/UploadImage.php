@@ -64,14 +64,14 @@ class UploadImage
         while($end == 1)
         {
             $end = 0;
-            $nazev = Random::generate(10, '0-9A-Z').".jpeg";
-            foreach (Finder::findFiles($nazev)->in("../www/avatars/") as $key => $file)
+            $name = Random::generate(10, '0-9A-Z').".jpeg";
+            foreach (Finder::findFiles($name)->in("../www/avatars/") as $key => $file)
             {
                $end = 1;
             }
         }
 
-        $values->avatar_path = "www/avatars/".$nazev;
+        $values->avatar_path = "www/avatars/".$name;
         $avatar->save('../'.$values->avatar_path);
 
         $old_avatar = $this->userRepository->getUserAvatar($this->user->getId());
