@@ -16,8 +16,15 @@
     <body>
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
         <a href="{link :Accountant:Homepage:default}">Homepage</a>
-        <a href="{link :Accountant:ChangePassword:default}">Změna hesla</a>
+        <a href="{link :Accountant:Profile:default}">Profil</a>
         <a n:href="LogOut!">Odhlásit se</a>
+        <div>
+            {if $avatar}
+                <img src="{$basePath}/{$avatar}" alt="Avatar" width="50"/>
+            {else}
+                <img src="{$basePath}/img/avatar_default.svg" alt="Avatar" width="50"/>
+            {/if}
+        </div>
 
         {include content}
 

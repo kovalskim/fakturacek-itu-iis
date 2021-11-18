@@ -9,8 +9,10 @@ use App\PublicModule\forms\LogInFormFactory;
 use App\PublicModule\model\EditProfile;
 use App\PublicModule\model\UploadImage;
 use App\PublicModule\repository\UserRepository;
+use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
+use Nette\Http\Session;
 use Nette\Security\User;
 use Nette\Utils\ImageException;
 use Nette\Utils\UnknownImageFileException;
@@ -108,7 +110,7 @@ final class ProfilePresenter extends BasePresenter
         {
             $this->uploadImage->uploadAvatarFormSucceeded($form,$values);
         }
-        catch (UnknownImageFileException $e)
+        catch (Exception $e)
         {
             $this->flashMessage($e->getMessage(), 'danger');
             $this->redirect(":Business:Profile:default");

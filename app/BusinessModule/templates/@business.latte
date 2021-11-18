@@ -18,6 +18,14 @@
         <a href="{link :Business:Homepage:default}">Homepage</a>
         <a href="{link :Business:Profile:default}">Profil</a>
         <a n:href="LogOut!">Odhlásit se</a>
+        <div>
+            {if $avatar}
+                <img src="{$basePath}/{$avatar}" alt="Avatar" width="50"/>
+            {else}
+                <img src="{$basePath}/img/avatar_default.svg" alt="Avatar" width="50"/>
+            {/if}
+        </div>
+
 
         {include content}
 

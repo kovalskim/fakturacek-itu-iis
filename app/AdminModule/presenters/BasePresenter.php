@@ -4,6 +4,7 @@
 
 namespace App\AdminModule\presenters;
 
+use App\PublicModule\repository\UserRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Presenter;
 use Nette\Http\Session;
@@ -21,9 +22,17 @@ abstract class BasePresenter extends Presenter
     /** @var Session */
     private $session;
 
+    /** @var UserRepository */
+    private $userRepository;
+
     public function injectSession(Session $session)
     {
         $this->session = $session;
+    }
+
+    public function injectUserRepository(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -33,7 +42,8 @@ abstract class BasePresenter extends Presenter
     {
         if($this->user->isLoggedIn() && $this->user->getRoles()[0] == "admin")
         {
-        $this->setLayout('admin');
+            $this->setLayout('admin');
+            $this->template->avatar = $this->userRepository->getUserAvatar($this->user->getId());
         }
         else
         {
