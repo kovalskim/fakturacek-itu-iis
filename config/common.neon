@@ -29,6 +29,7 @@ services:
     - App\AdminModule\forms\AdministratorsFormFactory
 
     - App\AdminModule\model\AdministratorsManager
+    - App\AdminModule\model\TextsManager
 
 extensions:
     nextras.orm: Nextras\Dbal\Bridges\NetteDI\DbalExtension

@@ -17,8 +17,8 @@
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
         <a href="{link :Admin:Homepage:default}">Homepage</a>
         <a href="{link :Admin:Profile:default}">Profil</a>
-
         <a href="{link :Admin:Administrators:default}">Administrátoři</a>
+        <a href="{link :Admin:Texts:default}">Texty</a>
         <a n:href="LogOut!">Odhlásit se</a>
         <div>
             {if $avatar}
