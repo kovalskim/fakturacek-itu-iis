@@ -11,7 +11,6 @@ use Nette\Utils\Finder;
 use Nette\Utils\Image;
 use Nette\Utils\ImageException;
 use Nette\Utils\Random;
-use Nette\Utils\UnknownImageFileException;
 use Nette\Utils\FileSystem;
 
 class UploadImage
@@ -29,7 +28,7 @@ class UploadImage
     }
 
     /**
-     * @throws ImageException
+     * @throws Exception
      */
     public function uploadAvatarFormSucceeded($form, $values)
     {
