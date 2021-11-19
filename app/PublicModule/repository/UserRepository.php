@@ -10,6 +10,7 @@ class UserRepository extends AllRepository
 {
     private $table = 'users';
     private $last_password_change_table = 'users_last_password_change';
+    private $users_last_login = "users_last_login";
 
     public function getUserByEmail($email): ?Row
     {
@@ -69,6 +70,16 @@ class UserRepository extends AllRepository
         $this->connection->query('INSERT INTO %table %values', $this->last_password_change_table, ['users_id' => $user_id]);
     }
 
+    public function deleteUserLastPasswordChange($user_id)
+    {
+        $this->connection->query('DELETE FROM %table WHERE users_id = %i', $this->last_password_change_table, $user_id);
+    }
+
+    public function userIdByToken($token)
+    {
+        return $this->connection->query('SELECT id FROM %table WHERE hash = %s', $this->table, $token)->fetchField();
+    }
+
     public function getUserProfile($user_id): ?Row
     {
         return $this->connection->query("SELECT cin, name, email, phone, street, city, zip, avatar_path FROM %table WHERE id = %i", $this->table, $user_id)->fetch();
@@ -97,6 +108,16 @@ class UserRepository extends AllRepository
     public function updateUserVerified($user_id, $verified)
     {
         $this->connection->query("UPDATE %table SET verified = %i WHERE id = %i", $this->table, $verified, $user_id);
+    }
+
+    public function insertLastLoginById($user_id)
+    {
+        $this->connection->query("INSERT INTO %table %values", $this->users_last_login, ['users_id' => $user_id]);
+    }
+
+    public function deleteLastLoginById($user_id)
+    {
+        $this->connection->query("DELETE FROM %table WHERE users_id = %i", $this->users_last_login, $user_id);
     }
 
 }

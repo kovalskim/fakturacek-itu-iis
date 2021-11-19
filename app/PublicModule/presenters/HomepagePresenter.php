@@ -72,6 +72,8 @@ final class HomepagePresenter extends BasePresenter
             $this->redirect('this');
         }
 
+        $this->userRepository->deleteLastLoginById($this->user->getId());
+        $this->userRepository->insertLastLoginById($this->user->getId());
         $this->flashMessage('Uživatel byl přihlášen', 'success');
         $this->redirect('this');
     }

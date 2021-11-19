@@ -149,7 +149,10 @@ class UserManager
     {
         /** Delete hash and validity, set new password, update in database */
         $new_password = (new Passwords)->hash($values->password);
+        $user_id = $this->userRepository->userIdByToken($values->token);
         $this->userRepository->setUserNewPasswordByToken($values->token, $new_password);
+        $this->userRepository->deleteUserLastPasswordChange($user_id);
+        $this->userRepository->setUserLastPasswordChange($user_id);
     }
 
     /** Author: Martin Kovalski */
@@ -177,6 +180,7 @@ class UserManager
         $this->userRepository->setUserNewPasswordById($user_id, $new_password);
 
         /** Save date of last password change */
+        $this->userRepository->deleteUserLastPasswordChange($user_id);
         $this->userRepository->setUserLastPasswordChange($user_id);
     }
 }
