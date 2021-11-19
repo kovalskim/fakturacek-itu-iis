@@ -6,6 +6,7 @@ namespace App\AdminModule\presenters;
 
 
 use App\AdminModule\forms\AdministratorsFormFactory;
+use App\PublicModule\forms\LogInFormFactory;
 use App\PublicModule\model\EditProfile;
 use App\PublicModule\model\UploadImage;
 use App\PublicModule\repository\UserRepository;
@@ -31,7 +32,10 @@ final class ProfilePresenter extends BasePresenter
     /** @var UploadImage */
     private $uploadImage;
 
-    public function __construct(User $user, UserRepository $userRepository, AdministratorsFormFactory $administratorsFormFactory, EditProfile $editProfile, UploadImage $uploadImage)
+    /** @var LogInFormFactory */
+    private $logInFormFactory;
+
+    public function __construct(User $user, UserRepository $userRepository, AdministratorsFormFactory $administratorsFormFactory, EditProfile $editProfile, UploadImage $uploadImage, LogInFormFactory $logInFormFactory)
     {
         parent::__construct();
         $this->user = $user;
@@ -39,6 +43,7 @@ final class ProfilePresenter extends BasePresenter
         $this->administratorsFormFactory = $administratorsFormFactory;
         $this->editProfile = $editProfile;
         $this->uploadImage = $uploadImage;
+        $this->logInFormFactory = $logInFormFactory;
     }
 
     public function actionDefault()
@@ -96,7 +101,7 @@ final class ProfilePresenter extends BasePresenter
 
     protected function createComponentUploadAvatarForm(): Form
     {
-        $form = $this->administratorsFormFactory->createUploadAvatarForm();
+        $form = $this->logInFormFactory->createUploadAvatarForm();
         $form->onSuccess[] = [$this, "uploadAvatarFormSucceeded"];
         return $form;
     }
