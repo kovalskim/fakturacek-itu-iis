@@ -1,4 +1,4 @@
--- Adminer 4.3.1 MySQL dump
+-- Adminer 4.8.1 MySQL 5.5.5-10.4.21-MariaDB dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -33,10 +33,12 @@ DROP TABLE IF EXISTS `clients`;
 CREATE TABLE `clients` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
-  `cin` varchar(8) COLLATE utf8mb4_czech_ci NOT NULL,
+  `cin` varchar(8) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `street` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
   `city` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
   `zip` varchar(5) COLLATE utf8mb4_czech_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `phone` int(13) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
@@ -89,6 +91,20 @@ CREATE TABLE `invoices_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 
+DROP TABLE IF EXISTS `setting_invoices`;
+CREATE TABLE `setting_invoices` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `account_number` varchar(25) COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `variable_symbol` varchar(25) COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `logo_path` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `vat` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `users_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `users_id` (`users_id`),
+  CONSTRAINT `setting_invoices_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+
 DROP TABLE IF EXISTS `texts`;
 CREATE TABLE `texts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -99,8 +115,8 @@ CREATE TABLE `texts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `texts` (`id`, `type`, `text`, `img_path`) VALUES
-(1,	'aboutus',	'<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam ornare wisi eu metus. Ut tempus purus at lorem. Nullam sit amet magna in magna gravida vehicula. Suspendisse sagittis ultrices augue. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Mauris elementum mauris vitae tortor. Aenean placerat. Nam quis nulla. Cras pede libero, dapibus nec, pretium sit amet, tempor quis. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>\r\n\r\n<p>Duis condimentum augue id magna semper rutrum. Mauris elementum mauris vitae tortor. Quisque porta. Maecenas libero. Etiam sapien elit, consequat eget, tristique non, venenatis quis, ante. Aliquam erat volutpat. Maecenas sollicitudin. Sed vel lectus. Donec odio tempus molestie, porttitor ut, iaculis quis, sem. Duis viverra diam non justo. Aenean vel massa quis mauris vehicula lacinia. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Pellentesque arcu. Mauris suscipit, ligula sit amet pharetra semper, nibh ante cursus purus, vel sagittis velit mauris vel metus. Nullam sit amet magna in magna gravida vehicula. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In dapibus augue non sapien. Pellentesque arcu. In rutrum.</p>\r\n',	'img/aboutus.jpg'),
-(2,	'contact',	'<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam ornare wisi eu metus. Ut tempus purus at lorem. Nullam sit amet magna in magna gravida vehicula. Suspendisse sagittis ultrices augue. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Nam libero tempore, cum soluta nobis est.</p>\r\n',	'img/contact.jpg');
+(1,	'aboutus',	'kkasdnhasjlkd',	'www/img/aboutus.jpeg'),
+(2,	'contact',	'<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam ornare wisi eu metus. Ut tempus purus at lorem. Nullam sit amet magna in magna gravida vehicula. Suspendisse sagittis ultrices augue. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Nam libero tempore, cum soluta nobis est.</p>\n',	'www/img/contact.jpeg');
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -114,8 +130,6 @@ CREATE TABLE `users` (
   `hash_validity` datetime DEFAULT NULL,
   `role` enum('admin','accountant','business') COLLATE utf8mb4_czech_ci NOT NULL,
   `deleted` int(11) NOT NULL DEFAULT 0,
-  `account_number` varchar(25) COLLATE utf8mb4_czech_ci DEFAULT NULL,
-  `logo_path` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `street` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `city` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `zip` varchar(5) COLLATE utf8mb4_czech_ci DEFAULT NULL,
@@ -124,23 +138,21 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
-INSERT INTO `users` (`id`, `cin`, `name`, `email`, `phone`, `password`, `hash`, `hash_validity`, `role`, `deleted`, `account_number`, `logo_path`, `street`, `city`, `zip`, `verified`, `avatar_path`) VALUES
-(1,	NULL,	'Admin',	'admin@fakturacek.cz',	NULL,	'$2y$10$oBJfrptxWy7e07knXIBFs.7E8gwpAJ5sPEAA52L98rm0rK9HXV7FO',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL),
-(2,	NULL,	'Business',	'business@fakturacek.cz',	NULL,	'$2y$10$LtxViOPJkipfUKGGivFgle9UTcPVsm2ebuU1Jic7L.uGBgZws/FhS',	NULL,	NULL,	'business',	0,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL),
-(3,	NULL,	'Accountant',	'accountant@fakturacek.cz',	NULL,	'$2y$10$KUkctHpRXI71vM41yRI/Q.Sxm3FiYF3JX6tf88qBzdwbffeuiNQ32',	NULL,	NULL,	'accountant',	0,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL),
-(4,	'12345678',	'Radek Jůzl',	'radekjuzl@seznam.cz',	'',	'$2y$10$fIjseCS/5fFUq.Z8VNw.YOdGNV8D5po/AgmvLsjEy48Fd/ahff9E6',	NULL,	NULL,	'business',	0,	NULL,	NULL,	'Kam 204',	'Nikam',	'39601',	0,	'img/aboutus.jpg'),
-(5,	'12345671',	'Radek Smrdí',	'radeksmrdi@fakthodne.cz',	'123456788',	'$2y$10$N7yWDAXGJSErERJNnJPO7eHyBGbgsfPs1mYB.VjmzWB/1RYW2OWs.',	NULL,	NULL,	'business',	0,	NULL,	NULL,	'Záchod 124',	'Smradlachov',	'45323',	1,	NULL),
-(6,	NULL,	'Jouda Jouda',	'jouda@fakturacek.cz',	NULL,	'$2y$10$i.g261.CFQMNKOeOewYaP.lnPn2jn1zUMTIDWI8Rahc9QZQ2aMux.',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL),
-(7,	NULL,	'Radek Jo',	'helevole@vole.cz',	NULL,	'$2y$10$85rHJn7YQpZ/5PmsOoZi9ep7X43phJgt8keGvcX3ruGQ2zt55A0Bm',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL),
-(8,	NULL,	'Nové nemehlo',	'hele@sesnemehlo.cz',	'+420124543333',	'$2y$10$1q5Ksbm1wqhdX5okB7W7BuzjB5IdpNBSHlZn20Bh98IhtwmaYBIb2',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	'img/aboutus.jpg');
+INSERT INTO `users` (`id`, `cin`, `name`, `email`, `phone`, `password`, `hash`, `hash_validity`, `role`, `deleted`, `street`, `city`, `zip`, `verified`, `avatar_path`) VALUES
+(1,	NULL,	'Admin',	'admin@fakturacek.cz',	'+420124543333',	'$2y$10$EkpTYHKufe7jCAwEzYEr2OTa5tdPNGCRGF6fqufVte.jC73fvym1G',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	1,	'www/avatars/AE2OEJGW97.jpeg'),
+(2,	NULL,	'Business',	'business@fakturacek.cz',	NULL,	'$2y$10$LtxViOPJkipfUKGGivFgle9UTcPVsm2ebuU1Jic7L.uGBgZws/FhS',	NULL,	NULL,	'business',	0,	'Kolejní 66',	'Brno',	'45678',	1,	NULL),
+(3,	NULL,	'Accountant',	'accountant@fakturacek.cz',	NULL,	'$2y$10$KUkctHpRXI71vM41yRI/Q.Sxm3FiYF3JX6tf88qBzdwbffeuiNQ32',	NULL,	NULL,	'accountant',	0,	'test 55',	'Testova',	'12345',	1,	NULL),
+(4,	'12345678',	'Radek Jůzl',	'radekjuzl@seznam.cz',	'124543333',	'$2y$10$fIjseCS/5fFUq.Z8VNw.YOdGNV8D5po/AgmvLsjEy48Fd/ahff9E6',	NULL,	NULL,	'business',	0,	'Kam 204',	'Nikam',	'39601',	1,	'www/avatars/W7D4EILFCU.jpeg'),
+(5,	'12345671',	'Radek Smrdí',	'radeksmrdi@fakthodne.cz',	'+420124543333',	'$2y$10$N7yWDAXGJSErERJNnJPO7eHyBGbgsfPs1mYB.VjmzWB/1RYW2OWs.',	NULL,	NULL,	'business',	0,	'Záchod 124',	'Smradlachov',	'45323',	1,	NULL),
+(6,	NULL,	'Jouda Jouda',	'jouda@fakturacek.cz',	NULL,	'$2y$10$i.g261.CFQMNKOeOewYaP.lnPn2jn1zUMTIDWI8Rahc9QZQ2aMux.',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	1,	NULL),
+(7,	NULL,	'Radek Jo',	'helevole@vole.cz',	NULL,	'$2y$10$85rHJn7YQpZ/5PmsOoZi9ep7X43phJgt8keGvcX3ruGQ2zt55A0Bm',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	1,	NULL),
+(8,	NULL,	'Nové nemehlo',	'hele@sesnemehlo.cz',	'+420124543333',	'$2y$10$1q5Ksbm1wqhdX5okB7W7BuzjB5IdpNBSHlZn20Bh98IhtwmaYBIb2',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	1,	'www/avatars/5GBZFOLIED.jpeg');
 
 DROP TABLE IF EXISTS `users_clients`;
 CREATE TABLE `users_clients` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `users_id` int(11) NOT NULL,
   `clients_id` int(11) NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
-  `phone` varchar(13) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `users_id` (`users_id`),
   KEY `clients_id` (`clients_id`),
@@ -159,6 +171,10 @@ CREATE TABLE `users_last_login` (
   CONSTRAINT `users_last_login_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
+INSERT INTO `users_last_login` (`id`, `users_id`, `timestamp`) VALUES
+(1,	3,	'2021-11-19 18:29:11'),
+(7,	1,	'2021-11-19 22:15:46'),
+(8,	4,	'2021-11-19 22:44:49');
 
 DROP TABLE IF EXISTS `users_last_password_change`;
 CREATE TABLE `users_last_password_change` (
@@ -171,9 +187,8 @@ CREATE TABLE `users_last_password_change` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `users_last_password_change` (`id`, `users_id`, `timestamp`) VALUES
-(1,	4,	'2021-11-15 15:47:15'),
 (2,	4,	'2021-11-15 19:25:14'),
-(3,	1,	'2021-11-15 19:26:29'),
-(4,	3,	'2021-11-15 19:27:07');
+(4,	3,	'2021-11-15 19:27:07'),
+(6,	1,	'2021-11-19 22:14:41');
 
--- 2021-11-17 14:55:36
+-- 2021-11-19 22:45:54
