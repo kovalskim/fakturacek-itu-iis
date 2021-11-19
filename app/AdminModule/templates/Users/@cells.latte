@@ -1,0 +1,45 @@
+{define cell-avatar_path}
+    {if $row->avatar_path == NULL }
+        <img src="{$basePath}/img/avatar_default.svg" width="50px" height="50px" alt="Avatar">
+    {else}
+        <img src="{$basePath}/{$row->avatar_path}" width="50px" height="50px" alt="{$row->name}"/>
+    {/if}
+{/define}
+
+{define cell-status}
+    {if $row->verified == 0}
+        Nový
+    {elseif $row->deleted == 1}
+        Zablokovaný
+    {else}
+        Aktivní
+    {/if}
+{/define}
+
+{define cell-address}
+    {$row->street}, {$row->zip} {$row->city}
+{/define}
+
+{define cell-role}
+    {if $row->role == "business"}
+        OSVČ
+    {else}
+        Účetní
+    {/if}
+{/define}
+
+{define cell-email}
+    <a href="mailto:{$row->email}">{$row->email}</a>
+{/define}
+
+{define cell-phone}
+    <a href="tel:{$row->phone}">{$row->phone}</a>
+{/define}
+
+{define cell-password_timestamp}
+    {$row->password_timestamp|date:'%d.%m.%Y %H:%M'}
+{/define}
+
+{define cell-login_timestamp}
+    {$row->login_timestamp|date:'%d.%m.%Y %H:%M'}
+{/define}

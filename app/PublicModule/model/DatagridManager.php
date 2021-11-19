@@ -62,6 +62,13 @@ class DatagridManager
         {
             $builder->andWhere('role = %s', 'admin');
         }
+        elseif($this->presenter_params[1] == 'Users')
+        {
+            $builder->select('*, users.id as id, users_last_password_change.timestamp as password_timestamp, users_last_login.timestamp as login_timestamp');
+            $builder->joinLeft('users_last_password_change', 'users.id = users_last_password_change.users_id');
+            $builder->joinLeft('users_last_login', 'users.id = users_last_login.users_id');
+            $builder->andWhere("role != %s", "admin");
+        }
 
         /** Filter - where */
         foreach ($filter as $k => $v) {

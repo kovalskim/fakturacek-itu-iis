@@ -52,7 +52,7 @@ class TextsManager
                 throw new Exception('Fotka se nepovedla nahrát');
             }
         }
-        $path_aboutus = "www/img/abouts.jpeg";
+        $path_aboutus = "www/img/aboutus.jpeg";
         $path_contact = "www/img/contact.jpeg";
         if($img_aboutus != null)
         {
