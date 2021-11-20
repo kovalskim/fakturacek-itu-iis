@@ -25,6 +25,7 @@ services:
     - App\PublicModule\repository\UserRepository
     - App\PublicModule\repository\TextRepository
     - App\PublicModule\repository\ClientRepository
+    - App\PublicModule\repository\SettingInvoicesRepository
 
     - App\AdminModule\forms\FormFactory
     - App\AdminModule\forms\AdministratorsFormFactory

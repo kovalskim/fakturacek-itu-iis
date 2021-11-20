@@ -2,6 +2,7 @@
 
 namespace App\PublicModule\model;
 
+use App\PublicModule\repository\SettingInvoicesRepository;
 use App\PublicModule\repository\UserRepository;
 use Exception;
 use Nette\Security\AuthenticationException;
@@ -23,12 +24,16 @@ class UserManager
     /** @var Authenticator */
     private $authenticator;
 
-    public function __construct(UserRepository $userRepository, MailSender $mailSender, User $user, Authenticator $authenticator)
+    /** @var SettingInvoicesRepository */
+    private $settingInvoicesRepository;
+
+    public function __construct(UserRepository $userRepository, MailSender $mailSender, User $user, Authenticator $authenticator, SettingInvoicesRepository $settingInvoicesRepository)
     {
         $this->userRepository = $userRepository;
         $this->mailSender = $mailSender;
         $this->user = $user;
         $this->authenticator = $authenticator;
+        $this->settingInvoicesRepository = $settingInvoicesRepository;
     }
 
     /** Author: Martin Kovalski */
@@ -50,6 +55,10 @@ class UserManager
         $values->hash = $this->createHash($values->email);
         $values->hash_validity = $this->createHashValidity();
         $this->userRepository->insertUser($values);
+        if($values->role == "business")
+        {
+            $this->settingInvoicesRepository->insertIdBusiness();
+        }
 
         /** Prepare parameters for e-mail */
         $subject = 'Ověření e-mailové adresy';
