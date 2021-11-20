@@ -31,7 +31,7 @@ final class UsersPresenter extends BasePresenter
         $grid->addColumn('name', 'Jméno a příjmení')->enableSort();
         $grid->addColumn('email', 'E-mail')->enableSort();
         $grid->addColumn('phone', 'Telefon');
-        $grid->addColumn('address', 'Adresa:');
+        $grid->addColumn('address', 'Adresa');
         $grid->addColumn('role', 'Role')->enableSort();
         $grid->addColumn('status', 'Status');
         $grid->addColumn('password_timestamp', 'Poslední změna hesla');

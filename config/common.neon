@@ -24,12 +24,16 @@ services:
     - App\PublicModule\repository\AllRepository
     - App\PublicModule\repository\UserRepository
     - App\PublicModule\repository\TextRepository
+    - App\PublicModule\repository\ClientRepository
 
     - App\AdminModule\forms\FormFactory
     - App\AdminModule\forms\AdministratorsFormFactory
 
     - App\AdminModule\model\AdministratorsManager
     - App\AdminModule\model\TextsManager
+
+    - App\BusinessModule\forms\FormFactory
+    - App\BusinessModule\forms\ClientsFormFactory
 
 extensions:
     nextras.orm: Nextras\Dbal\Bridges\NetteDI\DbalExtension

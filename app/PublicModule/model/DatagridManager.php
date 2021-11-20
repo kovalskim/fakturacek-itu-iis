@@ -4,6 +4,7 @@ namespace App\PublicModule\model;
 
 /** Author: Martin Kovalski */
 
+use Nette\Security\User;
 use Nette\Utils\Paginator;
 use Nextras\Datagrid\Datagrid;
 use Nextras\Dbal\Connection;
@@ -14,12 +15,16 @@ class DatagridManager
     /** @var Connection */
     private $connection;
 
+    /** @var User */
+    public $user;
+
     private $table;
     private $presenter_params;
 
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, User $user)
     {
         $this->connection = $connection;
+        $this->user = $user;
     }
 
     public function createDatagrid($table, $presenter): Datagrid
@@ -69,6 +74,12 @@ class DatagridManager
             $builder->joinLeft('users_last_login', 'users.id = users_last_login.users_id');
             $builder->andWhere("role != %s", "admin");
         }
+        if($this->presenter_params[1] == 'Clients')
+        {
+            $user_id = $this->user->getId();
+            $builder->andWhere('users_id = %i', $user_id);
+        }
+
 
         /** Filter - where */
         foreach ($filter as $k => $v) {
