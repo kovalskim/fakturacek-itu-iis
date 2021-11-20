@@ -38,10 +38,16 @@ CREATE TABLE `clients` (
   `city` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
   `zip` varchar(5) COLLATE utf8mb4_czech_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
-  `phone` int(13) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `phone` varchar(13) COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `users_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `users_id` (`users_id`),
+  CONSTRAINT `clients_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
+INSERT INTO `clients` (`id`, `name`, `cin`, `street`, `city`, `zip`, `email`, `phone`, `users_id`) VALUES
+(1,	'Radek Jůzl',	'',	'Kam 204',	'Nikam',	'39601',	'radekjuzl@seznam.cz',	'',	4),
+(2,	'Pepa Novák',	'',	'sadasfd 55',	'asfa',	'16402',	'',	'7856541123',	4);
 
 DROP TABLE IF EXISTS `expenses`;
 CREATE TABLE `expenses` (
@@ -140,26 +146,13 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `cin`, `name`, `email`, `phone`, `password`, `hash`, `hash_validity`, `role`, `deleted`, `street`, `city`, `zip`, `verified`, `avatar_path`) VALUES
 (1,	NULL,	'Admin',	'admin@fakturacek.cz',	'+420124543333',	'$2y$10$EkpTYHKufe7jCAwEzYEr2OTa5tdPNGCRGF6fqufVte.jC73fvym1G',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	1,	'www/avatars/AE2OEJGW97.jpeg'),
-(2,	NULL,	'Business',	'business@fakturacek.cz',	NULL,	'$2y$10$LtxViOPJkipfUKGGivFgle9UTcPVsm2ebuU1Jic7L.uGBgZws/FhS',	NULL,	NULL,	'business',	0,	'Kolejní 66',	'Brno',	'45678',	1,	NULL),
+(2,	NULL,	'Business',	'business@fakturacek.cz',	NULL,	'$2y$10$UujM3C3lJFY4dlkuy88LteFX06bCNG8LGNSa9Rc5J9/qxavJ86eF.',	NULL,	NULL,	'business',	0,	'Kolejní 66',	'Brno',	'45678',	1,	NULL),
 (3,	NULL,	'Accountant',	'accountant@fakturacek.cz',	NULL,	'$2y$10$KUkctHpRXI71vM41yRI/Q.Sxm3FiYF3JX6tf88qBzdwbffeuiNQ32',	NULL,	NULL,	'accountant',	0,	'test 55',	'Testova',	'12345',	1,	NULL),
 (4,	'12345678',	'Radek Jůzl',	'radekjuzl@seznam.cz',	'124543333',	'$2y$10$fIjseCS/5fFUq.Z8VNw.YOdGNV8D5po/AgmvLsjEy48Fd/ahff9E6',	NULL,	NULL,	'business',	0,	'Kam 204',	'Nikam',	'39601',	1,	'www/avatars/W7D4EILFCU.jpeg'),
 (5,	'12345671',	'Radek Smrdí',	'radeksmrdi@fakthodne.cz',	'+420124543333',	'$2y$10$N7yWDAXGJSErERJNnJPO7eHyBGbgsfPs1mYB.VjmzWB/1RYW2OWs.',	NULL,	NULL,	'business',	0,	'Záchod 124',	'Smradlachov',	'45323',	1,	NULL),
 (6,	NULL,	'Jouda Jouda',	'jouda@fakturacek.cz',	NULL,	'$2y$10$i.g261.CFQMNKOeOewYaP.lnPn2jn1zUMTIDWI8Rahc9QZQ2aMux.',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	1,	NULL),
 (7,	NULL,	'Radek Jo',	'helevole@vole.cz',	NULL,	'$2y$10$85rHJn7YQpZ/5PmsOoZi9ep7X43phJgt8keGvcX3ruGQ2zt55A0Bm',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	1,	NULL),
 (8,	NULL,	'Nové nemehlo',	'hele@sesnemehlo.cz',	'+420124543333',	'$2y$10$1q5Ksbm1wqhdX5okB7W7BuzjB5IdpNBSHlZn20Bh98IhtwmaYBIb2',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	1,	'www/avatars/5GBZFOLIED.jpeg');
-
-DROP TABLE IF EXISTS `users_clients`;
-CREATE TABLE `users_clients` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `users_id` int(11) NOT NULL,
-  `clients_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `users_id` (`users_id`),
-  KEY `clients_id` (`clients_id`),
-  CONSTRAINT `users_clients_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `users_clients_ibfk_2` FOREIGN KEY (`clients_id`) REFERENCES `clients` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
-
 
 DROP TABLE IF EXISTS `users_last_login`;
 CREATE TABLE `users_last_login` (
@@ -173,8 +166,9 @@ CREATE TABLE `users_last_login` (
 
 INSERT INTO `users_last_login` (`id`, `users_id`, `timestamp`) VALUES
 (1,	3,	'2021-11-19 18:29:11'),
-(7,	1,	'2021-11-19 22:15:46'),
-(8,	4,	'2021-11-19 22:44:49');
+(10,	1,	'2021-11-20 10:16:58'),
+(13,	2,	'2021-11-20 11:06:36'),
+(14,	4,	'2021-11-20 11:10:15');
 
 DROP TABLE IF EXISTS `users_last_password_change`;
 CREATE TABLE `users_last_password_change` (
@@ -189,6 +183,7 @@ CREATE TABLE `users_last_password_change` (
 INSERT INTO `users_last_password_change` (`id`, `users_id`, `timestamp`) VALUES
 (2,	4,	'2021-11-15 19:25:14'),
 (4,	3,	'2021-11-15 19:27:07'),
-(6,	1,	'2021-11-19 22:14:41');
+(6,	1,	'2021-11-19 22:14:41'),
+(7,	2,	'2021-11-20 11:06:30');
 
--- 2021-11-19 22:45:54
+-- 2021-11-20 11:11:56
