@@ -153,7 +153,7 @@ class UserManager
         }
     }
 
-    /** Author: Martin Kovalski */
+    /** Author: Martin Kovalski, Radek Jůzl */
     public function newPasswordFormSucceeded($form, $values)
     {
         /** Delete hash and validity, set new password, update in database */

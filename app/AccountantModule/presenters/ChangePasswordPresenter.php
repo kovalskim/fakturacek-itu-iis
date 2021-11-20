@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Radek Jůzl */
+
 namespace App\AccountantModule\presenters;
 
 use App\PublicModule\forms\LogInFormFactory;
