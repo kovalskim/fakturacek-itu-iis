@@ -1,3 +1,9 @@
 {block content}
     <h1 n:block=title>Nastavení faktury</h1>
+    <div>
+        {control settingInvoicesForm}
+    </div>
+
+    {if $settingDataLatte->logo_path != NULL} <img src="{$basePath}/{$settingDataLatte->logo_path}" alt="Logo" width="200"/> {/if}
+
 {/block}

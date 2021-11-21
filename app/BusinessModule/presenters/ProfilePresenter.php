@@ -104,11 +104,14 @@ final class ProfilePresenter extends BasePresenter
         return $form;
     }
 
+    /**
+     * @throws AbortException
+     */
     public function uploadAvatarFormSucceeded($form, $values)
     {
         try
         {
-            $this->uploadImage->uploadAvatarFormSucceeded($form,$values);
+            $this->uploadImage->uploadImgFormSucceeded($form,$values, "avatars");
         }
         catch (Exception $e)
         {

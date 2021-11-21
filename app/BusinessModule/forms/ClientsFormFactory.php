@@ -52,4 +52,30 @@ class ClientsFormFactory
 
         return $form;
     }
+
+    public function createSettingInvoicesForm(): Form
+    {
+        $form = $this->formFactory->create();
+
+        $form->addText('account_number', '*Číslo účtu:')
+            ->setRequired()
+            ->setHtmlAttribute('placeholder', 'Číslo účtu')
+            ->setHtmlAttribute('autofocus');
+
+        $form->addRadioList('variable_symbol', '*Variabilní symbol:', ["yymmxx" => "YYMM00", "yyxxxx" => "YY0000", "yyxxx" => "YY000"])
+            ->setDefaultValue("yymmxx")
+            ->setRequired();
+
+        $form->addTextArea('vat', '*DPH:')
+            ->setHtmlAttribute('placeholder', 'DPH')
+            ->setRequired();
+
+        $form->addUpload('logo_path', 'Logo:')
+            ->addRule($form::IMAGE, 'Logo musí být JPEG, PNG, GIF or WebP.')
+            ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB.', 1024 * 1024 * 5);
+
+        $form->addSubmit('saveSetting', 'Uložit');
+
+        return $form;
+    }
 }
