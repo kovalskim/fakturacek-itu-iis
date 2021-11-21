@@ -71,4 +71,20 @@ final class TextsPresenter extends BasePresenter
         $this->redirect(":Admin:Texts:default");
     }
 
+    public function handleDeleteContact(): void
+    {
+        $values = ["img_path" => null];
+        $this->textRepository->updateTextByType("contact", $values);
+        $this->flashMessage("Obrázek se smazal", "success");
+        $this->redirect(":Admin:Texts:default");
+    }
+
+    public function handleDeleteAboutus(): void
+    {
+        $values = ["img_path" => null];
+        $this->textRepository->updateTextByType("aboutus", $values);
+        $this->flashMessage("Obrázek se smazal", "success");
+        $this->redirect(":Admin:Texts:default");
+    }
+
 }

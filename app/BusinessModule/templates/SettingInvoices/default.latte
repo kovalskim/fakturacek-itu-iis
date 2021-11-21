@@ -4,6 +4,9 @@
         {control settingInvoicesForm}
     </div>
 
-    {if $settingDataLatte->logo_path != NULL} <img src="{$basePath}/{$settingDataLatte->logo_path}" alt="Logo" width="200"/> {/if}
+    {if $settingDataLatte->logo_path != NULL}
+        <img src="{$basePath}/{$settingDataLatte->logo_path}" alt="Logo" width="200"/>
+        <div><a n:href="deleteLogo!">Smazat logo</a></div>
+    {/if}
 
 {/block}

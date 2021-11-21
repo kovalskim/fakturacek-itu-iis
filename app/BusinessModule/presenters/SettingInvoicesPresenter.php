@@ -6,7 +6,6 @@ namespace App\BusinessModule\presenters;
 
 use App\BusinessModule\forms\ClientsFormFactory;
 use App\BusinessModule\model\SettingInvoices;
-use App\PublicModule\model\UploadImage;
 use App\PublicModule\repository\SettingInvoicesRepository;
 use Exception;
 use Nette\Application\AbortException;
@@ -25,19 +24,16 @@ class SettingInvoicesPresenter extends BasePresenter
     /** @var User */
     public $user;
 
-    /** @var UploadImage */
-    private $uploadImage;
 
     /** @var SettingInvoices */
     private $settingInvoices;
 
-    public function __construct(ClientsFormFactory $clientsFormFactory, SettingInvoicesRepository $settingInvoicesRepository, User $user, UploadImage $uploadImage, SettingInvoices $settingInvoices)
+    public function __construct(ClientsFormFactory $clientsFormFactory, SettingInvoicesRepository $settingInvoicesRepository, User $user, SettingInvoices $settingInvoices)
     {
         parent::__construct();
         $this->clientsFormFactory = $clientsFormFactory;
         $this->settingInvoicesRepository = $settingInvoicesRepository;
         $this->user = $user;
-        $this->uploadImage = $uploadImage;
         $this->settingInvoices = $settingInvoices;
     }
 
@@ -56,6 +52,9 @@ class SettingInvoicesPresenter extends BasePresenter
         return $form;
     }
 
+    /**
+     * @throws AbortException
+     */
     public function settingInvoicesFormValidate($form, $values)
     {
         try
@@ -85,6 +84,17 @@ class SettingInvoicesPresenter extends BasePresenter
         }
 
         $this->flashMessage("Změna se provedla", "success");
+        $this->redirect(":Business:SettingInvoices:default");
+    }
+
+    /**
+     * @throws AbortException
+     */
+    public function handleDeleteLogo(): void
+    {
+        $values = ["logo_path" => null];
+        $this->settingInvoicesRepository->updateSetting($values, $this->user->getId());
+        $this->flashMessage("Obrázek se smazal", "success");
         $this->redirect(":Business:SettingInvoices:default");
     }
 

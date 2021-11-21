@@ -12,10 +12,8 @@ use App\PublicModule\repository\UserRepository;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
-use Nette\Http\Session;
 use Nette\Security\User;
-use Nette\Utils\ImageException;
-use Nette\Utils\UnknownImageFileException;
+use Nette\Utils\FileSystem;
 
 final class ProfilePresenter extends BasePresenter
 {
@@ -94,7 +92,7 @@ final class ProfilePresenter extends BasePresenter
 
     public function actionUpload()
     {
-
+        $this->template->profile = $this->userRepository->getUserProfile($this->user->getId());
     }
 
     protected function createComponentUploadAvatarForm(): Form
@@ -120,6 +118,23 @@ final class ProfilePresenter extends BasePresenter
         }
 
         $this->flashMessage("Avatar se nahrál", "success");
+        $this->redirect(":Business:Profile:default");
+    }
+
+    /**
+     * @throws AbortException
+     */
+    public function handleDeleteAvatar(): void
+    {
+        $values = ["avatar_path" => null];
+        $old_avatar = $this->userRepository->getUserAvatar($this->user->getId());
+        if($old_avatar != null)
+        {
+            $old_avatar = "../".$old_avatar;
+            FileSystem::delete($old_avatar);
+        }
+        $this->userRepository->updateProfile($this->user->getId(), $values);
+        $this->flashMessage("Obrázek se smazal", "success");
         $this->redirect(":Business:Profile:default");
     }
 

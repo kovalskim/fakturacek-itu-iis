@@ -1,4 +1,12 @@
 {block content}
+    <h1>Změna avataru</h1>
+    {if $profile->avatar_path}
+        <img src="{$basePath}/{$profile->avatar_path}" alt="Avatar" width="100"/>
+        <div><a n:href="deleteAvatar!">Smazat avatar</a></div>
+    {else}
+        <img src="{$basePath}/img/avatar_default.svg" alt="Avatar" width="100"/>
+    {/if}
+
     <div>
         {control uploadAvatarForm}
     </div>

@@ -24,9 +24,4 @@ class SettingInvoicesRepository extends AllRepository
     {
         $this->connection->query("UPDATE %table SET %set WHERE users_id = %i", $this->table, (array) $values, $users_id);
     }
-
-    public function getUserLogo($user_id)
-    {
-        return $this->connection->query("SELECT logo_path FROM %table WHERE users_id = %i", $this->table, $user_id)->fetchField();
-    }
 }
