@@ -4,6 +4,7 @@
 
 namespace App\PublicModule\model;
 
+use App\PublicModule\repository\SettingInvoicesRepository;
 use App\PublicModule\repository\UserRepository;
 use Exception;
 use Nette\Security\User;
@@ -21,57 +22,84 @@ class UploadImage
     /** @var User*/
     public $user;
 
-    public function __construct(UserRepository $userRepository, User $user)
+    /** @var SettingInvoicesRepository */
+    private $settingInvoicesRepository;
+
+    public function __construct(UserRepository $userRepository, User $user, SettingInvoicesRepository $settingInvoicesRepository)
     {
         $this->userRepository = $userRepository;
         $this->user = $user;
+        $this->settingInvoicesRepository = $settingInvoicesRepository;
     }
 
     /**
      * @throws Exception
      */
-    public function uploadAvatarFormSucceeded($form, $values)
+    private function loadImg($img): Image
     {
         try
         {
-            $avatar = Image::fromFile($values->avatar_path);
+            $loadImg = Image::fromFile($img);
         }
         catch (ImageException $e)
         {
-            throw new Exception('Avatar nebyl nahrán');
+            throw new Exception($e->getMessage());
         }
+        return $loadImg;
+    }
 
-        $height = $avatar->getHeight();
-        $width = $avatar->getWidth();
+    private function editImg($img): Image
+    {
+        $height = $img->getHeight();
+        $width = $img->getWidth();
         if($height >= $width)
         {
             $new_height = 100 - ((100 * ($height - $width) ) / $height);
             $new_height = $new_height . '%';
 
-            $avatar->crop('0%', '50%','100%', $new_height);
-            $avatar->resize(null, 720, Image::SHRINK_ONLY);
+            $img->crop('0%', '50%','100%', $new_height);
+            $img->resize(null, 720, Image::SHRINK_ONLY);
         }
         else
         {
             $new_width = 100 - ((100 * ($width - $height) ) / $width);
             $new_width = $new_width . '%';
 
-            $avatar->crop('50%', '0%', $new_width, '100%');
-            $avatar->resize(720, null, Image::SHRINK_ONLY);
+            $img->crop('50%', '0%', $new_width, '100%');
+            $img->resize(720, null, Image::SHRINK_ONLY);
         }
+        return $img;
+    }
+
+    private function generateNameImg($type): string
+    {
         $end = 1;
+        $name = "";
+        if($type == "avatars")
+        {
+            $nameFolder = "avatars";
+        }
+        else
+        {
+            $nameFolder = "logo";
+        }
+
         while($end == 1)
         {
             $end = 0;
             $name = Random::generate(10, '0-9A-Z').".jpeg";
-            foreach (Finder::findFiles($name)->in("../www/avatars/") as $key => $file)
+            foreach (Finder::findFiles($name)->in("../www/".$nameFolder."/") as $key => $file)
             {
-               $end = 1;
+                $end = 1;
             }
         }
+        return $name;
+    }
 
+    private function saveAvatar($form, $values, $name, $img)
+    {
         $values->avatar_path = "www/avatars/".$name;
-        $avatar->save('../'.$values->avatar_path);
+        $img->save('../'.$values->avatar_path);
 
         $old_avatar = $this->userRepository->getUserAvatar($this->user->getId());
         if($old_avatar != null)
@@ -82,4 +110,56 @@ class UploadImage
 
         $this->userRepository->updateProfile($this->user->getId(), $values);
     }
+
+    private function saveLogoAndSetting($form, $values, $name, $img) //TODO: DODELAT?
+    {
+        $values->logo_path = "www/logo/".$name;
+        $img->save('../'.$values->logo_path);
+
+        $old_logo = $this->settingInvoicesRepository->getUserLogo($this->user->getId());
+        if($old_logo != null)
+        {
+            $old_logo = "../".$old_logo;
+            FileSystem::delete($old_logo);
+        }
+
+        $this->settingInvoicesRepository->updateSetting($values, $this->user->getId());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function uploadImgFormSucceeded($form, $values, $type)
+    {
+        if($type == "avatars")
+        {
+            $path = $values->avatar_path;
+        }
+        else
+        {
+            $path = $values->logo_path;
+        }
+
+        try
+        {
+            $loadImg = $this->loadImg($path);
+        }
+        catch (Exception $e)
+        {
+            throw new Exception('Obrázek nebyl nahrán');
+        }
+
+        $loadImg = $this->editImg($loadImg);
+        $name = $this->generateNameImg($type);
+
+        if($type == "avatars")
+        {
+            $this->saveAvatar($form, $values, $name, $loadImg);
+        }
+        else
+        {
+            $this->saveLogoAndSetting($form, $values, $name, $loadImg);
+        }
+    }
+
 }
