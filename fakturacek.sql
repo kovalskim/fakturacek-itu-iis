@@ -101,7 +101,7 @@ DROP TABLE IF EXISTS `setting_invoices`;
 CREATE TABLE `setting_invoices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account_number` varchar(25) COLLATE utf8mb4_czech_ci DEFAULT NULL,
-  `variable_symbol` varchar(25) COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `variable_symbol` enum('yymmxx','yyxxxx','yyxxx') COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `logo_path` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `vat` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `users_id` int(11) NOT NULL,
@@ -110,6 +110,11 @@ CREATE TABLE `setting_invoices` (
   CONSTRAINT `setting_invoices_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
+INSERT INTO `setting_invoices` (`id`, `account_number`, `variable_symbol`, `logo_path`, `vat`, `users_id`) VALUES
+(1,	NULL,	NULL,	NULL,	NULL,	9),
+(2,	NULL,	NULL,	NULL,	NULL,	5),
+(3,	'1234567890/0600',	'yyxxxx',	'www/logo/5NF8D73LAG.jpeg',	'Jsem plátce DPH.',	4),
+(4,	NULL,	NULL,	NULL,	NULL,	2);
 
 DROP TABLE IF EXISTS `texts`;
 CREATE TABLE `texts` (
@@ -148,11 +153,12 @@ INSERT INTO `users` (`id`, `cin`, `name`, `email`, `phone`, `password`, `hash`, 
 (1,	NULL,	'Admin',	'admin@fakturacek.cz',	'+420124543333',	'$2y$10$EkpTYHKufe7jCAwEzYEr2OTa5tdPNGCRGF6fqufVte.jC73fvym1G',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	1,	'www/avatars/AE2OEJGW97.jpeg'),
 (2,	NULL,	'Business',	'business@fakturacek.cz',	NULL,	'$2y$10$UujM3C3lJFY4dlkuy88LteFX06bCNG8LGNSa9Rc5J9/qxavJ86eF.',	NULL,	NULL,	'business',	0,	'Kolejní 66',	'Brno',	'45678',	1,	NULL),
 (3,	NULL,	'Accountant',	'accountant@fakturacek.cz',	NULL,	'$2y$10$KUkctHpRXI71vM41yRI/Q.Sxm3FiYF3JX6tf88qBzdwbffeuiNQ32',	NULL,	NULL,	'accountant',	0,	'test 55',	'Testova',	'12345',	1,	NULL),
-(4,	'12345678',	'Radek Jůzl',	'radekjuzl@seznam.cz',	'124543333',	'$2y$10$fIjseCS/5fFUq.Z8VNw.YOdGNV8D5po/AgmvLsjEy48Fd/ahff9E6',	NULL,	NULL,	'business',	0,	'Kam 204',	'Nikam',	'39601',	1,	'www/avatars/W7D4EILFCU.jpeg'),
+(4,	'12345678',	'Radek Jůzl',	'radekjuzl@seznam.cz',	'124543333',	'$2y$10$fIjseCS/5fFUq.Z8VNw.YOdGNV8D5po/AgmvLsjEy48Fd/ahff9E6',	NULL,	NULL,	'business',	0,	'Kam 204',	'Nikam',	'39601',	1,	'www/avatars/4ZPSBR31W3.jpeg'),
 (5,	'12345671',	'Radek Smrdí',	'radeksmrdi@fakthodne.cz',	'+420124543333',	'$2y$10$N7yWDAXGJSErERJNnJPO7eHyBGbgsfPs1mYB.VjmzWB/1RYW2OWs.',	NULL,	NULL,	'business',	0,	'Záchod 124',	'Smradlachov',	'45323',	1,	NULL),
 (6,	NULL,	'Jouda Jouda',	'jouda@fakturacek.cz',	NULL,	'$2y$10$i.g261.CFQMNKOeOewYaP.lnPn2jn1zUMTIDWI8Rahc9QZQ2aMux.',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	1,	NULL),
 (7,	NULL,	'Radek Jo',	'helevole@vole.cz',	NULL,	'$2y$10$85rHJn7YQpZ/5PmsOoZi9ep7X43phJgt8keGvcX3ruGQ2zt55A0Bm',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	1,	NULL),
-(8,	NULL,	'Nové nemehlo',	'hele@sesnemehlo.cz',	'+420124543333',	'$2y$10$1q5Ksbm1wqhdX5okB7W7BuzjB5IdpNBSHlZn20Bh98IhtwmaYBIb2',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	1,	'www/avatars/5GBZFOLIED.jpeg');
+(8,	NULL,	'Nové nemehlo',	'hele@sesnemehlo.cz',	'+420124543333',	'$2y$10$1q5Ksbm1wqhdX5okB7W7BuzjB5IdpNBSHlZn20Bh98IhtwmaYBIb2',	NULL,	NULL,	'admin',	0,	NULL,	NULL,	NULL,	1,	'www/avatars/5GBZFOLIED.jpeg'),
+(9,	'12546987',	'Test Faktur',	'nekdo@seznam.cz',	'',	'$2y$10$b/cR.n5XNQz1LKUXrK8qcO4SHTLNAwPvRTRtEKvAUjZuxC/gP8yka',	NULL,	NULL,	'business',	0,	'Zahrada 12',	'Nekde',	'74123',	1,	NULL);
 
 DROP TABLE IF EXISTS `users_last_login`;
 CREATE TABLE `users_last_login` (
@@ -166,9 +172,9 @@ CREATE TABLE `users_last_login` (
 
 INSERT INTO `users_last_login` (`id`, `users_id`, `timestamp`) VALUES
 (1,	3,	'2021-11-19 18:29:11'),
-(10,	1,	'2021-11-20 10:16:58'),
-(13,	2,	'2021-11-20 11:06:36'),
-(14,	4,	'2021-11-20 11:10:15');
+(18,	2,	'2021-11-21 13:44:49'),
+(21,	1,	'2021-11-21 16:49:09'),
+(22,	4,	'2021-11-21 18:12:53');
 
 DROP TABLE IF EXISTS `users_last_password_change`;
 CREATE TABLE `users_last_password_change` (
@@ -186,4 +192,4 @@ INSERT INTO `users_last_password_change` (`id`, `users_id`, `timestamp`) VALUES
 (6,	1,	'2021-11-19 22:14:41'),
 (7,	2,	'2021-11-20 11:06:30');
 
--- 2021-11-20 11:11:56
+-- 2021-11-21 18:14:27
