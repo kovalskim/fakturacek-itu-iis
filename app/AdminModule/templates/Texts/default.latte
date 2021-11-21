@@ -2,6 +2,6 @@
     <div>
         {control textsForm}
     </div>
-    <img src="{$basePath}/{$aboutus_img}" alt="O nás" width="200"/>
-    <img src="{$basePath}/{$contact_img}" alt="Kontakty" width="200"/>
+    {if $aboutus_img != NULL} <img src="{$basePath}/{$aboutus_img}" alt="O nás" width="200"/> {/if}
+    {if $contact_img != NULL} <img src="{$basePath}/{$contact_img}" alt="Kontakty" width="200"/> {/if}
 {/block}
