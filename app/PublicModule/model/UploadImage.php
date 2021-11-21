@@ -111,17 +111,10 @@ class UploadImage
         $this->userRepository->updateProfile($this->user->getId(), $values);
     }
 
-    private function saveLogoAndSetting($form, $values, $name, $img) //TODO: DODELAT?
+    private function saveLogoAndSetting($form, $values, $name, $img)
     {
         $values->logo_path = "www/logo/".$name;
         $img->save('../'.$values->logo_path);
-
-        $old_logo = $this->settingInvoicesRepository->getUserLogo($this->user->getId());
-        if($old_logo != null)
-        {
-            $old_logo = "../".$old_logo;
-            FileSystem::delete($old_logo);
-        }
 
         $this->settingInvoicesRepository->updateSetting($values, $this->user->getId());
     }
@@ -149,15 +142,15 @@ class UploadImage
             throw new Exception('Obrázek nebyl nahrán');
         }
 
-        $loadImg = $this->editImg($loadImg);
-        $name = $this->generateNameImg($type);
-
         if($type == "avatars")
         {
+            $loadImg = $this->editImg($loadImg);
+            $name = $this->generateNameImg($type);
             $this->saveAvatar($form, $values, $name, $loadImg);
         }
         else
         {
+            $name = $this->generateNameImg($type);
             $this->saveLogoAndSetting($form, $values, $name, $loadImg);
         }
     }

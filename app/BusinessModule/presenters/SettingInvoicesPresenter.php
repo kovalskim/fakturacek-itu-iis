@@ -5,6 +5,7 @@
 namespace App\BusinessModule\presenters;
 
 use App\BusinessModule\forms\ClientsFormFactory;
+use App\BusinessModule\model\SettingInvoices;
 use App\PublicModule\model\UploadImage;
 use App\PublicModule\repository\SettingInvoicesRepository;
 use Exception;
@@ -25,15 +26,19 @@ class SettingInvoicesPresenter extends BasePresenter
     public $user;
 
     /** @var UploadImage */
-    public $uploadImage;
+    private $uploadImage;
 
-    public function __construct(ClientsFormFactory $clientsFormFactory, SettingInvoicesRepository $settingInvoicesRepository, User $user, UploadImage $uploadImage)
+    /** @var SettingInvoices */
+    private $settingInvoices;
+
+    public function __construct(ClientsFormFactory $clientsFormFactory, SettingInvoicesRepository $settingInvoicesRepository, User $user, UploadImage $uploadImage, SettingInvoices $settingInvoices)
     {
         parent::__construct();
         $this->clientsFormFactory = $clientsFormFactory;
         $this->settingInvoicesRepository = $settingInvoicesRepository;
         $this->user = $user;
         $this->uploadImage = $uploadImage;
+        $this->settingInvoices = $settingInvoices;
     }
 
     public function actionDefault()
@@ -46,8 +51,22 @@ class SettingInvoicesPresenter extends BasePresenter
     protected function createComponentSettingInvoicesForm(): Form
     {
         $form = $this->clientsFormFactory->createSettingInvoicesForm();
+        $form->onValidate[] = [$this, "settingInvoicesFormValidate"];
         $form->onSuccess[] = [$this, "settingInvoicesFormSucceeded"];
         return $form;
+    }
+
+    public function settingInvoicesFormValidate($form, $values)
+    {
+        try
+        {
+            $this->settingInvoices->settingInvoicesFormValidate($form, $values);
+        }
+        catch (Exception $e)
+        {
+            $this->flashMessage($e->getMessage(), 'danger');
+            $this->redirect(":Business:SettingInvoices:default");
+        }
     }
 
     /**
@@ -55,22 +74,14 @@ class SettingInvoicesPresenter extends BasePresenter
      */
     public function settingInvoicesFormSucceeded($form, $values)
     {
-        if($values->logo_path->error == 0)
+        try
         {
-            try
-            {
-                $this->uploadImage->uploadImgFormSucceeded($form,$values, "logo");
-            }
-            catch (Exception $e)
-            {
-                $this->flashMessage($e->getMessage(), 'danger');
-                $this->redirect(":Business:SettingInvoices:default");
-            }
+            $this->settingInvoices->settingInvoicesFormSucceeded($form, $values);
         }
-        else
+        catch (Exception $e)
         {
-            $values2 = ["account_number" => $values->account_number, "variable_symbol" => $values->variable_symbol, "vat" => $values->vat];
-            $this->settingInvoicesRepository->updateSetting($values2, $this->user->getId());
+            $this->flashMessage($e->getMessage(), 'danger');
+            $this->redirect(":Business:SettingInvoices:default");
         }
 
         $this->flashMessage("Změna se provedla", "success");

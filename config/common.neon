@@ -36,6 +36,8 @@ services:
     - App\BusinessModule\forms\FormFactory
     - App\BusinessModule\forms\ClientsFormFactory
 
+    - App\BusinessModule\model\SettingInvoices
+
 extensions:
     nextras.orm: Nextras\Dbal\Bridges\NetteDI\DbalExtension
 
