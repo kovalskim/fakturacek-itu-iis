@@ -6,6 +6,7 @@ application:
 session:
     name: fakturacek
     expiration: 14 days
+    autoStart: true
 
 services:
     - App\Router\RouterFactory::createRouter
