@@ -33,6 +33,62 @@
 
         <!-- JS scripts -->
         <script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
+
+        <script src="{$basePath}/ckeditor5/build/ckeditor.js"></script>
+        <script>
+            function textAreaAdjust(element) {
+                element.style.height = "1px";
+                element.style.height = (25+element.scrollHeight)+"px";
+            }
+            let elements = document.getElementsByTagName('textarea');
+            for (let i = 0; i < elements.length; i++) {
+                textAreaAdjust(elements[i]);
+                elements[i].onkeyup = function () { textAreaAdjust(elements[i])}
+                elements[i].style.overflow = "hidden";
+            }
+            let w_elements = document.getElementsByClassName('wysiwyg');
+            for (let i = 0; i < w_elements.length; i++) {
+                ClassicEditor
+                    .create( w_elements[i], {
+                        highlight: {
+                            options: [
+                                {
+                                    model: 'marker',
+                                    color: '#f0e0b7',
+                                    type: 'marker'
+                                }
+                            ]
+                        },
+
+                        toolbar: {
+                            items: [
+                                'undo',
+                                'redo',
+                                '|',
+                                'heading',
+                                '|',
+                                'bold',
+                                'italic',
+                                'link',
+                                '|',
+                                'bulletedList',
+                                'numberedList',
+                                '|',
+                                'highlight'
+                            ]
+                        },
+                        language: 'cs',
+                        licenseKey: '',
+
+                    } )
+                    .then( editor => {
+                        window.editor = editor;
+                    } )
+                    .catch( error => {
+                        console.error( error );
+                    } );
+            }
+        </script>
         <!--// JS scripts -->
     </body>
 </html>

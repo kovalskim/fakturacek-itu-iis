@@ -9,7 +9,6 @@ use Nette\Utils\ImageException;
 
 class TextsManager
 {
-
     /** @var TextRepository */
     private $textRepository;
 
@@ -62,6 +61,18 @@ class TextsManager
         {
             $img_contact->save('../'.$path_contact);
         }
+
+        /** Author: Martin Kovalski */
+        $text = $values->text_aboutus;
+        $text = str_replace("<i>","<em>", $text);
+        $text = str_replace("</i>", "</em>", $text);
+        $values->text_aboutus = $text;
+
+        $text = $values->text_contact;
+        $text = str_replace("<i>","<em>", $text);
+        $text = str_replace("</i>", "</em>", $text);
+        $values->text_contact = $text;
+        /** ----- */
 
         $row = ['text' => $values->text_aboutus,'img_path' => $path_aboutus];
         $this->textRepository->updateTextByType("aboutus", $row);
