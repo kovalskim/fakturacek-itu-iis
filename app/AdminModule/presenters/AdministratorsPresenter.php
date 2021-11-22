@@ -54,14 +54,36 @@ final class AdministratorsPresenter extends BasePresenter
         try
         {
             $this->administratorsManager->createAdministratorFormSucceeded($form, $values);
+
+            $this->flashMessage('Administrátor byl vytvořen');
+
+            if($this->isAjax())
+            {
+                $form->reset();
+                $this->redrawControl('administratorForm');
+                $this['datagrid']->redrawControl('rows');
+                $this->redrawControl('flashes');
+            }
+            else
+            {
+                $this->redirect('this');
+            }
         }
         catch(Exception $e)
         {
             $this->flashMessage($e->getMessage(), 'danger');
-            $this->redirect('this');
+            if($this->isAjax())
+            {
+                $form->reset();
+                $this->redrawControl('administratorForm');
+                $this->redrawControl('flashes');
+            }
+            else
+            {
+                $this->redirect('this');
+            }
         }
-        $this->flashMessage('Administrátor byl vytvořen');
-        $this->redirect('this');
+
     }
 
     public function createComponentDatagrid(): Datagrid

@@ -20,6 +20,8 @@ class AdministratorsFormFactory
     {
         $form = $this->formFactory->create();
 
+        $form->setHtmlAttribute('class', 'ajax');
+
         $form->addText('name', 'Jméno a příjmení:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Jméno a příjmení')
