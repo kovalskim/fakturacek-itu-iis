@@ -70,7 +70,7 @@ final class AdministratorsPresenter extends BasePresenter
 
         /** Columns from table */
         $grid->addColumn('avatar', 'Avatar');
-        $grid->addColumn('name', 'Jméno a příjmení')->enableSort();
+        $grid->addColumn('name', 'Jméno a příjmení')->enableSort(Datagrid::ORDER_ASC);
         $grid->addColumn('email', 'E-mail')->enableSort();
         $grid->addColumn('phone', 'Telefon');
         $grid->addColumn('status', 'Status');
