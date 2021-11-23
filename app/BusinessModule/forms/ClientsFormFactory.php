@@ -61,6 +61,8 @@ class ClientsFormFactory
     {
         $form = $this->formFactory->create();
 
+        $form->setHtmlAttribute('class', 'ajax');
+
         $form->addText('account_number', '*Číslo účtu:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Číslo účtu')

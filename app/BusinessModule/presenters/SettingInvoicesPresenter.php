@@ -63,8 +63,17 @@ class SettingInvoicesPresenter extends BasePresenter
         }
         catch (Exception $e)
         {
-            $this->flashMessage($e->getMessage(), 'danger');
-            $this->redirect(":Business:SettingInvoices:default");
+            if($this->isAjax())
+            {
+                $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
+                $form->reset();
+                $form->setDefaults($settingData);
+                $this->redrawControl('invoicesForm');
+            }
+            else
+            {
+                $this->redirect('this');
+            }
         }
     }
 
@@ -76,15 +85,44 @@ class SettingInvoicesPresenter extends BasePresenter
         try
         {
             $this->settingInvoices->settingInvoicesFormSucceeded($form, $values);
+
+            $this->flashMessage("Změna se provedla", "success");
+
+            if($this->isAjax())
+            {
+                $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
+                if($values->logo_path != null)
+                {
+                    $this->template->settingDataLatte = $settingData;
+                    $this->redrawControl('invoicesImg');
+                }
+
+                $form->reset();
+                $form->setDefaults($settingData);
+                $this->redrawControl('invoicesForm');
+                $this->redrawControl('flashes');
+            }
+            else
+            {
+                $this->redirect('this');
+            }
         }
         catch (Exception $e)
         {
             $this->flashMessage($e->getMessage(), 'danger');
-            $this->redirect(":Business:SettingInvoices:default");
+            if($this->isAjax())
+            {
+                $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
+                $form->reset();
+                $form->setDefaults($settingData);
+                $this->redrawControl('invoicesForm');
+                $this->redrawControl('flashes');
+            }
+            else
+            {
+                $this->redirect('this');
+            }
         }
-
-        $this->flashMessage("Změna se provedla", "success");
-        $this->redirect(":Business:SettingInvoices:default");
     }
 
     /**
@@ -95,7 +133,17 @@ class SettingInvoicesPresenter extends BasePresenter
         $values = ["logo_path" => null];
         $this->settingInvoicesRepository->updateSetting($values, $this->user->getId());
         $this->flashMessage("Obrázek se smazal", "success");
-        $this->redirect(":Business:SettingInvoices:default");
+
+        if($this->isAjax())
+        {
+            $this->template->settingDataLatte = $this->settingInvoicesRepository->selectAll($this->user->getId());
+            $this->redrawControl('invoicesImg');
+            $this->redrawControl('flashes');
+        }
+        else
+        {
+            $this->redirect('this');
+        }
     }
 
 }

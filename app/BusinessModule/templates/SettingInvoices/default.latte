@@ -1,12 +1,16 @@
 {block content}
     <h1 n:block=title>Nastavení faktury</h1>
-    <div>
-        {control settingInvoicesForm}
-    </div>
+    {snippet invoicesForm}
+        <div>
+            {control settingInvoicesForm}
+        </div>
+    {/snippet}
 
-    {if $settingDataLatte->logo_path != NULL}
-        <img src="{$basePath}/{$settingDataLatte->logo_path}" alt="Logo" width="200"/>
-        <div><a n:href="deleteLogo!">Smazat logo</a></div>
-    {/if}
+    {snippet invoicesImg}
+        {if $settingDataLatte->logo_path != NULL}
+            <img src="{$basePath}/{$settingDataLatte->logo_path}" alt="Logo" width="200"/>
+            <div><a class = "ajax" n:href="deleteLogo!">Smazat logo</a></div>
+        {/if}
+    {/snippet}
 
 {/block}

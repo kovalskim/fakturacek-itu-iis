@@ -115,6 +115,7 @@ class SettingInvoices
         }
         if($error or (($hodnota % 11) != 0))
         {
+            $form["account_number"]->addError('Špatný formát čísla bankovního účtu.');
             throw new Exception('Špatný formát čísla bankovního účtu.');
         }
     }
