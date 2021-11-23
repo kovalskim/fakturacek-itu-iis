@@ -56,18 +56,28 @@ final class ClientsPresenter extends BasePresenter
     {
         $user_id = $this->user->getId();
         $row = ((array) $values) + ['users_id' => $user_id];
-
         $this->clientRepository->insertClientByUserId($row);
 
         $this->flashMessage('Klient byl přidán');
-        $this->redirect('this');
+
+        if($this->isAjax())
+        {
+            $form->reset();
+            $this->redrawControl('clientForm');
+            $this['datagrid']->redrawControl('rows');
+            $this->redrawControl('flashes');
+        }
+        else
+        {
+            $this->redirect('this');
+        }
     }
 
     public function createComponentDatagrid(): Datagrid
     {
         $grid = $this->datagridManager->createDatagrid($this->clientTable, $this->getName());
 
-        $grid->addColumn('name', 'Jméno a příjmení')->enableSort();
+        $grid->addColumn('name', 'Jméno a příjmení')->enableSort(Datagrid::ORDER_ASC);
         $grid->addColumn('cin', 'IČ');
         $grid->addColumn('email', 'E-mail')->enableSort();
         $grid->addColumn('phone', 'Telefon');

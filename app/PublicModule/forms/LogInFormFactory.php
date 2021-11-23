@@ -46,6 +46,7 @@ class LogInFormFactory
         $form->addPassword('password', '*Heslo:')
             ->setRequired()
             ->addRule($form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaků', 8)
+            ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'Heslo');
 
         $form->addPassword('passwordAgain', '*Heslo znovu:')
@@ -73,6 +74,7 @@ class LogInFormFactory
 
         $form->addText('zip', '*PSČ:')
             ->setRequired()
+            ->addRule($form::LENGTH, 'PSČ musí mít %d znaků', 5)
             ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'PSČ');
 

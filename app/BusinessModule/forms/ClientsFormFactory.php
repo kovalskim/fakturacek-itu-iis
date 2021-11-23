@@ -20,6 +20,8 @@ class ClientsFormFactory
     {
         $form = $this->formFactory->create();
 
+        $form->setHtmlAttribute('class', 'ajax');
+
         $form->addText('name', '*Jméno a příjmení:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Jméno a příjmení')
@@ -27,6 +29,7 @@ class ClientsFormFactory
 
         $form->addText('cin', 'IČ:')
             ->addRule($form::LENGTH, 'IČ musí mít %d znaků', 8)
+            ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'IČ');
 
         $form->addEmail('email', 'E-mail:')
@@ -42,6 +45,7 @@ class ClientsFormFactory
 
         $form->addText('zip', '*PSČ:')
             ->setRequired()
+            ->addRule($form::LENGTH, 'PSČ musí mít %d znaků', 5)
             ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'PSČ');
 
