@@ -26,6 +26,8 @@ services:
     - App\PublicModule\repository\UserRepository
     - App\PublicModule\repository\TextRepository
     - App\PublicModule\repository\ClientRepository
+    - App\PublicModule\repository\ExpensesRepository
+    - App\PublicModule\repository\CategoryRepository
     - App\PublicModule\repository\SettingInvoicesRepository
 
     - App\AdminModule\forms\FormFactory
@@ -36,6 +38,8 @@ services:
 
     - App\BusinessModule\forms\FormFactory
     - App\BusinessModule\forms\ClientsFormFactory
+    - App\BusinessModule\forms\ExpensesFormFactory
+    - App\BusinessModule\forms\CategoryFormFactory
 
     - App\BusinessModule\model\SettingInvoices
 
