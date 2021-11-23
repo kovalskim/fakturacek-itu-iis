@@ -51,16 +51,6 @@ class TextsManager
                 throw new Exception('Fotka se nepovedla nahrát');
             }
         }
-        $path_aboutus = "www/img/aboutus.jpeg";
-        $path_contact = "www/img/contact.jpeg";
-        if($img_aboutus != null)
-        {
-            $img_aboutus->save('../'.$path_aboutus);
-        }
-        if($img_contact != null)
-        {
-            $img_contact->save('../'.$path_contact);
-        }
 
         /** Author: Martin Kovalski */
         $text = $values->text_aboutus;
@@ -74,9 +64,29 @@ class TextsManager
         $values->text_contact = $text;
         /** ----- */
 
-        $row = ['text' => $values->text_aboutus,'img_path' => $path_aboutus];
+        if($img_aboutus != null)
+        {
+            $path_aboutus = "www/img/aboutus.jpeg";
+            $img_aboutus->save('../'.$path_aboutus);
+            $row = ['text' => $values->text_aboutus,'img_path' => $path_aboutus];
+        }
+        else
+        {
+            $row = ['text' => $values->text_aboutus];
+        }
         $this->textRepository->updateTextByType("aboutus", $row);
-        $row = ['text' => $values->text_contact,'img_path' => $path_contact];
+
+        if($img_contact != null)
+        {
+            $path_contact = "www/img/contact.jpeg";
+            $img_contact->save('../'.$path_contact);
+            $row = ['text' => $values->text_contact,'img_path' => $path_contact];
+        }
+        else
+        {
+            $row = ['text' => $values->text_contact];
+        }
+
         $this->textRepository->updateTextByType("contact", $row);
     }
 }

@@ -177,6 +177,7 @@ class LogInFormFactory
 
         $form->addText('zip', '*PSČ:')
             ->setRequired()
+            ->addRule($form::LENGTH, 'PSČ musí mít %d znaků', 5)
             ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'PSČ');
 

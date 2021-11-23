@@ -1,15 +1,21 @@
 {block content}
-    <div>
-        {control textsForm}
-    </div>
-    {if $aboutus_img != NULL}
-        <div>O nás:</div>
-        <img src="{$basePath}/{$aboutus_img}" alt="O nás" width="200"/>
-        <div><a n:href="deleteAboutus!">Smazat obrázek</a></div>
-    {/if}
-    {if $contact_img != NULL}
-        <div>Kontakty:</div>
-        <img src="{$basePath}/{$contact_img}" alt="Kontakty" width="200"/>
-        <div><a n:href="deleteContact!">Smazat obrázek</a></div>
-    {/if}
+    {snippet textImgForm}
+        <div>
+            {control textsForm}
+        </div>
+    {/snippet}
+    {snippet aboutusImg}
+        {if $aboutus_img != NULL}
+            <div>O nás:</div>
+            <img src="{$basePath}/{$aboutus_img}" alt="O nás" width="200"/>
+            <div><a class="ajax" n:href="deleteAboutus!">Smazat obrázek</a></div>
+        {/if}
+    {/snippet}
+    {snippet contactImg}
+        {if $contact_img != NULL}
+            <div>Kontakty:</div>
+            <img src="{$basePath}/{$contact_img}" alt="Kontakty" width="200"/>
+            <div><a class="ajax" n:href="deleteContact!">Smazat obrázek</a></div>
+        {/if}
+    {/snippet}
 {/block}
