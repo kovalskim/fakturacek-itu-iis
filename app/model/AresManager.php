@@ -7,9 +7,6 @@ use Exception;
 
 class AresManager
 {
-    /**
-     * @throws Exception
-     */
     public function verificationCin($cin): int
     {
         if(is_numeric($cin))

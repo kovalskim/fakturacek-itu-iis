@@ -144,4 +144,9 @@ class UserRepository extends AllRepository
         }
         return false;
     }
+
+    public function getUserStatusByToken($token)
+    {
+        return $this->connection->query("SELECT status FROM %table WHERE hash = %s",$this->table, $token)->fetchField();
+    }
 }

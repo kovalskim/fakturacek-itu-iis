@@ -91,10 +91,14 @@ class UserManager
             $form["cin"]->addError("Toto IČ se už používá.");
         }
 
-        if($this->aresManager->verificationCin($cin) != 0)
+        if(strlen($cin) >= 8)
         {
-            $form["cin"]->addError("Toto IČ neexistuje.");
+            if($this->aresManager->verificationCin($cin) != 0)
+            {
+                $form["cin"]->addError("Toto IČ neexistuje.");
+            }
         }
+
     }
 
     /** Author: Martin Kovalski */
@@ -159,6 +163,11 @@ class UserManager
         $now = new DateTime();
         if ($hash_validity < $now) {
             throw new Exception('Vypršela platnost tokenu');
+        }
+
+        if(!($this->userRepository->getUserStatusByToken($token) != "banned"))
+        {
+            throw new Exception('Účet je zablokován');
         }
     }
 

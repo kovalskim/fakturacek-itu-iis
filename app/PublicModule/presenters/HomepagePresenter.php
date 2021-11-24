@@ -120,7 +120,7 @@ final class HomepagePresenter extends BasePresenter
         catch (Exception $e)
         {
             $this->flashMessage($e->getMessage(), 'danger');
-            $this->redirect('this');
+            $this->redirect(':Public:Homepage:default');
         }
 
         /** Insert token as default value in newPassword Form */
