@@ -13,4 +13,9 @@ class ClientRepository extends AllRepository
     {
         $this->connection->query("INSERT INTO %table %values", $this->table, $values);
     }
+
+    public function updateClientById($id, $values)
+    {
+        $this->connection->query('UPDATE %table SET %set WHERE id = %i', $this->table, $values, $id);
+    }
 }

@@ -5,6 +5,7 @@
 namespace App\BusinessModule\presenters;
 
 use App\forms\ClientsFormFactory;
+use App\model\ClientsManager;
 use App\model\DatagridManager;
 use App\repository\ClientRepository;
 use Nette\Application\AbortException;
@@ -27,15 +28,19 @@ final class ClientsPresenter extends BasePresenter
     /** @var ClientRepository */
     private $clientRepository;
 
+    /** @var ClientsManager */
+    private $clientsManager;
+
     private $clientTable = 'clients';
 
-    public function __construct(ClientsFormFactory $clientsFormFactory, DatagridManager  $datagridManager, User $user, ClientRepository $clientRepository)
+    public function __construct(ClientsFormFactory $clientsFormFactory, DatagridManager  $datagridManager, User $user, ClientRepository $clientRepository, ClientsManager $clientsManager)
     {
         parent::__construct();
         $this->clientsFormFactory = $clientsFormFactory;
         $this->datagridManager = $datagridManager;
         $this->user = $user;
         $this->clientRepository = $clientRepository;
+        $this->clientsManager = $clientsManager;
     }
 
     public function actionDefault()
@@ -160,7 +165,7 @@ final class ClientsPresenter extends BasePresenter
 
     public function editFormSucceeded(Container $form)
     {
-        //TODO: proces edit form
+        $this->clientsManager->editClientsFormSucceeded($form);
 
         $this->flashMessage('Uloženo', 'success');
         $this->redrawControl('flashes');
