@@ -1,13 +1,13 @@
 <?php
 
-namespace App\BusinessModule\model;
+namespace App\model;
 
-use App\PublicModule\model\UploadImage;
+use App\model\ImageUploader;
 use App\repository\SettingInvoicesRepository;
 use Exception;
 use Nette\Security\User;
 
-class SettingInvoices
+class SettingInvoicesManager
 {
     /** @var SettingInvoicesRepository */
     private $settingInvoicesRepository;
@@ -15,14 +15,14 @@ class SettingInvoices
     /** @var User */
     public $user;
 
-    /** @var UploadImage */
-    private $uploadImage;
+    /** @var ImageUploader */
+    private $imageUploader;
 
-    public function __construct(SettingInvoicesRepository $settingInvoicesRepository, User $user, UploadImage $uploadImage)
+    public function __construct(SettingInvoicesRepository $settingInvoicesRepository, User $user, ImageUploader $imageUploader)
     {
         $this->settingInvoicesRepository = $settingInvoicesRepository;
         $this->user = $user;
-        $this->uploadImage = $uploadImage;
+        $this->imageUploader = $imageUploader;
     }
 
     /**
@@ -129,7 +129,7 @@ class SettingInvoices
         {
             try
             {
-                $this->uploadImage->uploadImgFormSucceeded($form,$values, "logo");
+                $this->imageUploader->uploadImgFormSucceeded($form,$values, "logo");
             }
             catch (Exception $e)
             {

@@ -5,8 +5,8 @@ namespace App\AdminModule\presenters;
 /** Author: Martin Kovalski */
 
 use App\forms\AdministratorsFormFactory;
-use App\AdminModule\model\AdministratorsManager;
-use App\PublicModule\model\DatagridManager;
+use App\model\AdministratorsManager;
+use App\model\DatagridManager;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;

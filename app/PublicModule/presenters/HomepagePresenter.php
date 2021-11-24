@@ -5,8 +5,8 @@
 namespace App\PublicModule\presenters;
 
 use App\forms\LogInFormFactory;
-use App\PublicModule\model\Authenticator;
-use App\PublicModule\model\UserManager;
+use App\model\Authenticator;
+use App\model\UserManager;
 use App\repository\UserRepository;
 use Exception;
 use Nette\Application\AbortException;

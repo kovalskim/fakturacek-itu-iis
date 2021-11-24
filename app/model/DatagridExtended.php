@@ -1,6 +1,6 @@
 <?php
 
-namespace App\PublicModule\model;
+namespace App\model;
 
 use Nextras\Datagrid\Datagrid;
 

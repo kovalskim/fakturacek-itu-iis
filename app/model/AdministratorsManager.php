@@ -1,11 +1,11 @@
 <?php
 
-namespace App\AdminModule\model;
+namespace App\model;
 
 /** Author: Martin Kovalski */
 
-use App\PublicModule\model\MailSender;
-use App\PublicModule\model\UserManager;
+use App\model\MailSender;
+use App\model\UserManager;
 use App\repository\UserRepository;
 use Exception;
 

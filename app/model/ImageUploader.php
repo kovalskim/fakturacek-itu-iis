@@ -2,7 +2,7 @@
 
 /** Author: Radek Jůzl */
 
-namespace App\PublicModule\model;
+namespace App\model;
 
 use App\repository\SettingInvoicesRepository;
 use App\repository\UserRepository;
@@ -14,7 +14,7 @@ use Nette\Utils\ImageException;
 use Nette\Utils\Random;
 use Nette\Utils\FileSystem;
 
-class UploadImage
+class ImageUploader
 {
     /** @var UserRepository */
     private $userRepository;

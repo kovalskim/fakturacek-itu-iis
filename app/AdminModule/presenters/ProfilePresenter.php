@@ -6,8 +6,8 @@ namespace App\AdminModule\presenters;
 
 use App\forms\AdministratorsFormFactory;
 use App\forms\LogInFormFactory;
-use App\PublicModule\model\EditProfile;
-use App\PublicModule\model\UploadImage;
+use App\model\ProfileManager;
+use App\model\ImageUploader;
 use App\repository\UserRepository;
 use Exception;
 use Nette\Application\AbortException;
@@ -26,23 +26,23 @@ final class ProfilePresenter extends BasePresenter
     /** @var AdministratorsFormFactory */
     private $administratorsFormFactory;
 
-    /** @var EditProfile */
-    private $editProfile;
+    /** @var ProfileManager */
+    private $profileManager;
 
-    /** @var UploadImage */
-    private $uploadImage;
+    /** @var ImageUploader */
+    private $imageUploader;
 
     /** @var LogInFormFactory */
     private $logInFormFactory;
 
-    public function __construct(User $user, UserRepository $userRepository, AdministratorsFormFactory $administratorsFormFactory, EditProfile $editProfile, UploadImage $uploadImage, LogInFormFactory $logInFormFactory)
+    public function __construct(User $user, UserRepository $userRepository, AdministratorsFormFactory $administratorsFormFactory, ProfileManager $profileManager, ImageUploader $imageUploader, LogInFormFactory $logInFormFactory)
     {
         parent::__construct();
         $this->user = $user;
         $this->userRepository = $userRepository;
         $this->administratorsFormFactory = $administratorsFormFactory;
-        $this->editProfile = $editProfile;
-        $this->uploadImage = $uploadImage;
+        $this->profileManager = $profileManager;
+        $this->imageUploader = $imageUploader;
         $this->logInFormFactory = $logInFormFactory;
     }
 
@@ -72,7 +72,7 @@ final class ProfilePresenter extends BasePresenter
 
     public function editProfileFormValidate($form, $values)
     {
-        $this->editProfile->editProfileFormValidate($form, $values);
+        $this->profileManager->editProfileFormValidate($form, $values);
     }
 
     /**
@@ -81,7 +81,7 @@ final class ProfilePresenter extends BasePresenter
 
     public function editProfileFormSucceeded($form, $values)
     {
-        $new_email = $this->editProfile->editProfileFormSucceeded($form, $values);
+        $new_email = $this->profileManager->editProfileFormSucceeded($form, $values);
         if($new_email)
         {
             $this->session->destroy();
@@ -113,7 +113,7 @@ final class ProfilePresenter extends BasePresenter
     {
         try
         {
-            $this->uploadImage->uploadImgFormSucceeded($form,$values, "avatars");
+            $this->imageUploader->uploadImgFormSucceeded($form,$values, "avatars");
         }
         catch (Exception $e)
         {

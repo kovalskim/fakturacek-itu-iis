@@ -2,12 +2,12 @@
 
 /** Author: Radek Jůzl */
 
-namespace App\PublicModule\model;
+namespace App\model;
 
 use App\repository\UserRepository;
 use Nette\Security\User;
 
-class EditProfile
+class ProfileManager
 {
     /** @var UserRepository */
     private $userRepository;

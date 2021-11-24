@@ -2,7 +2,7 @@
 
 /** Author: Martin Kovalski */
 
-namespace App\PublicModule\model;
+namespace App\model;
 
 use App\repository\UserRepository;
 use Exception;

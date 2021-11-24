@@ -1,6 +1,6 @@
 <?php
 
-namespace App\PublicModule\model;
+namespace App\model;
 
 use App\repository\SettingInvoicesRepository;
 use App\repository\UserRepository;

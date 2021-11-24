@@ -3,7 +3,7 @@
 namespace App\AdminModule\presenters;
 
 use App\forms\AdministratorsFormFactory;
-use App\AdminModule\model\TextsManager;
+use App\model\TextsManager;
 use App\repository\TextRepository;
 use Exception;
 use Nette\Application\AbortException;

@@ -4,7 +4,7 @@
 
 namespace App\PublicModule\presenters;
 
-use App\PublicModule\model\MailSender;
+use App\model\MailSender;
 use App\repository\TextRepository;
 use App\forms\ContactFormFactory;
 use Nette\Application\AbortException;

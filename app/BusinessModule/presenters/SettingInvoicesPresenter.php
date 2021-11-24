@@ -5,7 +5,7 @@
 namespace App\BusinessModule\presenters;
 
 use App\forms\ClientsFormFactory;
-use App\BusinessModule\model\SettingInvoices;
+use App\model\SettingInvoicesManager;
 use App\repository\SettingInvoicesRepository;
 use Exception;
 use Nette\Application\AbortException;
@@ -25,16 +25,16 @@ class SettingInvoicesPresenter extends BasePresenter
     public $user;
 
 
-    /** @var SettingInvoices */
-    private $settingInvoices;
+    /** @var SettingInvoicesManager */
+    private $settingInvoicesManager;
 
-    public function __construct(ClientsFormFactory $clientsFormFactory, SettingInvoicesRepository $settingInvoicesRepository, User $user, SettingInvoices $settingInvoices)
+    public function __construct(ClientsFormFactory $clientsFormFactory, SettingInvoicesRepository $settingInvoicesRepository, User $user, SettingInvoicesManager $settingInvoicesManager)
     {
         parent::__construct();
         $this->clientsFormFactory = $clientsFormFactory;
         $this->settingInvoicesRepository = $settingInvoicesRepository;
         $this->user = $user;
-        $this->settingInvoices = $settingInvoices;
+        $this->settingInvoicesManager = $settingInvoicesManager;
     }
 
     public function actionDefault()
@@ -59,7 +59,7 @@ class SettingInvoicesPresenter extends BasePresenter
     {
         try
         {
-            $this->settingInvoices->settingInvoicesFormValidate($form, $values);
+            $this->settingInvoicesManager->settingInvoicesFormValidate($form, $values);
         }
         catch (Exception $e)
         {
@@ -84,7 +84,7 @@ class SettingInvoicesPresenter extends BasePresenter
     {
         try
         {
-            $this->settingInvoices->settingInvoicesFormSucceeded($form, $values);
+            $this->settingInvoicesManager->settingInvoicesFormSucceeded($form, $values);
 
             $this->flashMessage("Změna se provedla", "success");
 

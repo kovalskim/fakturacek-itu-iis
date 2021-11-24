@@ -1,6 +1,6 @@
 <?php
 
-namespace App\AdminModule\model;
+namespace App\model;
 
 use App\repository\TextRepository;
 use Exception;
@@ -21,6 +21,7 @@ class TextsManager
     {
 
     }
+
     /**
      * @throws Exception
      */

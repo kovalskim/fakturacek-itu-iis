@@ -5,8 +5,8 @@
 namespace App\AccountantModule\presenters;
 
 use App\forms\LogInFormFactory;
-use App\PublicModule\model\EditProfile;
-use App\PublicModule\model\UploadImage;
+use App\model\ProfileManager;
+use App\model\ImageUploader;
 use App\repository\UserRepository;
 use Exception;
 use Nette\Application\AbortException;
@@ -25,20 +25,20 @@ final class ProfilePresenter extends BasePresenter
     /** @var LogInFormFactory */
     private $logInFormFactory;
 
-    /** @var EditProfile */
-    private $editProfile;
+    /** @var ProfileManager */
+    private $profileManager;
 
-    /** @var UploadImage */
-    private $uploadImage;
+    /** @var ImageUploader */
+    private $imageUploader;
 
-    public function __construct(User $user, UserRepository $userRepository, LogInFormFactory $logInFormFactory, EditProfile $editProfile, UploadImage $uploadImage)
+    public function __construct(User $user, UserRepository $userRepository, LogInFormFactory $logInFormFactory, ProfileManager $profileManager, ImageUploader $imageUploader)
     {
         parent::__construct();
         $this->user = $user;
         $this->userRepository = $userRepository;
         $this->logInFormFactory = $logInFormFactory;
-        $this->editProfile = $editProfile;
-        $this->uploadImage = $uploadImage;
+        $this->profileManager = $profileManager;
+        $this->imageUploader = $imageUploader;
     }
 
     public function actionDefault()
@@ -67,7 +67,7 @@ final class ProfilePresenter extends BasePresenter
 
     public function editProfileFormValidate($form, $values)
     {
-        $this->editProfile->editProfileFormValidate($form, $values);
+        $this->profileManager->editProfileFormValidate($form, $values);
     }
 
     /**
@@ -76,7 +76,7 @@ final class ProfilePresenter extends BasePresenter
 
     public function editProfileFormSucceeded($form, $values)
     {
-        $new_email = $this->editProfile->editProfileFormSucceeded($form, $values);
+        $new_email = $this->profileManager->editProfileFormSucceeded($form, $values);
         if($new_email)
         {
             $this->session->destroy();
@@ -108,7 +108,7 @@ final class ProfilePresenter extends BasePresenter
     {
         try
         {
-            $this->uploadImage->uploadImgFormSucceeded($form,$values, "avatars");
+            $this->imageUploader->uploadImgFormSucceeded($form,$values, "avatars");
         }
         catch (Exception $e)
         {

@@ -2,7 +2,7 @@
 
 namespace App\AdminModule\presenters;
 
-use App\PublicModule\model\DatagridManager;
+use App\model\DatagridManager;
 use Nextras\Datagrid\Datagrid;
 
 /** Author: Radek Jůzl */
