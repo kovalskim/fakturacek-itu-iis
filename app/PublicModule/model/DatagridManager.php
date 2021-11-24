@@ -6,7 +6,6 @@ namespace App\PublicModule\model;
 
 use Nette\Security\User;
 use Nette\Utils\Paginator;
-use Nextras\Datagrid\Datagrid;
 use Nextras\Dbal\Connection;
 use Nextras\Dbal\Result\Result;
 
@@ -27,7 +26,7 @@ class DatagridManager
         $this->user = $user;
     }
 
-    public function createDatagrid($table, $presenter): Datagrid
+    public function createDatagrid($table, $presenter): DatagridExtended
     {
         /** Name of table in database as global property */
         $this->table = $table;
@@ -35,7 +34,8 @@ class DatagridManager
         /** Get presenter name and module for path to template */
         $this->presenter_params = explode(':', $presenter, 2);
 
-        $grid = new Datagrid();
+        //$grid = new Datagrid();
+        $grid = new DatagridExtended();
 
         /** Primary key is always id */
         $grid->setRowPrimaryKey('id');

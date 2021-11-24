@@ -2,22 +2,18 @@
 
 /** Author: Dalibor Kyjovský */
 
-namespace App\BusinessModule\forms;
+namespace App\forms;
+
 use Nextras\Dbal\Connection;
-
 use Nette\Application\UI\Form;
-
 
 class ExpensesFormFactory
 {
-    
-
     /** @var FormFactory */
     private $formFactory;
 
     /** @var $connection */
     public $connection;
-    
 
     public function __construct(FormFactory $formFactory, Connection $connection)
     {
@@ -34,7 +30,6 @@ class ExpensesFormFactory
         foreach ($categories as $row) {
             $array[$row->id] = $row->name;
         }
-
 
         $form = $this->formFactory->create();
 
@@ -54,7 +49,6 @@ class ExpensesFormFactory
             ->setHtmlAttribute('placeholder', 'Kategorie')
             ->setHtmlAttribute('autofocus');  
 
-
         $form->addSubmit('addExpenses', 'Přidat');
 
         return $form;
@@ -70,14 +64,12 @@ class ExpensesFormFactory
             $array[$row->id] = $row->items;
         }
 
-
         $form = $this->formFactory->create();
 
         $form->addSelect('id', 'Položka', $array)
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Položka')
             ->setHtmlAttribute('autofocus');  
-
 
         $form->addSubmit('addExpenses', 'Vymazat');
 

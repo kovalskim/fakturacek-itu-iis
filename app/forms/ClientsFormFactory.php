@@ -2,7 +2,7 @@
 
 /** Author: Radek Jůzl */
 
-namespace App\BusinessModule\forms;
+namespace App\forms;
 
 use Nette\Application\UI\Form;
 

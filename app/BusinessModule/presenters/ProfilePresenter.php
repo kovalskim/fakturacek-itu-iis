@@ -5,7 +5,7 @@
 namespace App\BusinessModule\presenters;
 
 
-use App\PublicModule\forms\LogInFormFactory;
+use App\forms\LogInFormFactory;
 use App\PublicModule\model\EditProfile;
 use App\PublicModule\model\UploadImage;
 use App\repository\UserRepository;

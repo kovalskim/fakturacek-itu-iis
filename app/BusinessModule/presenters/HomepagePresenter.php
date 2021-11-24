@@ -4,8 +4,8 @@
 
 namespace App\BusinessModule\presenters;
 
-use App\BusinessModule\forms\ExpensesFormFactory;
-use App\BusinessModule\forms\CategoryFormFactory;
+use App\forms\ExpensesFormFactory;
+use App\forms\CategoryFormFactory;
 use App\PublicModule\model\DatagridManager;
 use App\repository\ExpensesRepository;
 use App\repository\CategoryRepository;

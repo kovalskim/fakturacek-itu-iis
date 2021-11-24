@@ -2,7 +2,7 @@
 
 /** Author: Martin Kovalski */
 
-namespace App\BusinessModule\forms;
+namespace App\forms;
 
 use Nette\Application\UI\Form;
 use Nette\SmartObject;

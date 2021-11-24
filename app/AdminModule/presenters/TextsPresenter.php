@@ -2,7 +2,7 @@
 
 namespace App\AdminModule\presenters;
 
-use App\AdminModule\forms\AdministratorsFormFactory;
+use App\forms\AdministratorsFormFactory;
 use App\AdminModule\model\TextsManager;
 use App\repository\TextRepository;
 use Exception;

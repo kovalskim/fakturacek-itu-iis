@@ -4,7 +4,7 @@ namespace App\AdminModule\presenters;
 
 /** Author: Martin Kovalski */
 
-use App\AdminModule\forms\AdministratorsFormFactory;
+use App\forms\AdministratorsFormFactory;
 use App\AdminModule\model\AdministratorsManager;
 use App\PublicModule\model\DatagridManager;
 use Exception;

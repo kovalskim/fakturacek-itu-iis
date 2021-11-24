@@ -5,7 +5,6 @@ namespace App\AdminModule\presenters;
 use App\PublicModule\model\DatagridManager;
 use Nextras\Datagrid\Datagrid;
 
-
 /** Author: Radek Jůzl */
 
 final class UsersPresenter extends BasePresenter

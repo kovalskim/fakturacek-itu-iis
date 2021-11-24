@@ -11,6 +11,23 @@ session:
 services:
     - App\Router\RouterFactory::createRouter
 
+    - App\repository\AllRepository
+    - App\repository\CategoryRepository
+    - App\repository\ClientRepository
+    - App\repository\ExpensesRepository
+    - App\repository\SettingInvoicesRepository
+    - App\repository\TextRepository
+    - App\repository\UserRepository
+
+    - App\forms\AdministratorsFormFactory
+    - App\forms\CategoryFormFactory
+    - App\forms\ClientsFormFactory
+    - App\forms\ContactFormFactory
+    - App\forms\ExpensesFormFactory
+    - App\forms\FormFactory
+    - App\forms\LogInFormFactory
+
+
     - App\PublicModule\model\Authenticator
     - App\PublicModule\model\UserManager
     - App\PublicModule\model\MailSender
@@ -18,28 +35,12 @@ services:
     - App\PublicModule\model\UploadImage
     - App\PublicModule\model\DatagridManager
 
-    - App\PublicModule\forms\FormFactory
-    - App\PublicModule\forms\LogInFormFactory
-    - App\PublicModule\forms\ContactFormFactory
 
-    - App\repository\AllRepository
-    - App\repository\UserRepository
-    - App\repository\TextRepository
-    - App\repository\ClientRepository
-    - App\repository\ExpensesRepository
-    - App\repository\CategoryRepository
-    - App\repository\SettingInvoicesRepository
 
-    - App\AdminModule\forms\FormFactory
-    - App\AdminModule\forms\AdministratorsFormFactory
 
     - App\AdminModule\model\AdministratorsManager
     - App\AdminModule\model\TextsManager
 
-    - App\BusinessModule\forms\FormFactory
-    - App\BusinessModule\forms\ClientsFormFactory
-    - App\BusinessModule\forms\ExpensesFormFactory
-    - App\BusinessModule\forms\CategoryFormFactory
 
     - App\BusinessModule\model\SettingInvoices
 
