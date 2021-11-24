@@ -31,7 +31,7 @@ class DatagridExtended extends Datagrid
         $call($primary);
         if($this->presenter->isAjax())
         {
-            $this->redrawControl('rows');
+            $this->redrawControl('row', $primary);
         }
     }
 
@@ -57,7 +57,7 @@ class DatagridExtended extends Datagrid
         $call($primary);
         if($this->presenter->isAjax())
         {
-            $this->redrawControl('rows');
+            $this->redrawControl('row', $primary);
         }
     }
 }
