@@ -47,7 +47,7 @@ class DatagridManager
             return $this->getDataSum($filter, $order, $this->table);
         });
 
-        $grid->addCellsTemplate(__DIR__ . '/../app/' . $this->presenter_params[0] . 'Module/templates/' . $this->presenter_params[1] . '/@cells.latte');
+        $grid->addCellsTemplate(__DIR__ . '/../' . $this->presenter_params[0] . 'Module/templates/' . $this->presenter_params[1] . '/@cells.latte');
 
         return $grid;
     }
