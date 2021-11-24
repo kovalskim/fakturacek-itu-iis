@@ -10,6 +10,7 @@ use App\model\DatagridManager;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
+use Nette\Forms\Container;
 use Nextras\Datagrid\Datagrid;
 
 final class AdministratorsPresenter extends BasePresenter
@@ -97,6 +98,30 @@ final class AdministratorsPresenter extends BasePresenter
         $grid->addColumn('phone', 'Telefon');
         $grid->addColumn('status', 'Status')->enableSort();
 
+        $grid->setFilterFormFactory([$this, 'datagridFilterFormFactory']);
+
         return $grid;
+    }
+
+    public function datagridFilterFormFactory(): Container
+    {
+        $form = new Container();
+        $form->addText('name')
+            ->setHtmlAttribute('placeholder', 'Jméno a příjmení');
+
+        $form->addText('email') //must be text!
+            ->setHtmlAttribute('placeholder', 'E-mail');
+
+        $form->addText('phone', 'Telefon')
+            ->setHtmlAttribute('placeholder', 'Telefon');
+
+        $form->addSelect('status', null, [
+            'new' => 'Nový',
+            'active' => 'Aktivní',
+            'banned' => 'Zablokovaný'
+        ])
+            ->setPrompt('--- Status ---');
+
+        return $form;
     }
 }
