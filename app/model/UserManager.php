@@ -276,4 +276,24 @@ class UserManager
         /** Send e-mail with next steps */
         $this->mailSender->sendEmail($email, $subject, $body, $params);
     }
+
+    public function resetEmail($primary)
+    {
+        $email = $this->userRepository->getUserEmailById($primary);
+        $hash = $this->createHash($email);
+        $hash_validity = $this->createHashValidity();
+        $values = ["hash" => $hash, "hash_validity" => $hash_validity, "status" => "new", "email_verification" => null];
+        $this->userRepository->updateProfile($primary, $values);
+
+        /** Prepare parameters for e-mail */
+        $subject = 'Ověření e-mailové adresy';
+        $body = 'verificationAccountTemplate.latte';
+        $params = [
+            'token' => $hash,
+            'subject' => $subject
+        ];
+
+        /** Send e-mail with next steps */
+        $this->mailSender->sendEmail($email, $subject, $body, $params);
+    }
 }

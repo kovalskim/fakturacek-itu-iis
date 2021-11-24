@@ -134,4 +134,26 @@ class DatagridExtended extends Datagrid
             $this->redrawControl('rows');
         }
     }
+
+    /** @var callable */
+    protected $resetEmailCallback;
+
+    public function setResetEmailCallback(callable  $callback)
+    {
+        $this->resetEmailCallback = $callback;
+    }
+
+    public function getResetEmailCallback(): callable
+    {
+        return $this->resetEmailCallback;
+    }
+
+    /**
+     * @secured
+     */
+    public function handleResetEmail($primary)
+    {
+        $call = $this->getResetEmailCallback();
+        $call($primary);
+    }
 }

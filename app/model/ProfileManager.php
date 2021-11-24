@@ -49,7 +49,8 @@ class ProfileManager
             $new_email = 1;
             $values->hash = $this->userManager->createHash($values->email);
             $values->hash_validity = $this->userManager->createHashValidity();
-            $this->userRepository->updateUserStatus($id, 'new');
+            $data = ["status" => "new", "email_verification" => null];
+            $this->userRepository->updateProfile($id, $data);
 
             $subject = 'Ověření e-mailové adresy';
             $body = 'verificationAccountTemplate.latte';

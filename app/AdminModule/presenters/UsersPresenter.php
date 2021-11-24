@@ -51,6 +51,7 @@ final class UsersPresenter extends BasePresenter
         $grid->setBanCallback([$this, 'ban']);
         $grid->setAllowCallback([$this, 'allow']);
         $grid->setResetPasswordCallback([$this, 'resetPassword']);
+        $grid->setResetEmailCallback([$this, 'resetEmail']);
 
         $grid->addGlobalAction('ban', 'Zablokovat', function (array $ids, Datagrid $grid) {
             foreach ($ids as $id) {
@@ -122,6 +123,13 @@ final class UsersPresenter extends BasePresenter
     {
         $this->userManager->resetPassword($primary);
         $this->flashMessage('Heslo bylo obnoveno', 'success');
+        $this->redrawControl('flashes');
+    }
+
+    public function resetEmail($primary)
+    {
+        $this->userManager->resetEmail($primary);
+        $this->flashMessage('Ověřovací e-mail byl poslán', 'success');
         $this->redrawControl('flashes');
     }
 }

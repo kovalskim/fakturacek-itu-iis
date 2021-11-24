@@ -48,4 +48,5 @@
     <a n:if="$row->status != 'banned'" href="{link ban! $primary}" class="ajax">Zablokovat</a>
     <a n:if="$row->status == 'banned'" href="{link allow! $primary}" class="ajax">Odblokovat</a>
     <a href="{link resetPassword! $primary}" class="ajax">Reset hesla</a>
+    <a href="{link resetEmail! $primary}" class="ajax">Reset e-mailu</a>
 {/define}
