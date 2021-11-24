@@ -1,4 +1,4 @@
--- Adminer 4.8.1 MySQL 5.5.5-10.4.21-MariaDB dump
+-- Adminer 4.3.1 MySQL dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -102,7 +102,7 @@ CREATE TABLE `invoices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `invoices` (`id`, `users_id`, `user_name`, `user_street`, `user_city`, `user_zip`, `user_cin`, `user_vat`, `user_phone`, `user_email`, `client_id`, `client_name`, `client_street`, `client_city`, `client_zip`, `client_cin`, `client_vat`, `client_phone`, `client_email`, `created`, `due_date`, `account_number`, `variable_symbol`, `logo_path`, `vat_note`, `footer_note`, `status`, `suma`) VALUES
-(1,	2,	'Martin Kovalski',	'Stará osada',	'Brno',	'51202',	'12345678',	NULL,	NULL,	'email@panapodnikatele.cz',	1,	'Pepa z depa',	'Radkovo 245',	'Plzeň',	'43245',	'12345679',	NULL,	NULL,	'pepa@zdepa.cz',	'2021-11-24 17:47:27',	'2021-12-08 18:47:27',	'123/2010',	'2021001',	'www/logo/GYFA8N9JQM.jpeg',	0,	'Jsem osoba zapsaná v rejstříku někde',	'unpaid',	4325);
+(1,	2,	'Martin Kovalski',	'Stará osada',	'Brno',	'51202',	'12345678',	NULL,	NULL,	'email@panapodnikatele.cz',	1,	'Pepa z depa',	'Radkovo 245',	'Plzeň',	'43245',	'12345679',	NULL,	NULL,	'pepa@zdepa.cz',	'2021-11-24 17:47:27',	'2021-12-08 18:47:27',	'123/2010',	'2021001',	NULL,	0,	'Jsem osoba zapsaná v rejstříku někde',	'unpaid',	4325);
 
 DROP TABLE IF EXISTS `invoices_items`;
 CREATE TABLE `invoices_items` (
@@ -112,11 +112,15 @@ CREATE TABLE `invoices_items` (
   `count` float NOT NULL,
   `unit_price` float NOT NULL,
   `type` enum('hours','pieces') COLLATE utf8mb4_czech_ci NOT NULL,
+  `suma` float NOT NULL,
   PRIMARY KEY (`id`),
   KEY `invoices_id` (`invoices_id`),
   CONSTRAINT `invoices_items_ibfk_1` FOREIGN KEY (`invoices_id`) REFERENCES `invoices` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
+INSERT INTO `invoices_items` (`id`, `invoices_id`, `name`, `count`, `unit_price`, `type`, `suma`) VALUES
+(1,	1,	'Práce na silnici',	3,	700,	'hours',	2100),
+(2,	1,	'Dloubaní se v nose',	2,	300,	'pieces',	600);
 
 DROP TABLE IF EXISTS `setting_invoices`;
 CREATE TABLE `setting_invoices` (
@@ -196,4 +200,4 @@ CREATE TABLE `users_last_password_change` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 
--- 2021-11-24 19:44:10
+-- 2021-11-24 21:16:11
