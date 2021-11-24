@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'fa18401d4fbae74046a1e15ad98bff8f53a1dfa4',
+    'reference' => '5384600fb3743b9334d3425dfcbd74158cde85c1',
     'name' => 'nette/web-project',
   ),
   'versions' => 
@@ -189,7 +189,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'fa18401d4fbae74046a1e15ad98bff8f53a1dfa4',
+      'reference' => '5384600fb3743b9334d3425dfcbd74158cde85c1',
     ),
     'nextras/datagrid' => 
     array (
