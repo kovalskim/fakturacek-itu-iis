@@ -201,4 +201,25 @@ class UserManager
         $this->userRepository->deleteUserLastPasswordChange($user_id);
         $this->userRepository->setUserLastPasswordChange($user_id);
     }
+
+    public function resetPassword($primary)
+    {
+        $email = $this->userRepository->getUserEmailById($primary);
+        $hash_validity = $this->createHashValidity();
+        $hash = $this->createHash($email);
+
+        /** Save to database */
+        $this->userRepository->setUserRecoveryCredentials($hash, $hash_validity, $email);
+
+        /** Prepare parameters for e-mail */
+        $subject = 'Reset hesla';
+        $body = 'forgottenPasswordTemplate.latte';
+        $params = [
+            'token' => $hash,
+            'subject' => $subject
+        ];
+
+        /** Send e-mail with next steps */
+        $this->mailSender->sendEmail($email, $subject, $body, $params);
+    }
 }

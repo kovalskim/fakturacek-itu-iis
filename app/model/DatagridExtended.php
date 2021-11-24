@@ -86,4 +86,30 @@ class DatagridExtended extends Datagrid
             $this->redrawControl('rows');
         }
     }
+
+    /** @var callable */
+    protected $resetPasswordCallback;
+
+    public function setResetPasswordCallback(callable  $callback)
+    {
+        $this->resetPasswordCallback = $callback;
+    }
+
+    public function getResetPasswordCallback(): callable
+    {
+        return $this->resetPasswordCallback;
+    }
+
+    /**
+     * @secured
+     */
+    public function handleResetPassword($primary)
+    {
+        $call = $this->getResetPasswordCallback();
+        $call($primary);
+        if($this->presenter->isAjax())
+        {
+            $this->redrawControl('row', $primary);
+        }
+    }
 }

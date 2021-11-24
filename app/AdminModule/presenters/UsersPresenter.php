@@ -4,6 +4,7 @@ namespace App\AdminModule\presenters;
 
 use App\model\AdministratorsManager;
 use App\model\DatagridManager;
+use App\model\UserManager;
 use Nette\Forms\Container;
 use Nette\Utils\Html;
 use Nextras\Datagrid\Datagrid;
@@ -18,13 +19,17 @@ final class UsersPresenter extends BasePresenter
     /** @var AdministratorsManager */
     private $administratorsManager;
 
+    /** @var UserManager */
+    private $userManager;
+
     private $userTable = 'users';
 
-    public function __construct(DatagridManager $datagridManager, AdministratorsManager $administratorsManager)
+    public function __construct(DatagridManager $datagridManager, AdministratorsManager $administratorsManager, UserManager $userManager)
     {
         parent::__construct();
         $this->datagridManager = $datagridManager;
         $this->administratorsManager = $administratorsManager;
+        $this->userManager = $userManager;
     }
 
     public function createComponentDatagrid(): Datagrid
@@ -45,6 +50,7 @@ final class UsersPresenter extends BasePresenter
 
         $grid->setBanCallback([$this, 'ban']);
         $grid->setAllowCallback([$this, 'allow']);
+        $grid->setResetPasswordCallback([$this, 'resetPassword']);
 
         $grid->addGlobalAction('ban', 'Zablokovat', function (array $ids, Datagrid $grid) {
             foreach ($ids as $id) {
@@ -109,6 +115,13 @@ final class UsersPresenter extends BasePresenter
     {
         $this->administratorsManager->allow($primary);
         $this->flashMessage('Účet byl odblokován', 'success');
+        $this->redrawControl('flashes');
+    }
+
+    public function resetPassword($primary)
+    {
+        $this->userManager->resetPassword($primary);
+        $this->flashMessage('Heslo bylo obnoveno', 'success');
         $this->redrawControl('flashes');
     }
 }
