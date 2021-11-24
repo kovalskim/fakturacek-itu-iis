@@ -128,4 +128,9 @@ class UserRepository extends AllRepository
         }
         return false;
     }
+
+    public function getUserStatusById($id)
+    {
+        return $this->connection->query('SELECT status FROM %table WHERE id = %i', $this->table, $id)->fetchField();
+    }
 }

@@ -113,6 +113,24 @@ final class AdministratorsPresenter extends BasePresenter
         $grid->setBanCallback([$this, 'ban']);
         $grid->setAllowCallback([$this, 'allow']);
 
+        $grid->addGlobalAction('ban', 'Zablokovat', function (array $ids, Datagrid $grid) {
+            foreach ($ids as $id) {
+                $this->administratorsManager->ban($id);
+            }
+            $this->flashMessage('Uživatele byli zablokováni', 'success');
+            $this->redrawControl('flashes');
+            $grid->redrawControl('rows');
+        });
+
+        $grid->addGlobalAction('allow', 'Odblokovat', function (array $ids, Datagrid $grid) {
+            foreach ($ids as $id) {
+                $this->administratorsManager->allow($id);
+            }
+            $this->flashMessage('Uživatele byli odblokování', 'success');
+            $this->redrawControl('flashes');
+            $grid->redrawControl('rows');
+        });
+
         return $grid;
     }
 
@@ -143,43 +161,14 @@ final class AdministratorsPresenter extends BasePresenter
 
     public function ban($primary)
     {
-        $this->userRepository->updateUserStatus($primary,'banned');
-
-        /** Prepare parameters for e-mail */
-        $subject = 'Váš účet byl zablokován';
-        $body = 'banAccountTemplate.latte';
-        $params = [
-            'subject' => $subject
-        ];
-
-        /** Send e-mail with next steps */
-        $this->mailSender->sendEmail($this->userRepository->getUserEmailById($primary), $subject, $body, $params);
-
+        $this->administratorsManager->ban($primary);
         $this->flashMessage('Účet byl zablokován', 'success');
         $this->redrawControl('flashes');
     }
 
     public function allow($primary)
     {
-        if(!$this->userRepository->isPasswordExists($primary))
-        {
-            $this->userRepository->updateUserStatus($primary, 'new');
-        }
-        else
-        {
-            $this->userRepository->updateUserStatus($primary, 'active');
-        }
-
-        /** Prepare parameters for e-mail */
-        $subject = 'Váš účet byl odblokován';
-        $body = 'allowAccountTemplate.latte';
-        $params = [
-            'subject' => $subject
-        ];
-
-        /** Send e-mail with next steps */
-        $this->mailSender->sendEmail($this->userRepository->getUserEmailById($primary), $subject, $body, $params);
-
+        $this->administratorsManager->allow($primary);
         $this->flashMessage('Účet byl odblokován', 'success');
         $this->redrawControl('flashes');
     }

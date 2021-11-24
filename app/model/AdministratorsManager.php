@@ -53,4 +53,49 @@ class AdministratorsManager
         /** Send e-mail with next steps */
         $this->mailSender->sendEmail($values->email, $subject, $body, $params);
     }
+
+    public function ban($primary)
+    {
+        $status = $this->userRepository->getUserStatusById($primary);
+        if($status != 'banned')
+        {
+            $this->userRepository->updateUserStatus($primary,'banned');
+
+            /** Prepare parameters for e-mail */
+            $subject = 'Váš účet byl zablokován';
+            $body = 'banAccountTemplate.latte';
+            $params = [
+                'subject' => $subject
+            ];
+
+            /** Send e-mail with next steps */
+            $this->mailSender->sendEmail($this->userRepository->getUserEmailById($primary), $subject, $body, $params);
+        }
+    }
+
+    public function allow($primary)
+    {
+        $status = $this->userRepository->getUserStatusById($primary);
+        if($status == 'banned')
+        {
+            if(!$this->userRepository->isPasswordExists($primary))
+            {
+                $this->userRepository->updateUserStatus($primary, 'new');
+            }
+            else
+            {
+                $this->userRepository->updateUserStatus($primary, 'active');
+            }
+
+            /** Prepare parameters for e-mail */
+            $subject = 'Váš účet byl odblokován';
+            $body = 'allowAccountTemplate.latte';
+            $params = [
+                'subject' => $subject
+            ];
+
+            /** Send e-mail with next steps */
+            $this->mailSender->sendEmail($this->userRepository->getUserEmailById($primary), $subject, $body, $params);
+        }
+    }
 }
