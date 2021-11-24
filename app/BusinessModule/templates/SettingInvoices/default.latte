@@ -1,16 +1,46 @@
 {block content}
     <h1 n:block=title>Nastavení faktury</h1>
+
+    <h2>Přehled nastavení</h2>
+    {snippet invoicesTable}
+        <table>
+                <tr>
+                    <th>Číslo účtu:</th>
+                    <td>{$settingDataLatte->account_number}</td>
+                </tr>
+                <tr>
+                    <th>Typ variabilního symbolu:</th>
+                    <td>{$settingDataLatte->variable_symbol}</td>
+                </tr>
+                <tr>
+                    <th>DPH:</th>
+                    <td>{$settingDataLatte->vat}</td>
+                </tr>
+                <tr>
+                    <th>Logo:</th>
+                    <td>{if $settingDataLatte->logo_path != NULL}
+                            <img src="{$basePath}/{$settingDataLatte->logo_path}" alt="Logo" width="100"/>
+                            <div><a class = "ajax" n:href="deleteLogo!">Smazat logo</a></div>
+                        {else}
+                            Logo není nastaveno
+                        {/if}
+                    </td>
+
+                </tr>
+        </table>
+    {/snippet}
+    <br>
+    <br>
+
     {snippet invoicesForm}
         <div>
             {control settingInvoicesForm}
         </div>
     {/snippet}
 
-    {snippet invoicesImg}
-        {if $settingDataLatte->logo_path != NULL}
-            <img src="{$basePath}/{$settingDataLatte->logo_path}" alt="Logo" width="200"/>
-            <div><a class = "ajax" n:href="deleteLogo!">Smazat logo</a></div>
-        {/if}
-    {/snippet}
+
+
+
+
 
 {/block}

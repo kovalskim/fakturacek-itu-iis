@@ -71,8 +71,8 @@ class ClientsFormFactory
             ->setHtmlAttribute('placeholder', 'Číslo účtu')
             ->setHtmlAttribute('autofocus');
 
-        $form->addRadioList('variable_symbol', '*Variabilní symbol:', ["yymmxx" => "YYMM00", "yyxxxx" => "YY0000", "yyxxx" => "YY000"])
-            ->setDefaultValue("yymmxx")
+        $form->addRadioList('variable_symbol', '*Variabilní symbol:', ["YYMM00" => "YYMM00", "YY0000" => "YY0000", "YY000" => "YY000"])
+            ->setDefaultValue("YYMM00")
             ->setRequired();
 
         $form->addTextArea('vat', '*DPH:')

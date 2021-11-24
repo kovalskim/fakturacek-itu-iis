@@ -27,13 +27,17 @@ class UserManager
     /** @var SettingInvoicesRepository */
     private $settingInvoicesRepository;
 
-    public function __construct(UserRepository $userRepository, MailSender $mailSender, User $user, Authenticator $authenticator, SettingInvoicesRepository $settingInvoicesRepository)
+    /** @var AresManager */
+    private $aresManager;
+
+    public function __construct(UserRepository $userRepository, MailSender $mailSender, User $user, Authenticator $authenticator, SettingInvoicesRepository $settingInvoicesRepository, AresManager $aresManager)
     {
         $this->userRepository = $userRepository;
         $this->mailSender = $mailSender;
         $this->user = $user;
         $this->authenticator = $authenticator;
         $this->settingInvoicesRepository = $settingInvoicesRepository;
+        $this->aresManager = $aresManager;
     }
 
     /** Author: Martin Kovalski */
@@ -85,6 +89,11 @@ class UserManager
         if($this->userRepository->getUserByCin($cin))
         {
             $form["cin"]->addError("Toto IČ se už používá.");
+        }
+
+        if($this->aresManager->verificationCin($cin) != 0)
+        {
+            $form["cin"]->addError("Toto IČ neexistuje.");
         }
     }
 

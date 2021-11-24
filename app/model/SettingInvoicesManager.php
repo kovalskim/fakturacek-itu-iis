@@ -25,9 +25,6 @@ class SettingInvoicesManager
         $this->imageUploader = $imageUploader;
     }
 
-    /**
-     * @throws Exception
-     */
     public function settingInvoicesFormValidate($form, $values)
     {
         $account_number = $values->account_number;
@@ -116,7 +113,6 @@ class SettingInvoicesManager
         if($error or (($hodnota % 11) != 0))
         {
             $form["account_number"]->addError('Špatný formát čísla bankovního účtu.');
-            throw new Exception('Špatný formát čísla bankovního účtu.');
         }
     }
 

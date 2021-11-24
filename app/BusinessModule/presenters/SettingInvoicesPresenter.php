@@ -40,8 +40,12 @@ class SettingInvoicesPresenter extends BasePresenter
     public function actionDefault()
     {
         $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
+        $this->template->settingDataLatte = $this->settingInvoicesRepository->selectAll($this->user->getId());
+        if($settingData->variable_symbol == null)
+        {
+            $settingData->variable_symbol = "YYMM00";
+        }
         $this->getComponent("settingInvoicesForm")->setDefaults($settingData);
-        $this->template->settingDataLatte = $settingData;
     }
 
     protected function createComponentSettingInvoicesForm(): Form
@@ -57,24 +61,8 @@ class SettingInvoicesPresenter extends BasePresenter
      */
     public function settingInvoicesFormValidate($form, $values)
     {
-        try
-        {
-            $this->settingInvoicesManager->settingInvoicesFormValidate($form, $values);
-        }
-        catch (Exception $e)
-        {
-            if($this->isAjax())
-            {
-                $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
-                $form->reset();
-                $form->setDefaults($settingData);
-                $this->redrawControl('invoicesForm');
-            }
-            else
-            {
-                $this->redirect('this');
-            }
-        }
+        $this->settingInvoicesManager->settingInvoicesFormValidate($form, $values);
+        $this->redrawControl("invoicesForm");
     }
 
     /**
@@ -91,15 +79,9 @@ class SettingInvoicesPresenter extends BasePresenter
             if($this->isAjax())
             {
                 $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
-                if($values->logo_path != null)
-                {
-                    $this->template->settingDataLatte = $settingData;
-                    $this->redrawControl('invoicesImg');
-                }
+                $this->template->settingDataLatte = $settingData;
 
-                $form->reset();
-                $form->setDefaults($settingData);
-                $this->redrawControl('invoicesForm');
+                $this->redrawControl('invoicesTable');
                 $this->redrawControl('flashes');
             }
             else
@@ -112,10 +94,6 @@ class SettingInvoicesPresenter extends BasePresenter
             $this->flashMessage($e->getMessage(), 'danger');
             if($this->isAjax())
             {
-                $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
-                $form->reset();
-                $form->setDefaults($settingData);
-                $this->redrawControl('invoicesForm');
                 $this->redrawControl('flashes');
             }
             else
@@ -137,7 +115,7 @@ class SettingInvoicesPresenter extends BasePresenter
         if($this->isAjax())
         {
             $this->template->settingDataLatte = $this->settingInvoicesRepository->selectAll($this->user->getId());
-            $this->redrawControl('invoicesImg');
+            $this->redrawControl('invoicesTable');
             $this->redrawControl('flashes');
         }
         else

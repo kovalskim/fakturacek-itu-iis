@@ -5,6 +5,7 @@
 namespace App\PublicModule\presenters;
 
 use App\forms\LogInFormFactory;
+use App\model\AresManager;
 use App\model\UserManager;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
