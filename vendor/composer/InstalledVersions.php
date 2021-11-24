@@ -19,20 +19,11 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '660cdcb070e9f5cbc1091547aafb673167b5be86',
+    'reference' => 'ab8346836a4ea84a0552f2984cb10c9e05072d43',
     'name' => 'nette/web-project',
   ),
   'versions' => 
   array (
-    'atrox/matcher' => 
-    array (
-      'pretty_version' => 'v1.1.1',
-      'version' => '1.1.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '28e542cafef29298ed85ea6c37049010464259e0',
-    ),
     'latte/latte' => 
     array (
       'pretty_version' => 'v2.10.5',
@@ -211,7 +202,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '660cdcb070e9f5cbc1091547aafb673167b5be86',
+      'reference' => 'ab8346836a4ea84a0552f2984cb10c9e05072d43',
     ),
     'nextras/datagrid' => 
     array (
