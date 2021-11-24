@@ -45,21 +45,8 @@ final class ClientsPresenter extends BasePresenter
     protected function createComponentAddClientForm(): Form
     {
         $form = $this->clientsFormFactory->createClientForm();
-        $form->onValidate[] = [$this, "createAddClientFormValidate"];
         $form->onSuccess[] = [$this, "createAddClientFormSucceeded"];
         return $form;
-    }
-
-    public function createAddClientFormValidate($form, $values)
-    {
-        if($values->zip != null)
-        {
-            if(!(is_numeric($values->zip)))
-            {
-                $form["zip"]->addError("Musí být číslo.");
-                $this->redrawControl('clientForm');
-            }
-        }
     }
 
     /**

@@ -74,7 +74,10 @@ class LogInFormFactory
 
         $form->addText('zip', '*PSČ:')
             ->setRequired()
-            ->addRule($form::LENGTH, 'PSČ musí mít %d znaků', 5)
+            ->addFilter(function ($value) {
+            return str_replace(' ', '', $value); // odstraníme mezery z PSČ
+            })
+            ->addRule($form::PATTERN, 'PSČ není ve tvaru pěti číslic', '\d{5}')
             ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'PSČ');
 
@@ -177,7 +180,10 @@ class LogInFormFactory
 
         $form->addText('zip', '*PSČ:')
             ->setRequired()
-            ->addRule($form::LENGTH, 'PSČ musí mít %d znaků', 5)
+            ->addFilter(function ($value) {
+                    return str_replace(' ', '', $value); // odstraníme mezery z PSČ
+                })
+            ->addRule($form::PATTERN, 'PSČ není ve tvaru pěti číslic', '\d{5}')
             ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'PSČ');
 
