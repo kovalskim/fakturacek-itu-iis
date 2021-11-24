@@ -133,4 +133,13 @@ class UserRepository extends AllRepository
     {
         return $this->connection->query('SELECT status FROM %table WHERE id = %i', $this->table, $id)->fetchField();
     }
+
+    public function isLastLogin($user_id): bool
+    {
+        if($this->connection->query("SELECT timestamp FROM %table WHERE id = %i", $this->users_last_login, $user_id)->fetchField())
+        {
+            return true;
+        }
+        return false;
+    }
 }

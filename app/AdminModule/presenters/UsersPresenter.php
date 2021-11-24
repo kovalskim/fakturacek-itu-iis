@@ -106,14 +106,14 @@ final class UsersPresenter extends BasePresenter
 
     public function ban($primary)
     {
-        $this->administratorsManager->ban($primary);
+        $this->userManager->ban($primary);
         $this->flashMessage('Účet byl zablokován', 'success');
         $this->redrawControl('flashes');
     }
 
     public function allow($primary)
     {
-        $this->administratorsManager->allow($primary);
+        $this->userManager->allow($primary);
         $this->flashMessage('Účet byl odblokován', 'success');
         $this->redrawControl('flashes');
     }

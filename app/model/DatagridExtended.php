@@ -107,10 +107,6 @@ class DatagridExtended extends Datagrid
     {
         $call = $this->getResetPasswordCallback();
         $call($primary);
-        if($this->presenter->isAjax())
-        {
-            $this->redrawControl('row', $primary);
-        }
     }
 
     /** @var callable */
