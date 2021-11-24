@@ -15,6 +15,7 @@ services:
     - App\repository\CategoryRepository
     - App\repository\ClientRepository
     - App\repository\ExpensesRepository
+    - App\repository\InvoicingRepository
     - App\repository\SettingInvoicesRepository
     - App\repository\TextRepository
     - App\repository\UserRepository
@@ -35,6 +36,7 @@ services:
     - App\model\DatagridExtended
     - App\model\DatagridManager
     - App\model\ImageUploader
+    - App\model\InvoicingManager
     - App\model\ProfileManager
     - App\model\MailSender
     - App\model\SettingInvoicesManager

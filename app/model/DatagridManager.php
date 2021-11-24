@@ -79,6 +79,11 @@ class DatagridManager
             $user_id = $this->user->getId();
             $builder->andWhere('users_id = %i', $user_id);
         }
+        if($this->presenter_params[1] == 'Invoicing')
+        {
+            $user_id = $this->user->getId();
+            $builder->andWhere('users_id = %i', $user_id);
+        }
 
 
         /** Filter - where */
