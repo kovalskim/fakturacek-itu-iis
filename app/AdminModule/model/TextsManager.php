@@ -2,7 +2,7 @@
 
 namespace App\AdminModule\model;
 
-use App\PublicModule\repository\TextRepository;
+use App\repository\TextRepository;
 use Exception;
 use Nette\Utils\Image;
 use Nette\Utils\ImageException;

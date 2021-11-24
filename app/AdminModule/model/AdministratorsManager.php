@@ -6,7 +6,7 @@ namespace App\AdminModule\model;
 
 use App\PublicModule\model\MailSender;
 use App\PublicModule\model\UserManager;
-use App\PublicModule\repository\UserRepository;
+use App\repository\UserRepository;
 use Exception;
 
 class AdministratorsManager

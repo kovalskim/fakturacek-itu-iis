@@ -6,7 +6,7 @@ namespace App\BusinessModule\presenters;
 
 use App\BusinessModule\forms\CategoryFormFactory;
 use App\PublicModule\model\DatagridManager;
-use App\PublicModule\repository\CategoryRepository;
+use App\repository\CategoryRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Security\User;

@@ -7,11 +7,10 @@ namespace App\PublicModule\presenters;
 use App\PublicModule\forms\LogInFormFactory;
 use App\PublicModule\model\Authenticator;
 use App\PublicModule\model\UserManager;
-use App\PublicModule\repository\UserRepository;
+use App\repository\UserRepository;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
-use Nette\Security\AuthenticationException;
 use Nette\Security\User;
 
 final class HomepagePresenter extends BasePresenter

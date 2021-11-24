@@ -4,8 +4,8 @@
 
 namespace App\PublicModule\model;
 
-use App\PublicModule\repository\SettingInvoicesRepository;
-use App\PublicModule\repository\UserRepository;
+use App\repository\SettingInvoicesRepository;
+use App\repository\UserRepository;
 use Exception;
 use Nette\Security\User;
 use Nette\Utils\Finder;

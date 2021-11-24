@@ -4,7 +4,7 @@
 
 namespace App\PublicModule\presenters;
 
-use App\PublicModule\repository\TextRepository;
+use App\repository\TextRepository;
 
 final class AboutUsPresenter extends BasePresenter
 {

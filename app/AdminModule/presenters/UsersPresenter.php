@@ -2,7 +2,6 @@
 
 namespace App\AdminModule\presenters;
 
-use App\AdminModule\model\UserManager;
 use App\PublicModule\model\DatagridManager;
 use Nextras\Datagrid\Datagrid;
 
@@ -14,7 +13,7 @@ final class UsersPresenter extends BasePresenter
     /** @var DatagridManager */
     private $datagridManager;
 
-        private $userTable = 'users';
+    private $userTable = 'users';
 
     public function __construct(DatagridManager $datagridManager)
     {

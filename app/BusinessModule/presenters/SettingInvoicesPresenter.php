@@ -6,7 +6,7 @@ namespace App\BusinessModule\presenters;
 
 use App\BusinessModule\forms\ClientsFormFactory;
 use App\BusinessModule\model\SettingInvoices;
-use App\PublicModule\repository\SettingInvoicesRepository;
+use App\repository\SettingInvoicesRepository;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Security\User;

@@ -22,13 +22,13 @@ services:
     - App\PublicModule\forms\LogInFormFactory
     - App\PublicModule\forms\ContactFormFactory
 
-    - App\PublicModule\repository\AllRepository
-    - App\PublicModule\repository\UserRepository
-    - App\PublicModule\repository\TextRepository
-    - App\PublicModule\repository\ClientRepository
-    - App\PublicModule\repository\ExpensesRepository
-    - App\PublicModule\repository\CategoryRepository
-    - App\PublicModule\repository\SettingInvoicesRepository
+    - App\repository\AllRepository
+    - App\repository\UserRepository
+    - App\repository\TextRepository
+    - App\repository\ClientRepository
+    - App\repository\ExpensesRepository
+    - App\repository\CategoryRepository
+    - App\repository\SettingInvoicesRepository
 
     - App\AdminModule\forms\FormFactory
     - App\AdminModule\forms\AdministratorsFormFactory

@@ -4,7 +4,7 @@ namespace App\AdminModule\presenters;
 
 use App\AdminModule\forms\AdministratorsFormFactory;
 use App\AdminModule\model\TextsManager;
-use App\PublicModule\repository\TextRepository;
+use App\repository\TextRepository;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;

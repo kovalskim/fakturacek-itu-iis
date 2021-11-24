@@ -8,7 +8,7 @@ namespace App\AccountantModule\presenters;
 use App\PublicModule\forms\LogInFormFactory;
 use App\PublicModule\model\EditProfile;
 use App\PublicModule\model\UploadImage;
-use App\PublicModule\repository\UserRepository;
+use App\repository\UserRepository;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;

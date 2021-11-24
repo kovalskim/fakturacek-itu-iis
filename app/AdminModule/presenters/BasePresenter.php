@@ -4,7 +4,7 @@
 
 namespace App\AdminModule\presenters;
 
-use App\PublicModule\repository\UserRepository;
+use App\repository\UserRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Presenter;
 use Nette\Http\Session;

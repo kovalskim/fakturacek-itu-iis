@@ -4,7 +4,7 @@
 
 namespace App\PublicModule\model;
 
-use App\PublicModule\repository\UserRepository;
+use App\repository\UserRepository;
 use Nette\Security\User;
 
 class EditProfile
