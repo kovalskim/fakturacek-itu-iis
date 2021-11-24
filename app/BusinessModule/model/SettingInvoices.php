@@ -3,7 +3,7 @@
 namespace App\BusinessModule\model;
 
 use App\PublicModule\model\UploadImage;
-use App\PublicModule\repository\SettingInvoicesRepository;
+use App\repository\SettingInvoicesRepository;
 use Exception;
 use Nette\Security\User;
 

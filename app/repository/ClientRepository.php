@@ -2,7 +2,7 @@
 
 /** Author: Radek Jůzl */
 
-namespace App\PublicModule\repository;
+namespace App\repository;
 
 
 class ClientRepository extends AllRepository

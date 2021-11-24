@@ -2,7 +2,7 @@
 
 /** Author: Radek Jůzl */
 
-namespace App\PublicModule\repository;
+namespace App\repository;
 
 use Nextras\Dbal\Result\Row;
 

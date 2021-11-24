@@ -2,7 +2,7 @@
 
 /** Author: Martin Kovalski */
 
-namespace App\PublicModule\repository;
+namespace App\repository;
 
 use Nextras\Dbal\Connection;
 

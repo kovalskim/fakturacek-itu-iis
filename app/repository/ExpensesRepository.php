@@ -1,8 +1,8 @@
 <?php
 
-/** Author: Dalibor kyjovský */
+/** Author: Dalibor Kyjovský */
 
-namespace App\PublicModule\repository;
+namespace App\repository;
 
 
 class ExpensesRepository extends AllRepository
