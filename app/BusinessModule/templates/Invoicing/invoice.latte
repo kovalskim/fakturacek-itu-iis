@@ -1,0 +1,74 @@
+{block content}
+    <h1 n:block=title>Detail faktury</h1>
+    <a href="{link :Business:Invoicing:default}">Zpět na přehled faktur</a>
+    {if $invoice->logo_path}<img src="{$basePath}/{$invoice->logo_path}" alt="{$invoice->user_name}" width="200px"/>{/if}
+    <h2>Dodavatel</h2>
+    {$invoice->user_name}<br>
+    {$invoice->user_street}<br>
+    {$invoice->user_zip} {$invoice->user_city}<br>
+    IČ: {$invoice->user_cin}<br>
+    {if $invoice->user_vat}DIČ: {$invoice->user_vat}<br>{/if}
+    {if $invoice->user_phone}Tel.: {$invoice->user_phone}<br>{/if}
+    {$invoice->user_email}
+
+    <h2>Odběratel</h2>
+    {$invoice->client_name}<br>
+    {$invoice->client_street}<br>
+    {$invoice->client_zip} {$invoice->client_city}<br>
+    {if $invoice->client_cin}IČ: {$invoice->client_cin}<br>{/if}
+    {if $invoice->client_vat}DIČ: {$invoice->client_vat}<br>{/if}
+    {if $invoice->client_phone}Tel.: {$invoice->client_phone}<br>{/if}
+    {if $invoice->client_email}E-mail: {$invoice->client_email}{/if}
+
+    <h2>Další údaje</h2>
+    Datum vystavení: {$invoice->created|date:'%d.%m.%Y %H:%M'}<br>
+    Datum splatnosti: {$invoice->due_date|date:'%d.%m.%Y %H:%M'}<br>
+    Číslo účtu: {$invoice->account_number}<br>
+    Variabilní symbol: {$invoice->variable_symbol}<br>
+    {if $invoice->vat_note == 0}
+        Nejsem plátce DPH.
+    {elseif $invoice->vat_note == 1}
+        Jsem plátce DPH.
+    {/if}<br>
+    {if $invoice->footer_note}{$invoice->footer_note}<br>{/if}
+
+    {snippet status}
+    Status:
+        {if $invoice->status == 'unpaid'}
+            Nezaplacená
+        {elseif $invoice->status == 'paid'}
+            Zaplacená
+        {elseif $invoice->status == 'canceled'}
+            Stornovaná
+        {/if}
+    {/snippet}
+
+    <h2>Položky</h2>
+    <hr>
+    <table>
+        <tr>
+            <th>Položka</th>
+            <th>Počet</th>
+            <th>Cena/ks</th>
+            <th>Cena celkem</th>
+        </tr>
+            {foreach $invoice_items as $item}
+                <tr>
+                    <td>{$item->name}</td>
+                    <td>{$item->count} {$item->type}</td>
+                    <td>{$item->unit_price|number:2, ',', ' '} Kč</td>
+                    <td>{$item->suma|number:2, ',', ' '} Kč</td>
+                </tr>
+            {/foreach}
+    </table>
+    <hr>
+    Celková částka: {$invoice->suma|number:2, ',', ' '} Kč
+
+    <h2>Změna stavu</h2>
+    {snippet status_links}
+        <a n:if="$invoice->status == 'unpaid'" href="{link changeInvoiceStatus! $invoice->id, "paid"}" class="ajax">Zaplaceno</a>
+        <a n:if="$invoice->status == 'unpaid'" href="{link changeInvoiceStatus! $invoice->id, "canceled"}" class="ajax" data-ajax-confirm="Opravdu stornovat?">Stornovat</a>
+        <a n:if="$invoice->status == 'paid'" href="{link changeInvoiceStatus! $invoice->id, "unpaid"}" class="ajax" data-ajax-confirm="Opravdu vrátit stav faktury na nezaplacená?">Označit jako nezaplacené</a>
+    {/snippet}
+{/block}
+

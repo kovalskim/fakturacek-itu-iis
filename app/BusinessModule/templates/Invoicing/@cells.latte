@@ -13,7 +13,7 @@
 {/define}
 
 {define cell-suma}
-    {$row->suma},- Kč
+    {$row->suma|number:2, ',', ' '} Kč
 {/define}
 
 {define cell-due_date}
@@ -21,8 +21,8 @@
 {/define}
 
 {define row-actions}
-    <a href="#">Detail</a>
+    <a href="{plink :Business:Invoicing:invoice $primary}">Detail</a>
     <a href="#" class="ajax">Opakovat fakturu</a>
     <a n:if="$row->status == 'unpaid'" href="{link changeStatus! $primary, "paid"}" class="ajax">Zaplaceno</a>
-    <a n:if="$row->status == 'unpaid'" href="{link changeStatus! $primary, "canceled"}" class="ajax">Stornovat</a>
+    <a n:if="$row->status == 'unpaid'" href="{link changeStatus! $primary, "canceled"}" class="ajax" data-ajax-confirm="Opravdu stornovat?">Stornovat</a>
 {/define}
