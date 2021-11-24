@@ -44,13 +44,14 @@ class SettingInvoicesPresenter extends BasePresenter
     public function actionDefault()
     {
         $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
-        $vat = $this->userRepository->getUserById($this->user->getId());
-        $this->template->settingDataLatte = $settingData;
-        $this->template->vatLatte = $vat;
+        $settingData->vat = $this->userRepository->getUserById($this->user->getId())->vat;
+        $this->template->settingData = $settingData;
+
         if($settingData->variable_symbol == null)
         {
             $settingData->variable_symbol = "YYMM00";
         }
+
         $this->getComponent("settingInvoicesForm")->setDefaults($settingData);
     }
 
@@ -85,10 +86,12 @@ class SettingInvoicesPresenter extends BasePresenter
             if($this->isAjax())
             {
                 $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
-                $this->template->settingDataLatte = $settingData;
-                $vat = $this->userRepository->getUserById($this->user->getId());
-                $this->template->vatLatte = $vat;
+                $settingData->vat = $this->userRepository->getUserById($this->user->getId())->vat;
+                $this->template->settingData = $settingData;
 
+                $form->reset();
+                $form->setDefaults($settingData);
+                $this->redrawControl('invoicesForm');
                 $this->redrawControl('invoicesTable');
                 $this->redrawControl('flashes');
             }
@@ -122,7 +125,9 @@ class SettingInvoicesPresenter extends BasePresenter
 
         if($this->isAjax())
         {
-            $this->template->settingDataLatte = $this->settingInvoicesRepository->selectAll($this->user->getId());
+            $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
+            $settingData->vat = $this->userRepository->getUserById($this->user->getId())->vat;
+            $this->template->settingData = $settingData;
             $this->redrawControl('invoicesTable');
             $this->redrawControl('flashes');
         }

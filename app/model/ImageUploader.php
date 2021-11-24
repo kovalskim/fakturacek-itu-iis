@@ -116,7 +116,11 @@ class ImageUploader
         $values->logo_path = "www/logo/".$name;
         $img->save('../'.$values->logo_path);
 
-        $this->settingInvoicesRepository->updateSetting($values, $this->user->getId());
+        $user_id = $this->user->getId();
+        $vat = $values->vat ?? null;
+        $this->userRepository->updateUserVat($user_id, $vat);
+        $data = ["account_number" => $values->account_number, "variable_symbol" => $values->variable_symbol, "vat_note" => $values->vat_note, "footer_note" => $values->footer_note, "logo_path" => $values->logo_path];
+        $this->settingInvoicesRepository->updateSetting($data, $user_id);
     }
 
     /**

@@ -6,30 +6,30 @@
         <table>
                 <tr>
                     <th>Číslo účtu:</th>
-                    <td>{$settingDataLatte->account_number}</td>
+                    <td>{$settingData->account_number}</td>
                 </tr>
                 <tr>
                     <th>Typ variabilního symbolu:</th>
-                    <td>{$settingDataLatte->variable_symbol}</td>
+                    <td>{$settingData->variable_symbol}</td>
                 </tr>
                 <tr>
                     <th>DPH:</th>
-                    <td>{if $settingDataLatte->vat_note == 0}Nejsem plátce DPH {else}Jsem plátce DPH{/if}</td>
+                    <td>{if $settingData->vat_note == 0}Nejsem plátce DPH {else}Jsem plátce DPH{/if}</td>
                 </tr>
-                {if $vatLatte->vat != null}
+                {if $settingData->vat != null}
                     <tr>
                         <th>DIČ:</th>
-                        <td>{$vatLatte->vat}</td>
+                        <td>{$settingData->vat}</td>
                     </tr>
                 {/if}
                 <tr>
                     <th>Zápatí:</th>
-                    <td>{$settingDataLatte->footer_note}</td>
+                    <td>{$settingData->footer_note}</td>
                 </tr>
                 <tr>
                     <th>Logo:</th>
-                    <td>{if $settingDataLatte->logo_path != NULL}
-                            <img src="{$basePath}/{$settingDataLatte->logo_path}" alt="Logo" width="100"/>
+                    <td>{if $settingData->logo_path != NULL}
+                            <img src="{$basePath}/{$settingData->logo_path}" alt="Logo" width="100"/>
                             <div><a class = "ajax" n:href="deleteLogo!">Smazat logo</a></div>
                         {else}
                             Logo není nastaveno

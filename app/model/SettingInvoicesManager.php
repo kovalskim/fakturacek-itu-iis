@@ -117,8 +117,16 @@ class SettingInvoicesManager
         }
         if($error or (($hodnota % 11) != 0))
         {
-            $form["account_number"]->addError('Špatný formát čísla bankovního účtu.');
+            $form["account_number"]->addError('Špatný formát čísla bankovního účtu');
         }
+
+        if($values->vat_note == 1) {
+            if($values->vat == null)
+            {
+                $form["vat"]->addError('Chybí DIČ');
+            }
+        }
+
     }
 
     /**
@@ -126,7 +134,7 @@ class SettingInvoicesManager
      */
     public function settingInvoicesFormSucceeded($form, $values)
     {
-        if($values->logo_path->error == 0) //TODO: Umazat
+        if($values->logo_path->error == 0)
         {
             try
             {
@@ -141,7 +149,12 @@ class SettingInvoicesManager
         {
             $user_id = $this->user->getId();
             $data = ["account_number" => $values->account_number, "variable_symbol" => $values->variable_symbol, "vat_note" => $values->vat_note, "footer_note" => $values->footer_note];
-            $this->userRepository->updateUserVat($user_id, $values->vat);
+            if($values->vat_note == 0)
+            {
+                $values->vat = null;
+            }
+            $vat = $values->vat ?? null;
+            $this->userRepository->updateUserVat($user_id, $vat);
             $this->settingInvoicesRepository->updateSetting($data, $user_id);
         }
     }
