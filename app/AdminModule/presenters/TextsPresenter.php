@@ -2,7 +2,7 @@
 
 namespace App\AdminModule\presenters;
 
-use App\forms\AdministratorsFormFactory;
+use App\forms\TextsFormFactory;
 use App\model\TextsManager;
 use App\repository\TextRepository;
 use Exception;
@@ -14,18 +14,18 @@ final class TextsPresenter extends BasePresenter
     /** @var TextRepository */
     private $textRepository;
 
-    /** @var AdministratorsFormFactory */
-    private $administratorsFormFactory;
+    /** @var TextsFormFactory */
+    private $textsFormFactory;
 
     /** @var TextsManager */
     private $textsManager;
 
 
-    public function __construct(TextRepository $textRepository, AdministratorsFormFactory $administratorsFormFactory, TextsManager $textsManager)
+    public function __construct(TextRepository $textRepository, TextsFormFactory $textsFormFactory, TextsManager $textsManager)
     {
         parent::__construct();
         $this->textRepository = $textRepository;
-        $this->administratorsFormFactory = $administratorsFormFactory;
+        $this->textsFormFactory = $textsFormFactory;
         $this->textsManager = $textsManager;
     }
 
@@ -45,7 +45,7 @@ final class TextsPresenter extends BasePresenter
 
     protected function createComponentTextsForm(): Form
     {
-        $form = $this->administratorsFormFactory->createTextsForm();
+        $form = $this->textsFormFactory->createTextsForm();
         $form->onSuccess[] = [$this, "textsFormSucceeded"];
         return $form;
     }
