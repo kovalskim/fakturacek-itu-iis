@@ -43,7 +43,7 @@ class MailSender
     {
         $template = $this->createTemplate();
 
-        $html = $template->renderToString(__DIR__ . '/../../emails/' . $body, $params);
+        $html = $template->renderToString(__DIR__ . '/../emails/' . $body, $params);
 
         $mail = new Message();
         $mail->setFrom($from)
