@@ -47,7 +47,7 @@ class UserRepository extends AllRepository
             'hash' => null,
             'hash_validity' => null,
             'password' => $new_password,
-            'verified' => 1
+            'status' => 'active'
         ];
         $this->connection->query('UPDATE %table SET %set WHERE hash = %s', $this->table, $data, $token);
     }
@@ -90,7 +90,7 @@ class UserRepository extends AllRepository
         $data = [
             'hash' => null,
             'hash_validity' => null,
-            'verified' => 1
+            'status' => 'active'
         ];
         $this->connection->query('UPDATE %table SET %set WHERE hash = %s', $this->table, $data, $token);
     }
@@ -107,7 +107,7 @@ class UserRepository extends AllRepository
 
     public function updateUserVerified($user_id, $verified)
     {
-        $this->connection->query("UPDATE %table SET verified = %i WHERE id = %i", $this->table, $verified, $user_id);
+        $this->connection->query("UPDATE %table SET status = %s WHERE id = %i", $this->table, $verified, $user_id);
     }
 
     public function insertLastLoginById($user_id)

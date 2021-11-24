@@ -7,12 +7,14 @@
 {/define}
 
 {define cell-status}
-    {if $row->verified == 0}
+    {if $row->status == 'new'}
         Nový
-    {elseif $row->deleted == 1}
+    {elseif $row->status == 'active'}
+        Aktivní
+    {elseif $row->status == 'banned'}
         Zablokovaný
     {else}
-        Aktivní
+        Neznámý stav
     {/if}
 {/define}
 

@@ -43,7 +43,7 @@ class Authenticator implements \Nette\Security\Authenticator
         }
 
         /** E-mail verification */
-        if($row->verified == 0)
+        if($row->status == 'new')
         {
             throw new Exception('E-mail ještě nebyl ověřen');
         }

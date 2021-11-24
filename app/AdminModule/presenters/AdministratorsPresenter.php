@@ -95,7 +95,7 @@ final class AdministratorsPresenter extends BasePresenter
         $grid->addColumn('name', 'Jméno a příjmení')->enableSort(Datagrid::ORDER_ASC);
         $grid->addColumn('email', 'E-mail')->enableSort();
         $grid->addColumn('phone', 'Telefon');
-        $grid->addColumn('status', 'Status');
+        $grid->addColumn('status', 'Status')->enableSort();
 
         return $grid;
     }
