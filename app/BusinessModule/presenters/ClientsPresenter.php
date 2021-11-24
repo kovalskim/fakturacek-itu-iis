@@ -5,6 +5,7 @@
 namespace App\BusinessModule\presenters;
 
 use App\forms\ClientsFormFactory;
+use App\model\AresManager;
 use App\model\ClientsManager;
 use App\model\DatagridManager;
 use App\repository\ClientRepository;
@@ -31,9 +32,12 @@ final class ClientsPresenter extends BasePresenter
     /** @var ClientsManager */
     private $clientsManager;
 
+    /** @var AresManager  */
+    private $aresManager;
+
     private $clientTable = 'clients';
 
-    public function __construct(ClientsFormFactory $clientsFormFactory, DatagridManager  $datagridManager, User $user, ClientRepository $clientRepository, ClientsManager $clientsManager)
+    public function __construct(ClientsFormFactory $clientsFormFactory, DatagridManager  $datagridManager, User $user, ClientRepository $clientRepository, ClientsManager $clientsManager, AresManager $aresManager)
     {
         parent::__construct();
         $this->clientsFormFactory = $clientsFormFactory;
@@ -41,6 +45,7 @@ final class ClientsPresenter extends BasePresenter
         $this->user = $user;
         $this->clientRepository = $clientRepository;
         $this->clientsManager = $clientsManager;
+        $this->aresManager = $aresManager;
     }
 
     public function actionDefault()
@@ -51,8 +56,18 @@ final class ClientsPresenter extends BasePresenter
     protected function createComponentAddClientForm(): Form
     {
         $form = $this->clientsFormFactory->createClientForm();
+        $form->onValidate[] = [$this, "createAddClientFormValidate"];
         $form->onSuccess[] = [$this, "createAddClientFormSucceeded"];
         return $form;
+    }
+
+    public function createAddClientFormValidate($form, $values)
+    {
+        if($this->aresManager->verificationCin($values->cin) != 0)
+        {
+            $form["cin"]->addError("Toto IČ neexistuje.");
+        }
+        $this->redrawControl('clientForm');
     }
 
     /**
