@@ -20,6 +20,8 @@ class ContactFormFactory
     {
         $form = $this->formFactory->create();
 
+        $form->setHtmlAttribute('class', 'ajax');
+
         $form->addText('name', 'Jméno:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Jméno')

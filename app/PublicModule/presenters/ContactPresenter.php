@@ -66,8 +66,16 @@ final class ContactPresenter extends BasePresenter
         {
             $this->flashMessage($e->getMessage(), 'danger');
         }
-
-        $this->redirect('this');
+        if($this->isAjax())
+        {
+            $form->reset();
+            $this->redrawControl('contactAjaxForm');
+            $this->redrawControl('flashes');
+        }
+        else
+        {
+            $this->redirect('this');
+        }
     }
 
     public function renderDefault()

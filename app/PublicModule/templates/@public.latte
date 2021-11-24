@@ -14,7 +14,19 @@
     </head>
 
     <body>
-        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+        <script type="text/javascript" src="{$basePath}/js/jquery.js"></script>
+        <script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>
+        <script type="text/javascript" src="{$basePath}/js/nette.ajax.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $.nette.init();
+            });
+        </script>
+
+        {snippet flashes}
+            <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+        {/snippet}
+
         <div>
             <a href="{link :Public:Homepage:default}">Homepage</a>
             <a href="{link :Public:Registration:default}">Registrace</a>
@@ -23,9 +35,5 @@
         </div>
 
         {include content}
-
-        <!-- JS scripts -->
-        <script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
-        <!--// JS scripts -->
     </body>
 </html>
