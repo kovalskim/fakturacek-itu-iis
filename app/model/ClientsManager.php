@@ -2,10 +2,10 @@
 
 namespace App\model;
 
+/** Author: Martin Kovalski */
+
 use App\repository\ClientRepository;
 use Nette\Security\User;
-
-/** Author: Martin Kovalski */
 
 class ClientsManager
 {
@@ -31,7 +31,7 @@ class ClientsManager
 
         $values->users_id = $user_id;
         $id = $values->id;
-        
+
         $this->clientRepository->updateClientById($id, (array)$values);
     }
 }

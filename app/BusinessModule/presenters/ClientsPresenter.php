@@ -96,6 +96,17 @@ final class ClientsPresenter extends BasePresenter
         $grid->setEditFormFactory([$this, 'datagridEditFormFactory']);
         $grid->setEditFormCallback([$this, 'editFormSucceeded']);
 
+        $grid->setDeleteCallback([$this, 'deleteClient']);
+
+        $grid->addGlobalAction('delete', 'Odebrat', function (array $ids, Datagrid $grid) {
+            foreach ($ids as $id) {
+                $this->clientRepository->deleteClientById($id);
+            }
+            $this->flashMessage('Uživatele byli smazáni', 'success');
+            $this->redrawControl('flashes');
+            $grid->redrawControl('rows');
+        });
+
         return $grid;
     }
 
@@ -168,6 +179,14 @@ final class ClientsPresenter extends BasePresenter
         $this->clientsManager->editClientsFormSucceeded($form);
 
         $this->flashMessage('Uloženo', 'success');
+        $this->redrawControl('flashes');
+    }
+
+    public function deleteClient($primary)
+    {
+        $this->clientRepository->deleteClientById($primary);
+
+        $this->flashMessage('Klient byl smazán', 'success');
         $this->redrawControl('flashes');
     }
 }

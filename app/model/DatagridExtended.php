@@ -31,14 +31,14 @@ class DatagridExtended extends Datagrid
         $call($primary);
         if($this->presenter->isAjax())
         {
-            $this->redrawControl('row', $primary);
+            $this->redrawControl('rows');
         }
     }
 
     /** @var callable */
     protected $allowCallback;
 
-    public function setAllowCallback(callable  $callback)
+    public function setAllowCallback(callable $callback)
     {
         $this->allowCallback = $callback;
     }
@@ -57,7 +57,33 @@ class DatagridExtended extends Datagrid
         $call($primary);
         if($this->presenter->isAjax())
         {
-            $this->redrawControl('row', $primary);
+            $this->redrawControl('rows');
+        }
+    }
+
+    /** @var callable */
+    protected $deleteCallback;
+
+    public function setDeleteCallback(callable $callback)
+    {
+        $this->deleteCallback = $callback;
+    }
+
+    public function getDeleteCallback(): callable
+    {
+        return $this->deleteCallback;
+    }
+
+    /**
+     * @secured
+     */
+    public function handleDelete($primary)
+    {
+        $call = $this->getDeleteCallback();
+        $call($primary);
+        if($this->presenter->isAjax())
+        {
+            $this->redrawControl('rows');
         }
     }
 }

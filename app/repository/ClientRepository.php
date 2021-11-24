@@ -18,4 +18,9 @@ class ClientRepository extends AllRepository
     {
         $this->connection->query('UPDATE %table SET %set WHERE id = %i', $this->table, $values, $id);
     }
+
+    public function deleteClientById($id)
+    {
+        $this->connection->query("DELETE FROM %table WHERE id = %i", $this->table, $id);
+    }
 }

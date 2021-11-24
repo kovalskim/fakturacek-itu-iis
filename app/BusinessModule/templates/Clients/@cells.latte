@@ -6,6 +6,7 @@
     <a href="tel:{$row->phone}">{$row->phone}</a>
 {/define}
 
-{define cell-address}
-    {$row->street}, {$row->zip} {$row->city}
+{define row-actions}
+    <a href="{link edit! $primary}" class="ajax">Upravit</a>
+    <a href="{link delete! $primary}" class="ajax" data-ajax-confirm="Opravdu smazat?">Odebrat</a>
 {/define}
