@@ -46,6 +46,24 @@ final class UsersPresenter extends BasePresenter
         $grid->setBanCallback([$this, 'ban']);
         $grid->setAllowCallback([$this, 'allow']);
 
+        $grid->addGlobalAction('ban', 'Zablokovat', function (array $ids, Datagrid $grid) {
+            foreach ($ids as $id) {
+                $this->administratorsManager->ban($id);
+            }
+            $this->flashMessage('Uživatele byli zablokováni', 'success');
+            $this->redrawControl('flashes');
+            $grid->redrawControl('rows');
+        });
+
+        $grid->addGlobalAction('allow', 'Odblokovat', function (array $ids, Datagrid $grid) {
+            foreach ($ids as $id) {
+                $this->administratorsManager->allow($id);
+            }
+            $this->flashMessage('Uživatele byli odblokování', 'success');
+            $this->redrawControl('flashes');
+            $grid->redrawControl('rows');
+        });
+
         return $grid;
     }
 
