@@ -62,7 +62,7 @@ class AdministratorsFormFactory
     {
         $form = $this->formFactory->create();
 
-        $form->setHtmlAttribute('class', 'ajax');
+        //$form->setHtmlAttribute('class', 'ajax');
 
         $form->addTextArea('text_aboutus', 'O nás:')
             ->addRule($form::MAX_LENGTH, 'Text je příliš dlouhá', 10000)
