@@ -98,8 +98,8 @@ final class UsersPresenter extends BasePresenter
         ])
             ->setPrompt('--- Status ---');
 
-        $form->addSubmit('filter', 'Filtrovat')->getControlPrototype()->class = 'btn btn-primary';
-        $form->addSubmit('cancel', 'Zrušit')->getControlPrototype()->class = 'btn';
+        $form->addSubmit('filter', 'Filtrovat');
+        $form->addSubmit('cancel', 'Zrušit');
 
         return $form;
     }
