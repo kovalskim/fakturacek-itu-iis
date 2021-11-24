@@ -25,3 +25,8 @@
 {define cell-phone}
     <a href="tel:{$row->phone}">{$row->phone}</a>
 {/define}
+
+{define row-actions}
+    <a n:if="$user->getId() != $primary && $row->status != 'banned'" href="{link ban! $primary}" class="ajax">Zablokovat</a>
+    <a n:if="$user->getId() != $primary && $row->status == 'banned'" href="{link allow! $primary}" class="ajax">Odblokovat</a>
+{/define}

@@ -105,9 +105,9 @@ class UserRepository extends AllRepository
         return $this->connection->query("SELECT avatar_path FROM %table WHERE id = %i", $this->table, $user_id)->fetchField();
     }
 
-    public function updateUserVerified($user_id, $verified)
+    public function updateUserStatus($user_id, $status)
     {
-        $this->connection->query("UPDATE %table SET status = %s WHERE id = %i", $this->table, $verified, $user_id);
+        $this->connection->query("UPDATE %table SET status = %s WHERE id = %i", $this->table, $status, $user_id);
     }
 
     public function insertLastLoginById($user_id)
@@ -120,4 +120,12 @@ class UserRepository extends AllRepository
         $this->connection->query("DELETE FROM %table WHERE users_id = %i", $this->users_last_login, $user_id);
     }
 
+    public function isPasswordExists($user_id): bool
+    {
+        if($this->connection->query('SELECT password FROM %table WHERE id = %i', $this->table, $user_id)->fetchField())
+        {
+            return true;
+        }
+        return false;
+    }
 }

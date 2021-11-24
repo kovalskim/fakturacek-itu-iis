@@ -7,6 +7,8 @@ namespace App\AdminModule\presenters;
 use App\forms\AdministratorsFormFactory;
 use App\model\AdministratorsManager;
 use App\model\DatagridManager;
+use App\model\MailSender;
+use App\repository\UserRepository;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
@@ -24,14 +26,22 @@ final class AdministratorsPresenter extends BasePresenter
     /** @var DatagridManager */
     private $datagridManager;
 
+    /** @var UserRepository */
+    private $userRepository;
+
+    /** @var MailSender */
+    private $mailSender;
+
     private $userTable = 'users';
 
-    public function __construct(AdministratorsFormFactory $administratorsFormFactory, AdministratorsManager $administratorsManager, DatagridManager $datagridManager)
+    public function __construct(AdministratorsFormFactory $administratorsFormFactory, AdministratorsManager $administratorsManager, DatagridManager $datagridManager, UserRepository $userRepository, MailSender $mailSender)
     {
         parent::__construct();
         $this->administratorsFormFactory = $administratorsFormFactory;
         $this->administratorsManager = $administratorsManager;
         $this->datagridManager = $datagridManager;
+        $this->userRepository = $userRepository;
+        $this->mailSender = $mailSender;
     }
 
     public function actionDefault()
@@ -100,6 +110,9 @@ final class AdministratorsPresenter extends BasePresenter
 
         $grid->setFilterFormFactory([$this, 'datagridFilterFormFactory']);
 
+        $grid->setBanCallback([$this, 'ban']);
+        $grid->setAllowCallback([$this, 'allow']);
+
         return $grid;
     }
 
@@ -122,6 +135,52 @@ final class AdministratorsPresenter extends BasePresenter
         ])
             ->setPrompt('--- Status ---');
 
+        $form->addSubmit('filter', 'Filtrovat')->getControlPrototype()->class = 'btn btn-primary';
+        $form->addSubmit('cancel', 'Zrušit')->getControlPrototype()->class = 'btn';
+
         return $form;
+    }
+
+    public function ban($primary)
+    {
+        $this->userRepository->updateUserStatus($primary,'banned');
+
+        /** Prepare parameters for e-mail */
+        $subject = 'Váš účet byl zablokován';
+        $body = 'banAccountTemplate.latte';
+        $params = [
+            'subject' => $subject
+        ];
+
+        /** Send e-mail with next steps */
+        $this->mailSender->sendEmail($this->userRepository->getUserEmailById($primary), $subject, $body, $params);
+
+        $this->flashMessage('Účet byl zablokován', 'success');
+        $this->redrawControl('flashes');
+    }
+
+    public function allow($primary)
+    {
+        if(!$this->userRepository->isPasswordExists($primary))
+        {
+            $this->userRepository->updateUserStatus($primary, 'new');
+        }
+        else
+        {
+            $this->userRepository->updateUserStatus($primary, 'active');
+        }
+
+        /** Prepare parameters for e-mail */
+        $subject = 'Váš účet byl odblokován';
+        $body = 'allowAccountTemplate.latte';
+        $params = [
+            'subject' => $subject
+        ];
+
+        /** Send e-mail with next steps */
+        $this->mailSender->sendEmail($this->userRepository->getUserEmailById($primary), $subject, $body, $params);
+
+        $this->flashMessage('Účet byl odblokován', 'success');
+        $this->redrawControl('flashes');
     }
 }

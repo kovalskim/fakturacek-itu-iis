@@ -9,10 +9,13 @@ use Nette\Application\AbortException;
 use Nette\Application\UI\Presenter;
 use Nette\Http\Session;
 use Nette\Security\User;
+use Nextras\Application\UI\SecuredLinksPresenterTrait;
 use Nextras\Dbal\Connection;
 
 abstract class BasePresenter extends Presenter
 {
+    use SecuredLinksPresenterTrait;
+
     /** @var Connection @inject */
     public $connection;
 
