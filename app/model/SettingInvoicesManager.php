@@ -4,6 +4,7 @@ namespace App\model;
 
 use App\model\ImageUploader;
 use App\repository\SettingInvoicesRepository;
+use App\repository\UserRepository;
 use Exception;
 use Nette\Security\User;
 
@@ -18,11 +19,15 @@ class SettingInvoicesManager
     /** @var ImageUploader */
     private $imageUploader;
 
-    public function __construct(SettingInvoicesRepository $settingInvoicesRepository, User $user, ImageUploader $imageUploader)
+    /** @var UserRepository */
+    private $userRepository;
+
+    public function __construct(SettingInvoicesRepository $settingInvoicesRepository, User $user, ImageUploader $imageUploader, UserRepository $userRepository)
     {
         $this->settingInvoicesRepository = $settingInvoicesRepository;
         $this->user = $user;
         $this->imageUploader = $imageUploader;
+        $this->userRepository = $userRepository;
     }
 
     public function settingInvoicesFormValidate($form, $values)
@@ -121,7 +126,7 @@ class SettingInvoicesManager
      */
     public function settingInvoicesFormSucceeded($form, $values)
     {
-        if($values->logo_path->error == 0)
+        if($values->logo_path->error == 0) //TODO: Umazat
         {
             try
             {
@@ -134,8 +139,10 @@ class SettingInvoicesManager
         }
         else
         {
-            $values2 = ["account_number" => $values->account_number, "variable_symbol" => $values->variable_symbol, "vat" => $values->vat];
-            $this->settingInvoicesRepository->updateSetting($values2, $this->user->getId());
+            $user_id = $this->user->getId();
+            $data = ["account_number" => $values->account_number, "variable_symbol" => $values->variable_symbol, "vat_note" => $values->vat_note, "footer_note" => $values->footer_note];
+            $this->userRepository->updateUserVat($user_id, $values->vat);
+            $this->settingInvoicesRepository->updateSetting($data, $user_id);
         }
     }
 }

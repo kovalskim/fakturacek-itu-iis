@@ -149,4 +149,14 @@ class UserRepository extends AllRepository
     {
         return $this->connection->query("SELECT status FROM %table WHERE hash = %s",$this->table, $token)->fetchField();
     }
+
+    public function getUserById($user_id): ?Row
+    {
+        return $this->connection->query('SELECT * FROM %table WHERE id = %i', $this->table, $user_id)->fetch();
+    }
+
+    public function updateUserVat($user_id, $vat)
+    {
+        $this->connection->query("UPDATE %table SET %set WHERE id = %i", $this->table, ["vat" =>  $vat], $user_id);
+    }
 }

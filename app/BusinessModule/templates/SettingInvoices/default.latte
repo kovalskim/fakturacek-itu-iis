@@ -14,7 +14,17 @@
                 </tr>
                 <tr>
                     <th>DPH:</th>
-                    <td>{$settingDataLatte->vat}</td>
+                    <td>{if $settingDataLatte->vat_note == 0}Nejsem plátce DPH {else}Jsem plátce DPH{/if}</td>
+                </tr>
+                {if $vatLatte->vat != null}
+                    <tr>
+                        <th>DIČ:</th>
+                        <td>{$vatLatte->vat}</td>
+                    </tr>
+                {/if}
+                <tr>
+                    <th>Zápatí:</th>
+                    <td>{$settingDataLatte->footer_note}</td>
                 </tr>
                 <tr>
                     <th>Logo:</th>

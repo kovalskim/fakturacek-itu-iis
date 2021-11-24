@@ -75,9 +75,20 @@ class ClientsFormFactory
             ->setDefaultValue("YYMM00")
             ->setRequired();
 
-        $form->addTextArea('vat', '*DPH:')
-            ->setHtmlAttribute('placeholder', 'DPH')
+        $form->addRadioList('vat_note', '*DPH:', ["0" => "Nejsem plátce DPH", "1" => "Jsem plátce DPH"])
+            ->setDefaultValue("0")
+            ->addCondition($form::EQUAL, true)
+            ->toggle("text_vat")
             ->setRequired();
+
+        $form->addText('vat', '*DIČ')
+            ->setOption('id', 'text_vat')
+            ->addRule($form::LENGTH, 'IČ musí mít %d znaků', 12)
+            ->setHtmlAttribute('placeholder', 'DIČ');
+
+        $form->addText('footer_note', '*Zápatí')
+            ->setRequired()
+            ->setHtmlAttribute('placeholder', 'Zápatí');
 
         $form->addUpload('logo_path', 'Logo:')
             ->addRule($form::IMAGE, 'Logo musí být JPEG, PNG, GIF or WebP.')
