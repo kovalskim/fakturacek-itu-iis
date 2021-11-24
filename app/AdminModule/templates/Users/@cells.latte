@@ -19,7 +19,8 @@
 {/define}
 
 {define cell-address}
-    {$row->street}, {$row->zip} {$row->city}
+    {$row->street}<br>
+    {$row->zip}, {$row->city}
 {/define}
 
 {define cell-role}
@@ -38,10 +39,12 @@
     <a href="tel:{$row->phone}">{$row->phone}</a>
 {/define}
 
-{define cell-password_timestamp}
+{define cell-dates}
+    {$row->login_timestamp|date:'%d.%m.%Y %H:%M'}<br>
     {$row->password_timestamp|date:'%d.%m.%Y %H:%M'}
 {/define}
 
-{define cell-login_timestamp}
-    {$row->login_timestamp|date:'%d.%m.%Y %H:%M'}
+{define row-actions}
+    <a n:if="$row->status != 'banned'" href="{link ban! $primary}" class="ajax">Zablokovat</a>
+    <a n:if="$row->status == 'banned'" href="{link allow! $primary}" class="ajax">Odblokovat</a>
 {/define}
