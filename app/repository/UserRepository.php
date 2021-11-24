@@ -4,6 +4,7 @@
 
 namespace App\repository;
 
+use Nette\Utils\DateTime;
 use Nextras\Dbal\Result\Row;
 
 class UserRepository extends AllRepository
@@ -90,7 +91,8 @@ class UserRepository extends AllRepository
         $data = [
             'hash' => null,
             'hash_validity' => null,
-            'status' => 'active'
+            'status' => 'active',
+            'email_verification' => new DateTime()
         ];
         $this->connection->query('UPDATE %table SET %set WHERE hash = %s', $this->table, $data, $token);
     }
@@ -136,7 +138,7 @@ class UserRepository extends AllRepository
 
     public function isLastLogin($user_id): bool
     {
-        if($this->connection->query("SELECT timestamp FROM %table WHERE id = %i", $this->users_last_login, $user_id)->fetchField())
+        if($this->connection->query("SELECT email_verification FROM %table WHERE id = %i", $this->table, $user_id)->fetchField())
         {
             return true;
         }

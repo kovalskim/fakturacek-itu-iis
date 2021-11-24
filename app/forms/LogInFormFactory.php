@@ -117,6 +117,7 @@ class LogInFormFactory
 
         $form->addPassword('password', 'Nové heslo:')
             ->setRequired()
+            ->addRule($form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaků', 8)
             ->setHtmlAttribute('placeholder', 'Nové heslo')
             ->setHtmlAttribute('autofocus');
 
@@ -143,6 +144,7 @@ class LogInFormFactory
 
         $form->addPassword('password', 'Nové heslo:')
             ->setRequired()
+            ->addRule($form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaků', 8)
             ->setHtmlAttribute('placeholder', 'Nové heslo');
 
         $form->addPassword('password_again', 'Nové heslo znovu')
