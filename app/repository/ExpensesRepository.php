@@ -14,8 +14,8 @@ class ExpensesRepository extends AllRepository
         $this->connection->query("INSERT INTO %table %values", $this->table, $values);
     }
 
-    public function deleteExpensesByUserId($values)
+    public function deleteExpensesByUserId($id)
     {
-        $this->connection->query("DELETE FROM %table %values", $this->table, $values);
+        $this->connection->query("DELETE FROM %table WHERE `expenses`.`id` = %i", $this->table, $id);
     }
 }

@@ -13,6 +13,8 @@ use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
 use Nextras\Datagrid\Datagrid;
+use App\model\ExpensesManager;
+use App\model\ImageUploader;
 
 final class ExpensesPresenter extends BasePresenter
 {
@@ -25,18 +27,25 @@ final class ExpensesPresenter extends BasePresenter
     /** @var ExpensesRepository */
     private $expensesRepository;
 
+    /** @var ExpensesManager */
+    private $expensesManager;
+
+    /** @var ImageUploader */
+    private $imageUploader;
+
     /** @var User */
     public $user;
 
     private $expensesTable = 'expenses';
 
-    public function __construct(ExpensesFormFactory $expensesFormFactory, DatagridManager  $datagridManager, User $user, ExpensesRepository $expensesRepository)
+    public function __construct(ExpensesFormFactory $expensesFormFactory, DatagridManager  $datagridManager, User $user, ExpensesRepository $expensesRepository, ImageUploader $imageUploader)
     {
         parent::__construct();
         $this->expensesFormFactory = $expensesFormFactory;
         $this->datagridManager = $datagridManager;
         $this->user = $user;
         $this->expensesRepository = $expensesRepository;
+        $this->imageUploader = $imageUploader;
     }
 
     public function actionDefault()
@@ -57,9 +66,17 @@ final class ExpensesPresenter extends BasePresenter
     public function createAddExpensesFormSucceeded($form, $values)
     {
         $user_id = $this->user->getId();
-        $row = ((array) $values) + ['users_id' => $user_id] + ['datetime' => '2021-11-22 10:23:04'] + ['path' => ''];   //TODO: datetime
+        $row = ((array) $values) + ['users_id' => $user_id] + ['datetime' => '2021-11-22 10:23:04'];   //TODO: datetime
 
-        $this->expensesRepository->insertExpensesByUserId($row);
+        try
+        {
+            $this->expensesRepository->insertExpensesByUserId($row);
+        }
+        catch (Exception $e)
+        {
+            $this->flashMessage($e->getMessage(), 'danger');
+            $this->redirect(":Business:Expenses:default");
+        }
 
         $this->flashMessage('Výdaj byl přidán');
         $this->redirect('this');
@@ -72,29 +89,14 @@ final class ExpensesPresenter extends BasePresenter
         $grid->addColumn('items', 'Položky');
         $grid->addColumn('price', 'Cena');
         
-        $grid->addColumn('delete', 'delete');
+        $grid->addGlobalAction('delete', 'Vymazat', function (array $ids, Datagrid $grid) {
+            foreach ($ids as $id) {
+                $this->expensesManager->delete($id);
+            }
+            $this->flashMessage('Výdaj byl vymazán', 'success');
+
+        });
         return $grid;
     }
 
-    public function createComponentDeleteExpensesForm(): Form
-    {
-        $form = $this->expensesFormFactory->deleteExpensesForm();
-        $form->onSuccess[] = [$this, "createDeleteExpensesFormSucceeded"];
-        return $form;
-    }
-
-    /**
-     * @throws AbortException
-     */
-    public function createDeleteExpensesFormSucceeded($form, $values)
-    {
-      //var_dump($values);
-        $user_id = $this->user->getId();
-        $row = ((array) $values);   //TODO: datetime
-
-        $this->expensesRepository->deleteExpensesByUserId($row);
-
-        $this->flashMessage('Výdaj byl vymazán');
-        $this->redirect('this');
-    }
 }

@@ -38,7 +38,7 @@ class ExpensesFormFactory
             ->setHtmlAttribute('placeholder', 'Položka')
             ->setHtmlAttribute('autofocus');
 
-        $form->addText('price', 'Cena')
+        $form->addInteger('price', 'Cena')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Cena')
             ->setHtmlAttribute('autofocus');   
@@ -47,7 +47,12 @@ class ExpensesFormFactory
         $form->addSelect('categories_id', 'Kategorie', $array)
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Kategorie')
-            ->setHtmlAttribute('autofocus');  
+            ->setHtmlAttribute('autofocus');
+
+        $form->addUpload('path', 'Doklad:')
+            ->addRule($form::IMAGE, 'Doklad musí být JPEG, PNG, GIF or WebP.')
+            ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB.', 1024 * 1024 * 5)
+            ->setRequired();
 
         $form->addSubmit('addExpenses', 'Přidat');
 

@@ -55,7 +55,7 @@ final class CategoryPresenter extends BasePresenter
     public function createAddCategoryFormSucceeded($form, $values)
     {
         $user_id = $this->user->getId();
-        $row = ((array) $values) + ['users_id' => $user_id];
+        $row = ((array) $values);
 
         $this->categoryRepository->insertCategoryByUserId($row);
 
