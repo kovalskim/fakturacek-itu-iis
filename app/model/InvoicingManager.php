@@ -69,4 +69,54 @@ class InvoicingManager
 
         return $vs;
     }
+
+    /*public function editClientsFormValidate($form, $values = null)
+    {
+        if(!$values)
+        {
+            $values = $form->getValues();
+        }
+
+        $iterator = 0;
+        foreach ($values->multiplier as $value)
+        {
+            if($value->name == null)
+            {
+                $form["multiplier"][$iterator]["name"]->addError("Chybí název položky");
+            }
+            if(($value->count == null) or ($value->count < 1))
+            {
+                $form["multiplier"][$iterator]["count"]->addError("Špatná hodnota");
+            }
+            if(($value->unit_price == null) or (!(is_numeric((str_replace(",",".",$value->unit_price))))) or ($value->unit_price < 0))
+            {
+                $form["multiplier"][$iterator]["unit_price"]->addError("Špatná hodnota");
+            }
+            $iterator++;
+        }
+    }*/
+
+    public function saveClient()
+    {
+
+    }
+
+    public function saveInvoicesItems($values, $invoices_id): float
+    {
+        $suma = 0.0;
+        $array = [];
+
+        foreach ($values->multiplier as $value)
+        {
+            $count = str_replace(",",".", $value->count);
+            $unit_price = str_replace(",",".", $value->unit_price);
+            $item_suma = $count * $unit_price;
+            $suma += $item_suma;
+            $stack = ["invoices_id" => $invoices_id, "name" => $value->name, "count" => $count, "unit_price"=> $unit_price, "type" => $value->type,"suma" => $item_suma];
+            array_push($array, $stack);
+        }
+
+        $this->invoicingRepository->insertItemInvoice($array);
+        return $suma;
+    }
 }
