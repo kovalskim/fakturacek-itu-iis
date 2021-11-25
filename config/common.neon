@@ -22,6 +22,7 @@ services:
 
     - App\forms\AdministratorsFormFactory
     - App\forms\CategoryFormFactory
+    - App\forms\ClientsAccountantFormFactory
     - App\forms\ClientsFormFactory
     - App\forms\ContactFormFactory
     - App\forms\ExpensesFormFactory
