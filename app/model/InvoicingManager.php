@@ -2,6 +2,7 @@
 
 namespace App\model;
 
+use App\repository\ClientRepository;
 use App\repository\InvoicingRepository;
 use Nette\Utils\DateTime;
 
@@ -12,9 +13,13 @@ class InvoicingManager
     /** @var InvoicingRepository */
     private $invoicingRepository;
 
-    public function __construct(InvoicingRepository $invoicingRepository)
+    /** @var ClientRepository */
+    private $clientRepository;
+
+    public function __construct(InvoicingRepository $invoicingRepository, ClientRepository $clientRepository)
     {
         $this->invoicingRepository = $invoicingRepository;
+        $this->clientRepository = $clientRepository;
     }
 
     public function getNewVariableSymbol($user_id, $pattern): int
@@ -96,9 +101,23 @@ class InvoicingManager
         }
     }*/
 
-    public function saveClient()
+    public function saveClient($values)
     {
+        $value = [
+            'name' => $values->name,
+            'street' => $values->street,
+            'city' => $values->city,
+            'zip' => $values->zip,
+            'cin' => $values->cin,
+            'vat' => $values->vat,
+            'phone' => $values->phone,
+            'email' => $values->email
+        ];
 
+        if(!($this->clientRepository->isExistClient($value)))
+        {
+
+        }
     }
 
     public function saveInvoicesItems($values, $invoices_id): float

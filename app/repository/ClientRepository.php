@@ -30,4 +30,13 @@ class ClientRepository extends AllRepository
     {
         return $this->connection->query('SELECT * FROM %table WHERE id = %i', $this->table, $id)->fetch();
     }
+
+    public function isExistClient($values): bool
+    {
+        if($this->connection->query("SELECT id FROM %table WHERE %and", $this->table, $values)->fetchField())
+        {
+            return true;
+        }
+        return false;
+    }
 }
