@@ -11,6 +11,7 @@ session:
 services:
     - App\Router\RouterFactory::createRouter
 
+    - App\repository\AccountantRepository
     - App\repository\AllRepository
     - App\repository\CategoryRepository
     - App\repository\ClientRepository
