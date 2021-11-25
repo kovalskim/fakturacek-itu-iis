@@ -152,6 +152,7 @@ final class ClientsPresenter extends BasePresenter
         $form->addSubmit('filter', 'Filtrovat');
         $form->addSubmit('cancel', 'Zrušit');
 
+
         return $form;
     }
 
@@ -172,12 +173,19 @@ final class ClientsPresenter extends BasePresenter
             ->setHtmlAttribute('placeholder', 'Telefon');
 
         $form->addText('street', 'Ulice a č.p.')
+            ->setRequired()
             ->setHtmlAttribute('placeholder', 'Ulice a č.p.');
 
         $form->addText('city', 'Město')
+            ->setRequired()
             ->setHtmlAttribute('placeholder', 'Město');
 
         $form->addText('zip', 'PSČ')
+            ->setRequired()
+            ->addFilter(function ($value) {
+                return str_replace(' ', '', $value);
+            })
+            ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'PSČ');
 
         $form->addSubmit('save', 'Uložit');
@@ -186,7 +194,15 @@ final class ClientsPresenter extends BasePresenter
         if ($row) {
             $form->setDefaults($row);
         }
+
+        $form->onValidate[] = [$this, "editFormValidate"];
+
         return $form;
+    }
+
+    public function editFormValidate(Container $form)
+    {
+        $this->clientsManager->editClientsFormValidate($form);
     }
 
     public function editFormSucceeded(Container $form)
