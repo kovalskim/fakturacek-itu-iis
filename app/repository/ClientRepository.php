@@ -5,6 +5,8 @@
 namespace App\repository;
 
 
+use Nextras\Dbal\Result\Row;
+
 class ClientRepository extends AllRepository
 {
     private $table = 'clients';
@@ -22,5 +24,10 @@ class ClientRepository extends AllRepository
     public function deleteClientById($id)
     {
         $this->connection->query("DELETE FROM %table WHERE id = %i", $this->table, $id);
+    }
+
+    public function getClientById($id): ?Row
+    {
+        return $this->connection->query('SELECT * FROM %table WHERE id = %i', $this->table, $id)->fetch();
     }
 }
