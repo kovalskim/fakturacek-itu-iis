@@ -155,5 +155,9 @@ class DatagridExtended extends Datagrid
     {
         $call = $this->getResetEmailCallback();
         $call($primary);
+        if($this->presenter->isAjax())
+        {
+            $this->redrawControl('rows');
+        }
     }
 }

@@ -19,6 +19,8 @@ class InvoicingFormFactory
     {
         $form = $this->formFactory->create();
 
+        $form->setHtmlAttribute('class', 'ajax');
+
         $form->addHidden('id');
 
         $form->addText('name', '*Jméno a příjmení:')
@@ -70,10 +72,9 @@ class InvoicingFormFactory
             $container->addText('name', 'Název položky')
                 ->setRequired()
                 ->setHtmlAttribute('placeholder', 'Název položky');
-            $container->addInteger('count', 'Počet')
+            $container->addText('count', 'Počet')
                 ->setRequired()
-                ->setDefaultValue(1)
-                ->addRule($form::MIN, 'Minimální počet je %d', 1)
+                ->addRule($form::MIN, 'Minimální počet je %d', 0.5)
                 ->setHtmlAttribute('inputmode', 'numeric')
                 ->setHtmlAttribute('placeholder', 'Počet');
             $container->addRadioList('type', 'Jednotka', ['hours' => 'hod', 'pieces' => 'ks'])

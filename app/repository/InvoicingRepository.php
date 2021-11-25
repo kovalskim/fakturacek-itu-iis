@@ -36,4 +36,24 @@ class InvoicingRepository extends AllRepository
     {
        return $this->connection->query('SELECT variable_symbol FROM %table WHERE users_id = %i ORDER BY id DESC LIMIT 1', $this->table, $user_id)->fetchField();
     }
+
+    public function insertInvoice($values)
+    {
+        $this->connection->query("INSERT INTO %table %values", $this->table, $values);
+    }
+
+    public function lasIdInvoice()
+    {
+        return $this->connection->getLastInsertedId();
+    }
+
+    public function insertItemInvoice($values)
+    {
+        $this->connection->query("INSERT INTO %table %values[]", $this->table_items, $values);
+    }
+
+    public function updateSuma($suma, $id)
+    {
+        $this->connection->query("UPDATE %table SET %set WHERE id = %i",  $this->table, ["suma" =>  $suma], $id);
+    }
 }

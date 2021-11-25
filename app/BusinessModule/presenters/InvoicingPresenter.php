@@ -194,7 +194,6 @@ final class InvoicingPresenter extends BasePresenter
         $form = $this->invoicingFormFactory->createInvoiceForm();
 
         $form->onAnchor[] = [$this, 'createInvoiceFormAnchor'];
-        //$form->onValidate['details'] = [$this, 'createInvoiceFormValidate'];
         $form->onSuccess[] = [$this, 'createInvoiceFormSucceeded'];
 
         $form->addSubmit('addInvoice', 'Vystavit fakturu')
@@ -211,10 +210,14 @@ final class InvoicingPresenter extends BasePresenter
     public function createInvoiceFormValidate($button)
     {
         $this->clientsManager->editClientsFormValidate($button->getForm());
+        //$this->invoicingManager->editClientsFormValidate($button->getForm());
+        //$this->redrawControl('createInvoiceForm'); //TODO: Nefunguje - pridani do formulare class ajax
 
-        //TODO: validace polozek
     }
 
+    /**
+     * @throws \Nette\Application\AbortException
+     */
     public function createInvoiceFormSucceeded($form, $values)
     {
         //TODO: if not $values->id - neni ulozen klient
@@ -229,9 +232,6 @@ final class InvoicingPresenter extends BasePresenter
 
         $variable_symbol_pattern = $setting_invoices->variable_symbol;
         $variable_symbol = $this->invoicingManager->getNewVariableSymbol($user_id, $variable_symbol_pattern);
-
-        //tODO: nacist polozky + secist
-        $suma = 0; //TODO: secist
 
         $invoice_values = [
             'users_id' => $user_id,
@@ -260,11 +260,17 @@ final class InvoicingPresenter extends BasePresenter
             'vat_note' => $setting_invoices->vat_note,
             'footer_note' => $setting_invoices->vat_note,
             'status' => 'unpaid',
-            'suma' => $suma
+            'suma' => 0
         ];
+        //TODO nacist a secist polozky //TODO: secist //TODO: ulozit + redirect
 
-        dump($values);
-        dump($invoice_values);
-        //TODO: ulozit + redirect
+        $this->invoicingRepository->insertInvoice($invoice_values);
+        $id_invoices = $this->invoicingRepository->lasIdInvoice();
+
+        $suma = $this->invoicingManager->saveInvoicesItems($values, $id_invoices);
+
+        $this->invoicingRepository->updateSuma($suma, $id_invoices);
+
+        $this->redirect(":Business:Invoicing:default");
     }
 }
