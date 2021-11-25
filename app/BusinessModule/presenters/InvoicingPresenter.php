@@ -12,6 +12,7 @@ use App\repository\ClientRepository;
 use App\repository\InvoicingRepository;
 use App\repository\SettingInvoicesRepository;
 use App\repository\UserRepository;
+use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Forms\Container;
 use Nette\Utils\DateTime;
@@ -210,20 +211,19 @@ final class InvoicingPresenter extends BasePresenter
     public function createInvoiceFormValidate($button)
     {
         $this->clientsManager->editClientsFormValidate($button->getForm());
-        //$this->invoicingManager->editClientsFormValidate($button->getForm());
+        //$this->invoicingManager->editClientsFormValidate($button->getForm()); //TODO: S ajaxem funguje samo kontrola
         //$this->redrawControl('createInvoiceForm'); //TODO: Nefunguje - pridani do formulare class ajax
 
     }
 
     /**
-     * @throws \Nette\Application\AbortException
+     * @throws AbortException
      */
     public function createInvoiceFormSucceeded($form, $values)
     {
-        //TODO: if not $values->id - neni ulozen klient
-
         $user_id = $this->user->getId();
         $user = $this->userRepository->getUserById($user_id);
+        bdump($user);
 
         $created = new DateTime();
         $due_date = $created->modifyClone('+' . $values->due_days_number . ' day');
@@ -262,7 +262,9 @@ final class InvoicingPresenter extends BasePresenter
             'status' => 'unpaid',
             'suma' => 0
         ];
-        //TODO nacist a secist polozky //TODO: secist //TODO: ulozit + redirect
+
+        //TODO: if not $values->id - neni ulozen klient
+        //$this->invoicingManager->saveClient($values);
 
         $this->invoicingRepository->insertInvoice($invoice_values);
         $id_invoices = $this->invoicingRepository->lasIdInvoice();
