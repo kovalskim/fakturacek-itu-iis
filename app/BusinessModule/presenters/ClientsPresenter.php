@@ -100,6 +100,7 @@ final class ClientsPresenter extends BasePresenter
 
         $grid->addColumn('name', 'Jméno a příjmení')->enableSort(Datagrid::ORDER_ASC);
         $grid->addColumn('cin', 'IČ');
+        $grid->addColumn('vat', 'DIČ');
         $grid->addColumn('email', 'E-mail')->enableSort();
         $grid->addColumn('phone', 'Telefon');
         $grid->addColumn('street', 'Ulice a č.p.');
@@ -134,6 +135,9 @@ final class ClientsPresenter extends BasePresenter
         $form->addText('cin')
             ->setHtmlAttribute('placeholder', 'IČ');
 
+        $form->addText('vat')
+            ->setHtmlAttribute('placeholder', 'DIČ');
+
         $form->addText('email') //must be text!
             ->setHtmlAttribute('placeholder', 'E-mail');
 
@@ -165,6 +169,9 @@ final class ClientsPresenter extends BasePresenter
 
         $form->addText('cin')
             ->setHtmlAttribute('placeholder', 'IČ');
+
+        $form->addText('vat')
+            ->setHtmlAttribute('placeholder', 'DIČ');
 
         $form->addEmail('email')
             ->setHtmlAttribute('placeholder', 'E-mail');
