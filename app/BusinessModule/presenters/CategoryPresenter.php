@@ -12,7 +12,7 @@ use Nette\Application\UI\Form;
 use Nette\Security\User;
 use Nextras\Datagrid\Datagrid;
 
-final class categoryPresenter extends BasePresenter
+final class CategoryPresenter extends BasePresenter
 {
     /** @var categoryFormFactory */
     private $categoryFormFactory;
