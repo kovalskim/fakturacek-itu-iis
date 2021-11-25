@@ -4,7 +4,7 @@
 
 namespace App\BusinessModule\presenters;
 
-use App\forms\ClientsFormFactory;
+use App\forms\SettingInvoicesFormFactory;
 use App\model\SettingInvoicesManager;
 use App\repository\SettingInvoicesRepository;
 use App\repository\UserRepository;
@@ -16,8 +16,8 @@ use Nette\Application\UI\Form;
 class SettingInvoicesPresenter extends BasePresenter
 {
 
-    /** @var ClientsFormFactory */
-    private $clientsFormFactory;
+    /** @var SettingInvoicesFormFactory */
+    private $settingInvoicesFormFactory;
 
     /** @var SettingInvoicesRepository */
     private $settingInvoicesRepository;
@@ -31,10 +31,10 @@ class SettingInvoicesPresenter extends BasePresenter
     /** @var SettingInvoicesManager */
     private $settingInvoicesManager;
 
-    public function __construct(ClientsFormFactory $clientsFormFactory, SettingInvoicesRepository $settingInvoicesRepository, User $user, SettingInvoicesManager $settingInvoicesManager, UserRepository $userRepository)
+    public function __construct(SettingInvoicesFormFactory $settingInvoicesFormFactory, SettingInvoicesRepository $settingInvoicesRepository, User $user, SettingInvoicesManager $settingInvoicesManager, UserRepository $userRepository)
     {
         parent::__construct();
-        $this->clientsFormFactory = $clientsFormFactory;
+        $this->settingInvoicesFormFactory = $settingInvoicesFormFactory;
         $this->settingInvoicesRepository = $settingInvoicesRepository;
         $this->user = $user;
         $this->settingInvoicesManager = $settingInvoicesManager;
@@ -57,7 +57,7 @@ class SettingInvoicesPresenter extends BasePresenter
 
     protected function createComponentSettingInvoicesForm(): Form
     {
-        $form = $this->clientsFormFactory->createSettingInvoicesForm();
+        $form = $this->settingInvoicesFormFactory->createSettingInvoicesForm();
         $form->onValidate[] = [$this, "settingInvoicesFormValidate"];
         $form->onSuccess[] = [$this, "settingInvoicesFormSucceeded"];
         return $form;

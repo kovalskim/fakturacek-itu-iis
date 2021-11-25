@@ -27,6 +27,7 @@ services:
     - App\forms\ExpensesFormFactory
     - App\forms\FormFactory
     - App\forms\LogInFormFactory
+    - App\forms\SettingInvoicesFormFactory
     - App\forms\TextsFormFactory
 
     - App\model\AdministratorsManager
