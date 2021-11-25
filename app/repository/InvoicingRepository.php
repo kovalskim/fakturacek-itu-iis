@@ -31,4 +31,9 @@ class InvoicingRepository extends AllRepository
     {
         return $this->connection->query('SELECT * FROM %table WHERE name LIKE %s OR name LIKE %s OR email LIKE %s OR cin LIKE %s LIMIT 5', $this->table_clients, $string . '%', '% ' . $string . '%', $string . '%', $string . '%')->fetchAll();
     }
+
+    public function getLastVsByUserId($user_id)
+    {
+       return $this->connection->query('SELECT variable_symbol FROM %table WHERE users_id = %i ORDER BY id DESC LIMIT 1', $this->table, $user_id)->fetchField();
+    }
 }

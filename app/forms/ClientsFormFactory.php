@@ -32,6 +32,10 @@ class ClientsFormFactory
             ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'IČ');
 
+        $form->addText('vat', 'DIČ:')
+            ->addRule($form::LENGTH, 'IČ musí mít %d znaků', 12)
+            ->setHtmlAttribute('placeholder', 'DIČ');
+
         $form->addEmail('email', 'E-mail:')
             ->setHtmlAttribute('placeholder', 'E-mail');
 

@@ -29,7 +29,8 @@ class SettingInvoicesFormFactory
 
         $form->addRadioList('variable_symbol', '*Variabilní symbol:', ["YYMM00" => "YYMM00", "YY0000" => "YY0000", "YY000" => "YY000"])
             ->setDefaultValue("YYMM00")
-            ->setRequired();
+            ->setRequired()
+            ->setOption('description', 'Vzor variabilní symbolu lze nastavit pouze při počátečním nastavení, další změna není možná');
 
         $form->addRadioList('vat_note', '*DPH:', ["0" => "Nejsem plátce DPH", "1" => "Jsem plátce DPH"])
             ->setDefaultValue("0")
@@ -39,7 +40,7 @@ class SettingInvoicesFormFactory
 
         $form->addText('vat', '*DIČ')
             ->setOption('id', 'text_vat')
-            ->addRule($form::LENGTH, 'IČ musí mít %d znaků', 12)
+            ->addRule($form::MAX_LENGTH, 'DIČ musí mít maximálně %d znaků', 12)
             ->setHtmlAttribute('placeholder', 'DIČ');
 
         $form->addText('footer_note', '*Zápatí')

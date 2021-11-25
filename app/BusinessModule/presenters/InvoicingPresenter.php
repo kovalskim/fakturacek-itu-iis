@@ -10,8 +10,11 @@ use App\model\DatagridManager;
 use App\model\InvoicingManager;
 use App\repository\ClientRepository;
 use App\repository\InvoicingRepository;
+use App\repository\SettingInvoicesRepository;
+use App\repository\UserRepository;
 use Nette\Application\UI\Form;
 use Nette\Forms\Container;
+use Nette\Utils\DateTime;
 use Nextras\Datagrid\Datagrid;
 
 final class InvoicingPresenter extends BasePresenter
@@ -34,7 +37,13 @@ final class InvoicingPresenter extends BasePresenter
     /** @var ClientsManager */
     private $clientsManager;
 
-    public function __construct(DatagridManager $datagridManager, InvoicingManager $invoicingManager, InvoicingRepository $invoicingRepository, InvoicingFormFactory $invoicingFormFactory, ClientRepository $clientRepository, ClientsManager $clientsManager)
+    /** @var UserRepository */
+    private $userRepository;
+
+    /** @var SettingInvoicesRepository */
+    private $settingInvoicesRepository;
+
+    public function __construct(DatagridManager $datagridManager, InvoicingManager $invoicingManager, InvoicingRepository $invoicingRepository, InvoicingFormFactory $invoicingFormFactory, ClientRepository $clientRepository, ClientsManager $clientsManager, UserRepository $userRepository, SettingInvoicesRepository $settingInvoicesRepository)
     {
         parent::__construct();
         $this->datagridManager = $datagridManager;
@@ -43,6 +52,8 @@ final class InvoicingPresenter extends BasePresenter
         $this->invoicingFormFactory = $invoicingFormFactory;
         $this->clientRepository = $clientRepository;
         $this->clientsManager = $clientsManager;
+        $this->userRepository = $userRepository;
+        $this->settingInvoicesRepository = $settingInvoicesRepository;
     }
 
     public function actionDefault()
@@ -143,6 +154,17 @@ final class InvoicingPresenter extends BasePresenter
         $this->template->invoice_items = $this->invoicingRepository->getInvoiceItemsById($id);
     }
 
+    public function actionNewInvoice()
+    {
+        $user_id = $this->user->getId();
+        $settings = $this->settingInvoicesRepository->selectAll($user_id);
+        if($settings->account_number == null)
+        {
+            $this->flashMessage('Není vyplněno nastavení faktury', 'warning');
+            $this->redirect(':Business:SettingInvoices:default');
+        }
+    }
+
     public function handleSearch()
     {
         if($this->isAjax())
@@ -184,12 +206,52 @@ final class InvoicingPresenter extends BasePresenter
 
     public function createInvoiceFormSucceeded($form, $values)
     {
-        bdump($values);
-
         //TODO: if not $values->id - neni ulozen klient
 
-        $invoice_values = [
+        $user_id = $this->user->getId();
+        $user = $this->userRepository->getUserById($user_id);
 
+        $created = new DateTime();
+        $due_date = $created->modifyClone('+' . $values->due_days_number . ' day');
+
+        $setting_invoices = $this->settingInvoicesRepository->selectAll($user_id);
+
+        $variable_symbol_pattern = $setting_invoices->variable_symbol;
+        $variable_symbol = $this->invoicingManager->getNewVariableSymbol($user_id, $variable_symbol_pattern);
+
+        $suma = 0; //TODO:
+
+        $invoice_values = [
+            'users_id' => $user_id,
+            'user_name' => $user->name,
+            'user_street' => $user->street,
+            'user_city' => $user->city,
+            'user_zip' => $user->zip,
+            'user_cin' => $user->cin,
+            'user_vat' => $user->vat,
+            'user_phone' => $user->phone,
+            'user_email' => $user->email,
+            'client_id' => $values->id,
+            'client_name' => $values->name,
+            'client_street' => $values->street,
+            'client_city' => $values->city,
+            'client_zip' => $values->zip,
+            'client_cin' => $values->cin,
+            'client_vat' => $values->vat,
+            'client_phone' => $values->phone,
+            'client_email' => $values->email,
+            'created' => $created,
+            'due_date' => $due_date,
+            'account_number' => $setting_invoices->account_number,
+            'variable_symbol' => $variable_symbol,
+            'logo_path' => $setting_invoices->logo_path,
+            'vat_note' => $setting_invoices->vat_note,
+            'footer_note' => $setting_invoices->vat_note,
+            'status' => 'unpaid',
+            'suma' => $suma
         ];
+
+        dump($invoice_values);
+        //TODO: ulozit + redirect
     }
 }

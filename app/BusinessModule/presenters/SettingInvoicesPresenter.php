@@ -51,6 +51,10 @@ class SettingInvoicesPresenter extends BasePresenter
         {
             $settingData->variable_symbol = "YYMM00";
         }
+        else
+        {
+            $this->getComponent('settingInvoicesForm')->getComponent('variable_symbol')->setDisabled();
+        }
 
         $this->getComponent("settingInvoicesForm")->setDefaults($settingData);
     }
@@ -90,7 +94,9 @@ class SettingInvoicesPresenter extends BasePresenter
                 $this->template->settingData = $settingData;
 
                 $form->reset();
+                $form['variable_symbol']->setDisabled();
                 $form->setDefaults($settingData);
+
                 $this->redrawControl('invoicesForm');
                 $this->redrawControl('invoicesTable');
                 $this->redrawControl('flashes');

@@ -46,11 +46,21 @@ class InvoicingFormFactory
             ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'IČ');
 
+        $form->addText('vat', 'DIČ:')
+            ->addRule($form::MAX_LENGTH, 'DIČ musí mít maximálně %d znaků', 12)
+            ->setHtmlAttribute('placeholder', 'DIČ');
+
         $form->addText('phone', 'Telefon:')
             ->setHtmlAttribute('placeholder', 'Telefon');
 
         $form->addEmail('email', 'E-mail:')
             ->setHtmlAttribute('placeholder', 'E-mail');
+
+        $form->addInteger('due_days_number', 'Dní do splatnosti')
+            ->setRequired()
+            ->setDefaultValue(14)
+            ->addRule($form::MIN, 'Minimální počet dnů do splatnosti je %d', 1)
+            ->setHtmlAttribute('inputmode', 'numeric');
 
         $form->addSubmit('addInvoice', 'Vystavit fakturu');
 
