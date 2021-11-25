@@ -4,8 +4,74 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f8ff71005c6cb2cbb5584405a4f29d03",
+    "content-hash": "12cfe9095dde5b12abc17c2abc7b6d51",
     "packages": [
+        {
+            "name": "contributte/forms-multiplier",
+            "version": "v3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/contributte/forms-multiplier.git",
+                "reference": "d7854344b3bc6c363a0dd31daa36bc7c9dfa4265"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/contributte/forms-multiplier/zipball/d7854344b3bc6c363a0dd31daa36bc7c9dfa4265",
+                "reference": "d7854344b3bc6c363a0dd31daa36bc7c9dfa4265",
+                "shasum": ""
+            },
+            "require": {
+                "nette/forms": "^3.1.0",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "codeception/codeception": "^4.0.0",
+                "codeception/module-asserts": "^1.3",
+                "codeception/module-phpbrowser": "^1.0",
+                "latte/latte": "^2.7.0",
+                "nette/application": "^3.0.0",
+                "nette/di": "^3.0.0",
+                "ninjify/qa": "^0.12",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-deprecation-rules": "^0.12",
+                "phpstan/phpstan-nette": "^0.12",
+                "webchemistry/testing-helpers": "~2.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Contributte\\FormMultiplier\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Multiplier for nette forms",
+            "keywords": [
+                "Forms",
+                "contributte",
+                "multiplier",
+                "nette"
+            ],
+            "support": {
+                "issues": "https://github.com/contributte/forms-multiplier/issues",
+                "source": "https://github.com/contributte/forms-multiplier/tree/v3.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://contributte.org/partners.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/f3l1x",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-03-09T08:05:53+00:00"
+        },
         {
             "name": "latte/latte",
             "version": "v2.10.5",

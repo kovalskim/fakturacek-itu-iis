@@ -24,7 +24,8 @@
 		"nextras/mail-panel": "v2.5.2",
 		"nextras/forms-rendering": "^1.1",
 		"nextras/secured-links": "^1.7",
-		"nextras/datagrid": "v3.0.x-dev"
+		"nextras/datagrid": "v3.0.x-dev",
+		"contributte/forms-multiplier": "^3.2"
 	},
 	"require-dev": {
 		"nette/tester": "^2.3",

@@ -24,6 +24,10 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
             'Nextras\\Datagrid\\' => 17,
             'Nextras\\Application\\UI\\' => 23,
         ),
+        'C' => 
+        array (
+            'Contributte\\FormMultiplier\\' => 27,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -54,6 +58,10 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Nextras\\Application\\UI\\' => 
         array (
             0 => __DIR__ . '/..' . '/nextras/secured-links/src',
+        ),
+        'Contributte\\FormMultiplier\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/contributte/forms-multiplier/src',
         ),
         'App\\' => 
         array (

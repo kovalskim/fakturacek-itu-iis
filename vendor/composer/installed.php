@@ -6,11 +6,20 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'ab8346836a4ea84a0552f2984cb10c9e05072d43',
+    'reference' => '62e262b8cbc2ef31740c2f3b192196b7192bea40',
     'name' => 'nette/web-project',
   ),
   'versions' => 
   array (
+    'contributte/forms-multiplier' => 
+    array (
+      'pretty_version' => 'v3.2.0',
+      'version' => '3.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'd7854344b3bc6c363a0dd31daa36bc7c9dfa4265',
+    ),
     'latte/latte' => 
     array (
       'pretty_version' => 'v2.10.5',
@@ -189,7 +198,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'ab8346836a4ea84a0552f2984cb10c9e05072d43',
+      'reference' => '62e262b8cbc2ef31740c2f3b192196b7192bea40',
     ),
     'nextras/datagrid' => 
     array (
