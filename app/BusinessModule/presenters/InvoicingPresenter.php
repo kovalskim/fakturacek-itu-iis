@@ -4,9 +4,13 @@
 
 namespace App\BusinessModule\presenters;
 
+use App\forms\InvoicingFormFactory;
+use App\model\ClientsManager;
 use App\model\DatagridManager;
 use App\model\InvoicingManager;
+use App\repository\ClientRepository;
 use App\repository\InvoicingRepository;
+use Nette\Application\UI\Form;
 use Nette\Forms\Container;
 use Nextras\Datagrid\Datagrid;
 
@@ -21,12 +25,24 @@ final class InvoicingPresenter extends BasePresenter
     /** @var InvoicingRepository */
     private $invoicingRepository;
 
-    public function __construct(DatagridManager $datagridManager, InvoicingManager $invoicingManager, InvoicingRepository $invoicingRepository)
+    /** @var InvoicingFormFactory */
+    private $invoicingFormFactory;
+
+    /** @var ClientRepository */
+    private $clientRepository;
+
+    /** @var ClientsManager */
+    private $clientsManager;
+
+    public function __construct(DatagridManager $datagridManager, InvoicingManager $invoicingManager, InvoicingRepository $invoicingRepository, InvoicingFormFactory $invoicingFormFactory, ClientRepository $clientRepository, ClientsManager $clientsManager)
     {
         parent::__construct();
         $this->datagridManager = $datagridManager;
         $this->invoicingManager = $invoicingManager;
         $this->invoicingRepository = $invoicingRepository;
+        $this->invoicingFormFactory = $invoicingFormFactory;
+        $this->clientRepository = $clientRepository;
+        $this->clientsManager = $clientsManager;
     }
 
     public function actionDefault()
@@ -125,5 +141,55 @@ final class InvoicingPresenter extends BasePresenter
         $user_id = $this->user->getId();
         $this->template->invoice = $this->invoicingRepository->getInvoiceByIdAndUserId($id, $user_id);
         $this->template->invoice_items = $this->invoicingRepository->getInvoiceItemsById($id);
+    }
+
+    public function handleSearch()
+    {
+        if($this->isAjax())
+        {
+            $client = $this->getParameter('client');
+            if($client != null)
+            {
+                $this->template->results = $this->invoicingRepository->getResultsByString($client);
+            }
+            $this->redrawControl('results');
+        }
+    }
+
+    public function handleSelect($selected_client_id)
+    {
+        if($this->isAjax())
+        {
+            $client = $this->clientRepository->getClientById($selected_client_id);
+            $this->getComponent('createInvoiceForm')->setDefaults($client);
+            $this->redrawControl('createInvoiceForm');
+            $this->redrawControl('results');
+        }
+    }
+
+    public function createComponentCreateInvoiceForm(): Form
+    {
+        $form = $this->invoicingFormFactory->createInvoiceForm();
+
+        $form->onValidate[] = [$this, 'createInvoiceFormValidate'];
+        $form->onSuccess[] = [$this, 'createInvoiceFormSucceeded'];
+
+        return $form;
+    }
+
+    public function createInvoiceFormValidate($form, $values)
+    {
+        $this->clientsManager->editClientsFormValidate($form, $values);
+    }
+
+    public function createInvoiceFormSucceeded($form, $values)
+    {
+        bdump($values);
+
+        //TODO: if not $values->id - neni ulozen klient
+
+        $invoice_values = [
+
+        ];
     }
 }

@@ -2,5 +2,45 @@
     <h1 n:block=title>Nová faktura</h1>
     <a href="{link :Business:Invoicing:default}">Zpět na přehled faktur</a>
 
+    <h2>Vyhledat klienta</h2>
+
+    <label class="label" for="search-event"></label>
+
+    <input id="search-event" autocomplete="off" autofocus>
+
+    <div id="search-results">
+        <ul>
+            {snippet results}
+                {ifset $results}
+                    {foreach $results as $result}
+                        <li>
+                             <p>{$result->name}{if $result->email}<br>{$result->email}{/if}{if $result->cin}<br>{$result->cin}{/if}<a href="{link select! $result->id}" class="ajax">vybrat</a></p>
+                        </li>
+                    {else}
+                        <li>Nenalezeno nic</li>
+                    {/foreach}
+                {/ifset}
+            {/snippet}
+        </ul>
+    </div>
+    {snippet createInvoiceForm}
+        {control createInvoiceForm}
+    {/snippet}
+
+    <script>
+        var input = document.getElementById('search-event');
+        var div = document.getElementById('search-results');
+
+        // When the user type, we show the results
+        input.addEventListener('keyup', function () {
+            $.nette.ajax({
+                type: 'POST',
+                url: {link search!},
+                data: {
+                    client: $("#search-event").val(),
+                }
+            })
+        });
+    </script>
 {/block}
 
