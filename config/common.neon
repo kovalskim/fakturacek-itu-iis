@@ -26,6 +26,7 @@ services:
     - App\forms\ContactFormFactory
     - App\forms\ExpensesFormFactory
     - App\forms\FormFactory
+    - App\forms\InvoicingFormFactory
     - App\forms\LogInFormFactory
     - App\forms\SettingInvoicesFormFactory
     - App\forms\TextsFormFactory
