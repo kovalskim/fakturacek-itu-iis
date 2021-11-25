@@ -1,4 +1,4 @@
--- Adminer 4.3.1 MySQL dump
+-- Adminer 4.8.1 MySQL 5.5.5-10.4.21-MariaDB dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -13,6 +13,9 @@ CREATE TABLE `accountant_permission` (
   `users_id` int(11) NOT NULL,
   `accountant_id` int(11) NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `hash` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `hash_validity` datetime DEFAULT NULL,
+  `status` enum('wait','active','deleted') COLLATE utf8mb4_czech_ci NOT NULL DEFAULT 'wait',
   PRIMARY KEY (`id`),
   KEY `users_id` (`users_id`),
   KEY `accountant_id` (`accountant_id`),
@@ -20,6 +23,9 @@ CREATE TABLE `accountant_permission` (
   CONSTRAINT `accountant_permission_ibfk_2` FOREIGN KEY (`accountant_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
+INSERT INTO `accountant_permission` (`id`, `users_id`, `accountant_id`, `created`, `hash`, `hash_validity`, `status`) VALUES
+(4,	4,	3,	'2021-11-25 22:52:11',	NULL,	NULL,	'active'),
+(5,	2,	3,	'2021-11-25 23:04:25',	NULL,	NULL,	'wait');
 
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
@@ -28,6 +34,8 @@ CREATE TABLE `categories` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
+INSERT INTO `categories` (`id`, `name`) VALUES
+(2,	'Default');
 
 DROP TABLE IF EXISTS `clients`;
 CREATE TABLE `clients` (
@@ -47,7 +55,8 @@ CREATE TABLE `clients` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `clients` (`id`, `name`, `cin`, `vat`, `street`, `city`, `zip`, `email`, `phone`, `users_id`) VALUES
-(1,	'Pepa z depa',	'12345679',	NULL,	'Radkovo 245',	'Plzeň',	'43245',	'pepa@zdepa.cz',	NULL,	2);
+(1,	'Pepa z depa',	'12345679',	NULL,	'Radkovo 245',	'Plzeň',	'43245',	'pepa@zdepa.cz',	NULL,	2),
+(2,	'Radek Jůzl',	'10152679',	'',	'Smradlavá 44',	'Humpolec',	'23105',	'radekjuzl@seznam.cz',	'',	2);
 
 DROP TABLE IF EXISTS `expenses`;
 CREATE TABLE `expenses` (
@@ -65,6 +74,10 @@ CREATE TABLE `expenses` (
   CONSTRAINT `expenses_ibfk_2` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
+INSERT INTO `expenses` (`id`, `users_id`, `path`, `categories_id`, `items`, `price`, `datetime`) VALUES
+(5,	2,	'D:\\xampp\\tmp\\phpABC7.tmp',	2,	'Hej',	150,	'2021-11-22 10:23:04'),
+(6,	2,	'D:\\xampp\\tmp\\php8BB8.tmp',	2,	'Hej',	150,	'2021-11-22 10:23:04'),
+(7,	4,	'D:\\xampp\\tmp\\php12B9.tmp',	2,	'Test 12',	11,	'2021-11-22 10:23:04');
 
 DROP TABLE IF EXISTS `invoices`;
 CREATE TABLE `invoices` (
@@ -102,7 +115,8 @@ CREATE TABLE `invoices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `invoices` (`id`, `users_id`, `user_name`, `user_street`, `user_city`, `user_zip`, `user_cin`, `user_vat`, `user_phone`, `user_email`, `client_id`, `client_name`, `client_street`, `client_city`, `client_zip`, `client_cin`, `client_vat`, `client_phone`, `client_email`, `created`, `due_date`, `account_number`, `variable_symbol`, `logo_path`, `vat_note`, `footer_note`, `status`, `suma`) VALUES
-(1,	2,	'Martin Kovalski',	'Stará osada',	'Brno',	'51202',	'12345678',	NULL,	NULL,	'email@panapodnikatele.cz',	1,	'Pepa z depa',	'Radkovo 245',	'Plzeň',	'43245',	'12345679',	NULL,	NULL,	'pepa@zdepa.cz',	'2021-11-24 17:47:27',	'2021-12-08 18:47:27',	'123/2010',	'2021001',	NULL,	0,	'Jsem osoba zapsaná v rejstříku někde',	'unpaid',	4325);
+(1,	2,	'Martin Kovalski',	'Stará osada',	'Brno',	'51202',	'12345678',	NULL,	NULL,	'email@panapodnikatele.cz',	1,	'Pepa z depa',	'Radkovo 245',	'Plzeň',	'43245',	'12345679',	NULL,	NULL,	'pepa@zdepa.cz',	'2021-11-24 17:47:27',	'2021-12-08 18:47:27',	'123/2010',	'2021001',	NULL,	0,	'Jsem osoba zapsaná v rejstříku někde',	'canceled',	4325),
+(7,	2,	'Business',	'Kolejní 66',	'Brno',	'45678',	'61019836',	NULL,	'',	'business@fakturacek.cz',	2,	'Radek Jůzl',	'Smradlavá 44',	'Humpolec',	'23105',	'10152679',	'',	'',	'radekjuzl@seznam.cz',	'2021-11-25 17:35:13',	'2021-12-09 18:35:13',	'10006-18432071/0600',	'2121002',	NULL,	0,	'0',	'unpaid',	352.5);
 
 DROP TABLE IF EXISTS `invoices_items`;
 CREATE TABLE `invoices_items` (
@@ -120,7 +134,9 @@ CREATE TABLE `invoices_items` (
 
 INSERT INTO `invoices_items` (`id`, `invoices_id`, `name`, `count`, `unit_price`, `type`, `suma`) VALUES
 (1,	1,	'Práce na silnici',	3,	700,	'hours',	2100),
-(2,	1,	'Dloubaní se v nose',	2,	300,	'pieces',	600);
+(2,	1,	'Dloubaní se v nose',	2,	300,	'pieces',	600),
+(9,	7,	'Prvni',	14.5,	20,	'hours',	290),
+(10,	7,	'Druha',	12.5,	5,	'hours',	62.5);
 
 DROP TABLE IF EXISTS `setting_invoices`;
 CREATE TABLE `setting_invoices` (
@@ -137,7 +153,8 @@ CREATE TABLE `setting_invoices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `setting_invoices` (`id`, `account_number`, `variable_symbol`, `logo_path`, `vat_note`, `footer_note`, `users_id`) VALUES
-(1,	NULL,	NULL,	NULL,	0,	NULL,	2);
+(1,	'10006-18432071/0600',	'YY000',	NULL,	0,	'',	2),
+(2,	'10006-18432071/0600',	'YY0000',	'www/logo/NOP3TF75OI.jpeg',	0,	'',	4);
 
 DROP TABLE IF EXISTS `texts`;
 CREATE TABLE `texts` (
@@ -175,8 +192,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `cin`, `vat`, `name`, `email`, `phone`, `password`, `hash`, `hash_validity`, `role`, `street`, `city`, `zip`, `avatar_path`, `status`, `email_verification`) VALUES
 (1,	NULL,	NULL,	'Admin',	'admin@fakturacek.cz',	NULL,	'$2y$10$EkpTYHKufe7jCAwEzYEr2OTa5tdPNGCRGF6fqufVte.jC73fvym1G',	NULL,	NULL,	'admin',	NULL,	NULL,	NULL,	NULL,	'active',	'2021-11-24 20:40:21'),
-(2,	'61019836',	NULL,	'Business',	'business@fakturacek.cz',	NULL,	'$2y$10$UujM3C3lJFY4dlkuy88LteFX06bCNG8LGNSa9Rc5J9/qxavJ86eF.',	NULL,	NULL,	'business',	'Kolejní 66',	'Brno',	'45678',	NULL,	'active',	'2021-11-24 20:40:28'),
-(3,	'71048065',	NULL,	'Accountant',	'accountant@fakturacek.cz',	'123456789',	'$2y$10$KUkctHpRXI71vM41yRI/Q.Sxm3FiYF3JX6tf88qBzdwbffeuiNQ32',	NULL,	NULL,	'accountant',	'test 55',	'Testova',	'12345',	NULL,	'active',	'2021-11-24 20:40:34');
+(2,	'61019836',	NULL,	'Business',	'business@fakturacek.cz',	'',	'$2y$10$UujM3C3lJFY4dlkuy88LteFX06bCNG8LGNSa9Rc5J9/qxavJ86eF.',	NULL,	NULL,	'business',	'Kolejní 66',	'Brno',	'45678',	NULL,	'active',	'2021-11-25 00:23:35'),
+(3,	'71048065',	NULL,	'Accountant',	'accountant@fakturacek.cz',	'123456789',	'$2y$10$KUkctHpRXI71vM41yRI/Q.Sxm3FiYF3JX6tf88qBzdwbffeuiNQ32',	NULL,	NULL,	'accountant',	'test 55',	'Testova',	'12345',	NULL,	'active',	'2021-11-25 15:50:44'),
+(4,	'25690477',	'',	'Radek Jůzl',	'radekjuzl@seznam.cz',	'',	'$2y$10$tKvmQG7oN4X8G5re./SB6OwFmEHgYwWA6SJbUmVJe02fSLSiUeNJG',	NULL,	NULL,	'business',	'Kam 204',	'Nikam',	'39601',	NULL,	'active',	'2021-11-25 14:20:10');
 
 DROP TABLE IF EXISTS `users_last_login`;
 CREATE TABLE `users_last_login` (
@@ -188,6 +206,11 @@ CREATE TABLE `users_last_login` (
   CONSTRAINT `users_last_login_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
+INSERT INTO `users_last_login` (`id`, `users_id`, `timestamp`) VALUES
+(26,	1,	'2021-11-25 20:55:21'),
+(38,	3,	'2021-11-25 22:50:43'),
+(39,	4,	'2021-11-25 23:48:14'),
+(40,	2,	'2021-11-25 23:48:47');
 
 DROP TABLE IF EXISTS `users_last_password_change`;
 CREATE TABLE `users_last_password_change` (
@@ -200,4 +223,4 @@ CREATE TABLE `users_last_password_change` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 
--- 2021-11-24 21:16:11
+-- 2021-11-25 23:49:36

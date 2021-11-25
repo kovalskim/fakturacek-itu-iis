@@ -57,7 +57,7 @@ final class ClientsAccountantPresenter extends BasePresenter
         $grid->addColumn('street', 'Ulice a č.p.');
         $grid->addColumn('city', 'Město');
         $grid->addColumn('zip', 'PSČ');
-        $grid->addColumn('status', 'Status');
+        $grid->addColumn('status', 'Status')->enableSort();
 
         return $grid;
     }
