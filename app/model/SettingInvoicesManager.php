@@ -148,7 +148,16 @@ class SettingInvoicesManager
         else
         {
             $user_id = $this->user->getId();
-            $data = ["account_number" => $values->account_number, "variable_symbol" => $values->variable_symbol, "vat_note" => $values->vat_note, "footer_note" => $values->footer_note];
+            if(!(isset($values->variable_symbol)))
+            {
+                $data = $this->settingInvoicesRepository->selectAll($user_id);
+                $variable = $data->variable_symbol;
+            }
+            else
+            {
+                $variable = $values->variable_symbol;
+            }
+            $data = ["account_number" => $values->account_number, "variable_symbol" => $variable, "vat_note" => $values->vat_note, "footer_note" => $values->footer_note];
             if($values->vat_note == 0)
             {
                 $values->vat = null;
