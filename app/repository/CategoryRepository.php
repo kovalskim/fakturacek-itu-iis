@@ -14,9 +14,9 @@ class CategoryRepository extends AllRepository
         $this->connection->query("INSERT INTO %table %values", $this->table, $values);
     }
 
-    public function deleteCategoryByUserId($values)
+    public function deleteCategoryByUserId($id)
     {
-        $this->connection->query("DELETE FROM %table %values");
+        $this->connection->query("DELETE FROM %table WHERE `categories`.`id` = %i", $this->table, $id);
     }
 
 }

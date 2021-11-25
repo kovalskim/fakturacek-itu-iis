@@ -37,6 +37,8 @@ services:
     - App\model\ClientsManager
     - App\model\DatagridExtended
     - App\model\DatagridManager
+    - App\model\ExpensesManager
+    - App\model\CategoryManager
     - App\model\ImageUploader
     - App\model\InvoicingManager
     - App\model\ProfileManager

@@ -38,11 +38,12 @@ final class ExpensesPresenter extends BasePresenter
 
     private $expensesTable = 'expenses';
 
-    public function __construct(ExpensesFormFactory $expensesFormFactory, DatagridManager  $datagridManager, User $user, ExpensesRepository $expensesRepository, ImageUploader $imageUploader)
+    public function __construct(ExpensesFormFactory $expensesFormFactory, DatagridManager  $datagridManager, User $user, ExpensesRepository $expensesRepository, ExpensesManager $expensesManager, ImageUploader $imageUploader)
     {
         parent::__construct();
         $this->expensesFormFactory = $expensesFormFactory;
         $this->datagridManager = $datagridManager;
+        $this->expensesManager = $expensesManager;
         $this->user = $user;
         $this->expensesRepository = $expensesRepository;
         $this->imageUploader = $imageUploader;
@@ -94,6 +95,8 @@ final class ExpensesPresenter extends BasePresenter
                 $this->expensesManager->delete($id);
             }
             $this->flashMessage('Výdaj byl vymazán', 'success');
+            $this->redrawControl('flashes');
+            $grid->redrawControl('rows');
 
         });
         return $grid;
