@@ -75,12 +75,18 @@ final class CategoryPresenter extends BasePresenter
         $grid->addColumn('name', 'Kategorie');
         $grid->addGlobalAction('delete', 'Vymazat', function (array $ids, Datagrid $grid) {
             foreach ($ids as $id) {
-                $this->categoryManager->delete($id);
+                if($this->categoryManager->delete($id)){
+                    $this->flashMessage('Kategorie je používána a tutíž nebyla vymazána.', 'success');
+                }
+                else {
+                    $this->flashMessage('Kategorie byla vymazána.', 'success');
+                }
+                
             }
-            $this->flashMessage('Kategorie byla vymazána', 'success');
+
             $this->redrawControl('flashes');
             $grid->redrawControl('rows');
-            
+
 
         });
 
