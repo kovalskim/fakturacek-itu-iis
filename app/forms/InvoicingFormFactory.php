@@ -3,6 +3,7 @@
 namespace App\forms;
 
 use Nette\Application\UI\Form;
+use Nette\Forms\Container;
 
 class InvoicingFormFactory
 {
@@ -62,7 +63,33 @@ class InvoicingFormFactory
             ->addRule($form::MIN, 'Minimální počet dnů do splatnosti je %d', 1)
             ->setHtmlAttribute('inputmode', 'numeric');
 
-        $form->addSubmit('addInvoice', 'Vystavit fakturu');
+        $copies = 1;
+        $maxCopies = 20;
+
+        $multiplier = $form->addMultiplier('multiplier', function (Container $container, Form $form) {
+            $container->addText('name', 'Název položky')
+                ->setRequired()
+                ->setHtmlAttribute('placeholder', 'Název položky');
+            $container->addInteger('count', 'Počet')
+                ->setRequired()
+                ->setDefaultValue(1)
+                ->addRule($form::MIN, 'Minimální počet je %d', 1)
+                ->setHtmlAttribute('inputmode', 'numeric')
+                ->setHtmlAttribute('placeholder', 'Počet');
+            $container->addRadioList('type', 'Jednotka', ['hours' => 'hod', 'pieces' => 'ks'])
+                ->setDefaultValue('hours');
+            $container->addText('unit_price', 'Cena za hod/ks')
+                ->setRequired()
+                ->addRule($form::FLOAT, 'Není peněžní hodnota')
+                ->addRule($form::MIN, 'Minimální částka je %d', 0)
+                ->setHtmlAttribute('placeholder', 'Cena za hod/ks');
+        }, $copies, $maxCopies);
+
+        $multiplier->addCreateButton('Přidat položku')
+            ->addClass('ajax');
+
+        $multiplier->addRemoveButton('Odebrat položku')
+            ->addClass('ajax');
 
         return $form;
     }

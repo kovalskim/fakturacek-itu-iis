@@ -193,15 +193,26 @@ final class InvoicingPresenter extends BasePresenter
     {
         $form = $this->invoicingFormFactory->createInvoiceForm();
 
-        $form->onValidate[] = [$this, 'createInvoiceFormValidate'];
+        $form->onAnchor[] = [$this, 'createInvoiceFormAnchor'];
+        //$form->onValidate['details'] = [$this, 'createInvoiceFormValidate'];
         $form->onSuccess[] = [$this, 'createInvoiceFormSucceeded'];
+
+        $form->addSubmit('addInvoice', 'Vystavit fakturu')
+            ->onClick[] = [$this, 'createInvoiceFormValidate'];
 
         return $form;
     }
 
-    public function createInvoiceFormValidate($form, $values)
+    public function createInvoiceFormAnchor($form)
     {
-        $this->clientsManager->editClientsFormValidate($form, $values);
+        $this->redrawControl('createInvoiceForm');
+    }
+
+    public function createInvoiceFormValidate($button)
+    {
+        $this->clientsManager->editClientsFormValidate($button->getForm());
+
+        //TODO: validace polozek
     }
 
     public function createInvoiceFormSucceeded($form, $values)
@@ -219,7 +230,8 @@ final class InvoicingPresenter extends BasePresenter
         $variable_symbol_pattern = $setting_invoices->variable_symbol;
         $variable_symbol = $this->invoicingManager->getNewVariableSymbol($user_id, $variable_symbol_pattern);
 
-        $suma = 0; //TODO:
+        //tODO: nacist polozky + secist
+        $suma = 0; //TODO: secist
 
         $invoice_values = [
             'users_id' => $user_id,
@@ -251,6 +263,7 @@ final class InvoicingPresenter extends BasePresenter
             'suma' => $suma
         ];
 
+        dump($values);
         dump($invoice_values);
         //TODO: ulozit + redirect
     }

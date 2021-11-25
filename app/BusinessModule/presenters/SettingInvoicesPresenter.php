@@ -47,6 +47,9 @@ class SettingInvoicesPresenter extends BasePresenter
         $settingData->vat = $this->userRepository->getUserById($this->user->getId())->vat;
         $this->template->settingData = $settingData;
 
+        $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
+        $settingData->vat = $this->userRepository->getUserById($this->user->getId())->vat;
+
         if($settingData->variable_symbol == null)
         {
             $settingData->variable_symbol = "YYMM00";

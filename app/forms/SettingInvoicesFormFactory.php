@@ -43,8 +43,7 @@ class SettingInvoicesFormFactory
             ->addRule($form::MAX_LENGTH, 'DIČ musí mít maximálně %d znaků', 12)
             ->setHtmlAttribute('placeholder', 'DIČ');
 
-        $form->addText('footer_note', '*Zápatí')
-            ->setRequired()
+        $form->addText('footer_note', 'Zápatí')
             ->setHtmlAttribute('placeholder', 'Zápatí');
 
         $form->addUpload('logo_path', 'Logo:')

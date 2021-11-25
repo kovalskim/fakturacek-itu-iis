@@ -6,15 +6,32 @@
         <table>
                 <tr>
                     <th>Číslo účtu:</th>
-                    <td>{$settingData->account_number}</td>
+                    <td>
+                        {if $settingData->account_number != NULL}
+                            {$settingData->account_number}
+                        {else}
+                            Není nastaveno
+                        {/if}
+                    </td>
                 </tr>
                 <tr>
                     <th>Typ variabilního symbolu:</th>
-                    <td>{$settingData->variable_symbol}</td>
+                    <td>
+                        {if $settingData->variable_symbol != NULL}
+                            {$settingData->variable_symbol}
+                        {else}
+                            Není nastaveno
+                        {/if}
+                    </td>
                 </tr>
                 <tr>
                     <th>DPH:</th>
-                    <td>{if $settingData->vat_note == 0}Nejsem plátce DPH {else}Jsem plátce DPH{/if}</td>
+                    <td>{if $settingData->account_number != NULL}
+                            {if $settingData->vat_note == 0}Nejsem plátce DPH {else}Jsem plátce DPH{/if}
+                        {else}
+                            Není nastaveno
+                        {/if}
+                    </td>
                 </tr>
                 {if $settingData->vat != null}
                     <tr>
@@ -24,15 +41,22 @@
                 {/if}
                 <tr>
                     <th>Zápatí:</th>
-                    <td>{$settingData->footer_note}</td>
+                    <td>
+                        {if $settingData->footer_note != NULL}
+                            {$settingData->footer_note}
+                        {else}
+                            Není nastaveno
+                        {/if}
+                    </td>
                 </tr>
                 <tr>
                     <th>Logo:</th>
-                    <td>{if $settingData->logo_path != NULL}
+                    <td>
+                        {if $settingData->logo_path != NULL}
                             <img src="{$basePath}/{$settingData->logo_path}" alt="Logo" width="100"/>
                             <div><a class = "ajax" n:href="deleteLogo!">Smazat logo</a></div>
                         {else}
-                            Logo není nastaveno
+                            Není nastaveno
                         {/if}
                     </td>
 
