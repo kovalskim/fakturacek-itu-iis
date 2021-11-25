@@ -10,6 +10,7 @@ class InvoicingRepository extends AllRepository
 {
     private $table = 'invoices';
     private $table_items = 'invoices_items';
+    public $table_clients = 'clients';
 
     public function updateInvoiceStatus($id, $status)
     {
@@ -24,5 +25,10 @@ class InvoicingRepository extends AllRepository
     public function getInvoiceItemsById($id): array
     {
         return $this->connection->query('SELECT * FROM %table WHERE invoices_id = %i', $this->table_items, $id)->fetchAll();
+    }
+
+    public function getResultsByString($string): array
+    {
+        return $this->connection->query('SELECT * FROM %table WHERE name LIKE %s OR name LIKE %s OR email LIKE %s OR cin LIKE %s LIMIT 5', $this->table_clients, $string . '%', '% ' . $string . '%', $string . '%', $string . '%')->fetchAll();
     }
 }
