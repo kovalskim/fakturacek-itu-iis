@@ -47,6 +47,7 @@ services:
 
 extensions:
     nextras.orm: Nextras\Dbal\Bridges\NetteDI\DbalExtension
+    - Contributte\FormMultiplier\DI\MultiplierExtension
 
 forms:
     messages:
