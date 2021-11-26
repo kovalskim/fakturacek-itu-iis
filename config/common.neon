@@ -11,6 +11,7 @@ session:
 services:
     - App\Router\RouterFactory::createRouter
 
+    - App\repository\AccountantRepository
     - App\repository\AllRepository
     - App\repository\CategoryRepository
     - App\repository\ClientRepository
@@ -22,6 +23,7 @@ services:
 
     - App\forms\AdministratorsFormFactory
     - App\forms\CategoryFormFactory
+    - App\forms\ClientsAccountantFormFactory
     - App\forms\ClientsFormFactory
     - App\forms\ContactFormFactory
     - App\forms\ExpensesFormFactory

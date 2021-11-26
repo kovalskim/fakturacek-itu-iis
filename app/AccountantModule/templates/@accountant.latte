@@ -14,9 +14,33 @@
     </head>
 
     <body>
-        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+        <script type="text/javascript" src="{$basePath}/js/jquery.js"></script>
+        <script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>
+        <script type="text/javascript" src="{$basePath}/js/nette.ajax.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $.nette.init();
+            });
+
+            $.nette.ext('confirm', {
+                before: function (xhr, settings) {
+                    if (!settings.nette)
+                        return;
+
+                    var question = settings.nette.el.data('ajax-confirm');
+                    if (question)
+                        return confirm(question);
+                }
+            });
+        </script>
+
+        {snippet flashes}
+            <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+        {/snippet}
+
         <a href="{link :Accountant:Homepage:default}">Homepage</a>
         <a href="{link :Accountant:Profile:default}">Profil</a>
+        <a href="{link :Accountant:ClientsAccountant:default}">Klienti</a>
         <a n:href="LogOut!">Odhlásit se</a>
         <div>
             {if $avatar}
@@ -29,7 +53,7 @@
         {include content}
 
         <!-- JS scripts -->
-        <script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
+        <script type="text/javascript" src="{$basePath}/js/nextras.datagrid.js"></script>
         <!--// JS scripts -->
     </body>
 </html>

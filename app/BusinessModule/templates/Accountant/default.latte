@@ -1,0 +1,12 @@
+{block content}
+    <h1 n:block=title>Účetní</h1>
+    {snippet accountClientConnection}
+        {if $isAccountantName}
+            <div>Tvá účetni je: {$isAccountantName}</div>
+            <div><a class = "ajax" n:href="deleteAccountant!">Odstranit účetní</a></div>
+        {else}
+            {control clientConnectionForm}
+        {/if}
+    {/snippet}
+
+{/block}

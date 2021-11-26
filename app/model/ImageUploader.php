@@ -79,7 +79,7 @@ class ImageUploader
         {
             $nameFolder = "avatars";
         }
-        else
+        elseif($type == "logo")
         {
             $nameFolder = "logo";
         }
@@ -132,7 +132,7 @@ class ImageUploader
         {
             $path = $values->avatar_path;
         }
-        else
+        elseif($type == "logo")
         {
             $path = $values->logo_path;
         }
@@ -152,7 +152,7 @@ class ImageUploader
             $name = $this->generateNameImg($type);
             $this->saveAvatar($form, $values, $name, $loadImg);
         }
-        else
+        elseif($type == "logo")
         {
             $name = $this->generateNameImg($type);
             $this->saveLogoAndSetting($form, $values, $name, $loadImg);
