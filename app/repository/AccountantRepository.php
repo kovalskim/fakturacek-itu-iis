@@ -13,7 +13,7 @@ class AccountantRepository extends AllRepository
 
     public function hasAccountantName($users_id): ?Row
     {
-        return ($this->connection->query("SELECT us.name, ac.status, ac.who FROM %table as ac join %table as us on ac.accountant_id = us.id WHERE ac.users_id = %i", $this->table_accountant_permission, $this->table, $users_id)->fetch());
+        return ($this->connection->query("SELECT us.name, ac.request_status, ac.who FROM %table as ac join %table as us on ac.accountant_id = us.id WHERE ac.users_id = %i", $this->table_accountant_permission, $this->table, $users_id)->fetch());
     }
 
     public function deleteAccountant($users_id)
@@ -29,7 +29,7 @@ class AccountantRepository extends AllRepository
     public function updateStatus($token)
     {
         $data = [
-            "status" => "active",
+            "request_status" => "active",
             "hash" => null,
             "hash_validity" => null,
         ];
@@ -45,7 +45,7 @@ class AccountantRepository extends AllRepository
     public function updateStatusById($id)
     {
         $data = [
-            "status" => "active",
+            "request_status" => "active",
             "hash" => null,
             "hash_validity" => null
         ];
@@ -65,4 +65,47 @@ class AccountantRepository extends AllRepository
         }
     }
 
+    public function getAllByUserIdByAccountantId($users_id, $accountant_id): bool
+    {
+        if(($this->connection->query("SELECT * FROM %table WHERE users_id = %i and $accountant_id = %i", $this->table_accountant_permission, $users_id, $accountant_id)->fetch()))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function AllAcceptById($id)
+    {
+        $data = [
+            "request_status" => "active",
+            "hash" => null,
+            "hash_validity" => null
+        ];
+
+        $this->connection->query("UPDATE %table SET %set WHERE users_id = %i and who = %s and request_status = %s", $this->table_accountant_permission, $data, $id, "business", "wait");
+    }
+
+    public function AllDeclineById($id)
+    {
+        $this->connection->query('DELETE FROM %table WHERE users_id = %i and who = %s and request_status = %s', $this->table_accountant_permission, $id, "business", "wait");
+    }
+
+    public function AllDeleteById($id)
+    {
+        $this->connection->query('DELETE FROM %table WHERE users_id = %i', $this->table_accountant_permission, $id);
+    }
+
+    public function AllAcceptByAccountantId($id)
+    {
+        $data = [
+            "request_status" => "active",
+            "hash" => null,
+            "hash_validity" => null
+        ];
+
+        $this->connection->query("UPDATE %table SET %set WHERE accountant_id = %i and who = %s and request_status = %s", $this->table_accountant_permission, $data, $id, "business", "wait");
+    }
 }

@@ -160,4 +160,30 @@ class DatagridExtended extends Datagrid
             $this->redrawControl('rows');
         }
     }
+
+    /** @var callable */
+    protected $changeRequestStatusCallback;
+
+    public function setChangeRequestStatusCallback(callable $callback)
+    {
+        $this->changeRequestStatusCallback = $callback;
+    }
+
+    public function getChangeRequestStatusCallback(): callable
+    {
+        return $this->changeRequestStatusCallback;
+    }
+
+    /**
+     * @secured
+     */
+    public function handleChangeRequestStatus($primary, $status)
+    {
+        $call = $this->getChangeStatusCallback();
+        $call($primary, $status);
+        if($this->presenter->isAjax())
+        {
+            $this->redrawControl('rows');
+        }
+    }
 }

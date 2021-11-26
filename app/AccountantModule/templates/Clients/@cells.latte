@@ -6,6 +6,17 @@
     <a href="tel:{$row->phone}">{$row->phone}</a>
 {/define}
 
-{define cell-address}
-    {$row->street}, {$row->zip} {$row->city}
+{define cell-request_status}
+    {if $row->request_status == 'wait'}
+        Čeká na přijmutí
+    {elseif $row->request_status == 'active'}
+        Aktivní
+    {/if}
+{/define}
+
+{define row-actions}
+    <a href="{plink :Accountant:Clients:summary $row->users_id}">Detail</a>
+    <a n:if="$row->request_status == 'wait' and $row->who == 'business'" href="{link changeStatus! $row->users_id, "active"}" class="ajax">Příjmout žádost</a>
+    <a n:if="$row->request_status == 'active' or $row->who == 'accountant'" href="{link changeStatus! $row->users_id, "deleted"}" class="ajax">Odebrat</a>
+    <a n:if="$row->request_status == 'wait' and $row->who == 'business'" href="{link changeStatus! $row->users_id, "deleted"}" class="ajax">Odmítnout žádost</a>
 {/define}
