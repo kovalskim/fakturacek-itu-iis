@@ -6,7 +6,12 @@
                 <div>Tvá účetni je: {$isAccountantName->name}</div>
                 <div><a class = "ajax" n:href="deleteAccountant!">Odstranit účetní</a></div>
             {elseif $isAccountantName->status == "wait"}
-                Máte žádost od účetní <b>{$isAccountantName->name}</b>, zde jí můžete příjmout:
+                {if $isAccountantName->who == "business"}
+                    <div><a class = "ajax" n:href="deleteAccountant!">Odstranit žádost</a> pro účetni {$isAccountantName->name}</div>
+                {else}
+                    <div>Žádost od <b>{$isAccountantName->name}</b> <a class = "ajax" n:href="addAccountant!">Přijmout žádost</a></div>
+                    <div><a class = "ajax" n:href="deleteAccountant!">Nepříjmout žádost</a></div>
+                {/if}
             {/if}
         {else}
             {control clientConnectionForm}

@@ -69,6 +69,7 @@ final class AccountantPresenter extends BasePresenter
             {
                 $form->reset();
                 $this->redrawControl('clientConnectionForm');
+                $this->template->isAccountantName = $this->accountantRepository->hasAccountantName($this->user->getId());
                 $this->redrawControl('accountClientConnection');
                 $this->redrawControl('flashes');
             }
@@ -99,6 +100,26 @@ final class AccountantPresenter extends BasePresenter
     {
         $this->accountantRepository->deleteAccountant($this->user->getId());
         $this->flashMessage("Účetní byla odebrána", "success");
+
+        if($this->isAjax())
+        {
+            $this->template->isAccountantName = $this->accountantRepository->hasAccountantName($this->user->getId());
+            $this->redrawControl('accountClientConnection');
+            $this->redrawControl('flashes');
+        }
+        else
+        {
+            $this->redirect('this');
+        }
+    }
+
+    /**
+     * @throws AbortException
+     */
+    public function handleAddAccountant(): void
+    {
+        $this->accountantRepository->updateStatusById($this->user->getId());
+        $this->flashMessage("Účetní byl udělen přístup", "success");
 
         if($this->isAjax())
         {

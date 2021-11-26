@@ -320,12 +320,12 @@ class UserManager
         {
             if($user->id == $id)
             {
-                throw new Exception('Nezadávej svůj e-mail');
+                throw new Exception('Zadal si svůj e-mail');
             }
 
             if($user->role == $role)
             {
-                throw new Exception('Takový e-mail neexistuje.');
+                throw new Exception('Takový e-mail neexistuje');
             }
 
             $hash_validity = $this->createHashValidity();
@@ -334,17 +334,21 @@ class UserManager
             /** Save to database */
             if($user->role == "business")
             {
-                $values = ["users_id" => $user->id, "accountant_id" => $id, "hash" => $hash, "hash_validity" => $hash_validity];
+                if($this->accountantRepository->isExistUser($user->id))
+                {
+                    throw new Exception('Tento uživatel již má účetní');
+                }
+                $values = ["users_id" => $user->id, "accountant_id" => $id, "hash" => $hash, "hash_validity" => $hash_validity, "who" => "accountant"];
                 $body = 'requestAccountantTemplate.latte';
             }
             elseif($user->role == "accountant")
             {
-                $values = ["users_id" => $id, "accountant_id" => $user->id, "hash" => $hash, "hash_validity" => $hash_validity];
+                $values = ["users_id" => $id, "accountant_id" => $user->id, "hash" => $hash, "hash_validity" => $hash_validity, "who" => "business"];
                 $body = 'requestBusinessTemplate.latte';
             }
             else
             {
-                throw new Exception('Takový e-mail neexistuje.');
+                throw new Exception('Takový e-mail neexistuje');
             }
             $this->accountantRepository->addConnectionUser($values);
 
