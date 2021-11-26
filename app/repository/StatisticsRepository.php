@@ -16,9 +16,10 @@ class StatisticsRepository extends AllRepository
         return $this->connection->query("SELECT SUM(price) as suma FROM %table WHERE users_id = %i", $this->expencesTable, $id)->fetch();
     }
 
-
-    public function getUserProfile($user_id): ?Row
+    public function getSumRevenues($id): ?Row
     {
-        return $this->connection->query("SELECT cin, name, email, phone, street, city, zip, avatar_path FROM users WHERE id = %i",  $user_id)->fetch();
+        return $this->connection->query("SELECT SUM(invoices_items.suma) as suma FROM invoices INNER JOIN invoices_items ON invoices.id = invoices_items.invoices_id WHERE invoices.users_id=%i;
+        ", $id)->fetch();
     }
+
 }

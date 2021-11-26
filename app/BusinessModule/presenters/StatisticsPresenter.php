@@ -36,7 +36,9 @@ final class StatisticsPresenter extends BasePresenter
     {
        // $this->template->statistics = $this->statisticsRepository->getUserProfile($this->user->getId());
 
-        $this->template->statistics = $this->statisticsRepository->getSumExpenses($this->user->getId());
+        $this->template->expenses = $this->statisticsRepository->getSumExpenses($this->user->getId());
+        $this->template->revenues = $this->statisticsRepository->getSumRevenues($this->user->getId());
+
     }
 
 }

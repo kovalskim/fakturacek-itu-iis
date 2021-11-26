@@ -1,8 +1,25 @@
 {block content}
 	<h1 n:block=title>Statistiky</h1>
 	<div>
-		Celkové příjmy: {$statistics->suma} Kč<br>
-		Celkové výdaje: {} Kč<br>
+		Celkové příjmy:
+			{if $revenues->suma == 0}
+				{$revenues->suma = 0}
+			{else}
+				{$revenues->suma}
+			{/if} Kč<br>
+		Celkové výdaje:
+			{if $expenses->suma == 0}
+				{$expenses->suma = 0}
+			{else}
+				{$expenses->suma}
+			{/if} Kč<br>
+		
+		{if ($revenues->suma - $expenses->suma) < 0}
+		Celková ztráta:
+		{else}
+		Celkový zisk:
+		{/if}
+		{$revenues->suma - $expenses->suma}<br>
     </div>
 
 {/block}
