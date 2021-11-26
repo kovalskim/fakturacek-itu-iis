@@ -84,7 +84,7 @@ final class ExpensesPresenter extends BasePresenter
 
         try
         {
-           // $this->imageUploader->uploadImgFormSucceeded($form,$values, "expenses");
+            $this->imageUploader->uploadImgFormSucceeded($form,$values, "expenses");
             $this->expensesRepository->insertExpensesByUserId($row);
         }
         catch (Exception $e)

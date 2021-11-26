@@ -26,7 +26,7 @@ class ExpensesRepository extends AllRepository
 
     public function updateImg($values)
     {
-        $this->connection->query("UPDATE %table SET %set WHERE id = 37 ", $this->table, (array) $values);
+        $this->connection->query("UPDATE %table SET %values", $this->table, (array) $values);
     }
 
     public function updateExpenseById($id, $values)

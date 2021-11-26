@@ -146,6 +146,7 @@ class ImageUploader
             FileSystem::delete($old_avatar);
         }
 */
+  //  $values = $form->getValues();
         $this->expensesRepository->updateImg($values);
     }
 
