@@ -103,10 +103,8 @@ class DatagridManager
             if($this->presenter_params[1] == 'Clients')
             {
                 $accountant_id = $this->user->getId();
-                $builder->select('ur.id, ur.cin, ur.vat, ur.name, ur.email, ur.phone, ur.street, ur.city, ur.zip, ap.status');
-                $builder->joinLeft('accountant_permission as ap', 'users.id = ap.accountant_id');
-                $builder->joinLeft('users as ur', 'ap.users_id = ur.id');
-                $builder->andWhere('ap.accountant_id = %i', $accountant_id);
+                $builder->joinLeft('users', 'accountant_permission.users_id = users.id');
+                $builder->andWhere('accountant_permission.accountant_id = %i', $accountant_id);
             }
         }
 
