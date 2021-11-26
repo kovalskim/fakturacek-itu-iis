@@ -45,21 +45,21 @@ class SettingInvoicesPresenter extends BasePresenter
     {
         $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
         $settingData->vat = $this->userRepository->getUserById($this->user->getId())->vat;
-        $this->template->settingData = $settingData;
 
-        $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
-        $settingData->vat = $this->userRepository->getUserById($this->user->getId())->vat;
-
-        if($settingData->variable_symbol == null)
-        {
+        if ($settingData->variable_symbol == null) {
             $settingData->variable_symbol = "YYMM00";
-        }
-        else
-        {
+        } else {
             $this->getComponent('settingInvoicesForm')->getComponent('variable_symbol')->setDisabled();
         }
 
         $this->getComponent("settingInvoicesForm")->setDefaults($settingData);
+    }
+
+    public function renderDefault()
+    {
+        $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
+        $settingData->vat = $this->userRepository->getUserById($this->user->getId())->vat;
+        $this->template->settingData = $settingData;
     }
 
     protected function createComponentSettingInvoicesForm(): Form

@@ -92,6 +92,11 @@ final class ProfilePresenter extends BasePresenter
 
     public function actionUpload()
     {
+
+    }
+
+    public function renderUpload()
+    {
         $this->template->profile = $this->userRepository->getUserProfile($this->user->getId());
     }
 

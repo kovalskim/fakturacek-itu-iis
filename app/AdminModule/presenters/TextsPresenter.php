@@ -38,7 +38,12 @@ final class TextsPresenter extends BasePresenter
         $contact = $this->textRepository->getTextByType("contact");
         $row = ['text_contact' => $contact->text];
         $this->getComponent("textsForm")->setDefaults($row);
+    }
 
+    public function renderDefault()
+    {
+        $aboutus = $this->textRepository->getTextByType("aboutus");
+        $contact = $this->textRepository->getTextByType("contact");
         $this->template->aboutus_img = $aboutus->img_path;
         $this->template->contact_img = $contact->img_path;
     }

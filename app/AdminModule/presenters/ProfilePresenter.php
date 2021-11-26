@@ -17,7 +17,7 @@ use Nette\Utils\FileSystem;
 
 final class ProfilePresenter extends BasePresenter
 {
-    /** @var User*/
+    /** @var User */
     public $user;
 
     /** @var UserRepository */
@@ -82,8 +82,7 @@ final class ProfilePresenter extends BasePresenter
     public function editProfileFormSucceeded($form, $values)
     {
         $new_email = $this->profileManager->editProfileFormSucceeded($form, $values);
-        if($new_email)
-        {
+        if ($new_email) {
             $this->session->destroy();
             $this->user->logout();
             $this->flashMessage('Ověř si nový e-mail a přihlaš se s ním!', 'info');
@@ -95,6 +94,11 @@ final class ProfilePresenter extends BasePresenter
     }
 
     public function actionUpload()
+    {
+
+    }
+
+    public function renderUpload()
     {
         $this->template->profile = $this->userRepository->getUserProfile($this->user->getId());
     }
