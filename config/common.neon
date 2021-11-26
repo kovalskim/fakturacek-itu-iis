@@ -20,6 +20,7 @@ services:
     - App\repository\SettingInvoicesRepository
     - App\repository\TextRepository
     - App\repository\UserRepository
+    - App\repository\StatisticsRepository
 
     - App\forms\AdministratorsFormFactory
     - App\forms\CategoryFormFactory
