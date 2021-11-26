@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'd507e002f7fce7f0c6dbf1f22edcb902' => $vendorDir . '/tracy/tracy/src/Tracy/functions.php',
+    '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     'a5f26a3f3f192c1d07586b1de3779617' => $vendorDir . '/nextras/dbal/srcCompat/compatibility.php',
 );

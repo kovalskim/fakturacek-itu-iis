@@ -6,12 +6,16 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'setasign\\Fpdi\\' => array($vendorDir . '/setasign/fpdi/src'),
     'Symfony\\Thanks\\' => array($vendorDir . '/symfony/thanks/src'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Nextras\\MailPanel\\' => array($vendorDir . '/nextras/mail-panel/src'),
     'Nextras\\FormsRendering\\' => array($vendorDir . '/nextras/forms-rendering/src'),
     'Nextras\\Dbal\\' => array($vendorDir . '/nextras/dbal/src'),
     'Nextras\\Datagrid\\' => array($vendorDir . '/nextras/datagrid/src'),
     'Nextras\\Application\\UI\\' => array($vendorDir . '/nextras/secured-links/src'),
+    'Mpdf\\' => array($vendorDir . '/mpdf/mpdf/src'),
+    'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'Contributte\\FormMultiplier\\' => array($vendorDir . '/contributte/forms-multiplier/src'),
     'App\\' => array($baseDir . '/app'),
 );
