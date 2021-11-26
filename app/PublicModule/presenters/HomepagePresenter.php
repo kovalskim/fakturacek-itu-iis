@@ -123,6 +123,12 @@ final class HomepagePresenter extends BasePresenter
             $this->redirect(':Public:Homepage:default');
         }
 
+        if(!($this->userRepository->getUserStatusByToken($token) != "banned"))
+        {
+            $this->flashMessage('Účet je zablokován', 'danger');
+            $this->redirect(':Public:Homepage:default');
+        }
+
         /** Insert token as default value in newPassword Form */
         $form = $this->getComponent('newPasswordForm');
 
@@ -173,6 +179,12 @@ final class HomepagePresenter extends BasePresenter
         catch (Exception $e)
         {
             $this->flashMessage($e->getMessage(), 'danger');
+            $this->redirect(':Public:Homepage:default');
+        }
+
+        if(!($this->userRepository->getUserStatusByToken($token) != "banned"))
+        {
+            $this->flashMessage('Účet je zablokován', 'danger');
             $this->redirect(':Public:Homepage:default');
         }
 

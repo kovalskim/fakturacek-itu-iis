@@ -74,25 +74,30 @@ class DatagridManager
             $builder->joinLeft('users_last_login', 'users.id = users_last_login.users_id');
             $builder->andWhere("role != %s", "admin");
         }
-        if($this->presenter_params[1] == 'Clients')
+        elseif($this->presenter_params[1] == 'Invoicing')
         {
             $user_id = $this->user->getId();
             $builder->andWhere('users_id = %i', $user_id);
         }
-        if($this->presenter_params[1] == 'Invoicing')
+        if($this->presenter_params[0] == 'Business')
         {
-            $user_id = $this->user->getId();
-            $builder->andWhere('users_id = %i', $user_id);
+            if($this->presenter_params[1] == 'Clients')
+            {
+                $user_id = $this->user->getId();
+                $builder->andWhere('users_id = %i', $user_id);
+            }
         }
-        if($this->presenter_params[1] == 'ClientsAccountant')
+        else
         {
-            $accountant_id = $this->user->getId();
-            $builder->select('ur.id, ur.cin, ur.vat, ur.name, ur.email, ur.phone, ur.street, ur.city, ur.zip, ap.status');
-            $builder->joinLeft('accountant_permission as ap', 'users.id = ap.accountant_id');
-            $builder->joinLeft('users as ur', 'ap.users_id = ur.id');
-            $builder->andWhere('ap.accountant_id = %i', $accountant_id);
+            if($this->presenter_params[1] == 'Clients')
+            {
+                $accountant_id = $this->user->getId();
+                $builder->select('ur.id, ur.cin, ur.vat, ur.name, ur.email, ur.phone, ur.street, ur.city, ur.zip, ap.status');
+                $builder->joinLeft('accountant_permission as ap', 'users.id = ap.accountant_id');
+                $builder->joinLeft('users as ur', 'ap.users_id = ur.id');
+                $builder->andWhere('ap.accountant_id = %i', $accountant_id);
+            }
         }
-
 
         /** Filter - where */
         foreach ($filter as $k => $v) {

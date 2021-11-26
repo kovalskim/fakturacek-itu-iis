@@ -2,8 +2,12 @@
     <h1 n:block=title>Účetní</h1>
     {snippet accountClientConnection}
         {if $isAccountantName}
-            <div>Tvá účetni je: {$isAccountantName}</div>
-            <div><a class = "ajax" n:href="deleteAccountant!">Odstranit účetní</a></div>
+            {if $isAccountantName->status == "active"}
+                <div>Tvá účetni je: {$isAccountantName->name}</div>
+                <div><a class = "ajax" n:href="deleteAccountant!">Odstranit účetní</a></div>
+            {elseif $isAccountantName->status == "wait"}
+                Máte žádost od účetní <b>{$isAccountantName->name}</b>, zde jí můžete příjmout:
+            {/if}
         {else}
             {control clientConnectionForm}
         {/if}

@@ -2,50 +2,50 @@
 
 /** Author: Radek Jůzl */
 
-namespace App\BusinessModule\presenters;
-
+namespace App\AccountantModule\presenters;
 
 use App\forms\ClientsAccountantFormFactory;
+use App\model\DatagridManager;
 use App\model\UserManager;
 use App\repository\AccountantRepository;
 use Exception;
 use Nette\Application\AbortException;
-use Nette\Security\User;
 use Nette\Application\UI\Form;
+use Nette\Security\User;
+use Nextras\Datagrid\Datagrid;
 
-final class AccountantPresenter extends BasePresenter
+final class ClientsPresenter extends BasePresenter
 {
     /** @var ClientsAccountantFormFactory */
     private $clientsAccountantFormFactory;
 
-    /** @var AccountantRepository */
-    private $accountantRepository;
-
-    /** @var User */
-    public $user;
+    /** @var DatagridManager */
+    private $datagridManager;
 
     /** @var UserManager */
     private $userManager;
 
+    /** @var User */
+    public $user;
+
+    /** @var AccountantRepository */
+    private $accountantRepository;
+
     private $table = 'users';
 
-    public function __construct(ClientsAccountantFormFactory $clientsAccountantFormFactory, AccountantRepository $accountantRepository, User $user, UserManager $userManager)
+    public function __construct(ClientsAccountantFormFactory $clientsAccountantFormFactory, DatagridManager $datagridManager, UserManager $userManager, User $user, AccountantRepository $accountantRepository)
     {
         parent::__construct();
         $this->clientsAccountantFormFactory = $clientsAccountantFormFactory;
-        $this->accountantRepository = $accountantRepository;
-        $this->user = $user;
+        $this->datagridManager = $datagridManager;
         $this->userManager = $userManager;
+        $this->user = $user;
+        $this->accountantRepository = $accountantRepository;
     }
 
     public function actionDefault()
     {
 
-    }
-
-    public function renderDefault()
-    {
-        $this->template->isAccountantName = $this->accountantRepository->hasAccountantName($this->user->getId());
     }
 
     protected function createComponentClientConnectionForm(): Form
@@ -63,13 +63,13 @@ final class AccountantPresenter extends BasePresenter
     {
         try
         {
-            $this->userManager->addClientAccountant($values->email, $this->user->getId(), "business");
+            $this->userManager->addClientAccountant($values->email, $this->user->getId(), "accountant");
             $this->flashMessage("Žádost o přidaní byla odeslána", 'success');
             if($this->isAjax())
             {
                 $form->reset();
                 $this->redrawControl('clientConnectionForm');
-                $this->redrawControl('accountClientConnection');
+                $this['datagrid']->redrawControl('rows');
                 $this->redrawControl('flashes');
             }
             else
@@ -90,26 +90,24 @@ final class AccountantPresenter extends BasePresenter
                 $this->redirect('this');
             }
         }
+
     }
 
-    /**
-     * @throws AbortException
-     */
-    public function handleDeleteAccountant(): void
+    public function createComponentDatagrid(): Datagrid
     {
-        $this->accountantRepository->deleteAccountant($this->user->getId());
-        $this->flashMessage("Účetní byla odebrána", "success");
+        $grid = $this->datagridManager->createDatagrid($this->table, $this->getName());
 
-        if($this->isAjax())
-        {
-            $this->template->isAccountantName = $this->accountantRepository->hasAccountantName($this->user->getId());
-            $this->redrawControl('accountClientConnection');
-            $this->redrawControl('flashes');
-        }
-        else
-        {
-            $this->redirect('this');
-        }
+        $grid->addColumn('name', 'Jméno a příjmení')->enableSort(Datagrid::ORDER_ASC);
+        $grid->addColumn('cin', 'IČ');
+        $grid->addColumn('vat', 'DIČ');
+        $grid->addColumn('email', 'E-mail')->enableSort();
+        $grid->addColumn('phone', 'Telefon');
+        $grid->addColumn('street', 'Ulice a č.p.');
+        $grid->addColumn('city', 'Město');
+        $grid->addColumn('zip', 'PSČ');
+        $grid->addColumn('status', 'Status')->enableSort();
+
+        return $grid;
     }
 
     /**
@@ -124,11 +122,11 @@ final class AccountantPresenter extends BasePresenter
         catch (Exception $e)
         {
             $this->flashMessage($e->getMessage(), 'danger');
-            $this->redirect(':Business:Accountant:default');
+            $this->redirect(':Accountant:Clients:default');
         }
 
         $this->accountantRepository->updateStatus($token);
-        $this->flashMessage("Účetní byl udělen přístup", 'success');
-        $this->redirect(':Business:Accountant:default');
+        $this->flashMessage("Přidán klient", 'success');
+        $this->redirect(':Accountant:Clients:default');
     }
 }

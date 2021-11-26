@@ -2,6 +2,7 @@
 
 namespace App\model;
 
+use App\repository\AccountantRepository;
 use App\repository\SettingInvoicesRepository;
 use App\repository\UserRepository;
 use Exception;
@@ -30,7 +31,10 @@ class UserManager
     /** @var AresManager */
     private $aresManager;
 
-    public function __construct(UserRepository $userRepository, MailSender $mailSender, User $user, Authenticator $authenticator, SettingInvoicesRepository $settingInvoicesRepository, AresManager $aresManager)
+    /** @var AccountantRepository */
+    private $accountantRepository;
+
+    public function __construct(UserRepository $userRepository, MailSender $mailSender, User $user, Authenticator $authenticator, SettingInvoicesRepository $settingInvoicesRepository, AresManager $aresManager, AccountantRepository $accountantRepository)
     {
         $this->userRepository = $userRepository;
         $this->mailSender = $mailSender;
@@ -38,6 +42,7 @@ class UserManager
         $this->authenticator = $authenticator;
         $this->settingInvoicesRepository = $settingInvoicesRepository;
         $this->aresManager = $aresManager;
+        $this->accountantRepository = $accountantRepository;
     }
 
     /** Author: Martin Kovalski */
@@ -144,7 +149,7 @@ class UserManager
     /**
      * @throws Exception
      */
-    public function checkToken($token)
+    public function checkToken($token, $table = "users")
     {
         /** Check if token was entered */
         if(!$token)
@@ -153,7 +158,19 @@ class UserManager
         }
 
         /** Check if token exists */
-        $hash_validity = $this->userRepository->getTokenValidity($token);
+        if($table == "users")
+        {
+            $hash_validity = $this->userRepository->getTokenValidity($token);
+        }
+        elseif($table == "accountant_permission")
+        {
+            $hash_validity = $this->accountantRepository->getTokenValidity($token);
+        }
+        else
+        {
+            $hash_validity = false;
+        }
+
         if(!$hash_validity)
         {
             throw new Exception('Chybný token');
@@ -163,11 +180,6 @@ class UserManager
         $now = new DateTime();
         if ($hash_validity < $now) {
             throw new Exception('Vypršela platnost tokenu');
-        }
-
-        if(!($this->userRepository->getUserStatusByToken($token) != "banned"))
-        {
-            throw new Exception('Účet je zablokován');
         }
     }
 
@@ -295,5 +307,61 @@ class UserManager
 
         /** Send e-mail with next steps */
         $this->mailSender->sendEmail($email, $subject, $body, $params);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function addClientAccountant($email, $id, $role)
+    {
+        $user = $this->userRepository->getUserByEmail($email);
+
+        if($user != null)
+        {
+            if($user->id == $id)
+            {
+                throw new Exception('Nezadávej svůj e-mail');
+            }
+
+            if($user->role == $role)
+            {
+                throw new Exception('Takový e-mail neexistuje.');
+            }
+
+            $hash_validity = $this->createHashValidity();
+            $hash = $this->createHash($email);
+
+            /** Save to database */
+            if($user->role == "business")
+            {
+                $values = ["users_id" => $user->id, "accountant_id" => $id, "hash" => $hash, "hash_validity" => $hash_validity];
+                $body = 'requestAccountantTemplate.latte';
+            }
+            elseif($user->role == "accountant")
+            {
+                $values = ["users_id" => $id, "accountant_id" => $user->id, "hash" => $hash, "hash_validity" => $hash_validity];
+                $body = 'requestBusinessTemplate.latte';
+            }
+            else
+            {
+                throw new Exception('Takový e-mail neexistuje.');
+            }
+            $this->accountantRepository->addConnectionUser($values);
+
+            /** Prepare parameters for e-mail */
+            $subject = 'Žádost o přijetí';
+            $params = [
+                'token' => $hash,
+                'subject' => $subject,
+                'name' => $this->userRepository->getUserById($id)->name
+            ];
+
+            /** Send e-mail with next steps */
+            $this->mailSender->sendEmail($email, $subject, $body, $params);
+        }
+        else
+        {
+            throw new Exception('Takový e-mail neexistuje.');
+        }
     }
 }
