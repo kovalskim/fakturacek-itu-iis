@@ -15,6 +15,7 @@ use Nette\Security\User;
 use Nextras\Datagrid\Datagrid;
 use App\model\ExpensesManager;
 use App\model\ImageUploader;
+use Nette\Utils\DateTime;
 
 final class ExpensesPresenter extends BasePresenter
 {
@@ -67,7 +68,9 @@ final class ExpensesPresenter extends BasePresenter
     public function createAddExpensesFormSucceeded($form, $values)
     {
         $user_id = $this->user->getId();
-        $row = ((array) $values) + ['users_id' => $user_id] + ['datetime' => '2021-11-22 10:23:04'];   //TODO: datetime
+          //TODO: datetime
+
+            $row = ((array) $values) + ['users_id' => $user_id] + ['datetime' => NULL] + ['categories_id' => '10']; 
 
         try
         {
@@ -98,6 +101,14 @@ final class ExpensesPresenter extends BasePresenter
             $this->redrawControl('flashes');
             $grid->redrawControl('rows');
 
+        });
+        $grid->addGlobalAction('edit', 'Upravit', function (array $ids, Datagrid $grid) {
+            foreach ($ids as $id) {
+                $this->expencesManager->edit("juj", $id);
+            }
+            $this->flashMessage('Kategorie byla upravena.', 'success');
+            $this->redrawControl('flashes');
+            $grid->redrawControl('rows');
         });
         return $grid;
     }

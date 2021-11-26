@@ -30,16 +30,16 @@ class CategoryFormFactory
         return $form;
     }
 
-    public function deleteCategoryForm(): Form
+    public function editCategoryForm(): Form
     {
         $form = $this->formFactory->create();
 
-        $form->addText('name', 'Kategorie:')
+        $form->addText('name', 'Název:')
             ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Kategorie')
+            ->setHtmlAttribute('placeholder', 'Název')
             ->setHtmlAttribute('autofocus');
 
-        $form->addSubmit('addExpenses', 'Vymazat');
+        $form->addSubmit('addExpenses', 'Upravit');
 
         return $form;
     }

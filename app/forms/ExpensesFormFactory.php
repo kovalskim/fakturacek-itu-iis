@@ -45,9 +45,9 @@ class ExpensesFormFactory
 
 
         $form->addSelect('categories_id', 'Kategorie', $array)
-            ->setRequired()
             ->setHtmlAttribute('placeholder', 'Kategorie')
-            ->setHtmlAttribute('autofocus');
+            ->setHtmlAttribute('autofocus')
+            ->setPrompt('--- Kategorie ---');
 
         $form->addUpload('path', 'Doklad:')
             ->addRule($form::IMAGE, 'Doklad musí být JPEG, PNG, GIF or WebP.')

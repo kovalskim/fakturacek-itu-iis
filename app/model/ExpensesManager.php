@@ -25,4 +25,9 @@ class ExpensesManager
         $this->expensesRepository->deleteExpensesByUserId($primary);
 
     }
+
+    public function edit($name, $id)
+    {
+            $this->expencesRepository->editExpensesByUserId($name, $id);
+    }
 }

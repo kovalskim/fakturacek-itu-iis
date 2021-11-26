@@ -81,18 +81,21 @@ final class CategoryPresenter extends BasePresenter
                 else {
                     $this->flashMessage('Kategorie byla vymazána.', 'success');
                 }
-                
             }
 
             $this->redrawControl('flashes');
             $grid->redrawControl('rows');
 
-
         });
-
+        $grid->addGlobalAction('edit', 'Upravit', function (array $ids, Datagrid $grid) {
+            foreach ($ids as $id) {
+                $this->categoryManager->edit("juj", $id);
+            }
+            $this->flashMessage('Kategorie byla upravena.', 'success');
+            $this->redrawControl('flashes');
+            $grid->redrawControl('rows');
+        });
         return $grid;
     }
-
-
 
 }

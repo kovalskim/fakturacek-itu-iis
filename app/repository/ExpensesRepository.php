@@ -18,4 +18,9 @@ class ExpensesRepository extends AllRepository
     {
         $this->connection->query("DELETE FROM %table WHERE `expenses`.`id` = %i", $this->table, $id);
     }
+
+    public function editExpensesByUserId($id, $path, $categories_id, $items, $price)
+    {
+        $this->connection->query("DELETE FROM %table WHERE `expenses`.`id` = %i", $this->table, $id);
+    }
 }

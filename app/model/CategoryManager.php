@@ -47,4 +47,9 @@ class CategoryManager
         }
 
     }
+
+    public function edit($name, $id)
+    {
+            $this->categoryRepository->editCategoryByUserId($name, $id);
+    }
 }
