@@ -19,9 +19,17 @@ class CategoryRepository extends AllRepository
         $this->connection->query("DELETE FROM %table WHERE `categories`.`id` = %i", $this->table, $id);
     }
 
-    public function editCategoryByUserId($name, $id)
+    public function editCategoryByUserId($values)
     {
-        $this->connection->query("UPDATE %table SET `name` = %s WHERE `categories`.`id` = %i", $this->table, $name ,$id);
+        $this->connection->query("UPDATE %table SET %values", $this->table, $values);
     }
+
+
+    public function updateCategoryById($id, $values)
+    {
+        $this->connection->query('UPDATE %table SET %set WHERE id = %i', $this->table, $values, $id);
+    }
+
+
 
 }

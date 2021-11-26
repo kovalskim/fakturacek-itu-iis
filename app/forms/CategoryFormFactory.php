@@ -30,7 +30,7 @@ class CategoryFormFactory
         return $form;
     }
 
-    public function editCategoryForm(): Form
+    public function createEditCategoryForm(): Form
     {
         $form = $this->formFactory->create();
 

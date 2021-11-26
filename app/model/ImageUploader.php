@@ -6,6 +6,7 @@ namespace App\model;
 
 use App\repository\SettingInvoicesRepository;
 use App\repository\UserRepository;
+use App\repository\ExpensesRepository;
 use Exception;
 use Nette\Security\User;
 use Nette\Utils\Finder;
@@ -25,11 +26,15 @@ class ImageUploader
     /** @var SettingInvoicesRepository */
     private $settingInvoicesRepository;
 
-    public function __construct(UserRepository $userRepository, User $user, SettingInvoicesRepository $settingInvoicesRepository)
+    /** @var ExpensesRepository */
+    private $expensesRepository;
+
+    public function __construct(UserRepository $userRepository, User $user, SettingInvoicesRepository $settingInvoicesRepository, ExpensesRepository $expensesRepository )
     {
         $this->userRepository = $userRepository;
         $this->user = $user;
         $this->settingInvoicesRepository = $settingInvoicesRepository;
+        $this->expensesRepository = $expensesRepository;
     }
 
     /**
@@ -83,6 +88,10 @@ class ImageUploader
         {
             $nameFolder = "logo";
         }
+        elseif($type == "expenses")
+        {
+            $nameFolder = "expenses";
+        }
 
         while($end == 1)
         {
@@ -123,6 +132,23 @@ class ImageUploader
         $this->settingInvoicesRepository->updateSetting($data, $user_id);
     }
 
+
+    //TODO
+    public function saveExpenses($form, $values, $name, $img)
+    {
+        $values->path = "www/expenses/".$name;
+        $img->save('../'.$values->path);
+
+      /*  $old_expenses = $this->userRepository->getUserAvatar($this->user->getId());
+        if($old_avatar != null)
+        {
+            $old_avatar = "../".$old_avatar;
+            FileSystem::delete($old_avatar);
+        }
+*/
+        $this->expensesRepository->updateImg($values);
+    }
+
     /**
      * @throws Exception
      */
@@ -135,6 +161,10 @@ class ImageUploader
         elseif($type == "logo")
         {
             $path = $values->logo_path;
+        }
+        elseif($type == "expenses")
+        {
+            $path = $values->path;
         }
 
         try
@@ -156,6 +186,11 @@ class ImageUploader
         {
             $name = $this->generateNameImg($type);
             $this->saveLogoAndSetting($form, $values, $name, $loadImg);
+        }
+        elseif($type == "expenses")
+        {
+            $name = $this->generateNameImg($type);
+            $this->saveExpenses($form, $values, $name, $loadImg);
         }
     }
 

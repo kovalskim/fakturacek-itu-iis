@@ -12,6 +12,7 @@ use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
 use Nextras\Datagrid\Datagrid;
+use Nette\Forms\Container;
 
 final class CategoryPresenter extends BasePresenter
 {
@@ -72,10 +73,23 @@ final class CategoryPresenter extends BasePresenter
     {
         $grid = $this->datagridManager->createDatagrid($this->categoryTable, $this->getName());
 
+      
+    
+
         $grid->addColumn('name', 'Kategorie');
-        $grid->addGlobalAction('delete', 'Vymazat', function (array $ids, Datagrid $grid) {
+        $grid->setFilterFormFactory([$this, 'datagridFilterFormFactory']);
+
+
+        $grid->setEditFormFactory([$this, 'datagridEditFormFactory']);
+        $grid->setEditFormCallback([$this, 'editFormSucceeded']);
+
+        $grid->setDeleteCategoryCallback([$this, 'deleteCategory']);
+
+
+
+        $grid->addGlobalAction('deleteCategory', 'Vymazat', function (array $ids, Datagrid $grid) {
             foreach ($ids as $id) {
-                if($this->categoryManager->delete($id)){
+                if($this->categoryManager->deleteCategory($id)){
                     $this->flashMessage('Kategorie je používána a tutíž nebyla vymazána.', 'success');
                 }
                 else {
@@ -87,15 +101,65 @@ final class CategoryPresenter extends BasePresenter
             $grid->redrawControl('rows');
 
         });
-        $grid->addGlobalAction('edit', 'Upravit', function (array $ids, Datagrid $grid) {
-            foreach ($ids as $id) {
-                $this->categoryManager->edit("juj", $id);
-            }
-            $this->flashMessage('Kategorie byla upravena.', 'success');
-            $this->redrawControl('flashes');
-            $grid->redrawControl('rows');
-        });
+
         return $grid;
+    }
+
+    public function datagridFilterFormFactory(): Container
+    {
+        $form = new Container();
+        $form->addText('name')
+            ->setHtmlAttribute('placeholder', 'Název kategorie');
+
+        $form->addSubmit('filter', 'Filtrovat');
+        $form->addSubmit('cancel', 'Zrušit');
+
+        return $form;
+    }
+
+    public function datagridEditFormFactory($row): Container
+    {
+        $form = new Container();
+        $form->addText('name')
+            ->setRequired()
+            ->setHtmlAttribute('placeholder', 'Název kategorie');
+
+
+        $form->addSubmit('save', 'Uložit');
+        $form->addSubmit('cancel', 'Zrušit');
+
+        if ($row) {
+            $form->setDefaults($row);
+        }
+
+        $form->onValidate[] = [$this, "editFormValidate"];
+
+        return $form;
+    }
+
+
+    public function editFormValidate(Container $form)
+    {
+        $this->categoryManager->editCategoryFormValidate($form);
+    }
+
+    public function editFormSucceeded(Container $form)
+    {
+        $this->categoryManager->editCategoryFormSucceeded($form);
+
+        $this->flashMessage('Uloženo', 'success');
+        $this->redrawControl('flashes');
+    }
+
+    public function deleteCategory($primary)
+    {
+        if($this->categoryManager->deleteCategory($primary)){
+            $this->flashMessage('Kategorie je používána a tutíž nebyla vymazána.', 'success');
+        }
+        else {
+            $this->flashMessage('Kategorie byla vymazána.', 'success');
+        }
+        $this->redrawControl('flashes');
     }
 
 }

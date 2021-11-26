@@ -160,4 +160,95 @@ class DatagridExtended extends Datagrid
             $this->redrawControl('rows');
         }
     }
+
+    /** Author: Dalibor Kyjovský */
+
+    /** @var callable */
+    protected $editCategoryCallback;
+
+    public function setEditCategoryCallback(callable  $callback)
+    {
+        $this->editCategoryCallback = $callback;
+    }
+
+    public function getEditCategoryCallback(): callable
+    {
+        return $this->editCategoryCallback;
+    }
+
+    /**
+     * @secured
+     */
+    public function handleEditCategory($primary)
+    {
+        $call = $this->getEditCategoryCallback();
+        $call($primary);
+        if($this->presenter->isAjax())
+        {
+            $this->redrawControl('rows');
+        }
+    }
+
+
+
+    //** Deleting category */
+
+
+    /** @var callable */
+    protected $deleteCategoryCallback;
+
+    public function setDeleteCategoryCallback(callable $callback)
+    {
+        $this->deleteCategoryCallback = $callback;
+    }
+
+    public function getDeleteCategoryCallback(): callable
+    {
+        return $this->deleteCategoryCallback;
+    }
+
+    /**
+     * @secured
+     */
+    public function handleDeleteCategory($primary)
+    {
+        $call = $this->getDeleteCategoryCallback();
+        $call($primary);
+        if($this->presenter->isAjax())
+        {
+            $this->redrawControl('rows');
+        }
+    }
+
+
+    //** Deleting expense */
+
+
+    /** @var callable */
+    protected $deleteExpenseCallback;
+
+    public function setDeleteExpenseCallback(callable $callback)
+    {
+        $this->deleteExpenseCallback = $callback;
+    }
+
+    public function getDeleteExpenseCallback(): callable
+    {
+        return $this->deleteExpenseCallback;
+    }
+
+    /**
+     * @secured
+     */
+    public function handleDeleteExpense($primary)
+    {
+        $call = $this->getDeleteExpenseCallback();
+        $call($primary);
+        if($this->presenter->isAjax())
+        {
+            $this->redrawControl('rows');
+        }
+    }
+
+
 }

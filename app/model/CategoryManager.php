@@ -25,7 +25,7 @@ class CategoryManager
     }
 
 
-    public function delete($id)
+    public function deleteCategory($id)
     {
         $categories_id = $this->connection->query("SELECT `expenses`.`categories_id` FROM `expenses`")->fetchall();
         $test = 0;
@@ -48,8 +48,25 @@ class CategoryManager
 
     }
 
-    public function edit($name, $id)
+    public function editCategoryFormValidate($form, $values = null)
     {
-            $this->categoryRepository->editCategoryByUserId($name, $id);
+        if(!$values)
+        {
+            $values = $form->getValues();
+        }
+
+    }
+
+    public function editCategoryFormSucceeded($form, $values = null)
+    {
+        if(!$values)
+        {
+            $values = $form->getValues();
+        }
+
+        $id = $values->id;
+
+        $this->categoryRepository->updateCategoryById($id, (array)$values);
     }
 }
+

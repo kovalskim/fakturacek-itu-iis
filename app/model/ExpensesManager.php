@@ -20,14 +20,30 @@ class ExpensesManager
     }
 
 
-    public function delete($primary)
+    public function deleteExpense($primary)
     {
         $this->expensesRepository->deleteExpensesByUserId($primary);
 
     }
 
-    public function edit($name, $id)
+    public function editExpenseFormValidate($form, $values = null)
     {
-            $this->expencesRepository->editExpensesByUserId($name, $id);
+        if(!$values)
+        {
+            $values = $form->getValues();
+        }
+
+    }
+
+    public function editExpenseFormSucceeded($form, $values = null)
+    {
+        if(!$values)
+        {
+            $values = $form->getValues();
+        }
+
+        $id = $values->id;
+
+        $this->expensesRepository->updateExpenseById($id, (array)$values);
     }
 }

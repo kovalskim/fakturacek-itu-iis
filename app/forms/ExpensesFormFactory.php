@@ -25,7 +25,7 @@ class ExpensesFormFactory
     {
         $array = array();
 
-        $categories = $this->connection->query('SELECT * FROM categories')->fetchall();
+        $categories = $this->connection->query('SELECT * FROM categories WHERE categories.id != 1')->fetchall();
 
         foreach ($categories as $row) {
             $array[$row->id] = $row->name;
@@ -51,8 +51,7 @@ class ExpensesFormFactory
 
         $form->addUpload('path', 'Doklad:')
             ->addRule($form::IMAGE, 'Doklad musí být JPEG, PNG, GIF or WebP.')
-            ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB.', 1024 * 1024 * 5)
-            ->setRequired();
+            ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB.', 1024 * 1024 * 5);
 
         $form->addSubmit('addExpenses', 'Přidat');
 

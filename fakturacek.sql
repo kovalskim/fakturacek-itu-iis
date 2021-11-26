@@ -66,7 +66,7 @@ CREATE TABLE `expenses` (
   `categories_id` int(11) NOT NULL,
   `items` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
   `price` float NOT NULL,
-  `datetime` datetime NOT NULL,
+  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `categories_id` (`categories_id`),
   KEY `users_id` (`users_id`),
@@ -224,3 +224,4 @@ CREATE TABLE `users_last_password_change` (
 
 
 -- 2021-11-25 23:49:36
+--2021-11-26 21:10:5 current timestamp - expences
