@@ -63,11 +63,14 @@ final class ClientsPresenter extends BasePresenter
 
     public function createAddClientFormValidate($form, $values)
     {
-        if($this->aresManager->verificationCin($values->cin) != 0)
+        if($values->cin != null)
         {
-            $form["cin"]->addError("Toto IČ neexistuje.");
+            if($this->aresManager->verificationCin($values->cin) != 0)
+            {
+                $form["cin"]->addError("Toto IČ neexistuje.");
+            }
+            $this->redrawControl('clientForm');
         }
-        $this->redrawControl('clientForm');
     }
 
     /**
