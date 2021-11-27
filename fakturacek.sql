@@ -15,7 +15,8 @@ CREATE TABLE `accountant_permission` (
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `hash` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `hash_validity` datetime DEFAULT NULL,
-  `status` enum('wait','active','deleted') COLLATE utf8mb4_czech_ci NOT NULL DEFAULT 'wait',
+  `request_status` enum('wait','active') COLLATE utf8mb4_czech_ci NOT NULL DEFAULT 'wait',
+  `who` enum('business','accountant') COLLATE utf8mb4_czech_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `users_id` (`users_id`),
   KEY `accountant_id` (`accountant_id`),
@@ -23,9 +24,9 @@ CREATE TABLE `accountant_permission` (
   CONSTRAINT `accountant_permission_ibfk_2` FOREIGN KEY (`accountant_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
-INSERT INTO `accountant_permission` (`id`, `users_id`, `accountant_id`, `created`, `hash`, `hash_validity`, `status`) VALUES
-(4,	4,	3,	'2021-11-25 22:52:11',	NULL,	NULL,	'active'),
-(5,	2,	3,	'2021-11-25 23:04:25',	NULL,	NULL,	'wait');
+INSERT INTO `accountant_permission` (`id`, `users_id`, `accountant_id`, `created`, `hash`, `hash_validity`, `request_status`, `who`) VALUES
+(23,	4,	3,	'2021-11-26 21:14:39',	NULL,	NULL,	'wait',	'business'),
+(24,	2,	3,	'2021-11-26 21:14:42',	NULL,	NULL,	'active',	'business');
 
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
@@ -35,7 +36,7 @@ CREATE TABLE `categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `categories` (`id`, `name`) VALUES
-(2,	'Default');
+(2,	'juj');
 
 DROP TABLE IF EXISTS `clients`;
 CREATE TABLE `clients` (
@@ -66,7 +67,7 @@ CREATE TABLE `expenses` (
   `categories_id` int(11) NOT NULL,
   `items` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
   `price` float NOT NULL,
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `datetime` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `categories_id` (`categories_id`),
   KEY `users_id` (`users_id`),
@@ -194,7 +195,8 @@ INSERT INTO `users` (`id`, `cin`, `vat`, `name`, `email`, `phone`, `password`, `
 (1,	NULL,	NULL,	'Admin',	'admin@fakturacek.cz',	NULL,	'$2y$10$EkpTYHKufe7jCAwEzYEr2OTa5tdPNGCRGF6fqufVte.jC73fvym1G',	NULL,	NULL,	'admin',	NULL,	NULL,	NULL,	NULL,	'active',	'2021-11-24 20:40:21'),
 (2,	'61019836',	NULL,	'Business',	'business@fakturacek.cz',	'',	'$2y$10$UujM3C3lJFY4dlkuy88LteFX06bCNG8LGNSa9Rc5J9/qxavJ86eF.',	NULL,	NULL,	'business',	'Kolejní 66',	'Brno',	'45678',	NULL,	'active',	'2021-11-25 00:23:35'),
 (3,	'71048065',	NULL,	'Accountant',	'accountant@fakturacek.cz',	'123456789',	'$2y$10$KUkctHpRXI71vM41yRI/Q.Sxm3FiYF3JX6tf88qBzdwbffeuiNQ32',	NULL,	NULL,	'accountant',	'test 55',	'Testova',	'12345',	NULL,	'active',	'2021-11-25 15:50:44'),
-(4,	'25690477',	'',	'Radek Jůzl',	'radekjuzl@seznam.cz',	'',	'$2y$10$tKvmQG7oN4X8G5re./SB6OwFmEHgYwWA6SJbUmVJe02fSLSiUeNJG',	NULL,	NULL,	'business',	'Kam 204',	'Nikam',	'39601',	NULL,	'active',	'2021-11-25 14:20:10');
+(4,	'25690477',	'',	'Radek Jůzl',	'radekjuzl@seznam.cz',	'',	'$2y$10$9wmvZe/2LlrJkskUJFXqSOm7MS4xlOa7XxKxjqQV5EtcYEjyqv9S2',	NULL,	NULL,	'business',	'Kam 204',	'Nikam',	'39601',	NULL,	'active',	'2021-11-25 14:20:10'),
+(5,	'08391335',	NULL,	'Radek Jůzl',	'accountant2@fakturacek.cz',	'',	'$2y$10$Rrz7zBRe/D9gSySjdmJcaOSpfTiHGbcDDBS0cgZUTaoLyJezzb2Aa',	NULL,	NULL,	'accountant',	'Kam 204',	'Nikam',	'39601',	NULL,	'active',	'2021-11-26 23:00:13');
 
 DROP TABLE IF EXISTS `users_last_login`;
 CREATE TABLE `users_last_login` (
@@ -208,9 +210,10 @@ CREATE TABLE `users_last_login` (
 
 INSERT INTO `users_last_login` (`id`, `users_id`, `timestamp`) VALUES
 (26,	1,	'2021-11-25 20:55:21'),
-(38,	3,	'2021-11-25 22:50:43'),
-(39,	4,	'2021-11-25 23:48:14'),
-(40,	2,	'2021-11-25 23:48:47');
+(71,	2,	'2021-11-26 22:01:23'),
+(72,	4,	'2021-11-26 22:01:38'),
+(76,	3,	'2021-11-27 01:19:39'),
+(77,	5,	'2021-11-27 01:19:55');
 
 DROP TABLE IF EXISTS `users_last_password_change`;
 CREATE TABLE `users_last_password_change` (
@@ -222,6 +225,7 @@ CREATE TABLE `users_last_password_change` (
   CONSTRAINT `users_last_password_change_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
+INSERT INTO `users_last_password_change` (`id`, `users_id`, `timestamp`) VALUES
+(1,	4,	'2021-11-26 13:37:24');
 
--- 2021-11-25 23:49:36
---2021-11-26 21:10:5 current timestamp - expences
+-- 2021-11-27 01:37:09
