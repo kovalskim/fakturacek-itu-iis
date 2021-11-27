@@ -116,7 +116,7 @@ class DatagridManager
                 $user_id = $this->user->getId();
                 $builder->andWhere('users_id = %i', $user_id);
             }
-            //Daliborko - Cant view default category
+            //Daliborko - Only actual user
             elseif($this->presenter_params[1] == 'Category')
             {
                 $user_id = $this->user->getId();

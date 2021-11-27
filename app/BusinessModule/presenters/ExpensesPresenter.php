@@ -76,10 +76,10 @@ final class ExpensesPresenter extends BasePresenter
         $path_is_null = 0;
 
         $user_id = $this->user->getId();
-        if($values->categories_id == NULL)
-        {
-            $values->categories_id = "1";
-        }
+       // if($values->categories_id == NULL)
+       // {
+        //    $values->categories_id = "1";
+       // }
             $row = ((array) $values) + ['users_id' => $user_id]; 
 
         try

@@ -49,6 +49,12 @@ class ExpensesFormFactory
             ->setHtmlAttribute('autofocus')
             ->setPrompt('--- Kategorie ---');
 
+        $form->addText('datetime', 'Datum')
+            ->setType('date')
+            ->setRequired()
+            ->setHtmlAttribute('placeholder', 'Položka')
+            ->setHtmlAttribute('autofocus');
+
         $form->addUpload('path', 'Doklad:')
             ->addRule($form::MIME_TYPE, 'Doklad musí být PDF, JPEG, PNG, GIF or WebP.', 'application/x-pdf,application/pdf,image/gif,image/webp,image/png,image/jpeg')
             ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB.', 1024 * 1024 * 5)
