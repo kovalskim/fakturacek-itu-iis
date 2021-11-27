@@ -294,9 +294,11 @@
 			var elem = errors[i].element,
 				message = errors[i].message;
 
+				elem.classList.add("is-invalid");
 				/** Create div with error and place it under the form input */
 				var error_div = document.createElement('div');
 				error_div.classList.add('invalid-feedback');
+				error_div.classList.add('d-block');
 				error_div.innerText = message;
 				elem.after(error_div);
 			 	/** ------- */
