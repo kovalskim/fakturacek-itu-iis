@@ -273,5 +273,26 @@ class DatagridExtended extends Datagrid
         }
     }
 
+    /** @var callable */
+    protected $sendReminderCallback;
+
+    public function setSendReminderCallback(callable $callback)
+    {
+        $this->sendReminderCallback = $callback;
+    }
+
+    public function getSendReminderCallback(): callable
+    {
+        return $this->sendReminderCallback;
+    }
+
+    /**
+     * @secured
+     */
+    public function handleSendReminder($primary)
+    {
+        $call = $this->getSendReminderCallback();
+        $call($primary);
+    }
 
 }

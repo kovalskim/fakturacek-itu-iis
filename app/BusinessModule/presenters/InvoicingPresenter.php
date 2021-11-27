@@ -91,6 +91,8 @@ final class InvoicingPresenter extends BasePresenter
 
         $grid->setDownloadInvoiceCallback([$this, 'handleDownloadInvoice']);
 
+        $grid->setSendReminderCallback([$this, 'sendReminder']);
+
         $grid->addGlobalAction('paid', 'Zaplaceno', function (array $ids, Datagrid $grid) {
             foreach ($ids as $id) {
                 $this->invoicingRepository->updateInvoiceStatus($id, 'paid');
@@ -398,10 +400,7 @@ final class InvoicingPresenter extends BasePresenter
         $this->redirect('this');
     }
 
-    /**
-     * @secured
-     */
-    public function handleSendReminderStatus($primary)
+    public function sendReminder($primary)
     {
        $invoice = $this->invoicingRepository->getInvoiceDataById($primary);
         //email varovani
@@ -416,7 +415,5 @@ final class InvoicingPresenter extends BasePresenter
 
         $this->flashMessage('E-mail byl odeslán', 'success');
         $this->redrawControl('flashes');
-        $this->redrawControl('status');
-        $this->redrawControl('status_links');
     }
 }

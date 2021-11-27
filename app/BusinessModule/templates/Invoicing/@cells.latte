@@ -4,7 +4,7 @@
 
 {define cell-status}
     {if $row->status == 'unpaid'}
-        Nezaplacená
+        <span{if $row->after_due_date == 1} style="color: red !important;"{/if}>Nezaplacená</span>
     {elseif $row->status == 'paid'}
         Zaplacená
     {elseif $row->status == 'canceled'}
@@ -25,5 +25,6 @@
     <a href="#" class="ajax">Opakovat fakturu</a>
     <a n:if="$row->status == 'unpaid'" href="{link changeStatus! $primary, "paid"}" class="ajax">Zaplaceno</a>
     <a n:if="$row->status == 'unpaid'" href="{link changeStatus! $primary, "canceled"}" class="ajax" data-ajax-confirm="Opravdu stornovat?">Stornovat</a>
-    <a href="{link downloadInvoice! $primary}" class="">Stáhnout fakturu</a>
+    <a href="{link downloadInvoice! $primary}">Stáhnout fakturu</a>
+    <a n:if="$row->after_due_date == 1" href="{link sendReminder! $primary}" class="ajax">Poslat upozornění</a>
 {/define}
