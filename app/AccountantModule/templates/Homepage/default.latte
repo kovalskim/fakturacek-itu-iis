@@ -1,3 +1,14 @@
 {block content}
 	<h1 n:block=title>Fakturáček - Homepage ACCOUNTANT</h1>
+
+	{foreach $requests as $request}
+		Žádost od: {$request->name}<br>
+	{else}
+		Žádné žádosti
+	{/foreach}
+
+	<h2>Počet klientů</h2>
+	<p>Celkem: {$suma}</p>
+	<p>Počet nových: {$waiting}</p>
+	<p>Počet aktivních: {$active}</p>
 {/block}

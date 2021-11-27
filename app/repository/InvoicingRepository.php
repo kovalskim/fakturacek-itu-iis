@@ -4,6 +4,7 @@
 
 namespace App\repository;
 
+use Nette\Utils\DateTime;
 use Nextras\Dbal\Result\Row;
 
 class InvoicingRepository extends AllRepository
@@ -60,5 +61,15 @@ class InvoicingRepository extends AllRepository
     public function updateSuma($suma, $id)
     {
         $this->connection->query("UPDATE %table SET %set WHERE id = %i",  $this->table, ["suma" =>  $suma], $id);
+    }
+
+    public function getUnpaidInvoicesByUserId($user_id): array
+    {
+        return $this->connection->query('SELECT * FROM invoices WHERE users_id = %i AND status = "unpaid" AND due_date >= %dt', $user_id, new DateTime())->fetchAll();
+    }
+
+    public function getAfterDueDateInvoicesByUserId($user_id): array
+    {
+        return $this->connection->query('SELECT * FROM invoices WHERE users_id = %i AND status = "unpaid" AND due_date < %dt', $user_id, new DateTime())->fetchAll();
     }
 }

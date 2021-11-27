@@ -1,0 +1,7 @@
+{define cell-price}
+    {$row->price|number:2, ',', ' '} Kč
+{/define}
+
+{define cell-datetime}
+    {$row->datetime|date:'%d.%m.%Y %H:%M'}
+{/define}

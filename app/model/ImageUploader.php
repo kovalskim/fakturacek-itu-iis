@@ -128,7 +128,15 @@ class ImageUploader
         $user_id = $this->user->getId();
         $vat = $values->vat ?? null;
         $this->userRepository->updateUserVat($user_id, $vat);
-        $data = ["account_number" => $values->account_number, "variable_symbol" => $values->variable_symbol, "vat_note" => $values->vat_note, "footer_note" => $values->footer_note, "logo_path" => $values->logo_path];
+        if(isset($values->variable_symbol))
+        {
+            $data = ["account_number" => $values->account_number, "variable_symbol" => $values->variable_symbol, "vat_note" => $values->vat_note, "footer_note" => $values->footer_note, "logo_path" => $values->logo_path];
+        }
+        else
+        {
+            $data = ["account_number" => $values->account_number, "vat_note" => $values->vat_note, "footer_note" => $values->footer_note, "logo_path" => $values->logo_path];
+        }
+        
         $this->settingInvoicesRepository->updateSetting($data, $user_id);
     }
 
