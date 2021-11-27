@@ -1,9 +1,8 @@
 <?php
 
+/** Author: Radek Jůzl */
+
 namespace App\model;
-
-
-use Exception;
 
 class AresManager
 {

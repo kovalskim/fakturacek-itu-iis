@@ -1,14 +1,12 @@
 <?php
 
-namespace App\AdminModule\presenters;
-
 /** Author: Martin Kovalski */
+
+namespace App\AdminModule\presenters;
 
 use App\forms\AdministratorsFormFactory;
 use App\model\AdministratorsManager;
 use App\model\DatagridManager;
-use App\model\MailSender;
-use App\repository\UserRepository;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
@@ -26,22 +24,14 @@ final class AdministratorsPresenter extends BasePresenter
     /** @var DatagridManager */
     private $datagridManager;
 
-    /** @var UserRepository */
-    private $userRepository;
-
-    /** @var MailSender */
-    private $mailSender;
-
     private $userTable = 'users';
 
-    public function __construct(AdministratorsFormFactory $administratorsFormFactory, AdministratorsManager $administratorsManager, DatagridManager $datagridManager, UserRepository $userRepository, MailSender $mailSender)
+    public function __construct(AdministratorsFormFactory $administratorsFormFactory, AdministratorsManager $administratorsManager, DatagridManager $datagridManager)
     {
         parent::__construct();
         $this->administratorsFormFactory = $administratorsFormFactory;
         $this->administratorsManager = $administratorsManager;
         $this->datagridManager = $datagridManager;
-        $this->userRepository = $userRepository;
-        $this->mailSender = $mailSender;
     }
 
     public function actionDefault()

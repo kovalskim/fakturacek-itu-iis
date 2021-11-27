@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Martin Kovalski, Radek Jůzl, Dalibor Kyjovský*/
+
 namespace App\model;
 
 use Nextras\Application\UI\SecuredLinksPresenterTrait;
@@ -183,8 +185,6 @@ class DatagridExtended extends Datagrid
         $call($primary);
     }
 
-
-    /** Author: Dalibor Kyjovský */
 
     /** @var callable */
     protected $editCategoryCallback;

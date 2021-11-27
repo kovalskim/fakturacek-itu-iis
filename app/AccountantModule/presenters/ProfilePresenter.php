@@ -141,5 +141,4 @@ final class ProfilePresenter extends BasePresenter
         $this->flashMessage("Obrázek se smazal", "success");
         $this->redirect(":Admin:Profile:default");
     }
-
 }

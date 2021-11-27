@@ -1,12 +1,12 @@
 <?php
 
+/** Author: Martin Kovalski, Radek Jůzl */
+
 namespace App\model;
 
 use App\repository\ClientRepository;
 use App\repository\InvoicingRepository;
 use Nette\Utils\DateTime;
-
-/** Author: Martin Kovalski */
 
 class InvoicingManager
 {
@@ -75,32 +75,6 @@ class InvoicingManager
         return $vs;
     }
 
-    /*public function editClientsFormValidate($form, $values = null)
-    {
-        if(!$values)
-        {
-            $values = $form->getValues();
-        }
-
-        $iterator = 0;
-        foreach ($values->multiplier as $value)
-        {
-            if($value->name == null)
-            {
-                $form["multiplier"][$iterator]["name"]->addError("Chybí název položky");
-            }
-            if(($value->count == null) or ($value->count < 1))
-            {
-                $form["multiplier"][$iterator]["count"]->addError("Špatná hodnota");
-            }
-            if(($value->unit_price == null) or (!(is_numeric((str_replace(",",".",$value->unit_price))))) or ($value->unit_price < 0))
-            {
-                $form["multiplier"][$iterator]["unit_price"]->addError("Špatná hodnota");
-            }
-            $iterator++;
-        }
-    }*/
-
     public function saveClient($values)
     {
         $value = [
@@ -116,7 +90,7 @@ class InvoicingManager
 
         if(!($this->clientRepository->isExistClient($value)))
         {
-
+            //TODO: Radek
         }
     }
 

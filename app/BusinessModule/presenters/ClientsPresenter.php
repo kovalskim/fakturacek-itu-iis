@@ -1,6 +1,6 @@
 <?php
 
-/** Author: Radek Jůzl */
+/** Author: Martin Kovalski, Radek Jůzl */
 
 namespace App\BusinessModule\presenters;
 

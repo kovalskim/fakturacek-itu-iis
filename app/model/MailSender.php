@@ -1,8 +1,8 @@
 <?php
 
-namespace App\model;
-
 /** Author: Martin Kovalski */
+
+namespace App\model;
 
 use Nette\Application\LinkGenerator;
 use Nette\Application\UI\Template;

@@ -2,7 +2,7 @@
 
 namespace App\model;
 
-/** Author: Martin Kovalski */
+/** Author: Martin Kovalski, Radek Jůzl, Dalibor Kyjovský */
 
 use Nette\Security\User;
 use Nette\Utils\Paginator;
@@ -38,7 +38,6 @@ class DatagridManager
         /** Get presenter name and module for path to template */
         $this->presenter_params = explode(':', $presenter, 2);
 
-        //$grid = new Datagrid();
         $grid = new DatagridExtended();
 
         /** Primary key is always id */
@@ -110,7 +109,7 @@ class DatagridManager
                 $user_id = $this->user->getId();
                 $builder->andWhere('users_id = %i', $user_id);
             }
-            //Daliborko - expenses only from actual user
+            //Expenses only from actual user
             elseif($this->presenter_params[1] == 'Expenses')
             {
                 $user_id = $this->user->getId();

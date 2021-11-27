@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Radek Jůzl, Martin Kovalski */
+
 namespace App\model;
 
 use App\repository\AccountantRepository;
@@ -45,19 +47,16 @@ class UserManager
         $this->accountantRepository = $accountantRepository;
     }
 
-    /** Author: Martin Kovalski */
     public function createHash($email): string
     {
         return (new Passwords)->hash(new DateTime() . $email);
     }
 
-    /** Author: Martin Kovalski */
     public function createHashValidity(): DateTime
     {
         return new DateTime('+1 day');
     }
 
-    /** Author: Radek Jůzl, Martin Kovalski */
     public function registrationFormSucceeded($form, $values)
     {
         $values->password = (new Passwords)->hash($values->password);
@@ -81,7 +80,6 @@ class UserManager
         $this->mailSender->sendEmail($values->email, $subject, $body, $params);
     }
 
-    /** Author: Radek Jůzl */
     public function registrationFormValidate($form, $values)
     {
         $email = $values->email;
@@ -106,7 +104,6 @@ class UserManager
 
     }
 
-    /** Author: Martin Kovalski */
     /**
      * @throws Exception
      */
@@ -145,7 +142,6 @@ class UserManager
         $this->mailSender->sendEmail($values->email, $subject, $body, $params);
     }
 
-    /** Author: Martin Kovalski */
     /**
      * @throws Exception
      */
@@ -183,7 +179,6 @@ class UserManager
         }
     }
 
-    /** Author: Martin Kovalski, Radek Jůzl */
     public function newPasswordFormSucceeded($form, $values)
     {
         /** Delete hash and validity, set new password, update in database */
@@ -194,7 +189,6 @@ class UserManager
         $this->userRepository->setUserLastPasswordChange($user_id);
     }
 
-    /** Author: Martin Kovalski */
     public function changePasswordFormSucceeded($form, $values)
     {
         $user_id = $this->user->getId();

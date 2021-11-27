@@ -4,7 +4,6 @@
 
 namespace App\BusinessModule\presenters;
 
-
 use App\forms\ClientsAccountantFormFactory;
 use App\model\UserManager;
 use App\repository\AccountantRepository;
@@ -26,8 +25,6 @@ final class AccountantPresenter extends BasePresenter
 
     /** @var UserManager */
     private $userManager;
-
-    private $table = 'users';
 
     public function __construct(ClientsAccountantFormFactory $clientsAccountantFormFactory, AccountantRepository $accountantRepository, User $user, UserManager $userManager)
     {
@@ -51,7 +48,6 @@ final class AccountantPresenter extends BasePresenter
     protected function createComponentClientConnectionForm(): Form
     {
         $form = $this->clientsAccountantFormFactory->createConnectionForm();
-        //$form->onValidate[] = [$this, "clientConnectionFormValidate"];
         $form->onSuccess[] = [$this, "clientConnectionFormSucceeded"];
         return $form;
     }

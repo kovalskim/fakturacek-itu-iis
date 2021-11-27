@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Radek Jůzl */
+
 namespace App\AdminModule\presenters;
 
 use App\model\AdministratorsManager;
@@ -8,8 +10,6 @@ use App\model\UserManager;
 use Nette\Forms\Container;
 use Nette\Utils\Html;
 use Nextras\Datagrid\Datagrid;
-
-/** Author: Radek Jůzl */
 
 final class UsersPresenter extends BasePresenter
 {

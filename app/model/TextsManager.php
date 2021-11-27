@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Radek Jůzl */
+
 namespace App\model;
 
 use App\repository\TextRepository;
@@ -15,11 +17,6 @@ class TextsManager
     public function __construct(TextRepository $textRepository)
     {
         $this->textRepository = $textRepository;
-    }
-
-    private function loadImg($values)
-    {
-
     }
 
     /**

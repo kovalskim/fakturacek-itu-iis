@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Martin Kovalski */
+
 namespace App\AdminModule\presenters;
 
 use App\repository\AdminDashboardRepository;

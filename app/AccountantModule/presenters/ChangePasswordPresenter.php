@@ -53,6 +53,4 @@ final class ChangePasswordPresenter extends BasePresenter
         }
         $this->redirect('this');
     }
-
-
 }
