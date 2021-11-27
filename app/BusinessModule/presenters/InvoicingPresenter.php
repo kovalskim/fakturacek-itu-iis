@@ -400,4 +400,26 @@ final class InvoicingPresenter extends BasePresenter
         $pdf->Output('invoice.pdf', 'D');
         $this->redirect('this');
     }
+
+    /**
+     * @secured
+     */
+    public function handleSendReminderStatus($primary)
+    {
+       $invoice = $this->invoicingRepository->getInvoiceDataById($primary);
+        //email varovani
+        $subject = "Faktura č. " . $invoice->variable_symbol;
+        $body = 'invoiceAfterDueDateTemplate.latte';
+        $params = [
+            'subject' => $subject,
+            'name' => $invoice->user_name
+        ];
+
+        $this->mailSender->sendEmail($invoice->client_email, $subject, $body, $params);
+
+        $this->flashMessage('E-mail byl odeslán', 'success');
+        $this->redrawControl('flashes');
+        $this->redrawControl('status');
+        $this->redrawControl('status_links');
+    }
 }
