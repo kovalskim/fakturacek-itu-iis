@@ -53,7 +53,7 @@ class MailSender
 
         if($attachment != NULL)
         {
-            $mail->addAttachment('file.txt', $attachment);
+            $mail->addAttachment('invoice.pdf', $attachment, 'application/pdf');
         }
 
         return $mail;
