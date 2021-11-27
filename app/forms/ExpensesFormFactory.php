@@ -50,7 +50,7 @@ class ExpensesFormFactory
             ->setPrompt('--- Kategorie ---');
 
         $form->addUpload('path', 'Doklad:')
-            ->addRule($form::IMAGE, 'Doklad musí být JPEG, PNG, GIF or WebP.')
+            ->addRule($form::MIME_TYPE, 'Doklad musí být PDF, JPEG, PNG, GIF or WebP.', 'application/x-pdf,application/pdf,image/gif,image/webp,image/png,image/jpeg')
             ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB.', 1024 * 1024 * 5);
 
         $form->addSubmit('addExpenses', 'Přidat');

@@ -72,7 +72,13 @@ class DatagridManager
             $builder->select('*, users.id as id, users_last_password_change.timestamp as password_timestamp, users_last_login.timestamp as login_timestamp');
             $builder->joinLeft('users_last_password_change', 'users.id = users_last_password_change.users_id');
             $builder->joinLeft('users_last_login', 'users.id = users_last_login.users_id');
-            $builder->andWhere("role != %s", "admin");
+           $builder->andWhere("role != %s", "admin");
+        }
+        elseif($this->presenter_params[1] == 'Expenses')
+        {
+            $builder->select('*, expenses.categories_id as id, categories.name as category_name');
+            $builder->joinLeft('categories', 'expenses.categories_id = categories.id');
+            //$builder->andWhere("role != %s", "admin");
         }
         elseif($this->presenter_params[1] == 'Invoicing')
         {
