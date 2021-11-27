@@ -190,7 +190,7 @@
             <table>
                 <tr>
                     <td>Vystavil: {$invoice->user_name}
-                    <br>{$invoice->footer_note}</td>
+                    {if $invoice->footer_note}<br>{$invoice->footer_note}{/if}</td>
                     <td style="text-align: right;">{if $invoice->vat_note == 0}Nejsem plátce DPH.{else}Jsem plátce DPH.{/if}</td>
                 </tr>
             </table>
