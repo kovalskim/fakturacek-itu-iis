@@ -66,6 +66,8 @@ class DatagridManager
             $grid->addCellsTemplate(__DIR__ . '/../' . $this->presenter_params[0] . 'Module/templates/' . $this->presenter_params[1] . '/@cells.latte');
         }
 
+        $grid->addCellsTemplate(__DIR__ . '/../components/@bootstrap3.datagrid.latte');
+
         return $grid;
     }
 
