@@ -153,7 +153,16 @@ final class ExpensesPresenter extends BasePresenter
 
     public function datagridEditFormFactory($row): Container
     {
+
+        $arrayCategory = array();
+        $categoriesName = $this->connection->query('SELECT * FROM categories')->fetchall(); //TODO dat do repository
+
+        foreach ($categoriesName as $idecko) {
+            $arrayCategory[$idecko->id] = $idecko->id;
+        }
+
         $form = new Container();
+
         $form->addText('items')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Název');
@@ -162,10 +171,10 @@ final class ExpensesPresenter extends BasePresenter
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Cena');
 
-        $form->addText('categories_id')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Kategorie');
 
+        $form->addSelect('categories_id', 'Kategorie', $arrayCategory)
+            ->setHtmlAttribute('placeholder', 'Kategorie')
+            ->setHtmlAttribute('autofocus');
 
         $form->addSubmit('save', 'Uložit');
         $form->addSubmit('cancel', 'Zrušit');

@@ -25,7 +25,7 @@ class ExpensesFormFactory
     {
         $array = array();
 
-        $categories = $this->connection->query('SELECT * FROM categories WHERE categories.id != 1')->fetchall();
+        $categories = $this->connection->query('SELECT * FROM categories')->fetchall();
 
         foreach ($categories as $row) {
             $array[$row->id] = $row->name;
