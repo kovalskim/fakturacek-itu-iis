@@ -1,0 +1,199 @@
+<!--https://github.com/sparksuite/simple-html-invoice-template-->
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="utf-8" />
+        <title>Faktura č. {$invoice->variable_symbol}</title>
+
+        <style>
+            table {
+                width: 100%;
+                line-height: inherit;
+                text-align: left;
+                font-family: Verdana, sans-serif;
+            }
+
+            table td {
+                padding: 5px;
+                vertical-align: top;
+            }
+
+            table tr td:nth-child(2) {
+                text-align: right;
+            }
+
+            table tr.top table td {
+
+            }
+
+            table tr.top table td.title {
+                font-size: 45px;
+                line-height: 45px;
+                color: #333;
+            }
+
+            table tr.information table td {
+                padding-bottom: 20px;
+            }
+
+            table tr.heading td {
+                background: #eee;
+                border-bottom: 1px solid #ddd;
+                font-weight: bold;
+            }
+
+            table tr.details td {
+                padding-bottom: 20px;
+            }
+
+            table tr.item td {
+                border-bottom: 1px solid #eee;
+            }
+
+            table tr.item.last td {
+                border-bottom: none;
+            }
+
+            table tr.total td:nth-child(3) {
+                border-top: 2px solid #eee;
+                font-weight: bold;
+                text-align: right;
+            }
+
+            @media only screen and (max-width: 600px) {
+                table tr.top table td {
+                    width: 100%;
+                    display: block;
+                    text-align: center;
+                }
+
+                table tr.information table td {
+                    width: 100%;
+                    display: block;
+                    text-align: center;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <table>
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                {if $invoice->logo_path}
+                                <img src="{$basePath}/{$invoice->logo_path}" style="width: 100%; max-width: 300px" />
+                                {/if}
+                            </td>
+
+                            <td>
+                                <br>
+                                <h1>Faktura č. {$invoice->variable_symbol}</h1><br />
+                                <strong>Datum vystavení:</strong> {$invoice->created|date:'%d.%m.%Y'}<br />
+                                <strong>Datum splatnosti:</strong> {$invoice->due_date|date:'%d.%m.%Y'}<br />
+
+                                <br />
+                                {do $account_number = ($invoice->account_number|explode: '/')}
+                                <strong>Číslo účtu:</strong> {$invoice->account_number}<br />
+                                <strong>Variabilní symbol:</strong> {$invoice->variable_symbol}<br />
+                                <strong>Způsob úhrady:</strong> Bankovním převodem
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                <h6>Dodavatel</h6>
+                                {$invoice->user_name}<br />
+                                {$invoice->user_street}<br />
+                                {$invoice->user_zip} {$invoice->user_city}<br />
+                                <br>
+                                <strong>IČ:</strong> {$invoice->user_cin}<br />
+                                {if $invoice->user_vat}<strong>DIČ:</strong> {$invoice->user_vat}<br />{/if}
+                                {if $invoice->user_phone}<strong>Tel.:</strong> {$invoice->user_phone}<br />{/if}
+                                <strong>E-mail:</strong> {$invoice->user_email}
+                            </td>
+
+                            <td style="text-align: left !important;">
+                                <h6>Odběratel</h6>
+                                {$invoice->client_name}<br />
+                                {$invoice->client_street}<br />
+                                {$invoice->client_zip} {$invoice->client_city}<br />
+                                <br>
+                                {if $invoice->client_cin}<strong>IČ:</strong> {$invoice->client_cin}<br />{/if}
+                                {if $invoice->client_vat}<strong>DIČ:</strong> {$invoice->client_vat}<br />{/if}
+                                {if $invoice->client_phone}<strong>Tel.:</strong> {$invoice->client_phone}<br />{/if}
+                                {if $invoice->client_email}<strong>E-mail:</strong> {$invoice->client_email}{/if}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr class="heading">
+                <td style="width: 50%;">Položka</td>
+                <td style="text-align: left; width: 15%; padding-left: 2%; padding-right: 2%;">Počet</td>
+                <td style="width: 15%; padding-left: 2%; padding-right: 2%;">Cena/ks</td>
+                <td style="width: 20%; padding-left: 2%; padding-right: 2%;">Cena celkem</td>
+            </tr>
+
+            {foreach $invoice_items as $item}
+
+                <tr class="item {if $iterator->last}last{/if}">
+                    <td>{$item->name}</td>
+                    <td style="text-align: left; padding-left: 2%; padding-right: 2%;">{$item->count} {if $item->type == 'hours'}hod {elseif $item->type == 'pieces'}ks{/if}</td>
+                    <td style="padding-left: 2%; padding-right: 2%;">{$item->unit_price|number:2, ',', ' '} Kč</td>
+                    <td style="padding-left: 2%; padding-right: 2%;">{$item->suma|number:2, ',', ' '} Kč</td>
+                </tr>
+
+
+                <!--{ if ($iterator->counter >= 6 and $iterator->last and $iterator->counter <= 14) or $iterator->counter == 14}
+                    </table>
+                    <pagebreak page-break-type="slice" />
+
+                        <table>
+                            <tr class="heading">
+                                <td style="width: 50%;">Položka</td>
+                                <td style="text-align: left; width: 15%; padding-left: 2%; padding-right: 2%;">Počet</td>
+                                <td style="width: 15%; padding-left: 2%; padding-right: 2%;">Cena/ks</td>
+                                <td style="width: 20%; padding-left: 2%; padding-right: 2%;">Cena celkem</td>
+                            </tr>
+
+                { /if}-->
+
+            {/foreach}
+
+            </table>
+        <br><br>
+        <table>
+            <tr class="total">
+                <td></td>
+                <td></td>
+                <td colspan="2">Celkem: {$invoice->suma|number:2, ',', ' '} Kč</td>
+            </tr>
+        </table>
+
+        <img alt="QR platba" src="https://api.paylibo.com/paylibo/generator/czech/image?accountNumber={$account_number[0]}&bankCode={$account_number[1]}&amount={$invoice->suma}&currency=CZK&vs={$invoice->variable_symbol}&message={$invoice->client_name}&size=200"/>
+        <br>
+        <htmlpagefooter name="footer">
+            <br><br>
+
+            <table>
+                <tr>
+                    <td>Vystavil: {$invoice->user_name}
+                    <br>{$invoice->footer_note}</td>
+                    <td style="text-align: right;">{if $invoice->vat_note == 0}Nejsem plátce DPH.{else}Jsem plátce DPH.{/if}</td>
+                </tr>
+            </table>
+        </htmlpagefooter>
+    </body>
+</html>
