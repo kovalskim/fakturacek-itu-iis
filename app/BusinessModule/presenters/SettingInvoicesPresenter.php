@@ -130,7 +130,7 @@ class SettingInvoicesPresenter extends BasePresenter
     {
         $values = ["logo_path" => null];
         $this->settingInvoicesRepository->updateSetting($values, $this->user->getId());
-        $this->flashMessage("Obrázek se smazal", "success");
+        $this->flashMessage("Logo se smazalo", "success");
 
         if($this->isAjax())
         {
