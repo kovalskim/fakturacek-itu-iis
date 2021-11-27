@@ -142,7 +142,7 @@ final class ProfilePresenter extends BasePresenter
             FileSystem::delete($old_avatar);
         }
         $this->userRepository->updateProfile($this->user->getId(), $values);
-        $this->flashMessage("Obrázek se smazal", "success");
+        $this->flashMessage("Avatar se smazal", "success");
         $this->redirect(":Admin:Profile:default");
     }
 

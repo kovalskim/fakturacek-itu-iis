@@ -56,7 +56,7 @@ final class AdministratorsPresenter extends BasePresenter
         {
             $this->administratorsManager->createAdministratorFormSucceeded($form, $values);
 
-            $this->flashMessage('Administrátor byl vytvořen');
+            $this->flashMessage('Administrátor byl vytvořen', 'success');
 
             if($this->isAjax())
             {

@@ -94,11 +94,12 @@ final class TextsPresenter extends BasePresenter
                 $form["text_contact"]->setHtmlAttribute('class', 'wysiwyg');
 
                 $this->redrawControl('textImgForm');
-                $this->redrawControl('flashes');
+                //$this->redrawControl('flashes');
+                $this->redirect('this');
             }
             else
             {
-                $this->redirect('this');
+                //$this->redirect('this');
             }
         }
         catch (Exception $e)
