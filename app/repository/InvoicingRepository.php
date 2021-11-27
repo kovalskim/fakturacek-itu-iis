@@ -22,6 +22,11 @@ class InvoicingRepository extends AllRepository
         return $this->connection->query('SELECT * FROM %table WHERE id = %i AND users_id = %i', $this->table, $id, $user_id)->fetch();
     }
 
+    public function getInvoiceDataById($id): ?Row
+    {
+        return $this->connection->query('SELECT * FROM %table WHERE id = %i', $this->table, $id)->fetch();
+    }
+
     public function getInvoiceItemsById($id): array
     {
         return $this->connection->query('SELECT * FROM %table WHERE invoices_id = %i', $this->table_items, $id)->fetchAll();

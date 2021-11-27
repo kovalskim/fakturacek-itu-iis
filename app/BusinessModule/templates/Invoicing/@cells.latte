@@ -25,4 +25,5 @@
     <a href="#" class="ajax">Opakovat fakturu</a>
     <a n:if="$row->status == 'unpaid'" href="{link changeStatus! $primary, "paid"}" class="ajax">Zaplaceno</a>
     <a n:if="$row->status == 'unpaid'" href="{link changeStatus! $primary, "canceled"}" class="ajax" data-ajax-confirm="Opravdu stornovat?">Stornovat</a>
+    <a href="{link downloadInvoice! $primary}" class="">Stáhnout fakturu</a>
 {/define}

@@ -70,5 +70,7 @@
         <a n:if="$invoice->status == 'unpaid'" href="{link changeInvoiceStatus! $invoice->id, "canceled"}" class="ajax" data-ajax-confirm="Opravdu stornovat?">Stornovat</a>
         <a n:if="$invoice->status == 'paid'" href="{link changeInvoiceStatus! $invoice->id, "unpaid"}" class="ajax" data-ajax-confirm="Opravdu vrátit stav faktury na nezaplacená?">Označit jako nezaplacené</a>
     {/snippet}
+    <h2>Stažení faktury</h2>
+    <a href="{link downloadInvoice! $invoice->id}">Stáhnout</a>
 {/block}
 

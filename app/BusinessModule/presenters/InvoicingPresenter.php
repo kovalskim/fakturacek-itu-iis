@@ -8,15 +8,22 @@ use App\forms\InvoicingFormFactory;
 use App\model\ClientsManager;
 use App\model\DatagridManager;
 use App\model\InvoicingManager;
+use App\model\MailSender;
 use App\repository\ClientRepository;
 use App\repository\InvoicingRepository;
 use App\repository\SettingInvoicesRepository;
 use App\repository\UserRepository;
+use Exception;
+use Mpdf\MpdfException;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Forms\Container;
 use Nette\Utils\DateTime;
 use Nextras\Datagrid\Datagrid;
+use Mpdf\Mpdf;
+use Nette\Application\UI\TemplateFactory;
+use Defr\QRPlatba\QRPlatba;
+
 
 final class InvoicingPresenter extends BasePresenter
 {
@@ -44,7 +51,13 @@ final class InvoicingPresenter extends BasePresenter
     /** @var SettingInvoicesRepository */
     private $settingInvoicesRepository;
 
-    public function __construct(DatagridManager $datagridManager, InvoicingManager $invoicingManager, InvoicingRepository $invoicingRepository, InvoicingFormFactory $invoicingFormFactory, ClientRepository $clientRepository, ClientsManager $clientsManager, UserRepository $userRepository, SettingInvoicesRepository $settingInvoicesRepository)
+    /** @var TemplateFactory @inject */
+    public $templateFactory;
+
+    /** @var MailSender */
+    public $mailSender;
+
+    public function __construct(DatagridManager $datagridManager, InvoicingManager $invoicingManager, InvoicingRepository $invoicingRepository, InvoicingFormFactory $invoicingFormFactory, ClientRepository $clientRepository, ClientsManager $clientsManager, UserRepository $userRepository, SettingInvoicesRepository $settingInvoicesRepository, MailSender $mailSender)
     {
         parent::__construct();
         $this->datagridManager = $datagridManager;
@@ -55,6 +68,7 @@ final class InvoicingPresenter extends BasePresenter
         $this->clientsManager = $clientsManager;
         $this->userRepository = $userRepository;
         $this->settingInvoicesRepository = $settingInvoicesRepository;
+        $this->mailSender = $mailSender;
     }
 
     public function actionDefault()
@@ -77,9 +91,13 @@ final class InvoicingPresenter extends BasePresenter
 
         $grid->setFilterFormFactory([$this, 'datagridFilterFormFactory']);
 
+        $grid->setDownloadInvoiceCallback([$this, 'handleDownloadInvoice']);
+
         $grid->addGlobalAction('paid', 'Zaplaceno', function (array $ids, Datagrid $grid) {
             foreach ($ids as $id) {
                 $this->invoicingRepository->updateInvoiceStatus($id, 'paid');
+
+                //TODO: email o zaplaceni
             }
             $this->flashMessage('Faktury byly označené jako zaplacené', 'success');
             $this->redrawControl('flashes');
@@ -89,6 +107,8 @@ final class InvoicingPresenter extends BasePresenter
         $grid->addGlobalAction('canceled', 'Stornovat', function (array $ids, Datagrid $grid) {
             foreach ($ids as $id) {
                 $this->invoicingRepository->updateInvoiceStatus($id, 'canceled');
+
+                //TODO: email o zruseni
             }
             $this->flashMessage('Faktury byly stornovány', 'success');
             $this->redrawControl('flashes');
@@ -104,6 +124,15 @@ final class InvoicingPresenter extends BasePresenter
     public function handleChangeInvoiceStatus($primary, $status)
     {
         $this->invoicingRepository->updateInvoiceStatus($primary, $status);
+
+        if($status == 'paid')
+        {
+            //TODO: email o zaplaceni
+        }
+        elseif($status == 'canceled')
+        {
+            //TODO: email o zrušeni
+        }
 
         $this->flashMessage('Status byl změněn', 'success');
         $this->redrawControl('flashes');
@@ -218,12 +247,12 @@ final class InvoicingPresenter extends BasePresenter
 
     /**
      * @throws AbortException
+     * @throws Exception
      */
     public function createInvoiceFormSucceeded($form, $values)
     {
         $user_id = $this->user->getId();
         $user = $this->userRepository->getUserById($user_id);
-        bdump($user);
 
         $created = new DateTime();
         $due_date = $created->modifyClone('+' . $values->due_days_number . ' day');
@@ -270,9 +299,70 @@ final class InvoicingPresenter extends BasePresenter
         $id_invoices = $this->invoicingRepository->lasIdInvoice();
 
         $suma = $this->invoicingManager->saveInvoicesItems($values, $id_invoices);
+        $invoice_values['suma'] = $suma;
 
         $this->invoicingRepository->updateSuma($suma, $id_invoices);
 
+        $pdf = $this->getExportPdf($id_invoices);
+
+        if($values->email)
+        {
+            //poslu fa na mail
+            $content = $pdf->Output('invoice.pdf', 'S');
+
+            $subject = "Faktura č. " . $variable_symbol;
+            $body = 'newInvoiceTemplate.latte';
+            $params = [
+                'subject' => $subject,
+                'name' => $user->name
+            ];
+
+            $this->mailSender->sendEmail($values->email, $subject, $body, $params, $content);
+            $this->flashMessage("Faktura byla uložena a poslána klientovi na e-mail", "success");
+        }
+        else
+        {
+            //stahnu
+            //$pdf->Output('invoice.pdf', 'D');
+            $this->flashMessage("Faktura byla uložena", "success");
+        }
         $this->redirect(":Business:Invoicing:default");
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getExportPdf($invoice_id): Mpdf
+    {
+        $template = $this->templateFactory->createTemplate();
+        $template->setFile(__DIR__ . '/../../components/exportPdf.latte');
+
+        $template->invoice = $this->invoicingRepository->getInvoiceDataById($invoice_id);
+        $template->invoice_items = $this->invoicingRepository->getInvoiceItemsById($invoice_id);
+
+        $pdf = new mPDF();
+        $pdf->ignore_invalid_utf8 = true;
+
+        try {
+            $pdf->WriteHTML($template);
+        } catch (MpdfException $e) {
+            throw new Exception($e);
+        }
+
+        $pdf->setHTMLFooterByName('footer');
+
+        return $pdf;
+    }
+
+    /**
+     * @secured
+     * @throws Exception
+     */
+    public function handleDownloadInvoice($invoice_id)
+    {
+        $pdf = $this->getExportPdf($invoice_id);
+
+        $pdf->Output('invoice.pdf', 'D');
+        $this->redirect('this');
     }
 }
