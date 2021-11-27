@@ -119,7 +119,8 @@ class DatagridManager
             //Daliborko - Cant view default category
             elseif($this->presenter_params[1] == 'Category')
             {
-                $builder->andWhere('id != 1');
+                $user_id = $this->user->getId();
+                $builder->andWhere('users_id = %i', $user_id);
             }
         }
         else

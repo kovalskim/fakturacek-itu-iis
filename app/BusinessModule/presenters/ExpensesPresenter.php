@@ -73,16 +73,12 @@ final class ExpensesPresenter extends BasePresenter
     public function createAddExpensesFormSucceeded($form, $values)
     {
         $expense_id = $this->expensesRepository->getLastExpenseId()->id;
-
+        $path_is_null = 0;
 
         $user_id = $this->user->getId();
         if($values->categories_id == NULL)
         {
             $values->categories_id = "1";
-        }
-        if($values->path == NULL)
-        {
-            $values->path = "";
         }
             $row = ((array) $values) + ['users_id' => $user_id]; 
 

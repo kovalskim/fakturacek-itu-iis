@@ -32,7 +32,9 @@ DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `users_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `categories` (`id`, `name`) VALUES
@@ -228,4 +230,4 @@ CREATE TABLE `users_last_password_change` (
 INSERT INTO `users_last_password_change` (`id`, `users_id`, `timestamp`) VALUES
 (1,	4,	'2021-11-26 13:37:24');
 
--- 2021-11-27 01:37:09
+-- 2021-11-27 14:37:09
