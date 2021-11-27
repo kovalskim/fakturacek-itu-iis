@@ -96,8 +96,17 @@ final class InvoicingPresenter extends BasePresenter
         $grid->addGlobalAction('paid', 'Zaplaceno', function (array $ids, Datagrid $grid) {
             foreach ($ids as $id) {
                 $this->invoicingRepository->updateInvoiceStatus($id, 'paid');
+                $invoice = $this->invoicingRepository->getInvoiceDataById($id);
 
-                //TODO: email o zaplaceni
+                //email o zaplaceni
+                $subject = "Faktura č. " . $invoice->variable_symbol;
+                $body = 'paidInvoiceTemplate.latte';
+                $params = [
+                    'subject' => $subject,
+                    'name' => $invoice->user_name
+                ];
+
+                $this->mailSender->sendEmail($invoice->client_email, $subject, $body, $params);
             }
             $this->flashMessage('Faktury byly označené jako zaplacené', 'success');
             $this->redrawControl('flashes');
@@ -108,7 +117,17 @@ final class InvoicingPresenter extends BasePresenter
             foreach ($ids as $id) {
                 $this->invoicingRepository->updateInvoiceStatus($id, 'canceled');
 
-                //TODO: email o zruseni
+                $invoice = $this->invoicingRepository->getInvoiceDataById($id);
+
+                //email o zrušeni
+                $subject = "Faktura č. " . $invoice->variable_symbol;
+                $body = 'canceledInvoiceTemplate.latte';
+                $params = [
+                    'subject' => $subject,
+                    'name' => $invoice->user_name
+                ];
+
+                $this->mailSender->sendEmail($invoice->client_email, $subject, $body, $params);
             }
             $this->flashMessage('Faktury byly stornovány', 'success');
             $this->redrawControl('flashes');
@@ -124,14 +143,30 @@ final class InvoicingPresenter extends BasePresenter
     public function handleChangeInvoiceStatus($primary, $status)
     {
         $this->invoicingRepository->updateInvoiceStatus($primary, $status);
-
+        $invoice = $this->invoicingRepository->getInvoiceDataById($primary);
         if($status == 'paid')
         {
-            //TODO: email o zaplaceni
+            //email o zaplaceni
+            $subject = "Faktura č. " . $invoice->variable_symbol;
+            $body = 'paidInvoiceTemplate.latte';
+            $params = [
+                'subject' => $subject,
+                'name' => $invoice->user_name
+            ];
+
+            $this->mailSender->sendEmail($invoice->client_email, $subject, $body, $params);
         }
         elseif($status == 'canceled')
         {
-            //TODO: email o zrušeni
+            //email o zrušeni
+            $subject = "Faktura č. " . $invoice->variable_symbol;
+            $body = 'canceledInvoiceTemplate.latte';
+            $params = [
+                'subject' => $subject,
+                'name' => $invoice->user_name
+            ];
+
+            $this->mailSender->sendEmail($invoice->client_email, $subject, $body, $params);
         }
 
         $this->flashMessage('Status byl změněn', 'success');
