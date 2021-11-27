@@ -107,6 +107,7 @@ final class ExpensesPresenter extends BasePresenter
         $grid->addColumn('items', 'Položky')->enableSort(Datagrid::ORDER_ASC);
         $grid->addColumn('price', 'Cena')->enableSort(Datagrid::ORDER_ASC);
         $grid->addColumn('categories_id', 'Kategorie');
+        $grid->addColumn('datetime', 'Datum')->enableSort(Datagrid::ORDER_ASC);
         $grid->addColumn('path', 'Doklad');
         $grid->setFilterFormFactory([$this, 'datagridFilterFormFactory']);
 

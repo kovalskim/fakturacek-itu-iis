@@ -72,8 +72,6 @@ final class CategoryPresenter extends BasePresenter
     public function createComponentDatagrid(): Datagrid
     {
         $grid = $this->datagridManager->createDatagrid($this->categoryTable, $this->getName());
-
-      
     
 
         $grid->addColumn('name', 'Kategorie');

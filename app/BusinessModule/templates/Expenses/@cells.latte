@@ -11,3 +11,7 @@
 {define cell-category_name}
     {$row->category_name}<br>
 {/define}
+
+{define cell-datetime}
+    {$row->datetime|date:'%d. %m. %Y'}<br>
+{/define}
