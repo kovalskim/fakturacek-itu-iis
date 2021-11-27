@@ -2,10 +2,10 @@
     <h1 n:block=title>Účetní</h1>
     {snippet accountClientConnection}
         {if $isAccountantName}
-            {if $isAccountantName->status == "active"}
+            {if $isAccountantName->request_status == "active"}
                 <div>Tvá účetni je: {$isAccountantName->name}</div>
                 <div><a class = "ajax" n:href="deleteAccountant!">Odstranit účetní</a></div>
-            {elseif $isAccountantName->status == "wait"}
+            {elseif $isAccountantName->request_status == "wait"}
                 {if $isAccountantName->who == "business"}
                     <div><a class = "ajax" n:href="deleteAccountant!">Odstranit žádost</a> pro účetni {$isAccountantName->name}</div>
                 {else}
