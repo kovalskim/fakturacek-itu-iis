@@ -84,7 +84,6 @@ class SettingInvoicesManager
                 {
                     if($nula < 2)
                     {
-                        dump($nula);
                         $error = 1;
                         break;
                     }
