@@ -161,6 +161,29 @@ class DatagridExtended extends Datagrid
         }
     }
 
+    /** @var callable */
+    protected $downloadInvoiceCallback;
+
+    public function setDownloadInvoiceCallback(callable $callback)
+    {
+        $this->downloadInvoiceCallback = $callback;
+    }
+
+    public function getDownloadInvoiceCallback(): callable
+    {
+        return $this->downloadInvoiceCallback;
+    }
+
+    /**
+     * @secured
+     */
+    public function handleDownloadInvoice($primary)
+    {
+        $call = $this->getDownloadInvoiceCallback();
+        $call($primary);
+    }
+
+
     /** Author: Dalibor Kyjovský */
 
     /** @var callable */
