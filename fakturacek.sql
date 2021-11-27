@@ -66,7 +66,7 @@ CREATE TABLE `expenses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `users_id` int(11) NOT NULL,
   `path` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
-  `categories_id` int(11) NOT NULL,
+  `categories_id` int(11) NULL,
   `items` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
   `price` float NOT NULL,
   `datetime` datetime NOT NULL,
