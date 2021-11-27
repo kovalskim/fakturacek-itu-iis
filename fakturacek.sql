@@ -34,11 +34,16 @@ CREATE TABLE `categories` (
   `name` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
   `users_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `categories_ibfk_1` (`users_id`),
   CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
-INSERT INTO `categories` (`id`, `name`) VALUES
-(2,	'juj');
+INSERT INTO `categories` (`id`, `name`, `users_id`) VALUES
+(3,	'Hej',	4),
+(4,	'blbec',	2),
+(5,	'debil',	2),
+(6,	'blbec',	2),
+(7,	'dva blbečci vedle sebe',	2);
 
 DROP TABLE IF EXISTS `clients`;
 CREATE TABLE `clients` (
@@ -59,14 +64,15 @@ CREATE TABLE `clients` (
 
 INSERT INTO `clients` (`id`, `name`, `cin`, `vat`, `street`, `city`, `zip`, `email`, `phone`, `users_id`) VALUES
 (1,	'Pepa z depa',	'12345679',	NULL,	'Radkovo 245',	'Plzeň',	'43245',	'pepa@zdepa.cz',	NULL,	2),
-(2,	'Radek Jůzl',	'10152679',	'',	'Smradlavá 44',	'Humpolec',	'23105',	'radekjuzl@seznam.cz',	'',	2);
+(2,	'Radek Jůzl',	'',	'',	'Smradlavá 44',	'Humpolec',	'23105',	'radekjuzl@seznam.cz',	'',	2),
+(3,	'Radek Jůzl',	'',	'',	'Kam 204',	'Nikam',	'39601',	'radekjuzl@seznam.cz',	'',	2);
 
 DROP TABLE IF EXISTS `expenses`;
 CREATE TABLE `expenses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `users_id` int(11) NOT NULL,
   `path` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
-  `categories_id` int(11) NULL,
+  `categories_id` int(11) DEFAULT NULL,
   `items` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
   `price` float NOT NULL,
   `datetime` datetime NOT NULL,
@@ -78,9 +84,10 @@ CREATE TABLE `expenses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `expenses` (`id`, `users_id`, `path`, `categories_id`, `items`, `price`, `datetime`) VALUES
-(5,	2,	'D:\\xampp\\tmp\\phpABC7.tmp',	2,	'Hej',	150,	'2021-11-22 10:23:04'),
-(6,	2,	'D:\\xampp\\tmp\\php8BB8.tmp',	2,	'Hej',	150,	'2021-11-22 10:23:04'),
-(7,	4,	'D:\\xampp\\tmp\\php12B9.tmp',	2,	'Test 12',	11,	'2021-11-22 10:23:04');
+(8,	4,	'D:\\xampp\\tmp\\php80D8.tmp',	NULL,	'Hej',	150,	'2021-11-27 00:00:00'),
+(9,	4,	'www/expenses/788H34TQHK.jpeg',	NULL,	'Hej',	200,	'2021-11-27 00:00:00'),
+(10,	4,	'www/expenses/YE0DAXEZ1F.jpeg',	4,	'blbeček',	147,	'2021-01-01 00:00:00'),
+(11,	2,	'www/expenses/42PEK56ZZD.jpeg',	6,	'asfdasf',	50,	'2021-11-17 00:00:00');
 
 DROP TABLE IF EXISTS `invoices`;
 CREATE TABLE `invoices` (
@@ -105,6 +112,7 @@ CREATE TABLE `invoices` (
   `client_email` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `due_date` datetime DEFAULT NULL,
+  `after_due_date` int(11) NOT NULL DEFAULT 0,
   `account_number` varchar(25) COLLATE utf8mb4_czech_ci NOT NULL,
   `variable_symbol` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
   `logo_path` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
@@ -117,9 +125,9 @@ CREATE TABLE `invoices` (
   CONSTRAINT `invoices_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
-INSERT INTO `invoices` (`id`, `users_id`, `user_name`, `user_street`, `user_city`, `user_zip`, `user_cin`, `user_vat`, `user_phone`, `user_email`, `client_id`, `client_name`, `client_street`, `client_city`, `client_zip`, `client_cin`, `client_vat`, `client_phone`, `client_email`, `created`, `due_date`, `account_number`, `variable_symbol`, `logo_path`, `vat_note`, `footer_note`, `status`, `suma`) VALUES
-(1,	2,	'Martin Kovalski',	'Stará osada',	'Brno',	'51202',	'12345678',	NULL,	NULL,	'email@panapodnikatele.cz',	1,	'Pepa z depa',	'Radkovo 245',	'Plzeň',	'43245',	'12345679',	NULL,	NULL,	'pepa@zdepa.cz',	'2021-11-24 17:47:27',	'2021-12-08 18:47:27',	'123/2010',	'2021001',	NULL,	0,	'Jsem osoba zapsaná v rejstříku někde',	'canceled',	4325),
-(7,	2,	'Business',	'Kolejní 66',	'Brno',	'45678',	'61019836',	NULL,	'',	'business@fakturacek.cz',	2,	'Radek Jůzl',	'Smradlavá 44',	'Humpolec',	'23105',	'10152679',	'',	'',	'radekjuzl@seznam.cz',	'2021-11-25 17:35:13',	'2021-12-09 18:35:13',	'10006-18432071/0600',	'2121002',	NULL,	0,	'0',	'unpaid',	352.5);
+INSERT INTO `invoices` (`id`, `users_id`, `user_name`, `user_street`, `user_city`, `user_zip`, `user_cin`, `user_vat`, `user_phone`, `user_email`, `client_id`, `client_name`, `client_street`, `client_city`, `client_zip`, `client_cin`, `client_vat`, `client_phone`, `client_email`, `created`, `due_date`, `after_due_date`, `account_number`, `variable_symbol`, `logo_path`, `vat_note`, `footer_note`, `status`, `suma`) VALUES
+(1,	2,	'Martin Kovalski',	'Stará osada',	'Brno',	'51202',	'12345678',	NULL,	NULL,	'email@panapodnikatele.cz',	1,	'Pepa z depa',	'Radkovo 245',	'Plzeň',	'43245',	'12345679',	NULL,	NULL,	'pepa@zdepa.cz',	'2021-11-24 17:47:27',	'2021-12-08 18:47:27',	0,	'123/2010',	'2021001',	NULL,	0,	'Jsem osoba zapsaná v rejstříku někde',	'canceled',	4325),
+(7,	2,	'Business',	'Kolejní 66',	'Brno',	'45678',	'61019836',	NULL,	'',	'business@fakturacek.cz',	2,	'Radek Jůzl',	'Smradlavá 44',	'Humpolec',	'23105',	'10152679',	'',	'',	'radekjuzl@seznam.cz',	'2021-11-25 17:35:13',	'2021-12-09 18:35:13',	1,	'10006-18432071/0600',	'2121002',	NULL,	0,	'0',	'unpaid',	352.5);
 
 DROP TABLE IF EXISTS `invoices_items`;
 CREATE TABLE `invoices_items` (
@@ -211,11 +219,11 @@ CREATE TABLE `users_last_login` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `users_last_login` (`id`, `users_id`, `timestamp`) VALUES
-(26,	1,	'2021-11-25 20:55:21'),
-(71,	2,	'2021-11-26 22:01:23'),
-(72,	4,	'2021-11-26 22:01:38'),
 (76,	3,	'2021-11-27 01:19:39'),
-(77,	5,	'2021-11-27 01:19:55');
+(77,	5,	'2021-11-27 01:19:55'),
+(79,	1,	'2021-11-27 18:27:09'),
+(81,	4,	'2021-11-27 22:24:11'),
+(82,	2,	'2021-11-27 22:25:35');
 
 DROP TABLE IF EXISTS `users_last_password_change`;
 CREATE TABLE `users_last_password_change` (
@@ -230,4 +238,4 @@ CREATE TABLE `users_last_password_change` (
 INSERT INTO `users_last_password_change` (`id`, `users_id`, `timestamp`) VALUES
 (1,	4,	'2021-11-26 13:37:24');
 
--- 2021-11-27 14:37:09
+-- 2021-11-27 22:41:06
