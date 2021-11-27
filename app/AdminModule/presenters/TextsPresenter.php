@@ -62,7 +62,7 @@ final class TextsPresenter extends BasePresenter
     {
         try
         {
-            bdump($values);
+            //bdump($values);
             $this->textsManager->textsFormSucceeded($form, $values);
             $this->flashMessage("Změna se provedla", "success");
 
