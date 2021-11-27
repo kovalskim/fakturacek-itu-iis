@@ -56,7 +56,8 @@ final class ExpensesPresenter extends BasePresenter
     public function actionDefault()
     {
        // $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
-
+       //$expense_id = $this->expensesRepository->getLastExpenseId();
+     //  echo($this->expensesRepository->getLastExpenseId()->id);
     }
 
     public function createComponentAddExpensesForm(): Form
@@ -71,6 +72,8 @@ final class ExpensesPresenter extends BasePresenter
      */
     public function createAddExpensesFormSucceeded($form, $values)
     {
+        $expense_id = $this->expensesRepository->getLastExpenseId()->id;
+
 
         $user_id = $this->user->getId();
         if($values->categories_id == NULL)
@@ -85,8 +88,8 @@ final class ExpensesPresenter extends BasePresenter
 
         try
         {
-            $this->imageUploader->uploadImgFormSucceeded($form,$values, "expenses");
             $this->expensesRepository->insertExpensesByUserId($row);
+            $this->imageUploader->uploadDocumentFormSucceeded($form,$values,$expense_id+1, "expenses");
         }
         catch (Exception $e)
         {
@@ -110,6 +113,7 @@ final class ExpensesPresenter extends BasePresenter
         $grid->addColumn('categories_id', 'Kategorie');
         $grid->addColumn('path', 'Doklad');
         $grid->setFilterFormFactory([$this, 'datagridFilterFormFactory']);
+
 
         $grid->setEditFormFactory([$this, 'datagridEditFormFactory']);
         $grid->setEditFormCallback([$this, 'editFormSucceeded']);
@@ -190,10 +194,10 @@ final class ExpensesPresenter extends BasePresenter
     public function deleteExpense($primary)
     {
         if($this->expensesManager->deleteExpense($primary)){ //TODO
-            $this->flashMessage('Kategorie je používána a tutíž nebyla vymazána.', 'success');
+            $this->flashMessage('Výdaj nebyl vymazán.', 'success');
         }
         else {
-            $this->flashMessage('Kategorie byla vymazána.', 'success');
+            $this->flashMessage('Výdaj byl vymazán.', 'success');
         }
         $this->redrawControl('flashes');
     }

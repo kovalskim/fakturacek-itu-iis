@@ -84,10 +84,10 @@ class DatagridManager
            $builder->andWhere("role != %s", "admin");
         }
         elseif($this->presenter_params[1] == 'Expenses')
-        {
-            $builder->select('*, expenses.categories_id as id, categories.name as category_name');
-            $builder->joinLeft('categories', 'expenses.categories_id = categories.id');
-            //$builder->andWhere("role != %s", "admin");
+        {   //TODO: nejde ajax a upravy s tim
+           // $builder->select('*, expenses.categories_id as id_category, categories.name as category_name');
+           // $builder->joinLeft('categories', 'expenses.categories_id = categories.id');
+           // $builder->andWhere("role != %s", "admin");
         }
         elseif($this->presenter_params[1] == 'Invoicing')
         {

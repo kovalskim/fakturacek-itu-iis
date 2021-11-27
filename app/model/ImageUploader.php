@@ -134,7 +134,7 @@ class ImageUploader
 
 
     //TODO
-    public function saveExpenses($form, $values, $name, $img)
+    public function saveExpenses($form, $values, $expense_id, $name, $img)
     {
         $values->path = "www/expenses/".$name;
         $img->save('../'.$values->path);
@@ -147,7 +147,8 @@ class ImageUploader
         }
 */
   //  $values = $form->getValues();
-        $this->expensesRepository->updateImg($values);
+        $this->expensesRepository->updateImg($values, $expense_id);
+       //var_dump($values);
     }
 
     /**
@@ -192,6 +193,56 @@ class ImageUploader
         {
             $name = $this->generateNameImg($type);
             $this->saveExpenses($form, $values, $name, $loadImg);
+        }
+    }
+
+
+
+    /**
+     * @throws Exception
+     */
+    public function uploadDocumentFormSucceeded($form, $values, $expense_id, $type)
+    {
+        if($type == "avatars")
+        {
+            $path = $values->avatar_path;
+        }
+        elseif($type == "logo")
+        {
+            $path = $values->logo_path;
+        }
+        elseif($type == "expenses")
+        {
+            $path = $values->path;
+        }
+
+       
+
+        try
+        {
+            $loadImg = $this->loadImg($path);
+        }
+        catch (Exception $e)
+        {
+            throw new Exception('Obrázek nebyl nahrán');
+        }
+
+        
+        if($type == "avatars")
+        {
+            $loadImg = $this->editImg($loadImg);
+            $name = $this->generateNameImg($type);
+            $this->saveAvatar($form, $values, $name, $loadImg);
+        }
+        elseif($type == "logo")
+        {
+            $name = $this->generateNameImg($type);
+            $this->saveLogoAndSetting($form, $values, $name, $loadImg);
+        }
+        elseif($type == "expenses")
+        {
+            $name = $this->generateNameImg($type);
+            $this->saveExpenses($form, $values, $expense_id, $name, $loadImg);
         }
     }
 

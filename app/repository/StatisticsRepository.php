@@ -22,4 +22,10 @@ class StatisticsRepository extends AllRepository
         ", $id)->fetch();
     }
 
+    public function getSumInvoices($id): ?Row
+    {
+        return $this->connection->query("SELECT COUNT(invoices.id) as pocet FROM `invoices` WHERE users_id = %i;", $id)->fetch();
+    }
+
+
 }
