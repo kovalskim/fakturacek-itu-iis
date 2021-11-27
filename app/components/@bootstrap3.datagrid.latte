@@ -1,0 +1,70 @@
+{define table-open-tag}
+	<table class="table table-bordered table-condensed table-responsive table-striped w-auto table-hover">
+{/define}
+
+{define global-actions}
+		<div class="container">
+			<div class="col-3">
+				<div class="grid-global-actions pull-left" n:ifset="$form[actions]">
+				<div class="input-group">
+					{input $form[actions][action] class => 'form-control'}
+					<span class="input-group-btn">
+					{input $form[actions][process] class => 'btn btn-primary mx-3'}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+{/define}
+
+{define global-filter-actions}
+	<div class="w-50 flex-fill">
+		{input filter class => "btn btn-primary btn-sm d-block"}
+		{if $showCancel}
+			{input cancel class => "btn btn-secondary btn-sm mt-1"}
+		{/if}
+	</div>
+{/define}
+
+{define col-filter}
+	{input $column->name class => "input-sm form-control"}
+{/define}
+
+{define row-actions-edit}
+	{input save class => "btn btn-primary btn-xs"}
+	{input cancel class => "btn btn-default btn-xs"}
+{/define}
+
+{define row-actions-edit-link}
+	<a href="{link edit! $primary}" data-datagrid-edit class="ajax btn btn-primary btn-xs">{$control->translate(Upravit)}</a>
+{/define}
+
+{define pagination}
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				<ul class="pagination">
+				{if $paginator->isFirst()}
+					<li class="disabled"><a class="btn btn-sm btn-secondary disabled">« {$control->translate(První)}</a></li>
+					<li class="disabled"><a class="btn btn-sm btn-secondary disabled">« {$control->translate(Předchozí)}</a></li>
+				{else}
+					<li><a href="{link paginate!, 'page' => 1}" class="ajax btn btn-sm btn-primary">« {$control->translate(První)}</a></li>
+					<li><a href="{link paginate!, 'page' => $paginator->page - 1}" class="ajax btn btn-sm btn-primary">« {$control->translate(Předchozí)}</a></li>
+				{/if}
+
+				<li class="active">
+					<a class="btn btn-sm btn-outline-secondary disabled text-primary"><strong>{$paginator->page}</strong> / {$paginator->pageCount}</a>
+				</li>
+
+				{if $paginator->isLast()}
+					<li class="disabled"><a class="btn btn-sm btn-secondary disabled">{$control->translate(Další)} »</a></li>
+					<li class="disabled"><a class="btn btn-sm btn-secondary disabled">{$control->translate(Poslední)} »</a></li>
+				{else}
+					<li><a href="{link paginate!, 'page' => $paginator->page + 1}" class="ajax btn btn-sm btn-primary">{$control->translate(Další)} »</a></li>
+					<li><a href="{link paginate!, 'page' => $paginator->pageCount}" class="ajax btn btn-sm btn-primary">{$control->translate(Poslední)} »</a></li>
+				{/if}
+				</ul>
+			</div>
+		</div>
+	</div>
+{/define}
