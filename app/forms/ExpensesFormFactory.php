@@ -24,7 +24,7 @@ class ExpensesFormFactory
     public function createExpensesForm(): Form
     {
         
-
+        $array = array();
         $categories = $this->connection->query('SELECT * FROM categories')->fetchall();
 
         foreach ($categories as $row) {

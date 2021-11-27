@@ -72,9 +72,7 @@ final class ExpensesPresenter extends BasePresenter
      */
     public function createAddExpensesFormSucceeded($form, $values)
     {
-        //$expense_id = $this->expensesRepository->getLastExpenseId()->id;
         $path = $this->imageUploader->uploadDocumentFormSucceeded($form,$values);
-
         $user_id = $this->user->getId();
 
         $row = ((array) $values) + ['users_id' => $user_id]; 
@@ -82,7 +80,6 @@ final class ExpensesPresenter extends BasePresenter
         try
         {
             $this->expensesRepository->insertExpensesByUserId($row);
-            //$this->imageUploader->uploadDocumentFormSucceeded($form,$values,$expense_id+1);
         }
         catch (Exception $e)
         {

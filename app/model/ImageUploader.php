@@ -147,17 +147,7 @@ class ImageUploader
         $values->path = "www/expenses/".$name;
         $img->save('../'.$values->path);
 
-      /*  $old_expenses = $this->userRepository->getUserAvatar($this->user->getId());
-        if($old_avatar != null)
-        {
-            $old_avatar = "../".$old_avatar;
-            FileSystem::delete($old_avatar);
-        }
-*/
-  //  $values = $form->getValues();
         return $values;
-       // $this->expensesRepository->updateImg($values, $expense_id);
-       //var_dump($values);
     }
 
     /**
@@ -214,11 +204,9 @@ class ImageUploader
     {
 
         $path = $values->path;
-       
-       // dump($path);
 
         try
-        {
+        {   //TODO pdf fuj
             $loadImg = $this->loadImg($path);
         }
         catch (Exception $e)
