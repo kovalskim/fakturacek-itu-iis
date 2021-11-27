@@ -22,6 +22,7 @@ final class ContactPresenter extends BasePresenter
     /** @var MailSender */
     private $mailSender;
 
+    const INFO_EMAIL = 'info@fakturacek.cz';
 
     public function __construct(TextRepository $textRepository, ContactFormFactory $contactFormFactory, MailSender $mailSender)
     {
@@ -59,7 +60,7 @@ final class ContactPresenter extends BasePresenter
 
         try
         {
-            $this->mailSender->sendEmail("radekjuzl@seznam.cz", $subject, $body, $params); //TODO: Komu poslat?
+            $this->mailSender->sendEmail(self::INFO_EMAIL, $subject, $body, $params);
             $this->flashMessage("Zpráva byla odeslána", "success");
         }
 
