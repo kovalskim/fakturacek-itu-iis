@@ -1,9 +1,12 @@
+<!-- Author: Martin Kovalski -->
 {block content}
-    <h1 n:block=title>O nás</h1>
-
-    {if $text->img_path!= NULL} <img src="{$basePath}/{$text->img_path}" alt="O nás" width="500"/> {/if}
-
-    <div>
-        {$text->text|noescape}
+    <div class="row">
+        <h1 n:block=title>O nás</h1>
+        <div class="col-lg-6">
+            {$text->text|noescape}
+        </div>
+        <div class="col-lg-6">
+            {if $text->img_path!= NULL} <img src="{$basePath}/{$text->img_path}" alt="O nás" width="100%"/> {/if}
+        </div>
     </div>
 {/block}

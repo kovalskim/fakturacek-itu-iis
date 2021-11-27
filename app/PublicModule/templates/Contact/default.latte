@@ -1,13 +1,15 @@
+<!-- Author: Martin Kovalski -->
 {block content}
-    <h1 n:block=title>Kontakt</h1>
-
-    {if $text->img_path!= NULL} <img src="{$basePath}/{$text->img_path}" alt="Kontakt" width="500" /> {/if}
-
-    <div>
-        {$text->text|noescape}
+    <div class="row">
+        <h1 n:block=title>Kontakt</h1>
+        <div class="col-lg-6">
+            {$text->text|noescape}
+            {snippet contactAjaxForm}
+                {control contactForm}
+            {/snippet}
+        </div>
+        <div class="col-lg-6">
+            {if $text->img_path!= NULL} <img src="{$basePath}/{$text->img_path}" alt="Kontakt" width="100%"/> {/if}
+        </div>
     </div>
-    {snippet contactAjaxForm}
-        {control contactForm}
-    {/snippet}
-
 {/block}
