@@ -114,7 +114,6 @@ final class ExpensesPresenter extends BasePresenter
         $grid->addColumn('path', 'Doklad');
         $grid->setFilterFormFactory([$this, 'datagridFilterFormFactory']);
 
-
         $grid->setEditFormFactory([$this, 'datagridEditFormFactory']);
         $grid->setEditFormCallback([$this, 'editFormSucceeded']);
 
@@ -132,6 +131,11 @@ final class ExpensesPresenter extends BasePresenter
         });
 
         return $grid;
+    }
+
+    public function renderDocument($id)
+    {
+        $this->template->document = $this->expensesRepository->getPathById($id);
     }
 
     public function datagridFilterFormFactory(): Container

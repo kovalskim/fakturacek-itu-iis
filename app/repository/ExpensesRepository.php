@@ -40,4 +40,10 @@ class ExpensesRepository extends AllRepository
     {
         return $this->connection->query('SELECT expenses.id FROM expenses ORDER BY expenses.id DESC LIMIT 1;')->fetch();
     }
+
+    public function getPathById($id): ?Row
+    {
+        return $this->connection->query('SELECT expenses.path FROM `expenses` WHERE expenses.id = %i;', $id)->fetch();
+    }
+
 }
