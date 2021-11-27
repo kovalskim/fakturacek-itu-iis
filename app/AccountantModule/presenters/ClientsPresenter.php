@@ -282,7 +282,6 @@ final class ClientsPresenter extends BasePresenter
         $grid->addColumn('suma', 'Celkem')->enableSort();
         $grid->addColumn('status', 'Status')->enableSort();
         $grid->addColumn('due_date', 'Datum splatnosti')->enableSort();
-        $grid->addColumn('users_id', 'ID')->enableSort();
 
         return $grid;
     }
