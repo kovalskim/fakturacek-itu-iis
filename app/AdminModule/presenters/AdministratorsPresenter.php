@@ -110,7 +110,7 @@ final class AdministratorsPresenter extends BasePresenter
 
         $grid->setFilterFormFactory([$this, 'datagridFilterFormFactory']);
 
-       // $grid->setBanCallback([$this, 'ban']);
+        $grid->setBanCallback([$this, 'ban']);
         $grid->setAllowCallback([$this, 'allow']);
 
         $grid->addGlobalAction('ban', 'Zablokovat', function (array $ids, Datagrid $grid) {
