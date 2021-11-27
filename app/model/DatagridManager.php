@@ -20,6 +20,7 @@ class DatagridManager
     private $table;
     private $presenter_params;
     private $client_id;
+    private $type;
 
     public function __construct(Connection $connection, User $user)
     {
@@ -27,11 +28,12 @@ class DatagridManager
         $this->user = $user;
     }
 
-    public function createDatagrid($table, $presenter, $client_id = null): DatagridExtended
+    public function createDatagrid($table, $presenter, $client_id = null, $type = null): DatagridExtended
     {
         /** Name of table in database as global property */
         $this->table = $table;
         $this->client_id = $client_id;
+        $this->type = $type;
 
         /** Get presenter name and module for path to template */
         $this->presenter_params = explode(':', $presenter, 2);
@@ -51,7 +53,14 @@ class DatagridManager
 
         if($client_id)
         {
-            $grid->addCellsTemplate(__DIR__ . '/../' . $this->presenter_params[0] . 'Module/templates/' . $this->presenter_params[1] . '/@cellsInvoices.latte');
+            if($type == "invoices")
+            {
+                $grid->addCellsTemplate(__DIR__ . '/../' . $this->presenter_params[0] . 'Module/templates/' . $this->presenter_params[1] . '/@cellsInvoices.latte');
+            }
+            else
+            {
+                $grid->addCellsTemplate(__DIR__ . '/../' . $this->presenter_params[0] . 'Module/templates/' . $this->presenter_params[1] . '/@cellsExpenses.latte');
+            }
         }
         else
         {
@@ -125,6 +134,11 @@ class DatagridManager
                 }
                 elseif($this->table == "invoices")
                 {
+                    $builder->andWhere('users_id = %i', $this->client_id);
+                }
+                elseif($this->table == "expenses")
+                {
+                    $builder->joinLeft("categories", "expenses.categories_id = categories.id");
                     $builder->andWhere('users_id = %i', $this->client_id);
                 }
             }

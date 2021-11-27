@@ -274,7 +274,7 @@ final class ClientsPresenter extends BasePresenter
 
     public function createComponentDatagridInvoices(): Datagrid
     {
-        $grid = $this->datagridManager->createDatagrid('invoices', $this->getName(), $this->client_id);
+        $grid = $this->datagridManager->createDatagrid('invoices', $this->getName(), $this->client_id, "invoices");
 
         $grid->addColumn('created', 'Datum vystavení')->enableSort(Datagrid::ORDER_ASC);
         $grid->addColumn('client_name', 'Klient')->enableSort();
@@ -283,7 +283,78 @@ final class ClientsPresenter extends BasePresenter
         $grid->addColumn('status', 'Status')->enableSort();
         $grid->addColumn('due_date', 'Datum splatnosti')->enableSort();
 
+        $grid->setFilterFormFactory([$this, 'datagridFilterInvoicesFormFactory']);
+
         return $grid;
+    }
+
+    public function datagridFilterInvoicesFormFactory(): Container
+    {
+        $form = new Container();
+
+        $form->addText('created')
+            ->setHtmlAttribute('placeholder', 'Datum vystavení');
+
+        $form->addText('client_name')
+            ->setHtmlAttribute('placeholder', 'Klient');
+
+        $form->addText('variable_symbol')
+            ->setHtmlAttribute('placeholder', 'VS');
+
+        $form->addText('suma')
+            ->setHtmlAttribute('placeholder', 'Celkem');
+
+        $form->addSelect('status', null, [
+            'unpaid' => 'Nezaplacená',
+            'paid' => 'Zaplacená',
+            'canceled' => 'Stornována'
+        ]);
+
+        $form->addText('due_date', 'Datum splatnosti')
+            ->setHtmlAttribute('placeholder', 'Datum splatnosti');
+
+
+        $form->addSubmit('filter', 'Filtrovat');
+        $form->addSubmit('cancel', 'Zrušit');
+
+        return $form;
+    }
+
+    public function createComponentDatagridExpenses(): Datagrid
+    {
+        $grid = $this->datagridManager->createDatagrid('expenses', $this->getName(), $this->client_id, "expenses");
+
+        $grid->addColumn('datetime', 'Datum zaplacení')->enableSort(Datagrid::ORDER_ASC);
+        $grid->addColumn('items', 'Název položky')->enableSort();
+        $grid->addColumn('price', 'Cena')->enableSort();
+        $grid->addColumn('name', 'Kategorie')->enableSort();
+        $grid->addColumn('path', 'Účtenka');
+
+        $grid->setFilterFormFactory([$this, 'datagridFilterExpensesFormFactory']);
+
+        return $grid;
+    }
+
+    public function datagridFilterExpensesFormFactory(): Container
+    {
+        $form = new Container();
+
+        $form->addText('datetime')
+            ->setHtmlAttribute('placeholder', 'Datum zaplacení');
+
+        $form->addText('items')
+            ->setHtmlAttribute('placeholder', 'Název položky');
+
+        $form->addText('price')
+            ->setHtmlAttribute('placeholder', 'Cena');
+
+        $form->addText('name')
+            ->setHtmlAttribute('placeholder', 'Kategorie');
+
+        $form->addSubmit('filter', 'Filtrovat');
+        $form->addSubmit('cancel', 'Zrušit');
+
+        return $form;
     }
 
     /**
