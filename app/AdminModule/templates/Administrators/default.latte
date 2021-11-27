@@ -1,8 +1,15 @@
 {block content}
-    <h1 n:block=title>Administrátoři</h1>
-    {snippet administratorForm}
-    {control createAdministratorForm}
-    {/snippet}
-
-    {control datagrid}
+    <div class="row">
+        <h1 n:block=title>Administrátoři</h1>
+        <div class="col-sm-6">
+            {snippet administratorForm}
+                {control createAdministratorForm}
+            {/snippet}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 overflow-auto">
+            {control datagrid}
+        </div>
+    </div>
 {/block}

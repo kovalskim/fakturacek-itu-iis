@@ -1,19 +1,26 @@
 {block content}
-    {snippet textImgForm}
-        {control textsForm}
-    {/snippet}
-    {snippet aboutusImg}
-        {if $aboutus_img != NULL}
-            <div>O nás:</div>
-            <img src="{$basePath}/{$aboutus_img}" alt="O nás" width="200"/>
-            <div><a class="ajax" n:href="deleteAboutus!">Smazat obrázek</a></div>
-        {/if}
-    {/snippet}
-    {snippet contactImg}
-        {if $contact_img != NULL}
-            <div>Kontakty:</div>
-            <img src="{$basePath}/{$contact_img}" alt="Kontakty" width="200"/>
-            <div><a class="ajax" n:href="deleteContact!">Smazat obrázek</a></div>
-        {/if}
-    {/snippet}
+    <div class="row">
+        <h1 n:block=title>Texty</h1>
+        <div class="col-lg-8">
+            {snippet textImgForm}
+                {control textsForm}
+            {/snippet}
+        </div>
+        <div class="col-lg-4">
+            {snippet aboutusImg}
+                {if $aboutus_img != NULL}
+                    <h2>O nás:</h2>
+                    <img src="{$basePath}/{$aboutus_img}" alt="O nás" width="100%"/>
+                    <div><a class="ajax btn btn-danger btn-sm mt-2" n:href="deleteAboutus!">Smazat obrázek</a></div>
+                {/if}
+            {/snippet}
+            {snippet contactImg}
+                {if $contact_img != NULL}
+                    <h2 class="mt-3">Kontakty:</h2>
+                    <img src="{$basePath}/{$contact_img}" alt="Kontakty" width="100%"/>
+                    <a class="ajax btn btn-danger btn-sm mt-2" n:href="deleteContact!">Smazat obrázek</a>
+                {/if}
+            {/snippet}
+        </div>
+    </div>
 {/block}

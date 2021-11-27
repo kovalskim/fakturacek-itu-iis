@@ -45,8 +45,8 @@
 {/define}
 
 {define row-actions}
-    <a n:if="$row->status != 'banned'" href="{link ban! $primary}" class="ajax">Zablokovat</a>
-    <a n:if="$row->status == 'banned'" href="{link allow! $primary}" class="ajax">Odblokovat</a>
-    <a href="{link resetPassword! $primary}" class="ajax">Reset hesla</a>
-    <a href="{link resetEmail! $primary}" class="ajax">Reset e-mailu</a>
+    <a n:if="$row->status != 'banned'" href="{link ban! $primary}" class="ajax btn btn-sm btn-danger mt-1">Zablokovat</a>
+    <a n:if="$row->status == 'banned'" href="{link allow! $primary}" class="ajax btn btn-sm btn-success mt-1">Odblokovat</a>
+    <a href="{link resetPassword! $primary}" class="ajax btn btn-sm btn-primary mt-1">Reset&nbsp;hesla</a>
+    <a href="{link resetEmail! $primary}" class="ajax btn btn-sm btn-primary mt-1">Reset&nbsp;e-mailu</a>
 {/define}

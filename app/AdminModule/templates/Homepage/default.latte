@@ -1,9 +1,41 @@
 {block content}
-	<h1 n:block=title>Fakturáček - Homepage ADMIN</h1>
-
-	Počet adminů: {$adminCount}<br>
-	Počet osvč: {$businessCount}<br>
-	Počet účetních: {$accountantCount}<br>
-
-	Počet faktur: {$invoicesCount}
+	<div class="row">
+		<h1 n:block=title>Nástěnka</h1>
+		<div class="col-lg-3 col-md-6">
+			<div class="card text-center my-3">
+				<i class="fas fa-user-shield display-4 mt-3"></i>
+				<h5 class="card-title my-3">Počet administrátorů</h5>
+				<div class="card-footer">
+					<h2>{$adminCount}</h2>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-6">
+			<div class="card text-center my-3">
+				<i class="fas fa-user-tie display-4 mt-3"></i>
+				<h5 class="card-title my-3">Počet OSVČ</h5>
+				<div class="card-footer">
+					<h2>{$businessCount}</h2>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-6">
+			<div class="card text-center my-3">
+				<i class="fas fa-user-chart display-4 mt-3"></i>
+				<h5 class="card-title my-3">Počet účetních</h5>
+				<div class="card-footer">
+					<h2>{$accountantCount}</h2>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-6">
+			<div class="card text-center my-3">
+				<i class="fas fa-file-invoice display-4 mt-3"></i>
+				<h5 class="card-title my-3">Počet faktur</h5>
+				<div class="card-footer">
+					<h2>{$invoicesCount}</h2>
+				</div>
+			</div>
+		</div>
+	</div>
 {/block}

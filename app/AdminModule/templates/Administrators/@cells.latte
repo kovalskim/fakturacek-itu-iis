@@ -27,6 +27,6 @@
 {/define}
 
 {define row-actions}
-    <a n:if="$user->getId() != $primary && $row->status != 'banned'" href="{link ban! $primary}" class="ajax">Zablokovat</a>
-    <a n:if="$user->getId() != $primary && $row->status == 'banned'" href="{link allow! $primary}" class="ajax">Odblokovat</a>
+    <a n:if="$user->getId() != $primary && $row->status != 'banned'" href="{link ban! $primary}" class="ajax btn btn-danger btn-sm">Zablokovat</a>
+    <a n:if="$user->getId() != $primary && $row->status == 'banned'" href="{link allow! $primary}" class="ajax btn btn-success btn-sm">Odblokovat</a>
 {/define}

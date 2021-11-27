@@ -1,4 +1,8 @@
 {block content}
-    <h1 n:block=title>Uživatelé</h1>
-    {control datagrid}
+    <div class="row">
+        <h1 n:block=title>Uživatelé</h1>
+        <div class="col-lg-12 overflow-auto">
+            {control datagrid}
+        </div>
+    </div>
 {/block}

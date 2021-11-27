@@ -1,5 +1,9 @@
 {block content}
-    <h1 n:block=title>Změna hesla</h1>
-
-    {control changePasswordForm}
+    <a href="{link :Admin:Profile:default}" class="btn btn-outline-secondary mb-3">&larr; Zpět</a>
+    <div class="row">
+        <h1 n:block=title>Změna hesla</h1>
+        <div class="col-lg-6">
+            {control changePasswordForm}
+        </div>
+    </div>
 {/block}

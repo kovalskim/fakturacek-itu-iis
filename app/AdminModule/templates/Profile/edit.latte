@@ -1,6 +1,9 @@
 {block content}
-    <div>
-        {control editProfileForm}
+    <a href="{link :Admin:Profile:default}" class="btn btn-outline-secondary mb-3">&larr; Zpět</a>
+    <div class="row">
+        <h1 n:block=title>Úprava profilu</h1>
+        <div class="col-lg-6">
+            {control editProfileForm}
+        </div>
     </div>
-
 {/block}
