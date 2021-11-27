@@ -177,8 +177,8 @@ CREATE TABLE `texts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `texts` (`id`, `type`, `text`, `img_path`) VALUES
-(1,	'aboutus',	'<p><strong>kkasdnhasjlkd</strong></p>',	'www/img/aboutus.jpeg'),
-(2,	'contact',	'<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam ornare wisi eu metus. Ut tempus purus at lorem. Nullam sit amet magna in magna gravida vehicula. Suspendisse sagittis ultrices augue. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Nam libero tempore, cum soluta nobis est.</p>',	'www/img/contact.jpeg');
+(1,	'aboutus',	'<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Et harum quidem rerum facilis est et <a href=\"https://www.fit.vut.cz/.en\">expedita</a> distinctio. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.&nbsp;</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi imperdiet, mauris ac auctor dictum, nisl ligula egestas nulla, et sollicitudin sem <strong>purus</strong> in lacus. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.&nbsp;</p><p>Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p><ol><li><em>Lorem</em></li><li>ipsum</li><li>dolor</li></ol>',	'www/img/aboutus.jpeg'),
+(2,	'contact',	'<p><strong>Lorem </strong>ipsum dolor sit amet, consectetuer adipiscing elit. <em>Aliquam ornare wisi eu metus.</em> Ut tempus purus at lorem. Nullam sit amet magna in magna gravida vehicula. Suspendisse sagittis ultrices augue. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor.</p>',	'www/img/contact.jpeg');
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -220,10 +220,10 @@ CREATE TABLE `users_last_login` (
 
 INSERT INTO `users_last_login` (`id`, `users_id`, `timestamp`) VALUES
 (76,	3,	'2021-11-27 01:19:39'),
-(77,	5,	'2021-11-27 01:19:55'),
-(79,	1,	'2021-11-27 18:27:09'),
 (81,	4,	'2021-11-27 22:24:11'),
-(82,	2,	'2021-11-27 22:25:35');
+(82,	2,	'2021-11-27 22:25:35'),
+(83,	5,	'2021-11-27 22:51:54'),
+(85,	1,	'2021-11-27 23:07:27');
 
 DROP TABLE IF EXISTS `users_last_password_change`;
 CREATE TABLE `users_last_password_change` (
@@ -238,4 +238,4 @@ CREATE TABLE `users_last_password_change` (
 INSERT INTO `users_last_password_change` (`id`, `users_id`, `timestamp`) VALUES
 (1,	4,	'2021-11-26 13:37:24');
 
--- 2021-11-27 22:41:06
+-- 2021-11-27 23:10:30
