@@ -1,6 +1,49 @@
-
 {block content}
 	<h1 n:block=title>Fakturáček - Homepage BUSINESS</h1>
 
-{/block}
+	<h2>Rychlé akce</h2>
+	<a href="{link :Business:Invoicing:newInvoice}">Vytvořit fakturu</a>
+	<a href="{link :Business:Expenses:default}">Přidat výdaj</a>
+	<a href="{link :Business:Clients:default}">Nový klient</a>
 
+	<h2>Nezaplacené Fa</h2>
+	{foreach $unpaidInvoices as $item}
+		Faktura č. {$item->variable_symbol}<br>
+		{$item->client_name}<br>
+		Datum splatnosti: {$item->due_date|date:'%d.%m.%Y'}<br>
+		Celkem: {$item->suma|number:2, ',', ' '} Kč
+		<hr>
+	{/foreach}
+	<h2>Fa po splatnosti</h2>
+	{foreach $afterDueDateInvoices as $item}
+		Faktura č. {$item->variable_symbol}<br>
+		{$item->client_name}<br>
+		Datum splatnosti: {$item->due_date|date:'%d.%m.%Y'}<br>
+		Celkem: {$item->suma|number:2, ',', ' '} Kč
+		<hr>
+	{/foreach}
+	<h2>Účetní</h2>
+	{if $isAccountantName}
+		{if $isAccountantName->request_status == "active"}
+			<div>Tvá účetni je: {$isAccountantName->name}</div>
+			{if $isAccountantName->avatar_path}
+				<img src="{$basePath}/{$isAccountantName->avatar_path}" width="100px"/>
+			{else}
+				<img src="{$basePath}/img/avatar_default.svg" width="100px"/>
+			{/if}
+		{elseif $isAccountantName->request_status == "wait"}
+			{if $isAccountantName->who == "accountant"}
+				<div>Žádost od <b>{$isAccountantName->name}</b></div>
+				{if $isAccountantName->avatar_path}
+					<img src="{$basePath}/{$isAccountantName->avatar_path}" width="100px"/>
+				{else}
+					<img src="{$basePath}/img/avatar_default.svg" width="100px"/>
+				{/if}
+			{else}
+				<div>Čeká se na příjmutí žádostí od účetní: {$isAccountantName->name}</div>
+			{/if}
+		{/if}
+	{else}
+		Nemáš účetní - přidej si ji zde: <a href="{link :Business:Accountant:default}">tady</a>
+	{/if}
+{/block}

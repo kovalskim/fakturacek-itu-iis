@@ -13,7 +13,7 @@ class AccountantRepository extends AllRepository
 
     public function hasAccountantName($users_id): ?Row
     {
-        return ($this->connection->query("SELECT us.name, ac.request_status, ac.who FROM %table as ac join %table as us on ac.accountant_id = us.id WHERE ac.users_id = %i", $this->table_accountant_permission, $this->table, $users_id)->fetch());
+        return ($this->connection->query("SELECT us.name, ac.request_status, ac.who, us.avatar_path FROM %table as ac join %table as us on ac.accountant_id = us.id WHERE ac.users_id = %i", $this->table_accountant_permission, $this->table, $users_id)->fetch());
     }
 
     public function deleteAccountant($users_id)
@@ -107,5 +107,14 @@ class AccountantRepository extends AllRepository
         ];
 
         $this->connection->query("UPDATE %table SET %set WHERE accountant_id = %i and who = %s and request_status = %s", $this->table_accountant_permission, $data, $id, "business", "wait");
+    }
+
+    public function getAllClientsByAccountantID($accountant_id): array
+    {
+        return ($this->connection->query("SELECT * FROM %table as ac join %table as us on ac.users_id = us.id WHERE ac.accountant_id = %i", $this->table_accountant_permission, $this->table, $accountant_id)->fetchAll());
+    }
+    public function getCountClientsByAccountantID($accountant_id, $status): int
+    {
+        return $this->connection->query("SELECT * FROM %table as ac join %table as us on ac.users_id = us.id WHERE ac.accountant_id = %i AND request_status = %s", $this->table_accountant_permission, $this->table, $accountant_id, $status)->count();
     }
 }
