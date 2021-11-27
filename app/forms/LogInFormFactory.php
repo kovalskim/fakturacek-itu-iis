@@ -38,41 +38,41 @@ class LogInFormFactory
     {
         $form = $this->formFactory->create();
 
-        $form->addEmail('email', '*E-mail:')
+        $form->addEmail('email', 'E-mail:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'E-mail')
             ->setHtmlAttribute('autofocus');
 
-        $form->addPassword('password', '*Heslo:')
+        $form->addPassword('password', 'Heslo:*')
             ->setRequired()
             ->addRule($form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaků', 8)
             ->setHtmlAttribute("inputmode", "numeric")
             ->setHtmlAttribute('placeholder', 'Heslo');
 
-        $form->addPassword('passwordAgain', '*Heslo znovu:')
+        $form->addPassword('passwordAgain', 'Heslo znovu:*')
             ->setRequired()
             ->setOmitted()
             ->addRule($form::EQUAL, 'Hesla se neshodují', $form['password'])
             ->setHtmlAttribute('placeholder', 'Heslo znovu');
 
-        $form->addText('cin', '*IČ:')
+        $form->addText('cin', 'IČ:*')
             ->setRequired()
             ->addRule($form::LENGTH, 'IČ musí mít %d znaků', 8)
             ->setHtmlAttribute('placeholder', 'IČ');
 
-        $form->addText('name', '*Jméno a příjmení:')
+        $form->addText('name', 'Jméno a příjmení:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Jméno a příjmení');
 
-        $form->addText('street', '*Ulice a č.p.:')
+        $form->addText('street', 'Ulice a č.p.:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Ulice a č.p.:');
 
-        $form->addText('city', '*Město:')
+        $form->addText('city', 'Město:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Město');
 
-        $form->addText('zip', '*PSČ:')
+        $form->addText('zip', 'PSČ:*')
             ->setRequired()
             ->addFilter(function ($value) {
             return str_replace(' ', '', $value); // odstraníme mezery z PSČ
@@ -84,7 +84,7 @@ class LogInFormFactory
         $form->addText('phone', 'Telefon:')
             ->setHtmlAttribute('placeholder', 'Telefon');
 
-        $form->addRadioList('role', '*Role:', ["business" => 'OSVČ', "accountant" => 'Účetní'])
+        $form->addRadioList('role', 'Role:*', ["business" => 'OSVČ', "accountant" => 'Účetní'])
             ->setDefaultValue("business")
             ->setRequired();
 
@@ -159,7 +159,7 @@ class LogInFormFactory
     {
         $form = $this->formFactory->create();
 
-        $form->addEmail('email', '*E-mail:')
+        $form->addEmail('email', 'E-mail:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'E-mail')
             ->setHtmlAttribute('autofocus');
@@ -197,7 +197,7 @@ class LogInFormFactory
     {
         $form = $this->formFactory->create();
 
-        $form->addUpload('avatar_path', 'Avatar:')
+        $form->addUpload('avatar_path')
             ->addRule($form::IMAGE, 'Avatar musí být JPEG, PNG, GIF or WebP.')
             ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB.', 1024 * 1024 * 5)
             ->setRequired();

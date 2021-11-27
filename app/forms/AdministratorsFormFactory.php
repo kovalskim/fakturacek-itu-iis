@@ -40,12 +40,12 @@ class AdministratorsFormFactory
     {
         $form = $this->formFactory->create();
 
-        $form->addEmail('email', '*E-mail:')
+        $form->addEmail('email', 'E-mail:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'E-mail')
             ->setHtmlAttribute('autofocus');
 
-        $form->addText('name', '*Jméno a příjmení:')
+        $form->addText('name', 'Jméno a příjmení:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Jméno a příjmení');
 
