@@ -9,7 +9,7 @@
         </title>
 
         <!-- CSS styles -->
-
+            <link rel="stylesheet" href="{$basePath}/css/styles.css"/>
         <!--// CSS styles -->
     </head>
 
@@ -32,6 +32,38 @@
                     }
                 });
             });
+
+            (function ($, undefined) {
+
+                $.nette.ext('spinner', {
+                    init: function (x) {
+                        this.spinner = this.createSpinner();
+                        this.spinner.appendTo('body');
+                    },
+                    start: function (jqXHR, settings) {
+                        this.spinner.css({
+                            left: '50%',
+                            top: '50%'
+                        });
+                        this.spinner.show(this.speed);
+                    },
+                    complete: function () {
+                        this.spinner.hide(this.speed);
+                    }
+                }, {
+                    createSpinner: function () {
+                        return $('<div>', {
+                            id: 'ajax-spinner',
+                            css: {
+                                display: 'none'
+                            }
+                        });
+                    },
+                    spinner: null,
+                    speed: undefined
+                });
+
+            })(jQuery);
         </script>
 
         {snippet flashes}
@@ -54,7 +86,6 @@
                 <img src="{$basePath}/img/avatar_default.svg" alt="Avatar" width="50"/>
             {/if}
         </div>
-
 
         {include content}
 

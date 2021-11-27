@@ -1,0 +1,7 @@
+#ajax-spinner {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    background: url('../img/loading.gif') no-repeat;
+    z-index: 123456;
+}
