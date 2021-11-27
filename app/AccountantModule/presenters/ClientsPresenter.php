@@ -8,6 +8,8 @@ use App\forms\ClientsAccountantFormFactory;
 use App\model\DatagridManager;
 use App\model\UserManager;
 use App\repository\AccountantRepository;
+use App\repository\InvoicingRepository;
+use App\repository\UserRepository;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
@@ -32,9 +34,16 @@ final class ClientsPresenter extends BasePresenter
     /** @var AccountantRepository */
     private $accountantRepository;
 
-    private $table = 'accountant_permission';
+    /** @var UserRepository */
+    private $userRepository;
 
-    public function __construct(ClientsAccountantFormFactory $clientsAccountantFormFactory, DatagridManager $datagridManager, UserManager $userManager, User $user, AccountantRepository $accountantRepository)
+    /** @var InvoicingRepository */
+    private $invoicingRepository;
+
+    private $table = 'accountant_permission';
+    private $client_id;
+
+    public function __construct(ClientsAccountantFormFactory $clientsAccountantFormFactory, DatagridManager $datagridManager, UserManager $userManager, User $user, AccountantRepository $accountantRepository, UserRepository $userRepository, InvoicingRepository $invoicingRepository)
     {
         parent::__construct();
         $this->clientsAccountantFormFactory = $clientsAccountantFormFactory;
@@ -42,6 +51,8 @@ final class ClientsPresenter extends BasePresenter
         $this->userManager = $userManager;
         $this->user = $user;
         $this->accountantRepository = $accountantRepository;
+        $this->userRepository = $userRepository;
+        $this->invoicingRepository = $invoicingRepository;
     }
 
     public function actionDefault()
@@ -204,20 +215,6 @@ final class ClientsPresenter extends BasePresenter
     /**
      * @throws AbortException
      */
-    public function actionSummary($users_id)
-    {
-        $accountant_id = $this->user->getId();
-        $access = $this->accountantRepository->getAllByUserIdByAccountantId($users_id, $accountant_id);
-        if(!$access)
-        {
-            $this->flashMessage('Nemáš přístup', 'warning');
-            $this->redirect(':Accountant:Clients:default');
-        }
-    }
-
-    /**
-     * @throws AbortException
-     */
     public function actionAddConnection($token)
     {
         try
@@ -252,5 +249,69 @@ final class ClientsPresenter extends BasePresenter
         {
             $this->redirect('this');
         }
+    }
+
+    /**
+     * @throws AbortException
+     */
+    public function actionSummary($users_id)
+    {
+        $accountant_id = $this->user->getId();
+        $access = $this->accountantRepository->getAllByUserIdByAccountantId($users_id, $accountant_id);
+
+        if(!$access)
+        {
+            $this->flashMessage('Nemáš přístup', 'warning');
+            $this->redirect(':Accountant:Clients:default');
+        }
+        $this->client_id = $users_id;
+    }
+
+    public function renderSummary($users_id)
+    {
+        $this->template->userData = $this->userRepository->getUserById($users_id);
+    }
+
+    public function createComponentDatagridInvoices(): Datagrid
+    {
+        $grid = $this->datagridManager->createDatagrid('invoices', $this->getName(), $this->client_id);
+
+        $grid->addColumn('created', 'Datum vystavení')->enableSort(Datagrid::ORDER_ASC);
+        $grid->addColumn('client_name', 'Klient')->enableSort();
+        $grid->addColumn('variable_symbol', 'VS')->enableSort();
+        $grid->addColumn('suma', 'Celkem')->enableSort();
+        $grid->addColumn('status', 'Status')->enableSort();
+        $grid->addColumn('due_date', 'Datum splatnosti')->enableSort();
+        $grid->addColumn('users_id', 'ID')->enableSort();
+
+        return $grid;
+    }
+
+    /**
+     * @throws AbortException
+     */
+    public function actionInvoice($id, $users_id)
+    {
+        $accountant_id = $this->user->getId();
+        $access = $this->accountantRepository->getAllByUserIdByAccountantId($users_id, $accountant_id);
+
+        if(!$access)
+        {
+            $this->flashMessage('Nemáš přístup', 'warning');
+            $this->redirect(':Accountant:Clients:default');
+        }
+
+        $invoice = $this->invoicingRepository->getInvoiceByIdAndUserId($id, $users_id);
+        if(!$invoice)
+        {
+            $this->flashMessage('Požadovaná faktura nebyla nalezena', 'warning');
+            $this->redirect(':Business:Invoicing:default');
+        }
+    }
+
+    public function renderInvoice($id, $users_id)
+    {
+        $this->template->invoice = $this->invoicingRepository->getInvoiceByIdAndUserId($id, $users_id);
+        $this->template->invoice_items = $this->invoicingRepository->getInvoiceItemsById($id);
     }
 }

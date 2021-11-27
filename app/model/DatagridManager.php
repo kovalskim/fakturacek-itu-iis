@@ -19,6 +19,7 @@ class DatagridManager
 
     private $table;
     private $presenter_params;
+    private $client_id;
 
     public function __construct(Connection $connection, User $user)
     {
@@ -26,10 +27,11 @@ class DatagridManager
         $this->user = $user;
     }
 
-    public function createDatagrid($table, $presenter): DatagridExtended
+    public function createDatagrid($table, $presenter, $client_id = null): DatagridExtended
     {
         /** Name of table in database as global property */
         $this->table = $table;
+        $this->client_id = $client_id;
 
         /** Get presenter name and module for path to template */
         $this->presenter_params = explode(':', $presenter, 2);
@@ -47,7 +49,14 @@ class DatagridManager
             return $this->getDataSum($filter, $order, $this->table);
         });
 
-        $grid->addCellsTemplate(__DIR__ . '/../' . $this->presenter_params[0] . 'Module/templates/' . $this->presenter_params[1] . '/@cells.latte');
+        if($client_id)
+        {
+            $grid->addCellsTemplate(__DIR__ . '/../' . $this->presenter_params[0] . 'Module/templates/' . $this->presenter_params[1] . '/@cellsInvoices.latte');
+        }
+        else
+        {
+            $grid->addCellsTemplate(__DIR__ . '/../' . $this->presenter_params[0] . 'Module/templates/' . $this->presenter_params[1] . '/@cells.latte');
+        }
 
         return $grid;
     }
@@ -108,9 +117,16 @@ class DatagridManager
         {
             if($this->presenter_params[1] == 'Clients')
             {
-                $accountant_id = $this->user->getId();
-                $builder->joinLeft('users', 'accountant_permission.users_id = users.id');
-                $builder->andWhere('accountant_permission.accountant_id = %i', $accountant_id);
+                if($this->table == "accountant_permission")
+                {
+                    $accountant_id = $this->user->getId();
+                    $builder->joinLeft('users', 'accountant_permission.users_id = users.id');
+                    $builder->andWhere('accountant_permission.accountant_id = %i', $accountant_id);
+                }
+                elseif($this->table == "invoices")
+                {
+                    $builder->andWhere('users_id = %i', $this->client_id);
+                }
             }
         }
 

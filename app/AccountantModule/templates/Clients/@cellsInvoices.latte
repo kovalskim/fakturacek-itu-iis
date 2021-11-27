@@ -1,0 +1,25 @@
+{define cell-created}
+    {$row->created|date:'%d.%m.%Y %H:%M'}
+{/define}
+
+{define cell-status}
+    {if $row->status == 'unpaid'}
+        Nezaplacená
+    {elseif $row->status == 'paid'}
+        Zaplacená
+    {elseif $row->status == 'canceled'}
+        Stornovaná
+    {/if}
+{/define}
+
+{define cell-suma}
+    {$row->suma|number:2, ',', ' '} Kč
+{/define}
+
+{define cell-due_date}
+    {$row->due_date|date:'%d.%m.%Y %H:%M'}
+{/define}
+
+{define row-actions}
+    <a href="{plink :Accountant:Clients:invoice $primary, $row->users_id}">Detail</a>
+{/define}

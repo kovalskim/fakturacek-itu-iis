@@ -1,3 +1,42 @@
 {block content}
+    <a href="{link :Accountant:Clients:default}">Zpět na přehled klientů</a>
+    <h1>Přehledy</h1>
+    <h2>Údaje klienta</h2>
+    <table>
+        <tr>
+            <th>Jméno a přijmení</th>
+            <td>{$userData->name}</td>
+        </tr>
+        <tr>
+            <th>IČ</th>
+            <td>{$userData->cin}</td>
+        </tr>
+        <tr>
+            <th>DIČ</th>
+            <td>{$userData->vat}</td>
+        </tr>
+        <tr>
+            <th>E-mail</th>
+            <td>{$userData->email}</td>
+        </tr>
+        <tr>
+            <th>Telefon</th>
+            <td>{$userData->phone}</td>
+        </tr>
+        <tr>
+            <th>Ulice a č.p.</th>
+            <td>{$userData->street}</td>
+        </tr>
+        <tr>
+            <th>Město</th>
+            <td>{$userData->city}</td>
+        </tr>
+        <tr>
+            <th>PSČ</th>
+            <td>{$userData->zip}</td>
+        </tr>
+    </table>
+
+    {control datagridInvoices}
 
 {/block}

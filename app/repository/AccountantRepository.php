@@ -67,7 +67,7 @@ class AccountantRepository extends AllRepository
 
     public function getAllByUserIdByAccountantId($users_id, $accountant_id): bool
     {
-        if(($this->connection->query("SELECT * FROM %table WHERE users_id = %i and $accountant_id = %i", $this->table_accountant_permission, $users_id, $accountant_id)->fetch()))
+        if(($this->connection->query("SELECT * FROM %table WHERE users_id = %i and accountant_id = %i and request_status = %s", $this->table_accountant_permission, $users_id, $accountant_id, "active")->fetch()))
         {
             return true;
         }
