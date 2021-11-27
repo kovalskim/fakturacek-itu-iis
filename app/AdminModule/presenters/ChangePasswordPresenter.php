@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Radek Jůzl */
+
 namespace App\AdminModule\presenters;
 
 use App\forms\LogInFormFactory;
@@ -51,6 +53,4 @@ final class ChangePasswordPresenter extends BasePresenter
         }
         $this->redirect('this');
     }
-
-
 }

@@ -63,7 +63,6 @@ final class ClientsPresenter extends BasePresenter
     protected function createComponentClientConnectionForm(): Form
     {
         $form = $this->clientsAccountantFormFactory->createConnectionForm();
-        //$form->onValidate[] = [$this, "clientConnectionFormValidate"];
         $form->onSuccess[] = [$this, "clientConnectionFormSucceeded"];
         return $form;
     }

@@ -22,8 +22,6 @@ use Nette\Utils\DateTime;
 use Nextras\Datagrid\Datagrid;
 use Mpdf\Mpdf;
 use Nette\Application\UI\TemplateFactory;
-use Defr\QRPlatba\QRPlatba;
-
 
 final class InvoicingPresenter extends BasePresenter
 {
@@ -277,7 +275,6 @@ final class InvoicingPresenter extends BasePresenter
         $this->clientsManager->editClientsFormValidate($button->getForm());
         //$this->invoicingManager->editClientsFormValidate($button->getForm()); //TODO: S ajaxem funguje samo kontrola
         //$this->redrawControl('createInvoiceForm'); //TODO: Nefunguje - pridani do formulare class ajax
-
     }
 
     /**

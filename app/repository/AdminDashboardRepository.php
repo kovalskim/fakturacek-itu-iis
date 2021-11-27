@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Martin Kovalski */
+
 namespace App\repository;
 
 class AdminDashboardRepository extends AllRepository

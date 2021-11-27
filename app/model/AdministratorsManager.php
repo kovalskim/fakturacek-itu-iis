@@ -4,8 +4,6 @@ namespace App\model;
 
 /** Author: Martin Kovalski */
 
-use App\model\MailSender;
-use App\model\UserManager;
 use App\repository\UserRepository;
 use Exception;
 

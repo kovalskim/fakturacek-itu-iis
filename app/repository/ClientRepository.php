@@ -1,6 +1,6 @@
 <?php
 
-/** Author: Radek Jůzl */
+/** Author: Radek Jůzl, Martin Kovalski */
 
 namespace App\repository;
 

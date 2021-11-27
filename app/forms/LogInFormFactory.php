@@ -1,5 +1,7 @@
 <?php
 
+/** Author: Martin Kovalski, Radek Jůzl */
+
 namespace App\forms;
 
 use Nette\Application\UI\Form;
@@ -14,7 +16,6 @@ class LogInFormFactory
         $this->formFactory = $formFactory;
     }
 
-    /** Author: Martin Kovalski */
     public function createLogInForm(): Form
     {
         $form = $this->formFactory->create();
@@ -33,7 +34,6 @@ class LogInFormFactory
         return $form;
     }
 
-    /** Author: Radek Jůzl */
     public function createRegistrationForm(): Form
     {
         $form = $this->formFactory->create();
@@ -93,7 +93,6 @@ class LogInFormFactory
         return $form;
     }
 
-    /** Author: Martin Kovalski */
     public function createForgottenPasswordForm(): Form
     {
         $form = $this->formFactory->create();
@@ -108,7 +107,6 @@ class LogInFormFactory
         return $form;
     }
 
-    /** Author: Martin Kovalski */
     public function createNewPasswordForm(): Form
     {
         $form = $this->formFactory->create();
@@ -132,7 +130,6 @@ class LogInFormFactory
         return $form;
     }
 
-    /** Author: Martin Kovalski */
     public function createChangePasswordForm(): Form
     {
         $form = $this->formFactory->create();
@@ -158,7 +155,6 @@ class LogInFormFactory
         return $form;
     }
 
-    /** Author: Radek Jůzl */
     public function createEditProfileForm(): Form
     {
         $form = $this->formFactory->create();
@@ -197,7 +193,6 @@ class LogInFormFactory
         return $form;
     }
 
-    /** Author: Radek Jůzl */
     public function createUploadAvatarForm(): Form
     {
         $form = $this->formFactory->create();

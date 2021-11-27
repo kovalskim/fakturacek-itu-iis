@@ -1,6 +1,6 @@
 <?php
 
-/** Author: Martin Kovalski */
+/** Author: Martin Kovalski, Radek Jůzl */
 
 namespace App\forms;
 
@@ -36,7 +36,6 @@ class AdministratorsFormFactory
         return $form;
     }
 
-    /** Author: Radek Jůzl */
     public function createEditProfileAdminForm(): Form
     {
         $form = $this->formFactory->create();

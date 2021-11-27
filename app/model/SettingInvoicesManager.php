@@ -1,8 +1,9 @@
 <?php
 
+/** Author: Radek Jůzl */
+
 namespace App\model;
 
-use App\model\ImageUploader;
 use App\repository\SettingInvoicesRepository;
 use App\repository\UserRepository;
 use Exception;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\model;
+/** Author: Radek Jůzl */
 
-/** Author: Martin Kovalski */
+namespace App\model;
 
 use App\repository\ClientRepository;
 use Nette\Security\User;
