@@ -72,20 +72,17 @@ final class ExpensesPresenter extends BasePresenter
      */
     public function createAddExpensesFormSucceeded($form, $values)
     {
-        $expense_id = $this->expensesRepository->getLastExpenseId()->id;
-        $path_is_null = 0;
+        //$expense_id = $this->expensesRepository->getLastExpenseId()->id;
+        $path = $this->imageUploader->uploadDocumentFormSucceeded($form,$values);
 
         $user_id = $this->user->getId();
-       // if($values->categories_id == NULL)
-       // {
-        //    $values->categories_id = "1";
-       // }
-            $row = ((array) $values) + ['users_id' => $user_id]; 
+
+        $row = ((array) $values) + ['users_id' => $user_id]; 
 
         try
         {
             $this->expensesRepository->insertExpensesByUserId($row);
-            $this->imageUploader->uploadDocumentFormSucceeded($form,$values,$expense_id+1, "expenses");
+            //$this->imageUploader->uploadDocumentFormSucceeded($form,$values,$expense_id+1);
         }
         catch (Exception $e)
         {
@@ -103,7 +100,6 @@ final class ExpensesPresenter extends BasePresenter
 
         $grid = $this->datagridManager->createDatagrid($this->expensesTable, $this->getName());
 
-       // $grid->addColumn('id', id);
         $grid->addColumn('items', 'Položky')->enableSort(Datagrid::ORDER_ASC);
         $grid->addColumn('price', 'Cena')->enableSort(Datagrid::ORDER_ASC);
         $grid->addColumn('categories_id', 'Kategorie');

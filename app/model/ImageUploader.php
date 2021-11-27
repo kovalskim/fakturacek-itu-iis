@@ -142,7 +142,7 @@ class ImageUploader
 
 
     //TODO
-    public function saveExpenses($form, $values, $expense_id, $name, $img)
+    public function saveExpenses($form, $values, $name, $img)
     {
         $values->path = "www/expenses/".$name;
         $img->save('../'.$values->path);
@@ -155,7 +155,8 @@ class ImageUploader
         }
 */
   //  $values = $form->getValues();
-        $this->expensesRepository->updateImg($values, $expense_id);
+        return $values;
+       // $this->expensesRepository->updateImg($values, $expense_id);
        //var_dump($values);
     }
 
@@ -209,22 +210,12 @@ class ImageUploader
     /**
      * @throws Exception
      */
-    public function uploadDocumentFormSucceeded($form, $values, $expense_id, $type)
+    public function uploadDocumentFormSucceeded($form, $values)
     {
-        if($type == "avatars")
-        {
-            $path = $values->avatar_path;
-        }
-        elseif($type == "logo")
-        {
-            $path = $values->logo_path;
-        }
-        elseif($type == "expenses")
-        {
-            $path = $values->path;
-        }
 
+        $path = $values->path;
        
+       // dump($path);
 
         try
         {
@@ -235,23 +226,9 @@ class ImageUploader
             throw new Exception('Obrázek nebyl nahrán');
         }
 
+            $name = $this->generateNameImg("expenses");
+            $this->saveExpenses($form, $values, $name, $loadImg);
         
-        if($type == "avatars")
-        {
-            $loadImg = $this->editImg($loadImg);
-            $name = $this->generateNameImg($type);
-            $this->saveAvatar($form, $values, $name, $loadImg);
-        }
-        elseif($type == "logo")
-        {
-            $name = $this->generateNameImg($type);
-            $this->saveLogoAndSetting($form, $values, $name, $loadImg);
-        }
-        elseif($type == "expenses")
-        {
-            $name = $this->generateNameImg($type);
-            $this->saveExpenses($form, $values, $expense_id, $name, $loadImg);
-        }
     }
 
 }
