@@ -24,6 +24,6 @@ final class AboutUsPresenter extends BasePresenter
 
     public function renderDefault()
     {
-        $this->template->text = $this->textRepository->getTextByType("aboutus");
+        $this->template->text = $this->textRepository->getTextByType("aboutus"); /** Load text and picture from database */
     }
 }

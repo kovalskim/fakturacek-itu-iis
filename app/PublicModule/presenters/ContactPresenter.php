@@ -45,6 +45,9 @@ final class ContactPresenter extends BasePresenter
     }
 
     /**
+     *  The function sends an e-mail with the contact form filled out
+     */
+    /**
      * @throws AbortException
      */
     public function contactFormSucceeded($form, $values)
@@ -68,7 +71,7 @@ final class ContactPresenter extends BasePresenter
         {
             $this->flashMessage($e->getMessage(), 'danger');
         }
-        if($this->isAjax())
+        if($this->isAjax()) /** Ajax redraw */
         {
             $form->reset();
             $this->redrawControl('contactAjaxForm');
@@ -82,6 +85,6 @@ final class ContactPresenter extends BasePresenter
 
     public function renderDefault()
     {
-        $this->template->text = $this->textRepository->getTextByType("contact");
+        $this->template->text = $this->textRepository->getTextByType("contact"); /** Load text and picture from database */
     }
 }

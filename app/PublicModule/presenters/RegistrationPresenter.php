@@ -37,6 +37,9 @@ final class RegistrationPresenter extends BasePresenter
         return $form;
     }
 
+    /**
+     * The function calls the data validation in the form
+     */
     public function registrationFormValidate($form, $values)
     {
         $this->userManager->registrationFormValidate($form, $values);
