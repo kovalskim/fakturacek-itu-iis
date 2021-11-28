@@ -7,4 +7,8 @@
     {$row->datetime|date:'%d.%m.%Y %H:%M'}
 {/define}
 
+{define cell-path}
+    <img src="{$basePath}/{$row->path}" width="100px" alt="{$row->items}"/>
+{/define}
+
 {define row-actions}{/define}
