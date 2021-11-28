@@ -464,9 +464,9 @@ class Datagrid extends UI\Control
 			$actions = array_map(function($row) { return $row[0]; }, $this->globalActions);
 			$form['actions'] = new Container();
 			$form['actions']->addSelect('action', 'Action', $actions)
-				->setPrompt('- select action -');
+				->setPrompt('--- Vybrat akci ---');
 			$form['actions']->addCheckboxList('items', '', []);
-			$form['actions']->addSubmit('process', 'Do');
+			$form['actions']->addSubmit('process', 'Potvrdit');
 		}
 
 		if ($this->translator) {
