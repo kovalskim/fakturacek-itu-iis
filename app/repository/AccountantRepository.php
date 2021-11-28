@@ -109,9 +109,9 @@ class AccountantRepository extends AllRepository
         $this->connection->query("UPDATE %table SET %set WHERE accountant_id = %i and who = %s and request_status = %s", $this->table_accountant_permission, $data, $id, "business", "wait");
     }
 
-    public function getAllClientsByAccountantID($accountant_id): array
+    public function getAllClientsByAccountantID($accountant_id): int
     {
-        return ($this->connection->query("SELECT * FROM %table as ac join %table as us on ac.users_id = us.id WHERE ac.accountant_id = %i", $this->table_accountant_permission, $this->table, $accountant_id)->fetchAll());
+        return $this->connection->query("SELECT * FROM %table as ac join %table as us on ac.users_id = us.id WHERE ac.accountant_id = %i AND ac.request_status = %s AND ac.who = %s", $this->table_accountant_permission, $this->table, $accountant_id, "wait", "business")->count();
     }
     public function getCountClientsByAccountantID($accountant_id, $status): int
     {

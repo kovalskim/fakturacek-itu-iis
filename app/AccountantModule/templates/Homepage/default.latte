@@ -1,14 +1,36 @@
+<!-- Author: Radek Jůzl -->
 {block content}
-	<h1 n:block=title>Fakturáček - Homepage ACCOUNTANT</h1>
-
-	{foreach $requests as $request}
-		Žádost od: {$request->name}<br>
-	{else}
-		Žádné žádosti
-	{/foreach}
-
-	<h2>Počet klientů</h2>
-	<p>Celkem: {$suma}</p>
-	<p>Počet nových: {$waiting}</p>
-	<p>Počet aktivních: {$active}</p>
+	<div class="row">
+		<h1 n:block=title>Nástěnka</h1>
+		<div class="col-xl-3 col-lg-4 col-md-6">
+			<div class="card text-center my-3">
+				<i class="fas fa-user-shield display-4 mt-3"></i>
+				<h5 class="card-title my-3">Počet klientů</h5>
+				<div class="card-footer">
+					<h2>{$suma}</h2>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-lg-4 col-md-6">
+			<div class="card text-center my-3">
+				<i class="fas fa-user-shield display-4 mt-3"></i>
+				<h5 class="card-title my-3">Žádosti</h5>
+				<div class="card-footer">
+					<a href="{link :Accountant:Clients:default}" class="btn btn-primary my-1">
+						Nové žádosti <span class="badge badge-light">{$requests}</span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-6 col-lg-4 col-md-12">
+			<div class="card my-3">
+				<h5 class="card-title mt-3 mx-3">Přidat nového klienta</h5>
+				<div class="pt-2 px-3 pb-1">
+					{snippet clientConnectionForm}
+						{control clientConnectionForm}
+					{/snippet}
+				</div>
+			</div>
+		</div>
+	</div>
 {/block}

@@ -26,7 +26,7 @@ class ClientsAccountantFormFactory
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'E-mail');
 
-        $form->addSubmit('send', 'Poslat');
+        $form->addSubmit('send', 'Poslat žádost');
 
         return $form;
     }
