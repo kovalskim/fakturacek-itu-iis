@@ -22,7 +22,7 @@ class ClientsFormFactory
 
         $form->setHtmlAttribute('class', 'ajax');
 
-        $form->addText('name', '*Jméno a příjmení:')
+        $form->addText('name', 'Jméno a příjmení:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Jméno a příjmení')
             ->setHtmlAttribute('autofocus');
@@ -39,15 +39,15 @@ class ClientsFormFactory
         $form->addEmail('email', 'E-mail:')
             ->setHtmlAttribute('placeholder', 'E-mail');
 
-        $form->addText('street', '*Ulice a č.p.:')
+        $form->addText('street', 'Ulice a č.p.:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Ulice a č.p.:');
 
-        $form->addText('city', '*Město:')
+        $form->addText('city', 'Město:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Město');
 
-        $form->addText('zip', '*PSČ:')
+        $form->addText('zip', 'PSČ:*')
             ->setRequired()
             ->addRule($form::PATTERN, 'PSČ není ve tvaru pěti číslic', '\d{5}')
             ->addFilter(function ($value) {

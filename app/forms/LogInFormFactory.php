@@ -164,19 +164,19 @@ class LogInFormFactory
             ->setHtmlAttribute('placeholder', 'E-mail')
             ->setHtmlAttribute('autofocus');
 
-        $form->addText('name', '*Jméno a příjmení:')
+        $form->addText('name', 'Jméno a příjmení:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Jméno a příjmení');
 
-        $form->addText('street', '*Ulice a č.p.:')
+        $form->addText('street', 'Ulice a č.p.:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Ulice a č.p.:');
 
-        $form->addText('city', '*Město:')
+        $form->addText('city', 'Město:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Město');
 
-        $form->addText('zip', '*PSČ:')
+        $form->addText('zip', 'PSČ:*')
             ->setRequired()
             ->addFilter(function ($value) {
                     return str_replace(' ', '', $value); // odstraníme mezery z PSČ

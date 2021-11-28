@@ -1,20 +1,32 @@
 {block content}
-    <div>
-        {if $profile->avatar_path}
-            <img src="{$basePath}/{$profile->avatar_path}" alt="Avatar" width="100"/> <br>
-        {else}
-            <img src="{$basePath}/img/avatar_default.svg" alt="Avatar" width="100"/> <br>
-        {/if}
-        Jméno: {$profile->name} <br>
-        IČ: {$profile->cin} <br>
-        Email: {$profile->email} <br>
-        Telefon: {if $profile->phone}{$profile->phone}{else} nevyplněno{/if} <br>
-        Adresa: {$profile->street}, {$profile->zip} {$profile->city} <br>
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4 text-center">
+            <div class="card pt-5">
+                <div class="mx-5">
+                    {if $profile->avatar_path}
+                        <img src="{$basePath}/{$profile->avatar_path}" class="rounded-circle card-img-top" alt="Avatar" width="35%"/> <br>
+                    {else}
+                        <img src="{$basePath}/img/avatar_default.svg" class="rounded-circle card-img-top" alt="Avatar" width="35%"/> <br>
+                    {/if}
+                </div>
+                <div class="card-body">
+                    <h2>{$profile->name}</h2>
+                    <small class="text-center text-muted">IČ</small>
+                    <p>{$profile->cin}</p>
+                    <small class="text-center text-muted">E-mail</small>
+                    <p>{$profile->email}</p>
+                    <small class="text-center text-muted">Telefon</small>
+                    <p>{if $profile->phone}{$profile->phone}{else} -{/if}</p>
+                    <small class="text-center text-muted">Adresa</small>
+                    <p>{$profile->street}, {$profile->zip} {$profile->city}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{link :Accountant:Profile:edit}" class="btn btn-primary mt-1">Upravit profil</a>
+                    <a href="{link :Accountant:ChangePassword:default}" class="btn btn-primary mt-1">Změna hesla</a>
+                    <a href="{link :Accountant:Profile:upload}" class="btn btn-primary mt-1">Změna avataru</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <a href="{link :Accountant:Profile:edit}">Upravit profil</a>
-        <a href="{link :Accountant:ChangePassword:default}">Změna hesla</a>
-        <a href="{link :Accountant:Profile:upload}">Změna avataru</a>
-    </div>
-
 {/block}
