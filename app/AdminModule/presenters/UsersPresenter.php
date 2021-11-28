@@ -57,7 +57,7 @@ final class UsersPresenter extends BasePresenter
             foreach ($ids as $id) {
                 $this->administratorsManager->ban($id);
             }
-            $this->flashMessage('Uživatele byli zablokováni', 'success');
+            $this->flashMessage('Uživatelé byli zablokováni', 'success');
             $this->redrawControl('flashes');
             $grid->redrawControl('rows');
         });
@@ -66,7 +66,7 @@ final class UsersPresenter extends BasePresenter
             foreach ($ids as $id) {
                 $this->administratorsManager->allow($id);
             }
-            $this->flashMessage('Uživatele byli odblokování', 'success');
+            $this->flashMessage('Uživatelé byli odblokování', 'success');
             $this->redrawControl('flashes');
             $grid->redrawControl('rows');
         });

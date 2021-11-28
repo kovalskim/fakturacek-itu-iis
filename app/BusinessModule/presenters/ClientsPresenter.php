@@ -124,7 +124,7 @@ final class ClientsPresenter extends BasePresenter
             foreach ($ids as $id) {
                 $this->clientRepository->deleteClientById($id);
             }
-            $this->flashMessage('Uživatele byli smazáni', 'success');
+            $this->flashMessage('Uživatelé byli smazáni', 'success');
             $this->redrawControl('flashes');
             $grid->redrawControl('rows');
         });

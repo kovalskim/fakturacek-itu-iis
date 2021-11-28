@@ -65,7 +65,7 @@ final class CategoryPresenter extends BasePresenter
 
         $this->categoryRepository->insertCategoryByUserId($row);
 
-        $this->flashMessage('Kategorie byla přidán');
+        $this->flashMessage('Kategorie byla přidána', 'success');
         $this->redirect('this');
     }
 
@@ -88,10 +88,10 @@ final class CategoryPresenter extends BasePresenter
         $grid->addGlobalAction('deleteCategory', 'Vymazat', function (array $ids, Datagrid $grid) {
             foreach ($ids as $id) {
                 if($this->categoryManager->deleteCategory($id)){
-                    $this->flashMessage('Kategorie je používána a tutíž nebyla vymazána.', 'success');
+                    $this->flashMessage('Kategorie je používána. Nelze jí smazat', 'danger');
                 }
                 else {
-                    $this->flashMessage('Kategorie byla vymazána.', 'success');
+                    $this->flashMessage('Kategorie byla vymazána', 'success');
                 }
             }
 
@@ -152,10 +152,10 @@ final class CategoryPresenter extends BasePresenter
     public function deleteCategory($primary)
     {
         if($this->categoryManager->deleteCategory($primary)){
-            $this->flashMessage('Kategorie je používána a tutíž nebyla vymazána.', 'success');
+            $this->flashMessage('Kategorie je používána. Nelze jí smazat', 'danger');
         }
         else {
-            $this->flashMessage('Kategorie byla vymazána.', 'success');
+            $this->flashMessage('Kategorie byla vymazána', 'success');
         }
         $this->redrawControl('flashes');
     }
