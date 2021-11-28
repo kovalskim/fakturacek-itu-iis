@@ -1,4 +1,4 @@
--- Adminer 4.8.1 MySQL 5.5.5-10.4.21-MariaDB dump
+-- Adminer 4.3.1 MySQL dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -171,8 +171,8 @@ DROP TABLE IF EXISTS `texts`;
 CREATE TABLE `texts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
-  `text` text COLLATE utf8mb4_czech_ci NOT NULL,
-  `img_path` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
+  `text` text COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `img_path` varchar(255) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
@@ -238,4 +238,4 @@ CREATE TABLE `users_last_password_change` (
 INSERT INTO `users_last_password_change` (`id`, `users_id`, `timestamp`) VALUES
 (1,	4,	'2021-11-26 13:37:24');
 
--- 2021-11-27 23:10:30
+-- 2021-11-28 12:47:52
