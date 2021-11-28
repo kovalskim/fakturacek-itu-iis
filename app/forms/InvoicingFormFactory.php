@@ -61,6 +61,8 @@ class InvoicingFormFactory
         $form->addEmail('email', 'E-mail:')
             ->setHtmlAttribute('placeholder', 'E-mail');
 
+        $form->addCheckbox('addClient', 'Uložit jako nového klienta do adresáře');
+
         $form->addInteger('due_days_number', 'Dní do splatnosti')
             ->setRequired()
             ->setDefaultValue(14)

@@ -6,6 +6,7 @@ namespace App\model;
 
 use App\repository\ClientRepository;
 use App\repository\InvoicingRepository;
+use Nette\Security\User;
 use Nette\Utils\DateTime;
 
 class InvoicingManager
@@ -16,10 +17,14 @@ class InvoicingManager
     /** @var ClientRepository */
     private $clientRepository;
 
-    public function __construct(InvoicingRepository $invoicingRepository, ClientRepository $clientRepository)
+    /** @var User */
+    public $user;
+
+    public function __construct(InvoicingRepository $invoicingRepository, ClientRepository $clientRepository, User $user)
     {
         $this->invoicingRepository = $invoicingRepository;
         $this->clientRepository = $clientRepository;
+        $this->user = $user;
     }
 
     public function getNewVariableSymbol($user_id, $pattern): int
@@ -77,7 +82,9 @@ class InvoicingManager
 
     public function saveClient($values)
     {
+        $user_id = $this->user->getId();
         $value = [
+            'users_id' => $user_id,
             'name' => $values->name,
             'street' => $values->street,
             'city' => $values->city,
@@ -88,9 +95,14 @@ class InvoicingManager
             'email' => $values->email
         ];
 
-        if(!($this->clientRepository->isExistClient($value)))
+        if($this->clientRepository->isExistClient($value))
         {
-            //TODO: Radek
+            return 0;
+        }
+        else
+        {
+            $this->clientRepository->insertClientByUserId($value);
+            return 1;
         }
     }
 

@@ -326,8 +326,18 @@ final class InvoicingPresenter extends BasePresenter
             'suma' => 0
         ];
 
-        //TODO: if not $values->id - neni ulozen klient
-        //$this->invoicingManager->saveClient($values);
+        if($values->addClient)
+        {
+            if($this->invoicingManager->saveClient($values))
+            {
+                $this->flashMessage("Klient se uložil", "success");
+            }
+            else
+            {
+                $this->flashMessage("Nedošlo k uložení klienta. Z důvodu, že je už uložený", "info");
+            }
+
+        }
 
         $this->invoicingRepository->insertInvoice($invoice_values);
         $id_invoices = $this->invoicingRepository->lasIdInvoice();
