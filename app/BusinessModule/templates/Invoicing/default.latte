@@ -1,6 +1,12 @@
 {block content}
-    <h1 n:block=title>Fakturace</h1>
-    <a href="{link :Business:Invoicing:newInvoice}">Nová faktura</a>
-    {control datagrid}
+    <div class="row">
+        <h1 n:block=title>Fakturace</h1>
+        <div class="col mb-3">
+            <a href="{link :Business:Invoicing:newInvoice}" class="btn btn-primary">Nová faktura</a>
+        </div>
+        <div class="col-lg-12 overflow-auto">
+            {control datagrid}
+        </div>
+    </div>
 {/block}
 

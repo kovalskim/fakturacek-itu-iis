@@ -1,28 +1,31 @@
 {block content}
-    <h1 n:block=title>Nová faktura</h1>
-    <a href="{link :Business:Invoicing:default}">Zpět na přehled faktur</a>
-
-    <h2>Vyhledat klienta</h2>
-
-    <label class="label" for="search-event"></label>
-
-    <input id="search-event" autocomplete="off" autofocus>
-
-    <div id="search-results">
-        <ul>
+    <a href="{link :Business:Invoicing:default}" class="btn btn-outline-secondary mb-3">&larr; Zpět na přehled faktur</a>
+    <div class="row">
+        <h1 n:block=title>Nová faktura</h1>
+        <div class="col-lg-4">
+            <div class="form-group has-search">
+                <span class="fa fa-search form-control-feedback"></span>
+                <input type="text" id="search-event" autocomplete="off" autofocus class="form-control" placeholder="Vyhledat klienta...">
+            </div>
             {snippet results}
                 {ifset $results}
-                    {foreach $results as $result}
-                        <li>
-                             <p>{$result->name}{if $result->email}<br>{$result->email}{/if}{if $result->cin}<br>{$result->cin}{/if}<a href="{link select! $result->id}" class="ajax">vybrat</a></p>
-                        </li>
-                    {else}
-                        <li>Nenalezeno nic</li>
-                    {/foreach}
+                    <div id="search-results" class="dropdown-menu show position-relative">
+                        {foreach $results as $result}
+                            <a class="ajax dropdown-item" href="{link select! $result->id}">
+                                <h6 class="mt-2">{$result->name}</h6>
+                                <p>{if $result->email}E-mail: {$result->email}<br>{/if}
+                                {if $result->cin}IČ: {$result->cin}{/if}</p>
+                            </a>
+
+                        {else}
+                            <li>Nenalezeno nic</li>
+                        {/foreach}
+                    </div>
                 {/ifset}
             {/snippet}
-        </ul>
+        </div>
     </div>
+
     {snippet createInvoiceForm}
         {control createInvoiceForm}
     {/snippet}
