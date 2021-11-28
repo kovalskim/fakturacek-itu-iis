@@ -44,7 +44,7 @@ final class UsersPresenter extends BasePresenter
         $grid->addColumn('address', 'Adresa');
         $grid->addColumn('role', 'Role')->enableSort();
         $grid->addColumn('status', 'Status')->enableSort();
-        $grid->addColumn('dates', Html::el()->setHtml('Poslední přihlášení<br>Poslední změna hesla'));
+        $grid->addColumn('dates', Html::el()->setHtml('Poslední přihlášení<br>Poslední změna hesla')); /** Add html element */
 
         $grid->setFilterFormFactory([$this, 'datagridFilterFormFactory']);
 
@@ -104,6 +104,10 @@ final class UsersPresenter extends BasePresenter
 
         return $form;
     }
+
+    /**
+     * Functions for buttons
+     */
 
     public function ban($primary)
     {

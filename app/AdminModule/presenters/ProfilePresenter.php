@@ -53,7 +53,7 @@ final class ProfilePresenter extends BasePresenter
 
     public function renderDefault()
     {
-        $this->template->profile = $this->userRepository->getUserProfile($this->user->getId());
+        $this->template->profile = $this->userRepository->getUserProfile($this->user->getId()); /** Load data into the template */
     }
 
     public function actionEdit()
@@ -83,8 +83,8 @@ final class ProfilePresenter extends BasePresenter
     {
         $new_email = $this->profileManager->editProfileFormSucceeded($form, $values);
         if ($new_email) {
-            $this->session->destroy();
-            $this->user->logout();
+            $this->session->destroy(); /** delete session */
+            $this->user->logout(); /** Log out user */
             $this->flashMessage('Ověř si nový e-mail a přihlaš se s ním!', 'info');
             $this->redirect(':Public:Homepage:default');
         }

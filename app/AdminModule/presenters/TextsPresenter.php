@@ -31,6 +31,9 @@ final class TextsPresenter extends BasePresenter
         $this->textsManager = $textsManager;
     }
 
+    /**
+     * Load texts into the text editor
+     */
     public function actionDefault()
     {
         $aboutus = $this->textRepository->getTextByType("aboutus");
@@ -77,6 +80,9 @@ final class TextsPresenter extends BasePresenter
     }
 
     /**
+     * Ajax deletion
+     */
+    /**
      * @throws AbortException
      */
     public function handleDeleteContact(): void
@@ -98,6 +104,9 @@ final class TextsPresenter extends BasePresenter
         }
     }
 
+    /**
+     * Ajax deletion
+     */
     /**
      * @throws AbortException
      */
