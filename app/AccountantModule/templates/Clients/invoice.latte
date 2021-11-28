@@ -1,67 +1,112 @@
 {block content}
-    <h1 n:block=title>Detail faktury</h1>
-    <a href="{plink :Accountant:Clients:summary $invoice->users_id}">Zpět na přehled</a>
-    {if $invoice->logo_path}<img src="{$basePath}/{$invoice->logo_path}" alt="{$invoice->user_name}" width="200px"/>{/if}
-    <h2>Dodavatel</h2>
-    {$invoice->user_name}<br>
-    {$invoice->user_street}<br>
-    {$invoice->user_zip} {$invoice->user_city}<br>
-    IČ: {$invoice->user_cin}<br>
-    {if $invoice->user_vat}DIČ: {$invoice->user_vat}<br>{/if}
-    {if $invoice->user_phone}Tel.: {$invoice->user_phone}<br>{/if}
-    {$invoice->user_email}
+    <a href="{link :Accountant:Clients:summary $invoice->users_id}" class="btn btn-outline-secondary mb-3">&larr; Zpět na přehled</a>
+    <div class="row invoice-detail">
+        <h1 n:block=title>Detail faktury</h1>
+        {snippet status}
+            <h2>Stav:
+                {if $invoice->status == 'unpaid'}
+                    <span class="badge nav-pills text-black bg-danger">Nezaplacená</span>
+                {elseif $invoice->status == 'paid'}
+                    <span class="badge nav-pills text-black bg-success">Zaplacená</span>
+                {elseif $invoice->status == 'canceled'}
+                    <span class="badge nav-pills text-black bg-info">Stornovaná</span>
+                {/if}
+            </h2>
+        {/snippet}
 
-    <h2>Odběratel</h2>
-    {$invoice->client_name}<br>
-    {$invoice->client_street}<br>
-    {$invoice->client_zip} {$invoice->client_city}<br>
-    {if $invoice->client_cin}IČ: {$invoice->client_cin}<br>{/if}
-    {if $invoice->client_vat}DIČ: {$invoice->client_vat}<br>{/if}
-    {if $invoice->client_phone}Tel.: {$invoice->client_phone}<br>{/if}
-    {if $invoice->client_email}E-mail: {$invoice->client_email}{/if}
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <table class="w-100">
+                <tr class="top">
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td class="title">
+                                    {if $invoice->logo_path}
+                                        <img src="{$basePath}/{$invoice->logo_path}" style="width: 100%; max-width: 300px" />
+                                    {/if}
+                                </td>
 
-    <h2>Další údaje</h2>
-    Datum vystavení: {$invoice->created|date:'%d.%m.%Y %H:%M'}<br>
-    Datum splatnosti: {$invoice->due_date|date:'%d.%m.%Y %H:%M'}<br>
-    Číslo účtu: {$invoice->account_number}<br>
-    Variabilní symbol: {$invoice->variable_symbol}<br>
-    {if $invoice->vat_note == 0}
-        Nejsem plátce DPH.
-    {elseif $invoice->vat_note == 1}
-        Jsem plátce DPH.
-    {/if}<br>
-    {if $invoice->footer_note}{$invoice->footer_note}<br>{/if}
+                                <td>
+                                    <br>
+                                    <h1>Faktura č. {$invoice->variable_symbol}</h1><br />
+                                    <strong>Datum vystavení:</strong> {$invoice->created|date:'%d.%m.%Y'}<br />
+                                        <strong>Datum splatnosti:</strong> {$invoice->due_date|date:'%d.%m.%Y'}<br />
 
-    {snippet status}
-    Status:
-        {if $invoice->status == 'unpaid'}
-            Nezaplacená
-        {elseif $invoice->status == 'paid'}
-            Zaplacená
-        {elseif $invoice->status == 'canceled'}
-            Stornovaná
-        {/if}
-    {/snippet}
-
-    <h2>Položky</h2>
-    <hr>
-    <table>
-        <tr>
-            <th>Položka</th>
-            <th>Počet</th>
-            <th>Cena/ks</th>
-            <th>Cena celkem</th>
-        </tr>
-            {foreach $invoice_items as $item}
-                <tr>
-                    <td>{$item->name}</td>
-                    <td>{$item->count} {$item->type}</td>
-                    <td>{$item->unit_price|number:2, ',', ' '} Kč</td>
-                    <td>{$item->suma|number:2, ',', ' '} Kč</td>
+                                        <br />
+                                        {do $account_number = ($invoice->account_number|explode: '/')}
+                                        {do $account_prefix = ($account_number[0]|explode: '-')}
+                                        <strong>Číslo účtu:</strong> {$invoice->account_number}<br />
+                                        <strong>Variabilní symbol:</strong> {$invoice->variable_symbol}<br />
+                                    <strong>Způsob úhrady:</strong> Bankovním převodem
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
                 </tr>
-            {/foreach}
-    </table>
-    <hr>
-    Celková částka: {$invoice->suma|number:2, ',', ' '} Kč
-{/block}
 
+                <tr class="information">
+                    <td colspan="2">
+                        <table class="w-100">
+                            <tr>
+                                <td>
+                                    <h6>Dodavatel</h6>
+                                    {$invoice->user_name}<br />
+                                        {$invoice->user_street}<br />
+                                        {$invoice->user_zip} {$invoice->user_city}<br />
+                                        <br>
+                                        <strong>IČ:</strong> {$invoice->user_cin}<br />
+                                        {if $invoice->user_vat}<strong>DIČ:</strong> {$invoice->user_vat}<br />{/if}
+                                        {if $invoice->user_phone}<strong>Tel.:</strong> {$invoice->user_phone}<br />{/if}
+                                        <strong>E-mail:</strong> {$invoice->user_email}
+                                </td>
+
+                                <td style="text-align: left !important;">
+                                    <h6>Odběratel</h6>
+                                    {$invoice->client_name}<br />
+                                        {$invoice->client_street}<br />
+                                        {$invoice->client_zip} {$invoice->client_city}<br />
+                                        <br>
+                                        {if $invoice->client_cin}<strong>IČ:</strong> {$invoice->client_cin}<br />{/if}
+                                        {if $invoice->client_vat}<strong>DIČ:</strong> {$invoice->client_vat}<br />{/if}
+                                        {if $invoice->client_phone}<strong>Tel.:</strong> {$invoice->client_phone}<br />{/if}
+                                        {if $invoice->client_email}<strong>E-mail:</strong> {$invoice->client_email}{/if}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-lg-8 d-block m-auto mt-5">
+            <table class="w-100">
+                <tr class="heading">
+                    <td style="width: 50%;">Položka</td>
+                    <td style="text-align: left; width: 15%; padding-left: 2%; padding-right: 2%;">Počet</td>
+                    <td style="width: 15%; padding-left: 2%; padding-right: 2%;">Cena/ks</td>
+                    <td style="width: 20%; padding-left: 2%; padding-right: 2%;">Cena celkem</td>
+                </tr>
+
+                {foreach $invoice_items as $item}
+                    <tr class="item {if $iterator->last}last{/if}">
+                        <td>{$item->name}</td>
+                        <td style="text-align: left; padding-left: 2%; padding-right: 2%;">{$item->count} {if $item->type == 'hours'}hod {elseif $item->type == 'pieces'}ks{/if}</td>
+                        <td style="padding-left: 2%; padding-right: 2%;">{$item->unit_price|number:2, ',', ' '} Kč</td>
+                        <td style="padding-left: 2%; padding-right: 2%;">{$item->suma|number:2, ',', ' '} Kč</td>
+                    </tr>
+                {/foreach}
+            </table>
+        </div>
+
+        <div class="col-lg-8 d-block m-auto mt-5">
+            <table class="w-100">
+                <tr class="total">
+                    <td></td>
+                    <td></td>
+                    <td colspan="2">Celkem: {$invoice->suma|number:2, ',', ' '} Kč</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{/block}

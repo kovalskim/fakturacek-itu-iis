@@ -17,7 +17,7 @@
 
 {define row-actions}
     {if $row->request_status}
-        <a n:if="$row->request_status == 'active'" href="{plink :Accountant:Clients:summary $row->users_id}" class="btn btn-success btn-sm mt-1">Detail</a>
+        <a n:if="$row->request_status == 'active'" href="{plink :Accountant:Clients:summary $row->users_id}" class="btn btn-primary btn-sm mt-1">Detail</a>
         <a n:if="$row->request_status == 'wait' and $row->who == 'business'" href="{link changeStatus! $row->users_id, "active"}" class="ajax btn btn-success btn-sm mt-1">Příjmout žádost</a>
         <a n:if="$row->request_status == 'active' or $row->who == 'accountant'" href="{link changeStatus! $row->users_id, "deleted"}" class="ajax btn btn-danger btn-sm mt-1">Odebrat</a>
         <a n:if="$row->request_status == 'wait' and $row->who == 'business'" href="{link changeStatus! $row->users_id, "deleted"}" class="ajax btn btn-danger btn-sm mt-1">Odmítnout žádost</a>

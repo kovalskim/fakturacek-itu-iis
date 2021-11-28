@@ -1,5 +1,6 @@
 /** Author: Martin Kovalski */
 
+/** Ajax spinner */
 #ajax-spinner {
     position: fixed;
     width: 32px;
@@ -8,11 +9,13 @@
     z-index: 123456;
 }
 
+/** Note under form-control */
 small {
     text-align: right;
     display: block;
 }
 
+/** Search clients component */
 /** https://codepen.io/gungorbudak/pen/ooKNpz */
 .has-search .form-control {
     padding-left: 2.375rem;
@@ -28,4 +31,45 @@ small {
     text-align: center;
     pointer-events: none;
     color: #aaa;
+}
+
+/** Invoices detail */
+ .invoice-detail table {
+     width: 100%;
+     text-align: left;
+ }
+
+.invoice-detail table td {
+    padding: 5px;
+    vertical-align: top;
+}
+
+.invoice-detail table tr td:nth-child(2) {
+    text-align: right;
+}
+
+.invoice-detail table tr.top table td.title {
+    font-size: 45px;
+    line-height: 45px;
+    color: #333;
+}
+
+.invoice-detail table tr.heading td {
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+}
+
+.invoice-detail table tr.item td {
+    border-bottom: 1px solid #eee;
+}
+
+.invoice-detail table tr.item.last td {
+    border-bottom: none;
+}
+
+.invoice-detail table tr.total td:nth-child(3) {
+    border-top: 2px solid #eee;
+    font-weight: bold;
+    text-align: right;
 }
