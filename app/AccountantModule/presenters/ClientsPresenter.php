@@ -104,6 +104,9 @@ final class ClientsPresenter extends BasePresenter
 
     }
 
+    /**
+     * Datagrid clients
+     */
     public function createComponentDatagrid(): Datagrid
     {
         $grid = $this->datagridManager->createDatagrid($this->table, $this->getName());
@@ -271,6 +274,9 @@ final class ClientsPresenter extends BasePresenter
         $this->template->userData = $this->userRepository->getUserById($users_id);
     }
 
+    /**
+     * Client invoices datagrid
+     */
     public function createComponentDatagridInvoices(): Datagrid
     {
         $grid = $this->datagridManager->createDatagrid('invoices', $this->getName(), $this->client_id, "invoices");
@@ -319,6 +325,9 @@ final class ClientsPresenter extends BasePresenter
         return $form;
     }
 
+    /**
+     * Client expenses datagrid
+     */
     public function createComponentDatagridExpenses(): Datagrid
     {
         $grid = $this->datagridManager->createDatagrid('expenses', $this->getName(), $this->client_id, "expenses");
@@ -334,6 +343,9 @@ final class ClientsPresenter extends BasePresenter
         return $grid;
     }
 
+    /**
+     * Filtering function
+     */
     public function datagridFilterExpensesFormFactory(): Container
     {
         $form = new Container();
@@ -366,14 +378,14 @@ final class ClientsPresenter extends BasePresenter
 
         if(!$access)
         {
-            $this->flashMessage('Nemáš přístup', 'warning');
+            $this->flashMessage('Nemáš přístup', 'warning'); /** Verification that he has access  */
             $this->redirect(':Accountant:Clients:default');
         }
 
         $invoice = $this->invoicingRepository->getInvoiceByIdAndUserId($id, $users_id);
         if(!$invoice)
         {
-            $this->flashMessage('Požadovaná faktura nebyla nalezena', 'warning');
+            $this->flashMessage('Požadovaná faktura nebyla nalezena', 'warning'); /** Verification that he has access  */
             $this->redirect(':Business:Invoicing:default');
         }
     }

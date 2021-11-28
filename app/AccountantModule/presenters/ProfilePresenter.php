@@ -96,7 +96,7 @@ final class ProfilePresenter extends BasePresenter
 
     public function renderUpload()
     {
-        $this->template->profile = $this->userRepository->getUserProfile($this->user->getId());
+        $this->template->profile = $this->userRepository->getUserProfile($this->user->getId()); /** Load photo form database */
     }
 
     protected function createComponentUploadAvatarForm(): Form

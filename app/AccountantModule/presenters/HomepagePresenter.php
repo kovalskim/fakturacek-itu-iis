@@ -38,11 +38,14 @@ final class HomepagePresenter extends BasePresenter
     public function renderDefault()
     {
         $accountant_id = $this->user->getId();
-        $this->template->requests = $this->accountantRepository->getAllClientsByAccountantID($accountant_id);
+        $this->template->requests = $this->accountantRepository->getAllClientsByAccountantID($accountant_id); /** Number of requests from clients */
 
-        $this->template->suma = $active = $this->accountantRepository->getCountClientsByAccountantID($accountant_id, 'active');
+        $this->template->suma = $this->accountantRepository->getCountClientsByAccountantID($accountant_id, 'active');
     }
 
+    /**
+     * Create form at the request of the accountant
+     */
     protected function createComponentClientConnectionForm(): Form
     {
         $form = $this->clientsAccountantFormFactory->createConnectionForm();
