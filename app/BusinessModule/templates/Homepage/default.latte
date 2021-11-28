@@ -1,49 +1,131 @@
 {block content}
-	<h1 n:block=title>Fakturáček - Homepage BUSINESS</h1>
+	<div class="row">
+		<h1 n:block=title>Nástěnka</h1>
+		<div class="col-xl-4 col-lg-6">
+			<div class="card text-center mt-2">
+				<div class="card-body">
+					<i class="fas fa-directions display-4 mt-3"></i>
+					<h2 class="card-title m-3">Rychlé akce</h2>
+				</div>
+				<div class="card-footer">
+					<a href="{link :Business:Invoicing:newInvoice}" class="btn btn-primary mt-1">Vytvořit fakturu</a>
+					<a href="{link :Business:Expenses:default}" class="btn btn-primary mt-1">Přidat výdaj</a>
+					<a href="{link :Business:Clients:default}" class="btn btn-primary mt-1">Nový klient</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-4 col-lg-6">
+			<div class="card text-center mt-2">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-6">
+							<i class="fas fa-user-chart display-4 mt-3"></i>
+							<h2 class="card-title m-3">Účetní</h2>
+						</div>
+						<div class="col-6">
+							{if $isAccountantName}
+								{if $isAccountantName->request_status == "active"}
+									<div class="mt-3">
+										{if $isAccountantName->avatar_path}
+											<img src="{$basePath}/{$isAccountantName->avatar_path}" width="50%" class="rounded-circle"/>
+										{else}
+											<img src="{$basePath}/img/avatar_default.svg" width="50%" class="rounded-circle"/>
+										{/if}
+										<small class="text-center">{$isAccountantName->name}</small>
+									</div>
+								{elseif $isAccountantName->request_status == "wait"}
+									{if $isAccountantName->who == "accountant"}
+										{if $isAccountantName->avatar_path}
+											<img src="{$basePath}/{$isAccountantName->avatar_path}" width="50%" class="rounded-circle"/>
+										{else}
+											<img src="{$basePath}/img/avatar_default.svg" width="50%" class="rounded-circle"/>
+										{/if}
+										<small class="text-center mt-2">Nová žádost od účetní</small>
+										<p class="mb-0">{$isAccountantName->name}</p>
+									{else}
+										<i class="fas fa-hourglass-start display-6 mt-3 text-muted"></i>
+										<small class="text-center mt-2">Čeká se na přijetí<br>žádosti od účetní</small>
+										<p class="mb-0">{$isAccountantName->name}</p>
+									{/if}
+								{/if}
+							{else}
+								<i class="fas fa-do-not-enter display-5 mt-4 text-muted"></i>
+								<small class="text-center mt-3">Účetní nebyla přiřazena</small>
+							{/if}
+						</div>
+					</div>
+				</div>
+			<div class="card-footer">
+				<a href="{link :Business:Accountant:default}" class="btn btn-primary mt-1">Správa účetní</a>
+			</div>
+		</div>
+	</div>
 
-	<h2>Rychlé akce</h2>
-	<a href="{link :Business:Invoicing:newInvoice}">Vytvořit fakturu</a>
-	<a href="{link :Business:Expenses:default}">Přidat výdaj</a>
-	<a href="{link :Business:Clients:default}">Nový klient</a>
+	<div class="row mt-3">
+		<div class="col-xl-6">
+			<div class="card text-center mt-2 w-100">
+				<div class="card-body">
+					<i class="fas fa-money-bill-wave-alt display-4 mt-3 text-center"></i>
+					<h2 class="card-title m-3 text-center">Nezaplacené faktury</h2>
+					<table class="table table-hover table-responsive table-striped">
+						<thead>
+							<tr>
+								<th>Číslo faktury</th>
+								<th>Jméno klienta</th>
+								<th>Datum splatnosti</th>
+								<th>Částka</th>
+							</tr>
+						</thead>
+						<tbody>
+						{foreach $unpaidInvoices as $item}
+							<tr>
+								<td>{$item->variable_symbol}</td>
+								<td>{$item->client_name}</td>
+								<td>{$item->due_date|date:'%d.%m.%Y'}</td>
+								<td>{$item->suma|number:2, ',', ' '} Kč</td>
+							</tr>
+						{else}
+							<tr>
+								<td colspan="4">Žádné nezaplacené faktury</td>
+							</tr>
+						{/foreach}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 
-	<h2>Nezaplacené Fa</h2>
-	{foreach $unpaidInvoices as $item}
-		Faktura č. {$item->variable_symbol}<br>
-		{$item->client_name}<br>
-		Datum splatnosti: {$item->due_date|date:'%d.%m.%Y'}<br>
-		Celkem: {$item->suma|number:2, ',', ' '} Kč
-		<hr>
-	{/foreach}
-	<h2>Fa po splatnosti</h2>
-	{foreach $afterDueDateInvoices as $item}
-		Faktura č. {$item->variable_symbol}<br>
-		{$item->client_name}<br>
-		Datum splatnosti: {$item->due_date|date:'%d.%m.%Y'}<br>
-		Celkem: {$item->suma|number:2, ',', ' '} Kč
-		<hr>
-	{/foreach}
-	<h2>Účetní</h2>
-	{if $isAccountantName}
-		{if $isAccountantName->request_status == "active"}
-			<div>Tvá účetni je: {$isAccountantName->name}</div>
-			{if $isAccountantName->avatar_path}
-				<img src="{$basePath}/{$isAccountantName->avatar_path}" width="100px"/>
-			{else}
-				<img src="{$basePath}/img/avatar_default.svg" width="100px"/>
-			{/if}
-		{elseif $isAccountantName->request_status == "wait"}
-			{if $isAccountantName->who == "accountant"}
-				<div>Žádost od <b>{$isAccountantName->name}</b></div>
-				{if $isAccountantName->avatar_path}
-					<img src="{$basePath}/{$isAccountantName->avatar_path}" width="100px"/>
-				{else}
-					<img src="{$basePath}/img/avatar_default.svg" width="100px"/>
-				{/if}
-			{else}
-				<div>Čeká se na příjmutí žádostí od účetní: {$isAccountantName->name}</div>
-			{/if}
-		{/if}
-	{else}
-		Nemáš účetní - přidej si ji zde: <a href="{link :Business:Accountant:default}">tady</a>
-	{/if}
+		<div class="col-xl-6">
+			<div class="card text-center mt-2 w-100">
+				<div class="card-body">
+					<i class="fas fa-exclamation-triangle display-4 mt-3 text-center"></i>
+					<h2 class="card-title m-3 text-center">Faktury po splatnosti</h2>
+					<table class="table table-hover table-responsive table-striped">
+						<thead>
+						<tr>
+							<th>Číslo faktury</th>
+							<th>Jméno klienta</th>
+							<th>Datum splatnosti</th>
+							<th>Částka</th>
+						</tr>
+						</thead>
+						<tbody>
+						{foreach $afterDueDateInvoices as $item}
+							<tr>
+								<td>{$item->variable_symbol}</td>
+								<td>{$item->client_name}</td>
+								<td>{$item->due_date|date:'%d.%m.%Y'}</td>
+								<td>{$item->suma|number:2, ',', ' '} Kč</td>
+							</tr>
+						{else}
+							<tr>
+								<td colspan="4">Žádné faktury po splatnosti</td>
+							</tr>
+						{/foreach}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 {/block}
