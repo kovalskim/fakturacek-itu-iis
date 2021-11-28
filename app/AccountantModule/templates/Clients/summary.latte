@@ -10,22 +10,6 @@
                     <td>{$userData->name}</td>
                 </tr>
                 <tr>
-                    <th>IČ</th>
-                    <td>{$userData->cin}</td>
-                </tr>
-                <tr>
-                    <th>DIČ</th>
-                    <td>{$userData->vat}</td>
-                </tr>
-                <tr>
-                    <th>E-mail</th>
-                    <td>{$userData->email}</td>
-                </tr>
-                <tr>
-                    <th>Telefon</th>
-                    <td>{$userData->phone}</td>
-                </tr>
-                <tr>
                     <th>Ulice a č.p.</th>
                     <td>{$userData->street}</td>
                 </tr>
@@ -33,9 +17,33 @@
                     <th>Město</th>
                     <td>{$userData->city}</td>
                 </tr>
+                {if $userData->phone}
+                    <tr>
+                        <th>Telefon</th>
+                        <td>{$userData->phone}</td>
+                    </tr>
+                {/if}
+            </table>
+        </div>
+        <div class="col-md-10 col-lg-5">
+            <table class="table table-striped">
+                <tr>
+                    <th>IČ</th>
+                    <td>{$userData->cin}</td>
+                </tr>
+                {if $userData->vat}
+                    <tr>
+                        <th>DIČ</th>
+                        <td>{$userData->vat}</td>
+                    </tr>
+                {/if}
                 <tr>
                     <th>PSČ</th>
                     <td>{$userData->zip}</td>
+                </tr>
+                <tr>
+                    <th>E-mail</th>
+                    <td>{$userData->email}</td>
                 </tr>
             </table>
         </div>

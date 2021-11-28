@@ -20,7 +20,7 @@
                     <small class="text-center text-muted">Telefon</small>
                     <p>{if $profile->phone}{$profile->phone}{else} -{/if}</p>
                     <small class="text-center text-muted">Adresa</small>
-                    <p>{$profile->street}, {$profile->zip} {$profile->city}</p>
+                    <p>{$profile->street}, {$profile->city} {$profile->zip}</p>
                 </div>
                 <div class="card-footer">
                     <a href="{link :Business:Profile:edit}" class="btn btn-primary mt-1">Upravit profil</a>
