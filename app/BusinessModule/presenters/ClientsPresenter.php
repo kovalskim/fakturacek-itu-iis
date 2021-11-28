@@ -65,7 +65,7 @@ final class ClientsPresenter extends BasePresenter
     {
         if($values->cin != null)
         {
-            if($this->aresManager->verificationCin($values->cin) != 0)
+            if($this->aresManager->verificationCin($values->cin) != 0) /** Find out if the CIN exists */
             {
                 $form["cin"]->addError("Toto IČ neexistuje.");
             }
@@ -79,7 +79,7 @@ final class ClientsPresenter extends BasePresenter
     public function createAddClientFormSucceeded($form, $values)
     {
         $user_id = $this->user->getId();
-        $row = ((array) $values) + ['users_id' => $user_id];
+        $row = ((array) $values) + ['users_id' => $user_id]; /** Add client to the directory with user id */
         $this->clientRepository->insertClientByUserId($row);
 
         $this->flashMessage('Klient byl přidán');
@@ -97,6 +97,9 @@ final class ClientsPresenter extends BasePresenter
         }
     }
 
+    /**
+     * Function draw all user clients
+     */
     public function createComponentDatagrid(): Datagrid
     {
         $grid = $this->datagridManager->createDatagrid($this->clientTable, $this->getName());
@@ -141,7 +144,7 @@ final class ClientsPresenter extends BasePresenter
         $form->addText('vat')
             ->setHtmlAttribute('placeholder', 'DIČ');
 
-        $form->addText('email') //must be text!
+        $form->addText('email')
             ->setHtmlAttribute('placeholder', 'E-mail');
 
         $form->addText('phone', 'Telefon')
@@ -163,6 +166,9 @@ final class ClientsPresenter extends BasePresenter
         return $form;
     }
 
+    /**
+     * Client editing form
+     */
     public function datagridEditFormFactory($row): Container
     {
         $form = new Container();
@@ -205,7 +211,7 @@ final class ClientsPresenter extends BasePresenter
             $form->setDefaults($row);
         }
 
-        $form->onValidate[] = [$this, "editFormValidate"];
+        $form->onValidate[] = [$this, "editFormValidate"]; /** Call validation form */
 
         return $form;
     }

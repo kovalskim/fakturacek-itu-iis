@@ -41,6 +41,9 @@ class SettingInvoicesPresenter extends BasePresenter
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * The function load data from database and setting variable symbol
+     */
     public function actionDefault()
     {
         $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
@@ -70,9 +73,6 @@ class SettingInvoicesPresenter extends BasePresenter
         return $form;
     }
 
-    /**
-     * @throws AbortException
-     */
     public function settingInvoicesFormValidate($form, $values)
     {
         $this->settingInvoicesManager->settingInvoicesFormValidate($form, $values);
@@ -92,7 +92,7 @@ class SettingInvoicesPresenter extends BasePresenter
 
             if($this->isAjax())
             {
-                $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
+                $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId()); /** Load data due to ajax  */
                 $settingData->vat = $this->userRepository->getUserById($this->user->getId())->vat;
                 $this->template->settingData = $settingData;
 
@@ -100,7 +100,7 @@ class SettingInvoicesPresenter extends BasePresenter
                 $form['variable_symbol']->setDisabled();
                 $form->setDefaults($settingData);
 
-                $this->redrawControl('invoicesForm');
+                $this->redrawControl('invoicesForm'); /** Redraw form */
                 $this->redrawControl('invoicesTable');
                 $this->redrawControl('flashes');
             }
@@ -123,6 +123,9 @@ class SettingInvoicesPresenter extends BasePresenter
         }
     }
 
+    /**
+     * The function delete logo
+     */
     /**
      * @throws AbortException
      */

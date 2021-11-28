@@ -59,7 +59,7 @@ final class AccountantPresenter extends BasePresenter
     {
         try
         {
-            $this->userManager->addClientAccountant($values->email, $this->user->getId(), "business");
+            $this->userManager->addClientAccountant($values->email, $this->user->getId(), "business"); /** User send request to accountant */
             $this->flashMessage("Žádost o přidaní byla odeslána", 'success');
             if($this->isAjax())
             {
@@ -114,7 +114,7 @@ final class AccountantPresenter extends BasePresenter
      */
     public function handleAddAccountant(): void
     {
-        $this->accountantRepository->updateStatusById($this->user->getId());
+        $this->accountantRepository->updateStatusById($this->user->getId()); /** User accepted request */
         $this->flashMessage("Účetní byl udělen přístup", "success");
 
         if($this->isAjax())
@@ -136,7 +136,7 @@ final class AccountantPresenter extends BasePresenter
     {
         try
         {
-            $this->userManager->checkToken($token, "accountant_permission");
+            $this->userManager->checkToken($token, "accountant_permission"); /** check hash */
         }
         catch (Exception $e)
         {
