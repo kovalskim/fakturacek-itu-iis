@@ -18,7 +18,7 @@ class StatisticsRepository extends AllRepository
 
     public function getSumRevenues($id): ?Row
     {
-        return $this->connection->query("SELECT SUM(invoices_items.suma) as suma FROM invoices INNER JOIN invoices_items ON invoices.id = invoices_items.invoices_id WHERE invoices.users_id=%i;
+        return $this->connection->query("SELECT SUM(invoices.suma) as suma FROM invoices WHERE invoices.users_id=%i AND invoices.status='paid';
         ", $id)->fetch();
     }
 
