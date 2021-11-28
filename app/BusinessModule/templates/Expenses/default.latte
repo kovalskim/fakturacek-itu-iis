@@ -1,8 +1,16 @@
 {block content}
-	<h1 n:block=title>Výdaje</h1>
-	<div>
-        <a href="{link :Business:Category:default}" class=" btn btn-sm btn-primary mt-1">Správa kategorií výdajů</a>
+    <div class="row">
+        <h1 n:block=title>Výdaje</h1>
+        <div class="col-12">
+            <a href="{link :Business:Category:default}" class=" btn btn-primary btn-sm">Správa kategorií výdajů</a>
+        </div>
+	    <div class="col-lg-6">
+            {control addExpensesForm}
+        </div>
     </div>
-	{control addExpensesForm}
-    {control datagrid}
+	<div class="row">
+        <div class="col-lg-12 overflow-auto">
+            {control datagrid}
+        </div>
+    </div>
 {/block}
