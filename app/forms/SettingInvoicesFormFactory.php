@@ -22,28 +22,28 @@ class SettingInvoicesFormFactory
 
         $form->setHtmlAttribute('class', 'ajax');
 
-        $form->addText('account_number', '*Číslo účtu:')
+        $form->addText('account_number', 'Číslo účtu:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Číslo účtu')
             ->setHtmlAttribute('autofocus');
 
-        $form->addRadioList('variable_symbol', '*Variabilní symbol:', ["YYMM00" => "YYMM00", "YY0000" => "YY0000", "YY000" => "YY000"])
+        $form->addRadioList('variable_symbol', 'Variabilní symbol:*', ["YYMM00" => "YYMM00", "YY0000" => "YY0000", "YY000" => "YY000"])
             ->setDefaultValue("YYMM00")
             ->setRequired()
-            ->setOption('description', 'Vzor variabilní symbolu lze nastavit pouze při počátečním nastavení, další změna není možná');
+            ->setOption('description', 'Lze nastavit pouze jednou při počátečním nastavení.');
 
-        $form->addRadioList('vat_note', '*DPH:', ["0" => "Nejsem plátce DPH", "1" => "Jsem plátce DPH"])
+        $form->addRadioList('vat_note', 'Plátce DPH:*', ["0" => "Nejsem plátce DPH", "1" => "Jsem plátce DPH"])
             ->setDefaultValue("0")
             ->addCondition($form::EQUAL, true)
             ->toggle("text_vat")
             ->setRequired();
 
-        $form->addText('vat', '*DIČ')
+        $form->addText('vat', 'DIČ:*')
             ->setOption('id', 'text_vat')
             ->addRule($form::MAX_LENGTH, 'DIČ musí mít maximálně %d znaků', 12)
             ->setHtmlAttribute('placeholder', 'DIČ');
 
-        $form->addText('footer_note', 'Zápatí')
+        $form->addText('footer_note', 'Zápatí:')
             ->setHtmlAttribute('placeholder', 'Zápatí');
 
         $form->addUpload('logo_path', 'Logo:')
