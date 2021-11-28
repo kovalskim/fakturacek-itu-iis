@@ -1,21 +1,49 @@
 {block content}
-    <h1 n:block=title>Účetní</h1>
-    {snippet accountClientConnection}
-        {if $isAccountantName}
-            {if $isAccountantName->request_status == "active"}
-                <div>Tvá účetni je: {$isAccountantName->name}</div>
-                <div><a class = "ajax" n:href="deleteAccountant!">Odstranit účetní</a></div>
-            {elseif $isAccountantName->request_status == "wait"}
-                {if $isAccountantName->who == "business"}
-                    <div><a class = "ajax" n:href="deleteAccountant!">Odstranit žádost</a> pro účetni {$isAccountantName->name}</div>
+    <div class="row">
+        <h1 n:block=title>Účetní</h1>
+        <div class="col-lg-4">
+            <div class="card text-center">
+            {snippet accountClientConnection}
+                {if $isAccountantName}
+                    {if $isAccountantName->request_status == "active"}
+                        {if $isAccountantName->avatar_path}
+                            <img src="{$basePath}/{$isAccountantName->avatar_path}" width="50%" class="rounded-circle"/>
+                        {else}
+                            <img src="{$basePath}/img/avatar_default.svg" width="50%" class="rounded-circle"/>
+                        {/if}
+                        <small class="text-center">{$isAccountantName->name}</small>
+                        <div class="card-footer mt-3">
+                            <a class="ajax btn btn-danger" n:href="deleteAccountant!">Odstranit účetní</a>
+                        </div>
+                    {elseif $isAccountantName->request_status == "wait"}
+                        {if $isAccountantName->who == "business"}
+                            <i class="fas fa-hourglass-start display-6 mt-3 text-muted"></i>
+                            <small class="text-center mt-2">Čeká se na přijetí žádosti od účetní</small>
+                            <p class="mb-0">{$isAccountantName->name}</p>
+                            <div class="card-footer mt-3">
+                                <a class="ajax btn btn-danger" n:href="deleteAccountant!">Odstranit žádost</a>
+                            </div>
+                        {else}
+                            {if $isAccountantName->avatar_path}
+                                <img src="{$basePath}/{$isAccountantName->avatar_path}" width="50%" class="rounded-circle"/>
+                            {else}
+                                <img src="{$basePath}/img/avatar_default.svg" width="50%" class="rounded-circle"/>
+                            {/if}
+                            <small class="text-center mt-2">Nová žádost od účetní</small>
+                            <p class="mb-0">{$isAccountantName->name}</p>
+                            <div class="card-footer mt-3">
+                                <a class="ajax btn btn-success" n:href="addAccountant!">Přijmout žádost</a>
+                                <a class="ajax btn btn-danger" n:href="deleteAccountant!">Zamítnout žádost</a>
+                            </div>
+                        {/if}
+                    {/if}
                 {else}
-                    <div>Žádost od <b>{$isAccountantName->name}</b> <a class = "ajax" n:href="addAccountant!">Přijmout žádost</a></div>
-                    <div><a class = "ajax" n:href="deleteAccountant!">Nepříjmout žádost</a></div>
+                    <div class="m-3">
+                        {control clientConnectionForm}
+                    </div>
                 {/if}
-            {/if}
-        {else}
-            {control clientConnectionForm}
-        {/if}
-    {/snippet}
-
+            {/snippet}
+            </div>
+        </div>
+    </div>
 {/block}

@@ -1,80 +1,76 @@
 {block content}
-    <h1 n:block=title>Nastavení faktury</h1>
-
-    <h2>Přehled nastavení</h2>
-    {snippet invoicesTable}
-        <table>
-                <tr>
-                    <th>Číslo účtu:</th>
-                    <td>
-                        {if $settingData->account_number != NULL}
-                            {$settingData->account_number}
-                        {else}
-                            Není nastaveno
-                        {/if}
-                    </td>
-                </tr>
-                <tr>
-                    <th>Typ variabilního symbolu:</th>
-                    <td>
-                        {if $settingData->variable_symbol != NULL}
-                            {$settingData->variable_symbol}
-                        {else}
-                            Není nastaveno
-                        {/if}
-                    </td>
-                </tr>
-                <tr>
-                    <th>DPH:</th>
-                    <td>{if $settingData->account_number != NULL}
-                            {if $settingData->vat_note == 0}Nejsem plátce DPH {else}Jsem plátce DPH{/if}
-                        {else}
-                            Není nastaveno
-                        {/if}
-                    </td>
-                </tr>
-                {if $settingData->vat != null}
-                    <tr>
-                        <th>DIČ:</th>
-                        <td>{$settingData->vat}</td>
-                    </tr>
-                {/if}
-                <tr>
-                    <th>Zápatí:</th>
-                    <td>
-                        {if $settingData->footer_note != NULL}
-                            {$settingData->footer_note}
-                        {else}
-                            Není nastaveno
-                        {/if}
-                    </td>
-                </tr>
-                <tr>
-                    <th>Logo:</th>
-                    <td>
-                        {if $settingData->logo_path != NULL}
-                            <img src="{$basePath}/{$settingData->logo_path}" alt="Logo" width="100"/>
-                            <div><a class = "ajax" n:href="deleteLogo!">Smazat logo</a></div>
-                        {else}
-                            Není nastaveno
-                        {/if}
-                    </td>
-
-                </tr>
-        </table>
-    {/snippet}
-    <br>
-    <br>
-
-    {snippet invoicesForm}
-        <div>
-            {control settingInvoicesForm}
+    <div class="row">
+        <h1 n:block=title>Nastavení faktury</h1>
+        <div class="col-md-6 order-md-1 order-2">
+            <div class="mt-3 mt-md-0">
+                {snippet invoicesForm}
+                    {control settingInvoicesForm}
+                {/snippet}
+            </div>
         </div>
-    {/snippet}
+        <div class="col-md-6 order-md-2 order-1">
+            <h2>Přehled nastavení</h2>
+            {snippet invoicesTable}
+                <table class="table table-striped table-responsive table-hover">
+                        <tr>
+                            <th>Číslo účtu:</th>
+                            <td>
+                                {if $settingData->account_number != NULL}
+                                    {$settingData->account_number}
+                                {else}
+                                    Není nastaveno
+                                {/if}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Typ variabilního symbolu:</th>
+                            <td>
+                                {if $settingData->variable_symbol != NULL}
+                                    {$settingData->variable_symbol}
+                                {else}
+                                    Není nastaveno
+                                {/if}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Plátce DPH:</th>
+                            <td>{if $settingData->account_number != NULL}
+                                    {if $settingData->vat_note == 0}Nejsem plátce DPH {else}Jsem plátce DPH{/if}
+                                {else}
+                                    Není nastaveno
+                                {/if}
+                            </td>
+                        </tr>
+                        {if $settingData->vat != null}
+                            <tr>
+                                <th>DIČ:</th>
+                                <td>{$settingData->vat}</td>
+                            </tr>
+                        {/if}
+                        <tr>
+                            <th>Zápatí:</th>
+                            <td>
+                                {if $settingData->footer_note != NULL}
+                                    {$settingData->footer_note}
+                                {else}
+                                    Není nastaveno
+                                {/if}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Logo:</th>
+                            <td>
+                                {if $settingData->logo_path != NULL}
+                                    <img src="{$basePath}/{$settingData->logo_path}" alt="Logo" width="50%"/>
+                                    <a class="ajax btn btn-sm btn-danger" n:href="deleteLogo!">Smazat logo</a>
+                                {else}
+                                    Není nastaveno
+                                {/if}
+                            </td>
 
-
-
-
-
-
+                        </tr>
+                </table>
+            {/snippet}
+        </div>
+    </div>
 {/block}

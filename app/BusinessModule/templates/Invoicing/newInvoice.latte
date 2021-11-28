@@ -27,7 +27,73 @@
     </div>
 
     {snippet createInvoiceForm}
-        {control createInvoiceForm}
+        {form createInvoiceForm}
+            <div class="row">
+                <div class="col-sm-6 pt-3">
+                    {label name}
+                    {input name class => 'form-control'}
+                    {label street class => 'mt-2'}
+                    {input street class => 'form-control'}
+                    {label city class => 'mt-2'}
+                    {input city class => 'form-control'}
+                    {label zip class => 'mt-2'}
+                    {input zip class => 'form-control'}
+                </div>
+                <div class="col-sm-6 pt-3">
+                    {label cin}
+                    <input n:name="cin" class="form-control {if $form['cin']->error}is-invalid{/if}"/>
+                    <div n:ifcontent class="invalid-feedback d-block">{inputError cin}</div>
+                    {label vat class => 'mt-2'}
+                    {input vat class => 'form-control'}
+                    {label phone class => 'mt-2'}
+                    {input phone class => 'form-control'}
+                    {label email class => 'mt-2'}
+                    {input email class => 'form-control'}
+                    <div class="mt-2">
+                        {label addClient}
+                        {input addClient}
+                    </div>
+                </div>
+            </div>
+
+            <div n:multiplier="multiplier" class="mt-5 d-block">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        {label $_multiplier[name]}
+                        <input n:name="name" class="form-control">
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        {label $_multiplier[count]}
+                        <input n:name="count" class="form-control">
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        {label $_multiplier[type] class => 'mb-2'}<br>
+                            {foreach $_multiplier[type]->items as $key => $label}
+                            <label n:name="type:$key"><input n:name="type:$key"> {$label}</label>
+                        {/foreach}
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        {label $_multiplier[unit_price]}
+                        <input n:name="unit_price" class="form-control">
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        {btnRemove 'class' => 'btn btn-sm btn-danger mt-1 ajax'}
+                    </div>
+                </div>
+            </div>
+            {btnCreate multiplier class => 'btn btn-sm btn-primary mt-1 ajax'}
+
+            <br>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    {label due_days_number class => 'mt-5'}
+                    {input due_days_number class => 'form-control'}
+
+                    {input addInvoice class => 'btn btn-primary mt-2'}
+                </div>
+            </div>
+            {/form}
     {/snippet}
 
     <script>
