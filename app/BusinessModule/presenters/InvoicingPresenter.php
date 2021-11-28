@@ -78,7 +78,7 @@ final class InvoicingPresenter extends BasePresenter
     {
         $grid = $this->datagridManager->createDatagrid('invoices', $this->getName());
 
-        $grid->addColumn('created', 'Datum vystavení')->enableSort(Datagrid::ORDER_ASC);
+        $grid->addColumn('created', 'Datum vystavení')->enableSort(Datagrid::ORDER_DESC);
         $grid->addColumn('client_name', 'Klient')->enableSort();
         $grid->addColumn('variable_symbol', 'VS')->enableSort();
         $grid->addColumn('suma', 'Celkem')->enableSort();
@@ -306,7 +306,6 @@ final class InvoicingPresenter extends BasePresenter
             'user_vat' => $user->vat,
             'user_phone' => $user->phone,
             'user_email' => $user->email,
-            'client_id' => $values->id,
             'client_name' => $values->name,
             'client_street' => $values->street,
             'client_city' => $values->city,
@@ -325,19 +324,15 @@ final class InvoicingPresenter extends BasePresenter
             'status' => 'unpaid',
             'suma' => 0
         ];
-
-        if($values->addClient)
+        if($values->id)
         {
-            if($this->invoicingManager->saveClient($values))
-            {
-                $this->flashMessage("Klient se uložil", "success");
-            }
-            else
-            {
-                $this->flashMessage("Nedošlo k uložení klienta. Z důvodu, že je už uložený", "info");
-            }
-
+            $invoice_values += ['client_id' => $values->id];
         }
+        else
+        {
+            $invoice_values += ['client_id' => null];
+        }
+
 
         $this->invoicingRepository->insertInvoice($invoice_values);
         $id_invoices = $this->invoicingRepository->lasIdInvoice();
@@ -370,6 +365,18 @@ final class InvoicingPresenter extends BasePresenter
             //$pdf->Output('invoice.pdf', 'D');
             $this->flashMessage("Faktura byla uložena", "success");
         }
+        if($values->addClient)
+        {
+            if($this->invoicingManager->saveClient($values))
+            {
+                $this->flashMessage("Klient se uložil", "success");
+            }
+            else
+            {
+                $this->flashMessage("Klient nebyl uložen, již existuje se stejnými údaji", "warning");
+            }
+        }
+
         $this->redirect(":Business:Invoicing:default");
     }
 
