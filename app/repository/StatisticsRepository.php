@@ -27,9 +27,9 @@ class StatisticsRepository extends AllRepository
         return $this->connection->query("SELECT COUNT(invoices.id) as pocet FROM `invoices` WHERE users_id = %i;", $id)->fetch();
     }
 
-    public function getSumReveenuesLast30day($id): ?Row
+    public function getSumRevenuesLast30day($id): ?Row
     {
-        return $this->connection->query("SELECT SUM(invoices_items.suma) as suma FROM invoices INNER JOIN invoices_items ON invoices.id = invoices_items.invoices_id WHERE invoices.users_id=%i AND invoices.created > current_date - interval 30 day", $id)->fetch();
+        return $this->connection->query("SELECT SUM(invoices.suma) as suma FROM invoices WHERE invoices.users_id=%i AND invoices.status='paid' AND invoices.created > current_date - interval 30 day", $id)->fetch();
     }
 
     public function getSumExpensesLast30day($id): ?Row

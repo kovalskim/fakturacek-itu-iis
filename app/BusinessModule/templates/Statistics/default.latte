@@ -1,6 +1,28 @@
 {block content}
-<head>
-   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+   
+
+    <div class="text-center">
+        <h1 n:block=title>Celkové Příjmy vs. Výdaje</h1>
+
+        <div id="divAllV" style="display: block">
+            <div id="piechart_3d" style="width: 100%; height: 500px;"></div>
+        </div>
+        <div id="divAll" style="display: none">
+                <p>Prozatím nejsou k zobrazení žádná data.</p>
+            </div>
+
+        <h1 n:block=title2>Přijmy vs. Výdaje za posledních 30 dní</h1>
+
+        <div id="divLastV" style="display: block;">
+            <div id="piechart_3d_last" style="width: 100%; height: 500px;"></div>
+        </div>
+        <div id="divLast" style="display: none;">
+                <p>Prozatím nejsou k zobrazení žádná data.</p>
+            </div>
+    <div>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load("current", { packages:["corechart"] } );
         google.charts.setOnLoadCallback(drawChart);
@@ -19,7 +41,8 @@
         }
 
         if(expenses == "0" && revenues == "0"){
-          //  document.getElementById("divAll").style.display = "block";
+            document.getElementById("divAll").style.display = "block";
+            document.getElementById("divAllV").style.display = "none";
         }
 
         if(revenuesLast30 == ""){
@@ -28,6 +51,11 @@
 
         if(expensesLast30 == ""){
             expensesLast30 = 0;
+        }
+
+        if(expenses == "0" && revenues == "0"){
+            document.getElementById("divLast").style.display = "block";
+            document.getElementById("divLastV").style.display = "none";
         }
 
         function drawChart() {
@@ -55,26 +83,6 @@
       }
       
     </script>
-</head>
-    <div class="text-center">
-        <h1 n:block=title>Celkové Příjmy vs. Výdaje</h1>
-
-        <div>
-            <div id="piechart_3d" style="width: 100%; height: 500px;"></div>
-            <div id="divAll" style="display: none">
-                <p>Prozatím nejsou k zobrazení žádná data.</p>
-            </div>
-        </div>
-
-        <h1 n:block=title2>Přijmy vs. Výdaje za posledních 30 dní</h1>
-
-        <div>
-            <div id="piechart_3d_last" style="width: 100%; height: 500px;"></div>
-            <div id="divLast" style="display: none;">
-                <p>Prozatím nejsou k zobrazení žádná data.</p>
-            </div>
-        </div>
-    <div>
 {/block}
 
  
