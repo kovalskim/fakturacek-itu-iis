@@ -64,67 +64,16 @@ final class TextsPresenter extends BasePresenter
     {
         try
         {
-            //bdump($values);
             $this->textsManager->textsFormSucceeded($form, $values);
             $this->flashMessage("Změna se provedla", "success");
 
-            if($this->isAjax())
-            {
-                $aboutus = $this->textRepository->getTextByType("aboutus");
-                $row_aboutus = ['text_aboutus' => $aboutus->text];
-                $contact = $this->textRepository->getTextByType("contact");
-                $row_contact = ['text_contact' => $contact->text];
-
-                if($contact->img_path != null)
-                {
-                    $this->template->contact_img = $contact->img_path;
-                    $this->redrawControl('contactImg');
-                }
-                if($aboutus->img_path != null)
-                {
-                    $this->template->aboutus_img = $aboutus->img_path;
-                    $this->redrawControl('aboutusImg');
-                }
-
-                $form->reset();
-                $form->setDefaults($row_aboutus);
-                $form->setDefaults($row_contact);
-
-                $form["text_aboutus"]->setHtmlAttribute('class', 'wysiwyg');
-                $form["text_contact"]->setHtmlAttribute('class', 'wysiwyg');
-
-                $this->redrawControl('textImgForm');
-                //$this->redrawControl('flashes');
-                $this->redirect('this');
-            }
-            else
-            {
-                //$this->redirect('this');
-            }
         }
         catch (Exception $e)
         {
             $this->flashMessage($e->getMessage(), 'danger');
-
-            if($this->isAjax())
-            {
-                $aboutus = $this->textRepository->getTextByType("aboutus");
-                $row_aboutus = ['text_aboutus' => $aboutus->text];
-                $contact = $this->textRepository->getTextByType("contact");
-                $row_contact = ['text_contact' => $contact->text];
-
-                $form->reset();
-                $form->setDefaults($row_aboutus);
-                $form->setDefaults($row_contact);
-                $this->redrawControl('textImgForm');
-                $this->redrawControl('flashes');
-            }
-            else
-            {
-                $this->redirect('this');
-            }
-
         }
+
+        $this->redirect('this');
     }
 
     /**
@@ -132,7 +81,7 @@ final class TextsPresenter extends BasePresenter
      */
     public function handleDeleteContact(): void
     {
-        $values = ["img_path" => null];
+        $values = ["img_path" => ""];
         $this->textRepository->updateTextByType("contact", $values);
         $this->flashMessage("Obrázek se smazal", "success");
 
@@ -154,7 +103,7 @@ final class TextsPresenter extends BasePresenter
      */
     public function handleDeleteAboutus(): void
     {
-        $values = ["img_path" => null];
+        $values = ["img_path" => ""];
         $this->textRepository->updateTextByType("aboutus", $values);
         $this->flashMessage("Obrázek se smazal", "success");
 

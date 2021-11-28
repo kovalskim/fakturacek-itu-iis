@@ -1,9 +1,21 @@
 {block content}
-
-    {snippet clientConnectionForm}
-        {control clientConnectionForm}
-    {/snippet}
-    <div><a class = "ajax" n:href="acceptClients!">Příjmout všechny žádosti</a></div>
-    {control datagrid}
-
+    <div class="row">
+        <h1 n:block=title>Klienti</h1>
+        <div class="col-lg-6">
+            {snippet clientConnectionForm}
+                {control clientConnectionForm}
+            {/snippet}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col2">
+            <a class = "ajax btn btn-success btn-sm mb-2" n:href="acceptClients!">Příjmout všechny žádosti</a>
+        </div>
+    </div>
+    <div class = "row">
+        <div class="col-lg-12 overflow-auto">
+            <a class = "ajax btn btn-success btn-sm mb-2" n:href="acceptClients!">Příjmout všechny žádosti</a>
+            {control datagrid}
+        </div>
+    </div>
 {/block}
