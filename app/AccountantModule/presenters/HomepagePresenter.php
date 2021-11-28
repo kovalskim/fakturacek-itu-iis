@@ -7,11 +7,9 @@ namespace App\AccountantModule\presenters;
 use App\forms\ClientsAccountantFormFactory;
 use App\model\UserManager;
 use App\repository\AccountantRepository;
-use App\repository\UserRepository;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
-use Nette\Security\User;
 
 final class HomepagePresenter extends BasePresenter
 {

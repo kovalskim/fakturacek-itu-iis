@@ -49,13 +49,13 @@ final class ProfilePresenter extends BasePresenter
 
     public function renderDefault()
     {
-        $this->template->profile = $this->userRepository->getUserProfile($this->user->getId());
+        $this->template->profile = $this->userRepository->getUserProfile($this->user->getId()); /** Load data for template */
     }
 
     public function actionEdit()
     {
         $profile = $this->userRepository->getUserProfile($this->user->getId());
-        $this->getComponent("editProfileForm")->setDefaults($profile);
+        $this->getComponent("editProfileForm")->setDefaults($profile); /** Load data into form */
     }
 
     protected function createComponentEditProfileForm(): Form
@@ -72,9 +72,11 @@ final class ProfilePresenter extends BasePresenter
     }
 
     /**
+     * The function detects whether the e-mail has changed - sends a verification e-mail and logs out the user
+     */
+    /**
      * @throws AbortException
      */
-
     public function editProfileFormSucceeded($form, $values)
     {
         $new_email = $this->profileManager->editProfileFormSucceeded($form, $values);
@@ -126,6 +128,9 @@ final class ProfilePresenter extends BasePresenter
         $this->redirect(":Business:Profile:default");
     }
 
+    /**
+     * Function that deletes the avatar. It is called via a handle.
+     */
     /**
      * @throws AbortException
      */
