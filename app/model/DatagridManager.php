@@ -143,8 +143,9 @@ class DatagridManager
                 }
                 elseif($this->table == "expenses")
                 {
+                    $builder->select("*, expenses.id as id, categories.id as cat_id");
                     $builder->joinLeft("categories", "expenses.categories_id = categories.id");
-                    $builder->andWhere('users_id = %i', $this->client_id);
+                    $builder->andWhere('expenses.users_id = %i', $this->client_id);
                 }
             }
         }
