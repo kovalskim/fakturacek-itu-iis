@@ -48,6 +48,11 @@ class Authenticator implements \Nette\Security\Authenticator
             throw new Exception('E-mail ještě nebyl ověřen');
         }
 
+        if($row->status == "banned")
+        {
+            throw new Exception('Váš účet je zablokován');
+        }
+
         return new SimpleIdentity(
             $row->id,
             $row->role
