@@ -81,7 +81,7 @@ final class TextsPresenter extends BasePresenter
      */
     public function handleDeleteContact(): void
     {
-        $values = ["img_path" => ""];
+        $values = ["img_path" => null];
         $this->textRepository->updateTextByType("contact", $values);
         $this->flashMessage("Obrázek se smazal", "success");
 
@@ -103,7 +103,7 @@ final class TextsPresenter extends BasePresenter
      */
     public function handleDeleteAboutus(): void
     {
-        $values = ["img_path" => ""];
+        $values = ["img_path" => null];
         $this->textRepository->updateTextByType("aboutus", $values);
         $this->flashMessage("Obrázek se smazal", "success");
 
