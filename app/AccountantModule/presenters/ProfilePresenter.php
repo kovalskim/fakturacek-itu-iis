@@ -139,6 +139,6 @@ final class ProfilePresenter extends BasePresenter
         }
         $this->userRepository->updateProfile($this->user->getId(), $values);
         $this->flashMessage("Avatar se smazal", "success");
-        $this->redirect(":Admin:Profile:default");
+        $this->redirect(":Accountant:Profile:default");
     }
 }
