@@ -19,22 +19,22 @@
 	    <a href="mailto:xjuzlr00@stud.fit.vutbr.cz">xjuzlr00@stud.fit.vutbr.cz</a>
 		<p>Popis činosti v týmu:</p>
 		<ul>
-			<li></li>
-			<li></li>
-			<li></li>
+			<li>Profily uživatelů, změna hesla, úprava profilu, nahrání avatarů</li>
+			<li>Sekce pro účetní, editace textů</li>
+			<li>Výdaje, ARES kontrola IČ</li>
 		</ul>
 	</dd>
 	<dd>Martin Kovalski
-	    <a href="mailto:xkoval19@stud.fit.vutbr.cz">xkoval19@stud.fit.vutbr.cz</a> - 
+	    <a href="mailto:xkoval19@stud.fit.vutbr.cz">xkoval19@stud.fit.vutbr.cz</a>
 		<p>Popis činosti v týmu:</p>
 		<ul>
-			<li></li>
-			<li></li>
-			<li></li>
+			<li>Administrátorská sekce</li>
+			<li>Veřejná část projektu</li>
+			<li>Sekce pro OSVČ, fakturace, QR kódy</li>
 		</ul>
 	</dd>
   <dd>Dalibor Kyjovský
-	    <a href="mailto:xkyjov03@stud.fit.vutbr.cz">xkyjov03@stud.fit.vutbr.cz</a> - 
+	    <a href="mailto:xkyjov03@stud.fit.vutbr.cz">xkyjov03@stud.fit.vutbr.cz</a>
 		<p>Popis činosti v týmu:</p>
 		<ul>
 			<li>Výdaje, kategorie</li>
@@ -48,31 +48,45 @@
 <h2>Uživatelé systymu pro testování</h2>
 <table>
 <tbody><tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
-<tr><td>admin@fakturacek.cz</td><td>qwertzuI9@</td><td>Administrátor</td></tr>
-<tr><td>osvc@fakturacek.cz</td><td>qwertzuI9@</td><td>OSVČ</td></tr>
-<tr><td>ucetni@fakturacek.cz</td><td>qwertzuI9@</td><td>Účetní</td></tr>
+<tr><td>admin@fakturacek.pixla.rekode.cz</td><td>qwertzuI9@</td><td>Administrátor</td></tr>
+<tr><td>osvc@fakturacek.pixla.rekode.cz</td><td>qwertzuI9@</td><td>OSVČ</td></tr>
+<tr><td>ucetni@fakturacek.pixla.rekode.cz</td><td>qwertzuI9@</td><td>Účetní</td></tr>
 </tbody></table>
 
 <h2>Případ užití</h2>
 <img src="useCase.png" alt="Připady užití" width="15%">
 
 <h2>Implementace</h2>
-<p>Stru�n� dokumentace k implementaci, kter� popisuje, kter� ��sti projektu (nap�. PHP skripty) implementuj� jednotliv� p��pady pou�it�.</p>
-
+<h3>Administrátor</h3>
+<ul>
+	<li>Přidat další administrátory: AdministratorsPresenter.php, AdministratorsManager.php, AdministratorsFormFactory.php</li>
+	<li>Blokovat nebo odblokovat uživatele, restartovat hesla uživatelům, posílat e-maily na ověření: UsersPresenter.php, UserManager.php</li>
+</ul>
+<h3>OSVČ</h3>
+<ul>
+	<li>Vytvořit fakturu: InvoicingPresenter.php, InvoicingManager.php, InvoicingFormFactory.php</li>
+	<li>Přidat výdaj: ExpensesPresenter.php, ExpensesManager.php, ExpensesFormFactory.php</li>
+	<li>Pozvat účetní: AccountantPresenter.php, ClientsAccountantFormFactory.php</li>
+	<li>Přidat klienta do adresáře: ClientsPresenter.php, ClientsFormFactory.php, ClientsManager.php</li>
+</ul>
+<h3>Účetní</h3>
+<ul>
+	<li>Spravovat příjmy a výdaje OSVČ: ClientsPresenter.php</li>
+	<li>Pozvat klienta: ClientsPresenter.php, ClientsAccountantFormFactory.php</li>
+</ul>
 <h3>Databáze</h3>
 
 <img src="diagram.png" alt="Diagram" width="50%">
 
-<h2>Instalace</h2>
-
-Popis instalace
+<h2>Popis instalace</h2>
 <ul>
-<li>postup instalace na server,</li>
-<li>softwarov� po�adavky (verze PHP apod.),</li>
-<li>jak rozbalit, konfigurovat, inicializovat datab�zi, ...</li>
+	<li>Požadavky: PHP 7.4, MYSQL databáze, GD extension, mbstring extension</li>
+	<li>Postup instalace: Rozbalit archiv do složky na server. V dané složce spustit nástroj <i>composer</i> příkazem <strong>composer update</strong>, který nainstaluje všechny potřebné závislosti. Dále je potřeba povolit webovému serveru zápis do složek <i>temp/cache</i> a <i>log</i>.</li>
+	<li>Databáze: V archivu je umístěn soubor s dumpem databáze (fakturacek.sql). Je potřeba ale nejdříve databázi s názvem "fakturacek" vytvořit.</li>
+	<li>Konfigurace: Do souboru <i>config/local.neon</i> je potřeba zadat přihlašovací údaje k databázi.</li>
 </ul>
 
 <h2>Známé problémy</h2>
-<p>Zde popi�te, kter� body zad�n� nejsou implementov�ny a z jak�ho d�vodu. Nap�. &#8222;Z �asov�ch d�vod� nebyla implementov�na spr�va u�ivatel�.&#8221; Pom��ete t�m zrychlit hodnocen�, kdy� neimplementovan� funkce nebudeme muset dlouze hledat.</p>
+<p>Lze založit další účty pomocí registrace, ale je potřeba potvrdit jejich e-mail. Toto potvrzení (včetně dalších e-mailů, které aplikace umí posílat) chodí pouze na soukromé e-maily od Googlu (Gmail) a případně e-maily od Microsoftu. Je možné, že ten e-mail přijde do spamu/nevyžádané pošty. Je to způsobené chybou serveru, nikoliv aplikací.</p>
 
 </body></html>
