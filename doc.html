@@ -16,7 +16,7 @@
 <dl>
 	<dt>Autoři</dt>
 	<dd>Radek Jůzl
-	    <a href="mailto:xjuzlr00@stud.fit.vutbr.cz">xjuzlr00@stud.fit.vutbr.cz</a>
+	    (<a href="mailto:xjuzlr00@stud.fit.vutbr.cz">xjuzlr00@stud.fit.vutbr.cz</a>)
 		<p>Popis činosti v týmu:</p>
 		<ul>
 			<li>Profily uživatelů, změna hesla, úprava profilu, nahrání avatarů</li>
@@ -25,7 +25,7 @@
 		</ul>
 	</dd>
 	<dd>Martin Kovalski
-	    <a href="mailto:xkoval19@stud.fit.vutbr.cz">xkoval19@stud.fit.vutbr.cz</a>
+	    (<a href="mailto:xkoval19@stud.fit.vutbr.cz">xkoval19@stud.fit.vutbr.cz</a>)
 		<p>Popis činosti v týmu:</p>
 		<ul>
 			<li>Administrátorská sekce</li>
@@ -34,7 +34,7 @@
 		</ul>
 	</dd>
   <dd>Dalibor Kyjovský
-	    <a href="mailto:xkyjov03@stud.fit.vutbr.cz">xkyjov03@stud.fit.vutbr.cz</a>
+	    (<a href="mailto:xkyjov03@stud.fit.vutbr.cz">xkyjov03@stud.fit.vutbr.cz</a>)
 		<p>Popis činosti v týmu:</p>
 		<ul>
 			<li>Výdaje, kategorie</li>
@@ -54,36 +54,36 @@
 </tbody></table>
 
 <h2>Případ užití</h2>
-<img src="useCase.png" alt="Připady užití" width="15%">
+<img src="doc/useCase.png" alt="Připady užití" width="15%">
 
 <h2>Implementace</h2>
-<h3>Administrátor</h3>
+<p>Administrátor:</p>
 <ul>
-	<li>Přidat další administrátory: AdministratorsPresenter.php, AdministratorsManager.php, AdministratorsFormFactory.php</li>
-	<li>Blokovat nebo odblokovat uživatele, restartovat hesla uživatelům, posílat e-maily na ověření: UsersPresenter.php, UserManager.php</li>
+	<li><strong>Přidat další administrátory:</strong> AdministratorsPresenter.php, AdministratorsManager.php, AdministratorsFormFactory.php</li>
+	<li><strong>Blokovat nebo odblokovat uživatele, restartovat hesla uživatelům, posílat e-maily na ověření:</strong> UsersPresenter.php, UserManager.php</li>
 </ul>
-<h3>OSVČ</h3>
+<p>OSVČ:</p>
 <ul>
-	<li>Vytvořit fakturu: InvoicingPresenter.php, InvoicingManager.php, InvoicingFormFactory.php</li>
-	<li>Přidat výdaj: ExpensesPresenter.php, ExpensesManager.php, ExpensesFormFactory.php</li>
-	<li>Pozvat účetní: AccountantPresenter.php, ClientsAccountantFormFactory.php</li>
-	<li>Přidat klienta do adresáře: ClientsPresenter.php, ClientsFormFactory.php, ClientsManager.php</li>
+	<li><strong>Vytvořit fakturu:</strong> InvoicingPresenter.php, InvoicingManager.php, InvoicingFormFactory.php</li>
+	<li><strong>Přidat výdaj:</strong> ExpensesPresenter.php, ExpensesManager.php, ExpensesFormFactory.php</li>
+	<li><strong>Pozvat účetní:</strong> AccountantPresenter.php, ClientsAccountantFormFactory.php</li>
+	<li><strong>Přidat klienta do adresáře:</strong> ClientsPresenter.php, ClientsFormFactory.php, ClientsManager.php</li>
 </ul>
-<h3>Účetní</h3>
+<p>Účetní:</p>
 <ul>
-	<li>Spravovat příjmy a výdaje OSVČ: ClientsPresenter.php</li>
-	<li>Pozvat klienta: ClientsPresenter.php, ClientsAccountantFormFactory.php</li>
+	<li><strong>Spravovat příjmy a výdaje OSVČ:</strong> ClientsPresenter.php</li>
+	<li><strong>Pozvat klienta:</strong> ClientsPresenter.php, ClientsAccountantFormFactory.php</li>
 </ul>
-<h3>Databáze</h3>
 
-<img src="diagram.png" alt="Diagram" width="50%">
+<h3>Databáze</h3>
+<img src="doc/diagram.png" alt="Diagram" width="50%">
 
 <h2>Popis instalace</h2>
 <ul>
-	<li>Požadavky: PHP 7.4, MYSQL databáze, GD extension, mbstring extension</li>
-	<li>Postup instalace: Rozbalit archiv do složky na server. V dané složce spustit nástroj <i>composer</i> příkazem <strong>composer update</strong>, který nainstaluje všechny potřebné závislosti. Dále je potřeba povolit webovému serveru zápis do složek <i>temp/cache</i> a <i>log</i>.</li>
-	<li>Databáze: V archivu je umístěn soubor s dumpem databáze (fakturacek.sql). Je potřeba ale nejdříve databázi s názvem "fakturacek" vytvořit.</li>
-	<li>Konfigurace: Do souboru <i>config/local.neon</i> je potřeba zadat přihlašovací údaje k databázi.</li>
+	<li><strong>Požadavky:</strong> PHP 7.4, MYSQL databáze, GD extension, mbstring extension</li>
+	<li><strong>Postup instalace:</strong> Rozbalit archiv do složky na server. V dané složce spustit nástroj <i>composer</i> příkazem <strong>composer update</strong>, který nainstaluje všechny potřebné závislosti. Dále je potřeba povolit webovému serveru zápis do složek <i>temp/cache</i> a <i>log</i>.</li>
+	<li><strong>Databáze:</strong> V archivu je umístěn soubor s dumpem databáze (fakturacek.sql). Je potřeba ale nejdříve databázi s názvem "fakturacek" vytvořit.</li>
+	<li><strong>Konfigurace:</strong> Do souboru <i>config/local.neon</i> je potřeba zadat přihlašovací údaje k databázi.</li>
 </ul>
 
 <h2>Známé problémy</h2>
