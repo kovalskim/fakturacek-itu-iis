@@ -113,8 +113,14 @@ class AccountantRepository extends AllRepository
     {
         return $this->connection->query("SELECT * FROM %table as ac join %table as us on ac.users_id = us.id WHERE ac.accountant_id = %i AND ac.request_status = %s AND ac.who = %s", $this->table_accountant_permission, $this->table, $accountant_id, "wait", "business")->count();
     }
+
     public function getCountClientsByAccountantID($accountant_id, $status): int
     {
         return $this->connection->query("SELECT * FROM %table as ac join %table as us on ac.users_id = us.id WHERE ac.accountant_id = %i AND request_status = %s", $this->table_accountant_permission, $this->table, $accountant_id, $status)->count();
+    }
+
+    public function getDataForModal($user_id): array
+    {
+        return $this->connection->query('SELECT id, path FROM expenses WHERE expenses.users_id = %i', $user_id)->fetchAll();
     }
 }

@@ -272,6 +272,7 @@ final class ClientsPresenter extends BasePresenter
     public function renderSummary($users_id)
     {
         $this->template->userData = $this->userRepository->getUserById($users_id);
+        $this->template->modalData = $this->accountantRepository->getDataForModal($users_id);
     }
 
     /**

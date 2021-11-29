@@ -11,4 +11,6 @@
     <img src="{$basePath}/{$row->path}" width="100px" alt="{$row->items}"/>
 {/define}
 
-{define row-actions}{/define}
+{define row-actions}
+    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal{$row->id}">Detail</button>
+{/define}
