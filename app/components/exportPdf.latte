@@ -183,7 +183,7 @@
             </tr>
         </table>
 
-        <img alt="QR platba" src="https://api.paylibo.com/paylibo/generator/czech/image?accountPrefix={$account_prefix[0]}&accountNumber={$account_prefix[1]}&bankCode={$account_number[1]}&amount={$invoice->suma}&currency=CZK&vs={$invoice->variable_symbol}&message={$invoice->client_name}&size=200"/>
+        <img alt="QR platba" src="https://api.paylibo.com/paylibo/generator/czech/image?{ifset $account_prefix[1]}accountPrefix={$account_prefix[0]}{/ifset}&accountNumber={ifset $account_prefix[1]}{$account_prefix[1]}{else}{$account_prefix[0]}{/ifset}&bankCode={$account_number[1]}&amount={$invoice->suma}&currency=CZK&vs={$invoice->variable_symbol}&message={$invoice->client_name}&size=200"/>
         <br>
         <htmlpagefooter name="footer">
             <br><br>
