@@ -33,4 +33,9 @@ class ExpensesRepository extends AllRepository
     {
         return $this->connection->query("SELECT path FROM %table WHERE id = %i", $this->table, $id)->fetchField();
     }
+
+    public function getDataForModal($user_id): array
+    {
+        return $this->connection->query('SELECT id, path FROM expenses WHERE users_id = %i', $user_id)->fetchAll();
+    }
 }

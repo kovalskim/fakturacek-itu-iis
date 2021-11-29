@@ -63,6 +63,12 @@ final class ExpensesPresenter extends BasePresenter
         $this->getComponent("addExpensesForm")->getComponent('expenses_cat_id')->setItems($this->defaultCategories);
     }
 
+    public function renderDefault()
+    {
+
+        $this->template->modalData = $this->expensesRepository->getDataForModal($this->user->getId());
+    }
+
     public function createComponentAddExpensesForm(): Form
     {
         $form = $this->expensesFormFactory->createExpensesForm();
@@ -86,6 +92,7 @@ final class ExpensesPresenter extends BasePresenter
             {
                 $form->reset();
                 $this->redrawControl('expensesForm');
+                $this->redrawControl('modal');
                 $this['datagrid']->redrawControl('rows');
                 $this->redrawControl('flashes');
             }
@@ -138,16 +145,6 @@ final class ExpensesPresenter extends BasePresenter
         });
 
         return $grid;
-    }
-
-    public function actionDocument($id)
-    {
-
-    }
-
-    public function renderDocument($id)
-    {
-        $this->template->img_path = $this->expensesRepository->getPathById($id);
     }
 
     public function datagridFilterFormFactory(): Container
@@ -219,6 +216,7 @@ final class ExpensesPresenter extends BasePresenter
         $this->expensesManager->editExpenseFormSucceeded($form);
 
         $this->flashMessage('Uloženo', 'success');
+        $this->redrawControl('modal');
         $this->redrawControl('flashes');
     }
 
