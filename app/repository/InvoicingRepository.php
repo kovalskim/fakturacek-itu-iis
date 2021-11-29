@@ -72,4 +72,9 @@ class InvoicingRepository extends AllRepository
     {
         return $this->connection->query('SELECT * FROM invoices WHERE users_id = %i AND status = "unpaid" AND due_date < %dt', $user_id, new DateTime())->fetchAll();
     }
+
+    public function updateAfterDueDateInvoicesByUserId($user_id)
+    {
+        $this->connection->query("UPDATE %table SET %set WHERE id = %i and due_date < %dt",  $this->table, ["after_due_date" =>  1], $user_id, new DateTime());
+    }
 }

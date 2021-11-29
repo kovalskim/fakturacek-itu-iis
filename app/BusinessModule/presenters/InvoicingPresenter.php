@@ -72,6 +72,7 @@ final class InvoicingPresenter extends BasePresenter
     public function actionDefault()
     {
 
+        $this->invoicingRepository->updateAfterDueDateInvoicesByUserId($this->user->getId());
     }
 
     public function createComponentDatagrid(): Datagrid
