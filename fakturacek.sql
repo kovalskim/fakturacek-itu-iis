@@ -186,9 +186,9 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `users` (`id`, `cin`, `vat`, `name`, `email`, `phone`, `password`, `hash`, `hash_validity`, `role`, `street`, `city`, `zip`, `avatar_path`, `status`, `email_verification`) VALUES
-(1,	NULL,	NULL,	'Admin Testovič',	'admin@fakturacek.cz',	'',	'$2y$10$Ek9XTxapi6DV4Y8UIHONwe6T2JzlIhIY8Xp9m3MukIR7y5B2gV3aO',	NULL,	NULL,	'admin',	NULL,	NULL,	NULL,	NULL,	'active',	NULL),
-(2,	'68396201',	'',	'OSVC',	'osvc@fakturacek.cz',	'+420123456789',	'$2y$10$XymTeneV4ATBG9uLyGAzAe0f1c6kqGXB3CVfebR48MAMMvHaIWEZq',	NULL,	NULL,	'business',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'www/avatars/F18NJDE2PO.jpeg',	'active',	'2021-11-29 16:54:34'),
-(3,	'48864820',	NULL,	'Účetní Testová',	'ucetni@fakturacek.cz',	'',	'$2y$10$97B3IsdQqL74M2XJf4E3Su.E3GCbb6A3nFf3IZfoSriukbSwbxPia',	NULL,	NULL,	'accountant',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'www/avatars/N9UBTNPWNS.jpeg',	'active',	'2021-11-29 16:55:27');
+(1,	NULL,	NULL,	'Admin Testovič',	'admin@fakturacek.pixla.rekode.cz',	'',	'$2y$10$Ek9XTxapi6DV4Y8UIHONwe6T2JzlIhIY8Xp9m3MukIR7y5B2gV3aO',	NULL,	NULL,	'admin',	NULL,	NULL,	NULL,	NULL,	'active',	NULL),
+(2,	'68396201',	'',	'OSVC',	'osvc@fakturacek.pixla.rekode.cz',	'+420123456789',	'$2y$10$XymTeneV4ATBG9uLyGAzAe0f1c6kqGXB3CVfebR48MAMMvHaIWEZq',	NULL,	NULL,	'business',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'www/avatars/F18NJDE2PO.jpeg',	'active',	'2021-11-29 16:54:34'),
+(3,	'48864820',	NULL,	'Účetní Testová',	'ucetni@fakturacek.pixla.rekode.cz',	'',	'$2y$10$97B3IsdQqL74M2XJf4E3Su.E3GCbb6A3nFf3IZfoSriukbSwbxPia',	NULL,	NULL,	'accountant',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'www/avatars/N9UBTNPWNS.jpeg',	'active',	'2021-11-29 16:55:27');
 
 DROP TABLE IF EXISTS `users_last_login`;
 CREATE TABLE `users_last_login` (
@@ -216,4 +216,4 @@ CREATE TABLE `users_last_password_change` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 
--- 2021-11-29 16:19:13
+-- 2021-11-29 22:00:10
