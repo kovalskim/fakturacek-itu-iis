@@ -48,10 +48,18 @@ abstract class BasePresenter extends Presenter
     public function startup()
     {
         parent::startup();
-        if(!($this->user->isLoggedIn() && $this->user->getRoles()[0] == "business"))
+        if(!($this->user->isLoggedIn()))
         {
-            $this->flashMessage('Přístup odepřen', 'danger');
-            $this->redirect(':Public:Homepage:default');
+            if($this->user->getLogoutReason() === \Nette\Security\UserStorage::LOGOUT_INACTIVITY) {
+                $this->flashMessage('Byl jste odhlášen z důvodu neaktivity. Prosím, přihlašte se znovu.');
+                $this->redirect(':Public:Homepage:default');
+            }
+
+            if(!($this->user->getRoles()[0] == "business"))
+            {
+                $this->flashMessage('Přístup odepřen', 'danger');
+                $this->redirect(':Public:Homepage:default');
+            }
         }
     }
 

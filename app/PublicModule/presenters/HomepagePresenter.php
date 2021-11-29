@@ -64,6 +64,7 @@ final class HomepagePresenter extends BasePresenter
         try
         {
             $this->user->login($values->email, $values->password);
+            $this->user->setExpiration('15 minutes', TRUE);
         }
         catch (Exception $e)
         {
