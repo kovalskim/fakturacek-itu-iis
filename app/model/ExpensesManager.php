@@ -4,11 +4,7 @@
 
 namespace App\model;
 
-namespace App\model;
-
 use App\repository\ExpensesRepository;
-use App\model\UserManager;
-use Exception;
 use Nette\Utils\FileSystem;
 
 class ExpensesManager
@@ -31,12 +27,30 @@ class ExpensesManager
         $this->expensesRepository->deleteExpensesByUserId($primary);
     }
 
+    public function expensesFormValidate($form, $values = null)
+    {
+        if(!$values)
+        {
+            $values = $form->getValues();
+        }
+        $price = str_replace(",",".", $values->price);
+        if(!(is_numeric($price)))
+        {
+            $form["price"]->addError("Není peněžní hodnota");
+        }
+        elseif($price < 0)
+        {
+            $form["price"]->addError("Minimální částka je 0");
+        }
+    }
+
     public function editExpenseFormSucceeded($form, $values = null)
     {
         if(!$values)
         {
             $values = $form->getValues();
         }
+        $values->price = str_replace(",",".", $values->price);
         $values_edit = [
             "datetime" => $values->datetime,
             "items" => $values->items,
@@ -46,4 +60,5 @@ class ExpensesManager
         ];
         $this->expensesRepository->updateExpenseById($values->id, $values_edit);
     }
+
 }

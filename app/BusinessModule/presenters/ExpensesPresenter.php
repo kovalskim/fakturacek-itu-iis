@@ -199,7 +199,7 @@ final class ExpensesPresenter extends BasePresenter
         $form->addSubmit('save', 'Uložit');
         $form->addSubmit('cancel', 'Zrušit');
 
-        //todo:validace
+        $form->onValidate[] = [$this, "editFormValidate"];
 
         if ($row) {
             $form->setDefaults($row);
@@ -207,6 +207,11 @@ final class ExpensesPresenter extends BasePresenter
         }
 
         return $form;
+    }
+
+    public function editFormValidate(Container $form)
+    {
+        $this->expensesManager->expensesFormValidate($form);
     }
 
     public function editFormSucceeded(Container $form)
