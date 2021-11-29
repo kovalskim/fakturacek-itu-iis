@@ -52,8 +52,15 @@ final class CategoryPresenter extends BasePresenter
     public function createComponentAddCategoryForm(): Form
     {
         $form = $this->categoryFormFactory->createCategoryForm();
+        $form->onValidate[] = [$this, "createAddCategoryFormValidate"];
         $form->onSuccess[] = [$this, "createAddCategoryFormSucceeded"];
         return $form;
+    }
+
+    public function createAddCategoryFormValidate(Container $form)
+    {
+        $this->categoryManager->categoryFormValidate($form);
+        $this->redrawControl("addCategoryForm");
     }
 
     /**
@@ -64,7 +71,7 @@ final class CategoryPresenter extends BasePresenter
         $user_id = $this->user->getId();
         $row = ((array) $values) + ['users_id' => $user_id ];
 
-        $this->categoryRepository->insertCategoryByUserId($row);//TODO: Kontorla zda se stejnym jmenem uz neni
+        $this->categoryRepository->insertCategoryByUserId($row);
 
         $this->flashMessage('Kategorie byla přidána', 'success');
         if($this->isAjax())
@@ -149,7 +156,7 @@ final class CategoryPresenter extends BasePresenter
 
     public function editFormValidate(Container $form)
     {
-        $this->categoryManager->editCategoryFormValidate($form);
+        $this->categoryManager->categoryFormValidate($form); //TODO: Error bez barvy
     }
 
     public function editFormSucceeded(Container $form)

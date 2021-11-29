@@ -33,4 +33,13 @@ class CategoryRepository extends AllRepository
     {
         return $this->connection->query("SELECT * FROM %table WHERE expenses_cat_id = %i" , "expenses", $id)->count();
     }
+
+    public function getCategoryName($name): bool
+    {
+        if($this->connection->query("SELECT name FROM %table WHERE name = %s", $this->table, $name)->fetchField())
+        {
+            return true;
+        }
+        return false;
+    }
 }

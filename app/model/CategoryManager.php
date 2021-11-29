@@ -39,13 +39,16 @@ class CategoryManager
         }
     }
 
-    public function editCategoryFormValidate($form, $values = null)
+    public function categoryFormValidate($form, $values = null)
     {
         if(!$values)
         {
             $values = $form->getValues();
         }
-
+        if($this->categoryRepository->getCategoryName($values->name))
+        {
+            $form["name"]->addError("Tato kategorie existuje");
+        }
     }
 
     public function editCategoryFormSucceeded($form, $values = null)
