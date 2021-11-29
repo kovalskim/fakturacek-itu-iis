@@ -27,6 +27,9 @@ class InvoicingManager
         $this->user = $user;
     }
 
+    /**
+     * Function for generating variable symbol according to pattern in settings
+     */
     public function getNewVariableSymbol($user_id, $pattern): int
     {
         $now = new DateTime();
@@ -80,7 +83,7 @@ class InvoicingManager
         return $vs;
     }
 
-    public function saveClient($values)
+    public function saveClient($values): int
     {
         $user_id = $this->user->getId();
         $value = [

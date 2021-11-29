@@ -10,7 +10,6 @@ use Nette\Utils\FileSystem;
 
 class ExpensesManager
 {
-
     /** @var ExpensesRepository */
     private $expensesRepository;
 
@@ -22,7 +21,6 @@ class ExpensesManager
         $this->expensesRepository = $expensesRepository;
         $this->imageUploader = $imageUploader;
     }
-
 
     public function deleteExpense($primary)
     {

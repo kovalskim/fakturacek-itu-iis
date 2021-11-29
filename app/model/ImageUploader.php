@@ -6,7 +6,6 @@ namespace App\model;
 
 use App\repository\SettingInvoicesRepository;
 use App\repository\UserRepository;
-use App\repository\ExpensesRepository;
 use Exception;
 use Nette\Security\User;
 use Nette\Utils\Finder;

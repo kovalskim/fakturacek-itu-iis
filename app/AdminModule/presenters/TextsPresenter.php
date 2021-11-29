@@ -79,10 +79,8 @@ final class TextsPresenter extends BasePresenter
     }
 
     /**
-     * Ajax deletion
-     */
-    /**
      * @throws AbortException
+     * Ajax deletion
      */
     public function handleDeleteContact(): void
     {
@@ -104,10 +102,8 @@ final class TextsPresenter extends BasePresenter
     }
 
     /**
-     * Ajax deletion
-     */
-    /**
      * @throws AbortException
+     * Ajax deletion
      */
     public function handleDeleteAboutus(): void
     {

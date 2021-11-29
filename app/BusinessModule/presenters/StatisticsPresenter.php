@@ -18,8 +18,6 @@ final class StatisticsPresenter extends BasePresenter
     /** @var StatisticsRepository */
     private $statisticsRepository;
 
-    private $expensesTable = 'expenses';
-
     public function __construct(User $user, StatisticsRepository $statisticsRepository)
     {
         parent::__construct();

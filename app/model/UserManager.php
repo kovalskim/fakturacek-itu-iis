@@ -47,16 +47,25 @@ class UserManager
         $this->accountantRepository = $accountantRepository;
     }
 
+    /**
+     * Creating hash for forgotten password and accountant joining
+     */
     public function createHash($email): string
     {
         return (new Passwords)->hash(new DateTime() . $email);
     }
 
+    /**
+     * Generate hash validity on 24 hours
+     */
     public function createHashValidity(): DateTime
     {
         return new DateTime('+1 day');
     }
 
+    /**
+     * Registration
+     */
     public function registrationFormSucceeded($form, $values)
     {
         $values->password = (new Passwords)->hash($values->password);
@@ -80,6 +89,9 @@ class UserManager
         $this->mailSender->sendEmail($values->email, $subject, $body, $params);
     }
 
+    /**
+     * Validate form with e-mail and cin
+     */
     public function registrationFormValidate($form, $values)
     {
         $email = $values->email;
@@ -106,6 +118,7 @@ class UserManager
 
     /**
      * @throws Exception
+     * Forgotten password
      */
     public function forgottenPasswordFormSucceeded($form, $values)
     {
@@ -144,6 +157,7 @@ class UserManager
 
     /**
      * @throws Exception
+     * Check token validity and correction
      */
     public function checkToken($token, $table = "users")
     {
@@ -179,9 +193,11 @@ class UserManager
         }
     }
 
+    /**
+     * Delete hash and validity, set new password, update in database
+     */
     public function newPasswordFormSucceeded($form, $values)
     {
-        /** Delete hash and validity, set new password, update in database */
         $new_password = (new Passwords)->hash($values->password);
         $user_id = $this->userRepository->userIdByToken($values->token);
         $this->userRepository->setUserNewPasswordByToken($values->token, $new_password);
@@ -189,6 +205,9 @@ class UserManager
         $this->userRepository->setUserLastPasswordChange($user_id);
     }
 
+    /**
+     * @throws Exception
+     */
     public function changePasswordFormSucceeded($form, $values)
     {
         $user_id = $this->user->getId();
@@ -196,7 +215,7 @@ class UserManager
         /** Get user´s e-mail */
         $email = $this->userRepository->getUserEmailById($user_id);
 
-        /** Autenticate user */
+        /** Authenticate user */
         try
         {
             $this->authenticator->authenticate($email, $values->old_password);

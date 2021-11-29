@@ -39,6 +39,9 @@ class MailSender
         return $template;
     }
 
+    /**
+     * Create e-mail from template and set params
+     */
     private function createEmail($from, $to, $subject, $body, $params, $attachment): Message
     {
         $template = $this->createTemplate();
@@ -59,6 +62,7 @@ class MailSender
         return $mail;
     }
 
+    /** Set subject and send e-mail */
     public function sendEmail($to, $subject, $body, $params, $attachment = NULL, $from = self::NOREPLY_EMAIL)
     {
         $subject = '[' . self::WEBPAGE_NAME . '] ' . $subject;

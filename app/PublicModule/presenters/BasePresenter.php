@@ -4,6 +4,7 @@
 
 namespace App\PublicModule\presenters;
 
+use Nette\Application\AbortException;
 use Nette\Application\UI\Presenter;
 use Nette\Security\User;
 use Nextras\Dbal\Connection;
@@ -16,7 +17,10 @@ abstract class BasePresenter extends Presenter
     /** @var User @inject */
     public $user;
 
-    /** Redirect according logged user to his module */
+    /**
+     * @throws AbortException
+     * Redirect according logged user to his module
+     */
     public function beforeRender()
     {
         $this->setLayout('public');
@@ -27,15 +31,12 @@ abstract class BasePresenter extends Presenter
             {
                 case 'admin':
                     $this->redirect(':Admin:Homepage:default');
-                    break;
 
                 case 'business':
                     $this->redirect(':Business:Homepage:default');
-                    break;
 
                 case 'accountant':
                     $this->redirect(':Accountant:Homepage:default');
-                    break;
             }
         }
     }

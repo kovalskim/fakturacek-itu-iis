@@ -122,7 +122,7 @@ class LogInFormFactory
         $form->addPassword('password_again', 'Nové heslo znovu:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Nové heslo znovu')
-            ->addRule(Form::EQUAL, 'Hesla se neshodují', $form['password'])
+            ->addRule($form::EQUAL, 'Hesla se neshodují', $form['password'])
             ->setOmitted();
 
         $form->addSubmit('change', 'Změnit heslo');
@@ -147,7 +147,7 @@ class LogInFormFactory
         $form->addPassword('password_again', 'Nové heslo znovu')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Nové heslo znovu')
-            ->addRule(Form::EQUAL, 'Hesla se neshodují.', $form['password'])
+            ->addRule($form::EQUAL, 'Hesla se neshodují.', $form['password'])
             ->setOmitted();
 
         $form->addSubmit('change', 'Změnit heslo');

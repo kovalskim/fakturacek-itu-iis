@@ -87,6 +87,5 @@ final class HomepagePresenter extends BasePresenter
                 $this->redirect('this');
             }
         }
-
     }
 }

@@ -7,6 +7,7 @@ namespace App\model;
 use Nextras\Application\UI\SecuredLinksPresenterTrait;
 use Nextras\Datagrid\Datagrid;
 
+/** Callbacks for handles in datagrid tables (row actions) */
 class DatagridExtended extends Datagrid
 {
     use SecuredLinksPresenterTrait;
@@ -212,11 +213,6 @@ class DatagridExtended extends Datagrid
         }
     }
 
-
-
-    //** Deleting category */
-
-
     /** @var callable */
     protected $deleteCategoryCallback;
 
@@ -242,10 +238,6 @@ class DatagridExtended extends Datagrid
             $this->redrawControl('rows');
         }
     }
-
-
-    //** Deleting expense */
-
 
     /** @var callable */
     protected $deleteExpenseCallback;
@@ -294,5 +286,4 @@ class DatagridExtended extends Datagrid
         $call = $this->getSendReminderCallback();
         $call($primary);
     }
-
 }

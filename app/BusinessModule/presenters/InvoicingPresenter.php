@@ -204,7 +204,10 @@ final class InvoicingPresenter extends BasePresenter
         return $form;
     }
 
-    /** Check if user can view this current invoice */
+    /**
+     * @throws AbortException
+     * Check if user can view this current invoice
+     */
     public function actionInvoice($id)
     {
         $user_id = $this->user->getId();
@@ -223,6 +226,9 @@ final class InvoicingPresenter extends BasePresenter
         $this->template->invoice_items = $this->invoicingRepository->getInvoiceItemsById($id);
     }
 
+    /**
+     * @throws AbortException
+     */
     public function actionNewInvoice($id)
     {
         /** Check if settings was fill in */

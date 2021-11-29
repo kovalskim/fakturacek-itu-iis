@@ -20,7 +20,6 @@ class DatagridManager
     private $table;
     private $presenter_params;
     private $client_id;
-    private $type;
 
     public function __construct(Connection $connection, User $user)
     {
@@ -28,12 +27,14 @@ class DatagridManager
         $this->user = $user;
     }
 
+    /**
+     * Template for creating datagrid
+     */
     public function createDatagrid($table, $presenter, $client_id = null, $type = null): DatagridExtended
     {
         /** Name of table in database as global property */
         $this->table = $table;
         $this->client_id = $client_id;
-        $this->type = $type;
 
         /** Get presenter name and module for path to template */
         $this->presenter_params = explode(':', $presenter, 2);
@@ -54,7 +55,7 @@ class DatagridManager
 
         /** Pagination */
         $grid->setPagination(10, function ($filter, $order) {
-            return $this->getDataSum($filter, $order, $this->table);
+            return $this->getDataSum($filter, $order);
         });
 
         if($client_id)
@@ -78,11 +79,17 @@ class DatagridManager
         return $grid;
     }
 
+    /**
+     * Count data in datagrid for pagination
+     */
     public function getDataSum($filter, $order): int
     {
         return $this->getDataSource($filter, $order)->count();
     }
 
+    /**
+     * Prepare data for datagrid
+     */
     public function getDataSource($filter, $order, Paginator $paginator = NULL): Result
     {
         $builder = $this->connection->createQueryBuilder();
