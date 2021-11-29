@@ -39,7 +39,7 @@ class ExpensesFormFactory
             ->addRule($form::FLOAT, 'Není peněžní hodnota')
             ->addRule($form::MIN, 'Minimální částka je %d', 0);
 
-        $form->addSelect('expenses_cat_id', 'Kategorie:*')
+        $form->addSelect('expenses_cat_id', 'Kategorie:')
             ->setHtmlAttribute('placeholder', 'Kategorie')
             ->setPrompt('-- Výchozí --');
 

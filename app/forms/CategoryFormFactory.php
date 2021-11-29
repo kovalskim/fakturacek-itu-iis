@@ -22,7 +22,7 @@ class CategoryFormFactory
 
         $form->setHtmlAttribute("class", "ajax");
 
-        $form->addText('name', 'Kategorie:')
+        $form->addText('name', 'Kategorie:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Kategorie')
             ->setHtmlAttribute('autofocus');

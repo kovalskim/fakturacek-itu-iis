@@ -20,12 +20,12 @@ class LogInFormFactory
     {
         $form = $this->formFactory->create();
 
-        $form->addEmail('email', 'E-mail:')
+        $form->addEmail('email', 'E-mail:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'E-mail')
             ->setHtmlAttribute('autofocus');
 
-        $form->addPassword('password', 'Heslo:')
+        $form->addPassword('password', 'Heslo:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Heslo');
 

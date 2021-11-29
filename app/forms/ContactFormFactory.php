@@ -22,16 +22,16 @@ class ContactFormFactory
 
         $form->setHtmlAttribute('class', 'ajax');
 
-        $form->addText('name', 'Jméno:')
+        $form->addText('name', 'Jméno:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Jméno')
             ->setHtmlAttribute('autofocus');
 
-        $form->addEmail('email', 'E-mail:')
+        $form->addEmail('email', 'E-mail:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'E-mail');
 
-        $form->addTextarea('message', 'Zpráva:')
+        $form->addTextarea('message', 'Zpráva:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Zpráva');
 

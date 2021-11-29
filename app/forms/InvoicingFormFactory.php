@@ -63,7 +63,7 @@ class InvoicingFormFactory
 
         $form->addCheckbox('addClient', 'Uložit jako nového klienta do adresáře');
 
-        $form->addInteger('due_days_number', 'Dní do splatnosti')
+        $form->addInteger('due_days_number', 'Dní do splatnosti:*')
             ->setRequired()
             ->setDefaultValue(14)
             ->addRule($form::MIN, 'Minimální počet dnů do splatnosti je %d', 1)
@@ -73,17 +73,17 @@ class InvoicingFormFactory
         $maxCopies = 20;
 
         $multiplier = $form->addMultiplier('multiplier', function (Container $container, Form $form) {
-            $container->addText('name', 'Název položky')
+            $container->addText('name', 'Název položky:*')
                 ->setRequired()
                 ->setHtmlAttribute('placeholder', 'Název položky');
-            $container->addText('count', 'Počet')
+            $container->addText('count', 'Počet:*')
                 ->setRequired()
                 ->addRule($form::MIN, 'Minimální počet je %d', 0.5)
                 ->setHtmlAttribute('inputmode', 'numeric')
                 ->setHtmlAttribute('placeholder', 'Počet');
-            $container->addRadioList('type', 'Jednotka', ['hours' => 'hod', 'pieces' => 'ks'])
+            $container->addRadioList('type', 'Jednotka:*', ['hours' => 'hod', 'pieces' => 'ks'])
                 ->setDefaultValue('hours');
-            $container->addText('unit_price', 'Cena za hod/ks')
+            $container->addText('unit_price', 'Cena za hod/ks:*')
                 ->setRequired()
                 ->addRule($form::FLOAT, 'Není peněžní hodnota')
                 ->addRule($form::MIN, 'Minimální částka je %d', 0)

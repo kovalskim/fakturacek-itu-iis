@@ -22,12 +22,12 @@ class AdministratorsFormFactory
 
         $form->setHtmlAttribute('class', 'ajax');
 
-        $form->addText('name', 'Jméno a příjmení:')
+        $form->addText('name', 'Jméno a příjmení:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Jméno a příjmení')
             ->setHtmlAttribute('autofocus');
 
-        $form->addEmail('email', 'E-mail:')
+        $form->addEmail('email', 'E-mail:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'E-mail');
 

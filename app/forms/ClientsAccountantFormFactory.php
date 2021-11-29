@@ -22,7 +22,7 @@ class ClientsAccountantFormFactory
 
         $form->setHtmlAttribute('class', 'ajax');
 
-        $form->addEmail('email', 'E-mail:')
+        $form->addEmail('email', 'E-mail:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'E-mail');
 
