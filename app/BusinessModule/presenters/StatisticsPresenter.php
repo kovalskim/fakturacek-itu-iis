@@ -29,20 +29,14 @@ final class StatisticsPresenter extends BasePresenter
 
     public function actionDefault()
     {
-        //echo($this->statisticsRepository->getSumExpenses($this->user->getId()));
+
     }
 
     public function renderDefault()
     {
-       // $this->template->statistics = $this->statisticsRepository->getUserProfile($this->user->getId());
-
         $this->template->expenses = $this->statisticsRepository->getSumExpenses($this->user->getId());
         $this->template->revenues = $this->statisticsRepository->getSumRevenues($this->user->getId());
-        $this->template->sumInvoices = $this->statisticsRepository->getSumInvoices($this->user->getId());
         $this->template->sumRevenuesLast30 = $this->statisticsRepository->getSumRevenuesLast30day($this->user->getId());
         $this->template->sumExpensesLast30 = $this->statisticsRepository->getSumExpensesLast30day($this->user->getId());
-
-
     }
-
 }
