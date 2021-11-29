@@ -1,8 +1,8 @@
 <?php
 
-namespace App\model;
-
 /** Author: Dalibor Kyjovský, Radek Jůzl */
+
+namespace App\model;
 
 namespace App\model;
 
