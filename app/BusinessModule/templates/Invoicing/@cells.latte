@@ -28,7 +28,7 @@
         <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton">
             <li><a href="{plink :Business:Invoicing:invoice $primary}" class="dropdown-item">Detail</a></li>
             <li><a href="{link downloadInvoice! $primary}" class="dropdown-item">Stáhnout fakturu</a></li>
-            <li><a href="#" class="ajax dropdown-item disabled">Opakovat fakturu</a></li>
+            <li><a href="{plink :Business:Invoicing:newInvoice $primary}" class="dropdown-item">Opakovat fakturu</a></li>
             <li><a n:if="$row->status == 'unpaid'" href="{link changeStatus! $primary, "paid"}" class="ajax dropdown-item">✅ Zaplaceno</a></li>
             <li><a n:if="$row->status == 'unpaid'" href="{link changeStatus! $primary, "canceled"}" class="ajax dropdown-item" data-ajax-confirm="Opravdu stornovat?">❌ Stornovat</a></li>
             <li><a n:if="$row->after_due_date == 1" href="{link sendReminder! $primary}" class="ajax dropdown-item">⚠ Poslat upozornění</a></li>

@@ -219,7 +219,7 @@ final class InvoicingPresenter extends BasePresenter
         $this->template->invoice_items = $this->invoicingRepository->getInvoiceItemsById($id);
     }
 
-    public function actionNewInvoice()
+    public function actionNewInvoice($id)
     {
         $user_id = $this->user->getId();
         $settings = $this->settingInvoicesRepository->selectAll($user_id);
@@ -227,6 +227,30 @@ final class InvoicingPresenter extends BasePresenter
         {
             $this->flashMessage('Není vyplněno nastavení faktury', 'warning');
             $this->redirect(':Business:SettingInvoices:default');
+        }
+
+        if($id)
+        {
+            //tODO: check jestli je to jeho fa
+            $form = $this->getComponent('createInvoiceForm');
+            $data = $this->invoicingRepository->getInvoiceDataById($id);
+            $default = [
+                'id' => $data->client_id,
+                'name' => $data->client_name,
+                'street' => $data->client_street,
+                'city' => $data->client_city,
+                'zip' => $data->client_zip,
+                'cin' => $data->client_cin,
+                'vat' => $data->client_vat,
+                'phone' => $data->client_phone,
+                'email' => $data->client_email,
+                'due_days_number' => $data->created->diff($data->due_date)->format("%a")
+            ];
+            $form->setDefaults($default);
+
+            $items = $this->invoicingRepository->getInvoiceItemsById($id);
+            $form_multiplier = $form->getComponent('multiplier')->setValues($items);
+            $form->setDefaults($items);
         }
     }
 
