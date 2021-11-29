@@ -106,6 +106,9 @@ class InvoicingManager
         }
     }
 
+    /**
+     * Function the function calculates the total price
+     */
     public function saveInvoicesItems($values, $invoices_id): float
     {
         $suma = 0.0;
@@ -113,7 +116,7 @@ class InvoicingManager
 
         foreach ($values->multiplier as $value)
         {
-            $count = str_replace(",",".", $value->count);
+            $count = str_replace(",",".", $value->count); /** Replacing the line with a dot - decimal numbers are with a dot */
             $unit_price = str_replace(",",".", $value->unit_price);
             $item_suma = $count * $unit_price;
             $suma += $item_suma;

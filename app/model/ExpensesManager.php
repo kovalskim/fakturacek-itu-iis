@@ -28,8 +28,8 @@ class ExpensesManager
     {
         $image_path = $this->expensesRepository->getPathById($primary);
         $image_path = "../".$image_path;
-        FileSystem::delete($image_path);
-        $this->expensesRepository->deleteExpensesByUserId($primary);
+        FileSystem::delete($image_path); /** Delete image from server */
+        $this->expensesRepository->deleteExpensesByUserId($primary); /** Delete image from database */
     }
 
     public function expensesFormValidate($form, $values = null)
@@ -39,7 +39,7 @@ class ExpensesManager
             $values = $form->getValues();
         }
         $price = str_replace(",",".", $values->price);
-        if(!(is_numeric($price)))
+        if(!(is_numeric($price))) /** check if it is the number */
         {
             $form["price"]->addError("Není peněžní hodnota");
         }
@@ -50,11 +50,11 @@ class ExpensesManager
         if($values->img->error == 0)
         {
             $type = $values->img->getContentType();
-            if($type != "image/png" and $type != "image/jpeg" and $type != "image/gif" and $type != "image/webp")
+            if($type != "image/png" and $type != "image/jpeg" and $type != "image/gif" and $type != "image/webp") /** Check if it is the correct type  */
             {
                 $form["img"]->addError("Obrázek musí být JPEG, PNG, GIF or WebP.");
             }
-            elseif($values->img->size > (1024*1024*5))
+            elseif($values->img->size > (1024*1024*5)) /** Max. 5 MB */
             {
                 $form["img"]->addError("Maximální velikost je 5 MB.");
             }
@@ -63,6 +63,7 @@ class ExpensesManager
 
     /**
      * @throws Exception
+     * Function
      */
     public function editExpenseFormSucceeded($form, $values = null)
     {
@@ -71,10 +72,6 @@ class ExpensesManager
             $values = $form->getValues();
         }
         $values->price = str_replace(",",".", $values->price);
-
-        $image_path = $this->expensesRepository->getPathById($values->id);
-        $image_path = "../".$image_path;
-        FileSystem::delete($image_path);
 
         if($values->img->error == 0)
         {
@@ -94,6 +91,9 @@ class ExpensesManager
                 "id" => $values->id,
                 "path" => $path
             ];
+            $image_path = $this->expensesRepository->getPathById($values->id);
+            $image_path = "../".$image_path;
+            FileSystem::delete($image_path);
         }
         else
         {

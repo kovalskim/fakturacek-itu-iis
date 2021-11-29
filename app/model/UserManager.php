@@ -85,18 +85,18 @@ class UserManager
         $email = $values->email;
         $cin = $values->cin;
 
-        if($this->userRepository->getUserByEmail($email))
+        if($this->userRepository->getUserByEmail($email)) /** Check email to see if it already exists */
         {
             $form["email"]->addError("Tento email se už používá.");
         }
-        if($this->userRepository->getUserByCin($cin))
+        if($this->userRepository->getUserByCin($cin)) /** Check cin to see if it already exists */
         {
             $form["cin"]->addError("Toto IČ se už používá.");
         }
 
         if(strlen($cin) >= 8)
         {
-            if($this->aresManager->verificationCin($cin) != 0)
+            if($this->aresManager->verificationCin($cin) != 0) /** Check cin in Ares */
             {
                 $form["cin"]->addError("Toto IČ neexistuje.");
             }

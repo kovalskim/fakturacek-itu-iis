@@ -1,6 +1,6 @@
 <?php
 
-/** Author: Dalibor Kyjovský */
+/** Author: Dalibor Kyjovsk, Radek Jůzl */
 
 namespace App\BusinessModule\presenters;
 

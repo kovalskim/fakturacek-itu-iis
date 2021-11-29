@@ -32,14 +32,14 @@ class ClientsManager
             $values = $form->getValues();
         }
 
-        if((!(is_numeric($values->zip))) or (strlen($values->zip) != 5))
+        if((!(is_numeric($values->zip))) or (strlen($values->zip) != 5)) /** check zip */
         {
             $form["zip"]->addError("PSČ má špatný formát.");
         }
 
         if($values->cin != null)
         {
-            if((!(is_numeric($values->cin))) or (strlen($values->cin) != 8))
+            if((!(is_numeric($values->cin))) or (strlen($values->cin) != 8)) /** Check cin */
             {
                 $form["cin"]->addError("Toto IČ neexistuje.");
             }
@@ -57,14 +57,14 @@ class ClientsManager
     public function editClientsFormSucceeded($form, $values = null)
     {
         $user_id = $this->user->getId();
-        if(!$values)
+        if(!$values) /**   */
         {
-            $values = $form->getValues();
+            $values = $form->getValues(); /** Get values from the form */
         }
 
         $values->users_id = $user_id;
         $id = $values->id;
 
-        $this->clientRepository->updateClientById($id, (array)$values);
+        $this->clientRepository->updateClientById($id, (array)$values); /** update data in database */
     }
 }

@@ -33,7 +33,7 @@ class ProfileManager
     {
         if($this->userRepository->getUserByEmail($values->email))
         {
-            if($this->userRepository->getUserEmailById($this->user->getId()) != $values->email)
+            if($this->userRepository->getUserEmailById($this->user->getId()) != $values->email) /** Check email to see if it already exists */
             {
                 $form["email"]->addError("Tento email se už používá.");
             }
@@ -49,9 +49,10 @@ class ProfileManager
             $new_email = 1;
             $values->hash = $this->userManager->createHash($values->email);
             $values->hash_validity = $this->userManager->createHashValidity();
-            $data = ["status" => "new", "email_verification" => null];
+            $data = ["status" => "new", "email_verification" => null]; /** set the status to new so that it cannot log on */
             $this->userRepository->updateProfile($id, $data);
 
+            /**  Prepare e-mail */
             $subject = 'Ověření e-mailové adresy';
             $body = 'verificationAccountTemplate.latte';
             $params = [

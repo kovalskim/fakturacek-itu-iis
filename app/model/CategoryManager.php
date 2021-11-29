@@ -1,6 +1,6 @@
 <?php
 
-/** Author: Dalibor Kyjovský */
+/** Author: Dalibor Kyjovský, Radek Jůzl */
 
 namespace App\model;
 
@@ -29,7 +29,7 @@ class CategoryManager
      */
     public function deleteCategory($id)
     {
-        if($this->categoryRepository->getExpensesCountByCategoryId($id) == 0)
+        if($this->categoryRepository->getExpensesCountByCategoryId($id) == 0) /** If this category is used */
         {
             $this->categoryRepository->deleteCategoryByUserId($id);
         }
@@ -45,7 +45,7 @@ class CategoryManager
         {
             $values = $form->getValues();
         }
-        if($this->categoryRepository->getCategoryName($values->name))
+        if($this->categoryRepository->getCategoryName($values->name)) /** Check if this category already exists */
         {
             $form["name"]->addError("Tato kategorie existuje");
         }

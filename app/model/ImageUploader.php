@@ -1,6 +1,6 @@
 <?php
 
-/** Author: Radek Jůzl, Dalibor Kyjovský */
+/** Author: Radek Jůzl */
 
 namespace App\model;
 
@@ -26,15 +26,12 @@ class ImageUploader
     /** @var SettingInvoicesRepository */
     private $settingInvoicesRepository;
 
-    /** @var ExpensesRepository */
-    private $expensesRepository;
 
-    public function __construct(UserRepository $userRepository, User $user, SettingInvoicesRepository $settingInvoicesRepository, ExpensesRepository $expensesRepository )
+    public function __construct(UserRepository $userRepository, User $user, SettingInvoicesRepository $settingInvoicesRepository)
     {
         $this->userRepository = $userRepository;
         $this->user = $user;
         $this->settingInvoicesRepository = $settingInvoicesRepository;
-        $this->expensesRepository = $expensesRepository;
     }
 
     /**
@@ -53,11 +50,14 @@ class ImageUploader
         return $loadImg;
     }
 
+    /**
+     * The function crops the image of the avatar to a profile
+     */
     private function editImg($img): Image
     {
         $height = $img->getHeight();
         $width = $img->getWidth();
-        if($height >= $width)
+        if($height >= $width) /** The photo is portrait */
         {
             $new_height = 100 - ((100 * ($height - $width) ) / $height);
             $new_height = $new_height . '%';
@@ -65,7 +65,7 @@ class ImageUploader
             $img->crop('0%', '50%','100%', $new_height);
             $img->resize(null, 720, Image::SHRINK_ONLY);
         }
-        else
+        else /** The photo is landscape */
         {
             $new_width = 100 - ((100 * ($width - $height) ) / $width);
             $new_width = $new_width . '%';
@@ -97,8 +97,8 @@ class ImageUploader
         while($end == 1)
         {
             $end = 0;
-            $name = Random::generate(10, '0-9A-Z').".jpeg";
-            foreach (Finder::findFiles($name)->in("../www/".$nameFolder."/") as $key => $file)
+            $name = Random::generate(10, '0-9A-Z').".jpeg"; /** Generate random name file*/
+            foreach (Finder::findFiles($name)->in("../www/".$nameFolder."/") as $key => $file) /** Check that such a name is not in the folder */
             {
                 $end = 1;
             }
@@ -106,6 +106,9 @@ class ImageUploader
         return $name;
     }
 
+    /**
+     * Save avatar and delete old avatar
+     */
     private function saveAvatar($form, $values, $name, $img)
     {
         $values->avatar_path = "www/avatars/".$name;
@@ -129,11 +132,11 @@ class ImageUploader
         $user_id = $this->user->getId();
         $vat = $values->vat ?? null;
         $this->userRepository->updateUserVat($user_id, $vat);
-        if(isset($values->variable_symbol))
+        if(isset($values->variable_symbol)) /** Save data with variable symbol */
         {
             $data = ["account_number" => $values->account_number, "variable_symbol" => $values->variable_symbol, "vat_note" => $values->vat_note, "footer_note" => $values->footer_note, "logo_path" => $values->logo_path];
         }
-        else
+        else /** Save data without variable symbol */
         {
             $data = ["account_number" => $values->account_number, "vat_note" => $values->vat_note, "footer_note" => $values->footer_note, "logo_path" => $values->logo_path];
         }
@@ -154,6 +157,7 @@ class ImageUploader
      */
     public function uploadImgFormSucceeded($form, $values, $type)
     {
+        /** Classification by type */
         if($type == "avatars")
         {
             $path = $values->avatar_path;
@@ -173,7 +177,7 @@ class ImageUploader
 
         try
         {
-            $loadImg = $this->loadImg($path);
+            $loadImg = $this->loadImg($path); /** Load image */
         }
         catch (Exception $e)
         {
@@ -200,6 +204,7 @@ class ImageUploader
 
     /**
      * @throws Exception
+     * The function for saving changes image in expenses
      */
     public function uploadImgEditFormSucceeded($img): string
     {

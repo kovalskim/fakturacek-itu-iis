@@ -31,6 +31,9 @@ class SettingInvoicesManager
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * The function checks if it is a real bank account
+     */
     public function settingInvoicesFormValidate($form, $values)
     {
         $account_number = $values->account_number;
@@ -148,7 +151,7 @@ class SettingInvoicesManager
         else
         {
             $user_id = $this->user->getId();
-            if(!(isset($values->variable_symbol)))
+            if(!(isset($values->variable_symbol))) /** If a variable symbol is specified because it can be blocked  */
             {
                 $data = $this->settingInvoicesRepository->selectAll($user_id);
                 $variable = $data->variable_symbol;
@@ -157,7 +160,7 @@ class SettingInvoicesManager
             {
                 $variable = $values->variable_symbol;
             }
-            $data = ["account_number" => $values->account_number, "variable_symbol" => $variable, "vat_note" => $values->vat_note, "footer_note" => $values->footer_note];
+            $data = ["account_number" => $values->account_number, "variable_symbol" => $variable, "vat_note" => $values->vat_note, "footer_note" => $values->footer_note]; /** Prepare value for storage */
             if($values->vat_note == 0)
             {
                 $values->vat = null;

@@ -93,7 +93,7 @@ class DatagridManager
         {
             $builder->andWhere('role = %s', 'admin');
         }
-        elseif($this->presenter_params[1] == 'Users')
+        elseif($this->presenter_params[1] == 'Users') /** Joins between tables */
         {
             $builder->select('*, users.id as id, users_last_password_change.timestamp as password_timestamp, users_last_login.timestamp as login_timestamp');
             $builder->joinLeft('users_last_password_change', 'users.id = users_last_password_change.users_id');
@@ -106,7 +106,6 @@ class DatagridManager
             $builder->select("*, expenses.id as id, expenses.users_id as users_id, categories.users_id as cat_users_id");
             $builder->joinLeft("categories", "expenses.expenses_cat_id = categories.cat_id");
             $builder->andWhere('expenses.users_id = %i', $user_id);
-            //$builder->andWhere('categories.users_id = %i', $user_id);
         }
         elseif($this->presenter_params[1] == 'Invoicing')
         {

@@ -26,11 +26,11 @@ class TextsManager
     {
         $img_aboutus = null;
         $img_contact = null;
-        if($values->img_aboutus->error == 0)
+        if($values->img_aboutus->error == 0) /** If an image has been uploaded */
         {
             try
             {
-                $img_aboutus = Image::fromFile($values->img_aboutus);
+                $img_aboutus = Image::fromFile($values->img_aboutus); /** Load image */
             }
             catch (ImageException $e)
             {
