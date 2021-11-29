@@ -117,6 +117,8 @@ class LogInFormFactory
     {
         $form = $this->formFactory->create();
 
+        $form->setHtmlAttribute('class', 'ajax');
+
         $form->addHidden('token');
 
         $form->addPassword('password', 'Nové heslo:')
@@ -204,6 +206,8 @@ class LogInFormFactory
     public function createUploadAvatarForm(): Form
     {
         $form = $this->formFactory->create();
+
+        $form->setHtmlAttribute('class', 'ajax');
 
         $form->addUpload('avatar_path')
             ->addRule($form::IMAGE, 'Avatar musí být JPEG, PNG, GIF or WebP.')
