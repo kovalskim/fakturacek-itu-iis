@@ -67,7 +67,7 @@ final class ClientsPresenter extends BasePresenter
         {
             if($this->aresManager->verificationCin($values->cin) != 0) /** Find out if the CIN exists */
             {
-                $form["cin"]->addError("Toto IČ neexistuje.");
+                $form["cin"]->addError("Toto IČ neexistuje");
             }
             $this->redrawControl('clientForm');
         }

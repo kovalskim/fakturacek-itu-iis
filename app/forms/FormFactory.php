@@ -16,7 +16,7 @@ class FormFactory
     public function create(): Form
     {
         $form = new Form();
-        $form->addProtection('Vaše relace vypršela. Vraťte se na domovskou stránku a zkuste to znovu.');
+        $form->addProtection('Vaše relace vypršela, vraťte se na domovskou stránku a zkuste to znovu');
         $form->setHtmlAttribute('novalidate');
 
         $form->setRenderer(new Bs4FormRenderer(FormLayout::INLINE));

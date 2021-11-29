@@ -34,20 +34,20 @@ class ClientsManager
 
         if((!(is_numeric($values->zip))) or (strlen($values->zip) != 5)) /** check zip */
         {
-            $form["zip"]->addError("PSČ má špatný formát.");
+            $form["zip"]->addError("PSČ má špatný formát");
         }
 
         if($values->cin != null)
         {
             if((!(is_numeric($values->cin))) or (strlen($values->cin) != 8)) /** Check cin */
             {
-                $form["cin"]->addError("Toto IČ neexistuje.");
+                $form["cin"]->addError("Toto IČ neexistuje");
             }
             else
             {
                 if($this->aresManager->verificationCin($values->cin) != 0)
                 {
-                    $form["cin"]->addError("Toto IČ neexistuje.");
+                    $form["cin"]->addError("Toto IČ neexistuje");
                 }
 
             }

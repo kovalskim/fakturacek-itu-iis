@@ -50,11 +50,11 @@ class ExpensesManager
             $type = $values->img->getContentType();
             if($type != "image/png" and $type != "image/jpeg" and $type != "image/gif" and $type != "image/webp") /** Check if it is the correct type  */
             {
-                $form["img"]->addError("Obrázek musí být JPEG, PNG, GIF or WebP.");
+                $form["img"]->addError("Obrázek musí být JPEG, PNG, GIF or WebP");
             }
             elseif($values->img->size > (1024*1024*5)) /** Max. 5 MB */
             {
-                $form["img"]->addError("Maximální velikost je 5 MB.");
+                $form["img"]->addError("Maximální velikost je 5 MB");
             }
         }
     }

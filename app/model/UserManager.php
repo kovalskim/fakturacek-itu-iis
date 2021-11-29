@@ -99,18 +99,18 @@ class UserManager
 
         if($this->userRepository->getUserByEmail($email)) /** Check email to see if it already exists */
         {
-            $form["email"]->addError("Tento email se už používá.");
+            $form["email"]->addError("Tento email se už používá");
         }
         if($this->userRepository->getUserByCin($cin)) /** Check cin to see if it already exists */
         {
-            $form["cin"]->addError("Toto IČ se už používá.");
+            $form["cin"]->addError("Toto IČ se už používá");
         }
 
         if(strlen($cin) >= 8)
         {
             if($this->aresManager->verificationCin($cin) != 0) /** Check cin in Ares */
             {
-                $form["cin"]->addError("Toto IČ neexistuje.");
+                $form["cin"]->addError("Toto IČ neexistuje");
             }
         }
 
@@ -378,7 +378,7 @@ class UserManager
         }
         else
         {
-            throw new Exception('Takový e-mail neexistuje.');
+            throw new Exception('Takový e-mail neexistuje');
         }
     }
 }

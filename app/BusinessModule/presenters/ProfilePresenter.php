@@ -4,7 +4,6 @@
 
 namespace App\BusinessModule\presenters;
 
-
 use App\forms\LogInFormFactory;
 use App\model\ProfileManager;
 use App\model\ImageUploader;
@@ -76,10 +75,8 @@ final class ProfilePresenter extends BasePresenter
     }
 
     /**
-     * The function detects whether the e-mail has changed - sends a verification e-mail and logs out the user
-     */
-    /**
      * @throws AbortException
+     * The function detects whether the e-mail has changed - sends a verification e-mail and logs out the user
      */
     public function editProfileFormSucceeded($form, $values)
     {
@@ -88,7 +85,7 @@ final class ProfilePresenter extends BasePresenter
         {
             $this->session->destroy();
             $this->user->logout();
-            $this->flashMessage('Ověř si nový e-mail a přihlaš se s ním!');
+            $this->flashMessage('Je potřeba ověřit e-mail a následně se s ním přihlásit');
             $this->redirect(':Public:Homepage:default');
         }
 
@@ -145,10 +142,8 @@ final class ProfilePresenter extends BasePresenter
     }
 
     /**
-     * Function that deletes the avatar. It is called via a handle.
-     */
-    /**
      * @throws AbortException
+     * Function that deletes the avatar. It is called via a handle.
      */
     public function handleDeleteAvatar(): void
     {

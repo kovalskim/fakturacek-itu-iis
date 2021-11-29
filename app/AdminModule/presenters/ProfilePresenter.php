@@ -89,7 +89,7 @@ final class ProfilePresenter extends BasePresenter
         if ($new_email) {
             $this->session->destroy(); /** delete session */
             $this->user->logout(); /** Log out user */
-            $this->flashMessage('Ověř si nový e-mail a přihlaš se s ním');
+            $this->flashMessage('Je potřeba ověřit e-mail a následně se s ním přihlásit');
             $this->redirect(':Public:Homepage:default');
         }
 

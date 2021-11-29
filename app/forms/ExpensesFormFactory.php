@@ -49,8 +49,8 @@ class ExpensesFormFactory
             ->setHtmlAttribute('placeholder', 'Datum zaplacení');
 
         $form->addUpload('path', 'Doklad:*')
-            ->addRule($form::IMAGE, 'Obrázek musí být JPEG, PNG, GIF or WebP.')
-            ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB.', 1024 * 1024 * 5)
+            ->addRule($form::IMAGE, 'Obrázek musí být JPEG, PNG, GIF or WebP')
+            ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB', 1024 * 1024 * 5)
             ->setRequired();
 
         $form->addSubmit('addExpenses', 'Přidat výdaj');

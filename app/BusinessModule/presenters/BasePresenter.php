@@ -9,6 +9,7 @@ use Nette\Application\AbortException;
 use Nette\Application\UI\Presenter;
 use Nette\Http\Session;
 use Nette\Security\User;
+use Nette\Security\UserStorage;
 use Nextras\Application\UI\SecuredLinksPresenterTrait;
 use Nextras\Dbal\Connection;
 
@@ -50,8 +51,8 @@ abstract class BasePresenter extends Presenter
         parent::startup();
         if(!($this->user->isLoggedIn()))
         {
-            if($this->user->getLogoutReason() === \Nette\Security\UserStorage::LOGOUT_INACTIVITY) {
-                $this->flashMessage('Byl jste odhlášen z důvodu neaktivity. Prosím, přihlašte se znovu.');
+            if($this->user->getLogoutReason() === UserStorage::LOGOUT_INACTIVITY) {
+                $this->flashMessage('Proběhlo odhlášení z důvodu neaktivity, prosím, přihlaste se znovu');
                 $this->redirect(':Public:Homepage:default');
             }
 

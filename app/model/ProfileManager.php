@@ -35,7 +35,7 @@ class ProfileManager
         {
             if($this->userRepository->getUserEmailById($this->user->getId()) != $values->email) /** Check email to see if it already exists */
             {
-                $form["email"]->addError("Tento email se už používá.");
+                $form["email"]->addError("Tento email se už používá");
             }
         }
     }

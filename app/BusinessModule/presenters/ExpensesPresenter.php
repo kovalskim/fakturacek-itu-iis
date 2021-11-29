@@ -69,7 +69,6 @@ final class ExpensesPresenter extends BasePresenter
 
     public function renderDefault()
     {
-
         $this->template->modalData = $this->expensesRepository->getDataForModal($this->user->getId());
     }
 
@@ -240,7 +239,7 @@ final class ExpensesPresenter extends BasePresenter
     public function deleteExpense($primary)
     {
         $this->expensesManager->deleteExpense($primary);
-        $this->flashMessage('Výdaj byl vymazán.', 'success');
+        $this->flashMessage('Výdaj byl vymazán', 'success');
         $this->redrawControl('flashes');
     }
 }

@@ -46,7 +46,7 @@ final class ChangePasswordPresenter extends BasePresenter
         try
         {
             $this->userManager->changePasswordFormSucceeded($form, $values);
-            $this->flashMessage('Heslo bylo úspěšně změněno.', 'success');
+            $this->flashMessage('Heslo bylo úspěšně změněno', 'success');
         }
         catch (Exception $e)
         {

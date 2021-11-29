@@ -155,7 +155,7 @@ class LogInFormFactory
         $form->addPassword('password_again', 'Nové heslo znovu')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Nové heslo znovu')
-            ->addRule($form::EQUAL, 'Hesla se neshodují.', $form['password'])
+            ->addRule($form::EQUAL, 'Hesla se neshodují', $form['password'])
             ->setOmitted();
 
         $form->addSubmit('change', 'Změnit heslo');
@@ -210,8 +210,8 @@ class LogInFormFactory
         $form->setHtmlAttribute('class', 'ajax');
 
         $form->addUpload('avatar_path')
-            ->addRule($form::IMAGE, 'Avatar musí být JPEG, PNG, GIF or WebP.')
-            ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB.', 1024 * 1024 * 5)
+            ->addRule($form::IMAGE, 'Avatar musí být JPEG, PNG, GIF or WebP')
+            ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB', 1024 * 1024 * 5)
             ->setRequired();
 
         $form->addSubmit('send', 'Nahrát fotku');

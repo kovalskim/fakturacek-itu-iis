@@ -7,8 +7,6 @@ namespace App\BusinessModule\presenters;
 use Nette\Security\User;
 use App\repository\StatisticsRepository;
 
-
-
 final class StatisticsPresenter extends BasePresenter
 {
 

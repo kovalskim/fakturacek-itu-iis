@@ -55,7 +55,7 @@ final class RegistrationPresenter extends BasePresenter
     public function registrationFormSucceeded($form, $values)
     {
         $this->userManager->registrationFormSucceeded($form, $values);
-        $this->flashMessage("Registrace se povedla", "success");
+        $this->flashMessage("Registrace byla úspěšná", "success");
         $this->redirect(":Public:Homepage:default");
     }
 }
