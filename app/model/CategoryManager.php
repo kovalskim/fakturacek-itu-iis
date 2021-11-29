@@ -24,27 +24,19 @@ class CategoryManager
     }
 
 
+    /**
+     * @throws Exception
+     */
     public function deleteCategory($id)
     {
-        $categories_id = $this->connection->query("SELECT `expenses`.`categories_id` FROM `expenses`")->fetchall();
-        $test = 0;
-
-
-        foreach ($categories_id as $used_id) {
-            if ($used_id->categories_id == $id) {
-                $test++;
-            }
-
-        }
-        
-        if($test == 0)
+        if($this->categoryRepository->getExpensesCountByCategoryId($id) == 0)
         {
             $this->categoryRepository->deleteCategoryByUserId($id);
         }
-        else {
-            return 1;
+        else
+        {
+           throw new Exception("Kategorie je používaná");
         }
-
     }
 
     public function editCategoryFormValidate($form, $values = null)
@@ -63,9 +55,7 @@ class CategoryManager
             $values = $form->getValues();
         }
 
-        $id = $values->id;
-
-        $this->categoryRepository->updateCategoryById($id, (array)$values);
+        $this->categoryRepository->updateCategoryById($values->cat_id, (array)$values);
     }
 }
 

@@ -20,28 +20,15 @@ class CategoryFormFactory
     {
         $form = $this->formFactory->create();
 
+        $form->setHtmlAttribute("class", "ajax");
+
         $form->addText('name', 'Kategorie:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Kategorie')
             ->setHtmlAttribute('autofocus');
 
-        $form->addSubmit('addExpenses', 'Přidat');
+        $form->addSubmit('addCategory', 'Přidat kategorii');
 
         return $form;
     }
-
-    public function createEditCategoryForm(): Form
-    {
-        $form = $this->formFactory->create();
-
-        $form->addText('name', 'Název:')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Název')
-            ->setHtmlAttribute('autofocus');
-
-        $form->addSubmit('addExpenses', 'Upravit');
-
-        return $form;
-    }
- 
 }
