@@ -4,7 +4,9 @@
     <div class="row">
         <h1 n:block=title>Změna hesla</h1>
         <div class="col-lg-6">
-            {control changePasswordForm}
+            {snippet changePasswordForm}
+                {control changePasswordForm}
+            {/snippet}
         </div>
     </div>
 {/block}

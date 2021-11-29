@@ -140,6 +140,8 @@ class LogInFormFactory
     {
         $form = $this->formFactory->create();
 
+        $form->setHtmlAttribute('class', 'ajax');
+
         $form->addPassword('old_password', 'Staré heslo:')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Staré heslo')

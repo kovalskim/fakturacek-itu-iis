@@ -42,6 +42,7 @@ final class ChangePasswordPresenter extends BasePresenter
      */
     public function changePasswordFormSucceeded($form, $values)
     {
+        $error = 0;
         try
         {
             $this->userManager->changePasswordFormSucceeded($form, $values);
@@ -49,8 +50,23 @@ final class ChangePasswordPresenter extends BasePresenter
         }
         catch (Exception $e)
         {
+            $error = 1;
             $this->flashMessage($e->getMessage(), 'danger');
+            if($this->isAjax())
+            {
+                $this->redrawControl('flashes');
+                $form->reset();
+                $this->redrawControl('changePasswordForm');
+            }
+            else
+            {
+                $this->redirect('this');
+            }
         }
-        $this->redirect('this');
+
+        if(!$error)
+        {
+            $this->redirect(':Admin:Profile:default');
+        }
     }
 }
