@@ -180,15 +180,9 @@ final class HomepagePresenter extends BasePresenter
      */
     public function newPasswordFormSucceeded($form, $values)
     {
-        try
-        {
-            $this->userManager->newPasswordFormSucceeded($form, $values);
-            $this->flashMessage('Heslo bylo změněno', 'success');
-        }
-        catch (Exception $e)
-        {
-            $this->flashMessage($e->getMessage(), 'danger');
-        }
+
+        $this->userManager->newPasswordFormSucceeded($form, $values);
+        $this->flashMessage('Heslo bylo změněno', 'success');
         $this->redirect(':Public:Homepage:default');
     }
 

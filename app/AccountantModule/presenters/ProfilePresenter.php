@@ -115,18 +115,31 @@ final class ProfilePresenter extends BasePresenter
      */
     public function uploadAvatarFormSucceeded($form, $values)
     {
+        $error = 0;
         try
         {
             $this->imageUploader->uploadImgFormSucceeded($form,$values, "avatars");
         }
         catch (Exception $e)
         {
+            $error = 1;
             $this->flashMessage($e->getMessage(), 'danger');
-            $this->redirect(":Accountant:Profile:default");
+            if($this->isAjax())
+            {
+                $this->redrawControl("uploadAvatarForm");
+                $this->redrawControl("flashes");
+            }
+            else
+            {
+                $this->redirect("this");
+            }
         }
 
-        $this->flashMessage("Avatar se nahrál", "success");
-        $this->redirect(":Accountant:Profile:default");
+        if(!$error)
+        {
+            $this->flashMessage("Avatar se nahrál", "success");
+            $this->redirect(":Accountant:Profile:default");
+        }
     }
 
     /**

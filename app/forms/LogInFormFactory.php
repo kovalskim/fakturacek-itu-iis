@@ -117,8 +117,6 @@ class LogInFormFactory
     {
         $form = $this->formFactory->create();
 
-        $form->setHtmlAttribute('class', 'ajax');
-
         $form->addHidden('token');
 
         $form->addPassword('password', 'Nové heslo:')
