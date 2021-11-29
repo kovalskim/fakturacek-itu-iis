@@ -129,7 +129,7 @@
         </div>
 
         <!-- JS scripts -->
-        <script src="{$basePath}/ckeditor5/build/ckeditor.js"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/31.0.0/classic/ckeditor.js"></script>
         <script>
             function textAreaAdjust(element) {
                 element.style.height = "1px";
@@ -145,16 +145,6 @@
             for (let i = 0; i < w_elements.length; i++) {
                 ClassicEditor
                     .create( w_elements[i], {
-                        highlight: {
-                            options: [
-                                {
-                                    model: 'marker',
-                                    color: '#f0e0b7',
-                                    type: 'marker'
-                                }
-                            ]
-                        },
-
                         toolbar: {
                             items: [
                                 'undo',
@@ -167,9 +157,7 @@
                                 'link',
                                 '|',
                                 'bulletedList',
-                                'numberedList',
-                                '|',
-                                'highlight'
+                                'numberedList'
                             ]
                         },
                         language: 'cs',
