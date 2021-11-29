@@ -12,6 +12,7 @@ use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
+use Nette\Utils\DateTime;
 use Nette\Utils\FileSystem;
 use Nextras\Datagrid\Datagrid;
 use App\model\ExpensesManager;
@@ -61,6 +62,9 @@ final class ExpensesPresenter extends BasePresenter
         $user_id = $this->user->getId();
         $this->defaultCategories = $this->categoryRepository->selectAllCategoryById($user_id);
         $this->getComponent("addExpensesForm")->getComponent('expenses_cat_id')->setItems($this->defaultCategories);
+        $today = new DateTime();
+        $today = $today->format('Y-m-d');
+        $this->getComponent('addExpensesForm')->setDefaults(['datetime' => $today]);
     }
 
     public function renderDefault()
