@@ -126,6 +126,7 @@ final class ExpensesPresenter extends BasePresenter
         $grid->addColumn('items', 'Název položky');
         $grid->addColumn('price', 'Cena');
         $grid->addColumn('cat_id', 'Kategorie');
+        $grid->addColumn("img", "Detail");
 
         $grid->setFilterFormFactory([$this, 'datagridFilterFormFactory']);
         $grid->setEditFormFactory([$this, 'datagridEditFormFactory']);
@@ -193,6 +194,8 @@ final class ExpensesPresenter extends BasePresenter
             ->setPrompt("-- Výchozí --")
             ->setHtmlAttribute('class', 'form-control');
 
+        $form->addUpload('img', 'Doklad:*');
+
         $form->addSubmit('save', 'Uložit');
         $form->addSubmit('cancel', 'Zrušit');
 
@@ -211,9 +214,19 @@ final class ExpensesPresenter extends BasePresenter
         $this->expensesManager->expensesFormValidate($form);
     }
 
+    /**
+     * @throws Exception
+     */
     public function editFormSucceeded(Container $form)
     {
-        $this->expensesManager->editExpenseFormSucceeded($form);
+        try
+        {
+            $this->expensesManager->editExpenseFormSucceeded($form);
+        }
+        catch (Exception $e)
+        {
+            $this->flashMessage($e->getMessage(), 'danger');
+        }
 
         $this->flashMessage('Uloženo', 'success');
         $this->redrawControl('modal');

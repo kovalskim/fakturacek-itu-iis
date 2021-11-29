@@ -89,7 +89,7 @@ class ImageUploader
         {
             $nameFolder = "logo";
         }
-        elseif($type == "expenses")
+        elseif($type == "expenses" or $type == "edit")
         {
             $nameFolder = "expenses";
         }
@@ -196,5 +196,25 @@ class ImageUploader
             $name = $this->generateNameImg($type);
             $this->saveExpenses($form, $values, $name, $loadImg);
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function uploadImgEditFormSucceeded($img): string
+    {
+        try
+        {
+            $loadImg = $this->loadImg($img);
+        }
+        catch (Exception $e)
+        {
+            throw new Exception('Obrázek nebyl nahrán');
+        }
+        $name = $this->generateNameImg("edit");
+        $path = "www/expenses/".$name;
+        $loadImg->save('../'.$path);
+
+        return $path;
     }
 }

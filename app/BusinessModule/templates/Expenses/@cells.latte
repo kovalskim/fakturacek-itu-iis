@@ -1,8 +1,11 @@
 <!-- Author: Dalibor Kyjovský -->
 {define row-actions}
-    <button type="button" class="btn btn-primary btn-sm mt-1" data-bs-toggle="modal" data-bs-target="#modal{$row->id}">Detail</button>
     <a href="{link edit! $primary}" class="ajax btn btn-sm btn-primary mt-1">Upravit</a>
     <a href="{link deleteExpense! $primary}" class="ajax btn btn-sm btn-danger mt-1">Vymazat</a>
+{/define}
+
+{define cell-img}
+    <button type="button" class="btn btn-primary btn-sm mt-1" data-bs-toggle="modal" data-bs-target="#modal{$row->id}">Detail</button>
 {/define}
 
 {define cell-price}
