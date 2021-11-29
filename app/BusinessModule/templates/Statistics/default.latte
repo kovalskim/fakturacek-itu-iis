@@ -1,94 +1,78 @@
 {block content}
-    <style>
-        #chart_wrap {
-            position: relative;
-            padding-bottom: 100%;
-            height: 0;
-            overflow:hidden;
-        }
-
-        #chart_div, #chart_div_last {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width:100%;
-            height:100%;
-        }
-    </style>
 <div class="row">
     <h1 n:block=title>Statistiky</h1>
     <div class="col-sm-6 text-center">
-                {if $revenues > 0 or $expenses > 0}
-                    <div id="chart_wrap">
-                        <div id="chart_div"></div>
-                    </div>
-                {else}
-                    <p>Prozatím nejsou k zobrazení žádná data.</p>
-                {/if}
+        {if $revenues > 0 or $expenses > 0}
+            <div id="chart_wrap">
+                <div id="chart_div"></div>
+            </div>
+        {else}
+            <p>Prozatím nejsou k zobrazení žádná data.</p>
+        {/if}
 
     </div>
     <div class="col-sm-6 text-center">
-                {if $revenues > 0 or $expenses > 0}
-                    <div id="chart_wrap">
-                        <div id="chart_div_last"></div>
-                    </div>
-                {else}
-                    <p>Prozatím nejsou k zobrazení žádná data.</p>
-                {/if}
+        {if $revenues > 0 or $expenses > 0}
+            <div id="chart_wrap">
+                <div id="chart_div_last"></div>
+            </div>
+        {else}
+            <p>Prozatím nejsou k zobrazení žádná data.</p>
+        {/if}
     </div>
 </div>
 
 
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load("current", { packages:["corechart"] } );
-        google.charts.setOnLoadCallback(drawChart);
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load("current", { packages:["corechart"] } );
+    google.charts.setOnLoadCallback(drawChart);
 
-        function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Transakce', 'Objem'],
-                ['Příjmy', parseInt({$revenues})],
-                ['Výdaje', parseInt({$expenses})]
-            ]);
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Transakce', 'Objem'],
+            ['Příjmy', parseInt({$revenues})],
+            ['Výdaje', parseInt({$expenses})]
+        ]);
 
-            var options = {
-                title: 'Celkové příjmy vs.výdaje',
-                is3D: true,
-            };
+        var options = {
+            title: 'Celkové příjmy vs.výdaje',
+            is3D: true,
+        };
 
-            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
 
-            var data_last = google.visualization.arrayToDataTable([
-                ['Transakce', 'Objem'],
-                ['Příjmy', parseInt({$sumRevenuesLast30})],
-                ['Výdaje', parseInt({$sumExpensesLast30})]
-            ]);
+        var data_last = google.visualization.arrayToDataTable([
+            ['Transakce', 'Objem'],
+            ['Příjmy', parseInt({$sumRevenuesLast30})],
+            ['Výdaje', parseInt({$sumExpensesLast30})]
+        ]);
 
-            var options = {
-                title: 'Přijmy vs. výdaje za posledních 30 dní',
-                is3D: true,
-            };
+        var options_last = {
+            title: 'Přijmy vs. výdaje za posledních 30 dní',
+            is3D: true,
+        };
 
-            var chartLast = new google.visualization.PieChart(document.getElementById('chart_div_last'));
-            chartLast.draw(data_last, options);
+        var chartLast = new google.visualization.PieChart(document.getElementById('chart_div_last'));
+        chartLast.draw(data_last, options_last);
 
-        }
+    }
 
-            $(window).on("throttledresize", function (event) {
-                var options = {
-                    width: '50%',
-                    height: '50%'
-                };
+    $(window).on("throttledresize", function (event) {
+        var options = {
+            width: '50%',
+            height: '50%'
+        };
 
-                var data = google.visualization.arrayToDataTable([]);
-                drawChart(data, options);
+        var data = google.visualization.arrayToDataTable([]);
+        drawChart(data, options);
 
-                var data_last = google.visualization.arrayToDataTable([]);
-                drawChart(data_last, options);
-            });
-      
-    </script>
+        var data_last = google.visualization.arrayToDataTable([]);
+        drawChart(data_last, options);
+    });
+
+</script>
 {/block}
 
  
