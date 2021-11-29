@@ -1,9 +1,8 @@
 <?php
 
-namespace App\model;
-
-
 /** Author: Dalibor Kyjovský */
+
+namespace App\model;
 
 use App\repository\CategoryRepository;
 use Nextras\Dbal\Connection;

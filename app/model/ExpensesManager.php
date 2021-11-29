@@ -1,8 +1,8 @@
 <?php
 
-namespace App\model;
-
 /** Author: Dalibor Kyjovský */
+
+namespace App\model;
 
 use App\repository\ExpensesRepository;
 use App\model\UserManager;

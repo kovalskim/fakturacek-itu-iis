@@ -1,8 +1,8 @@
 <?php
 
-namespace App\model;
-
 /** Author: Martin Kovalski, Radek Jůzl, Dalibor Kyjovský */
+
+namespace App\model;
 
 use Nette\Security\User;
 use Nette\Utils\Paginator;
