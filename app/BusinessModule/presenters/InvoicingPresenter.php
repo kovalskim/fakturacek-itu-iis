@@ -232,9 +232,14 @@ final class InvoicingPresenter extends BasePresenter
 
         if($id)
         {
-            //tODO: check jestli je to jeho fa
             $form = $this->getComponent('createInvoiceForm');
             $data = $this->invoicingRepository->getInvoiceDataById($id);
+
+            if($user_id != $data->users_id)
+            {
+                $this->flashMessage('Fakturu se nepovedlo načíst', 'danger');
+                $this->redirect(':Business:Invoicing:newInvoice');
+            }
             $default = [
                 'id' => $data->client_id,
                 'name' => $data->client_name,
@@ -250,8 +255,7 @@ final class InvoicingPresenter extends BasePresenter
             $form->setDefaults($default);
 
             $items = $this->invoicingRepository->getInvoiceItemsById($id);
-            $form_multiplier = $form->getComponent('multiplier')->setValues($items);
-            $form->setDefaults($items);
+            $form->getComponent('multiplier')->setValues($items);
         }
     }
 
