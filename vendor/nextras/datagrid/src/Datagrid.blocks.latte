@@ -119,7 +119,7 @@
 					{formContainer edit}
 						{input $column->name}
 						{if $form[edit][$column->name]->hasErrors()}
-							<p class="error" n:foreach="$form[edit][$column->name]->getErrors() as $error">{$error}</p>
+							<p class="error" n:foreach="$form[edit][$column->name]->getErrors() as $error"><span class="invalid-feedback d-block">{$error}</span></p>
 						{/if}
 					{/formContainer}
 				{/ifset}
