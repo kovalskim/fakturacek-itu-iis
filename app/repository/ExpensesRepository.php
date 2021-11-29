@@ -1,6 +1,6 @@
 <?php
 
-/** Author: Dalibor Kyjovský */
+/** Author: Dalibor Kyjovský, Radek Jůzl */
 
 namespace App\repository;
 
@@ -17,12 +17,7 @@ class ExpensesRepository extends AllRepository
 
     public function deleteExpensesByUserId($id)
     {
-        $this->connection->query("DELETE FROM %table WHERE `expenses`.`id` = %i", $this->table, $id);
-    }
-
-    public function editExpensesByUserId($id, $path, $categories_id, $items, $price)
-    {
-        $this->connection->query("DELETE FROM %table WHERE `expenses`.`id` = %i", $this->table, $id);
+        $this->connection->query("DELETE FROM %table WHERE id = %i", $this->table, $id);
     }
 
     public function updateImg($values, $expenses_id)
@@ -36,14 +31,8 @@ class ExpensesRepository extends AllRepository
         $this->connection->query('UPDATE %table SET %set WHERE id = %i', $this->table, $values, $id);
     }
 
-    public function getLastExpenseId(): ?Row
+    public function getPathById($id)
     {
-        return $this->connection->query('SELECT expenses.id FROM expenses ORDER BY expenses.id DESC LIMIT 1;')->fetch();
+        return $this->connection->query("SELECT path FROM %table WHERE id = %i", $this->table, $id)->fetchField();
     }
-
-    public function getPathById($id): ?Row
-    {
-        return $this->connection->query('SELECT expenses.path FROM `expenses` WHERE expenses.id = %i;', $id)->fetch();
-    }
-
 }

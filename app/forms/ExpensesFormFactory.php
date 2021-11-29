@@ -1,6 +1,6 @@
 <?php
 
-/** Author: Dalibor Kyjovský */
+/** Author: Dalibor Kyjovský, Radek Jůzl */
 
 namespace App\forms;
 
@@ -23,68 +23,38 @@ class ExpensesFormFactory
 
     public function createExpensesForm(): Form
     {
-        
-        $array = array();
-        $categories = $this->connection->query('SELECT * FROM categories')->fetchall();
-
-        foreach ($categories as $row) {
-            $array[$row->id] = $row->name;
-        }
 
         $form = $this->formFactory->create();
 
-        $form->addText('items', 'Položka:')
+        $form->setHtmlAttribute('class', 'ajax');
+
+        $form->addText('items', 'Položka:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Položka')
             ->setHtmlAttribute('autofocus');
 
-        $form->addInteger('price', 'Cena')
+        $form->addText('price', 'Cena:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Cena')
-            ->setHtmlAttribute('autofocus');   
+            ->addRule($form::FLOAT, 'Není peněžní hodnota')
+            ->addRule($form::MIN, 'Minimální částka je %d', 0);
 
-
-        $form->addSelect('categories_id', 'Kategorie', $array)
+        $form->addSelect('expenses_cat_id', 'Kategorie:*')
             ->setHtmlAttribute('placeholder', 'Kategorie')
-            ->setHtmlAttribute('autofocus')
-            ->setPrompt('--- Kategorie ---');
+            ->setPrompt('-- Výchozí --');
 
-        $form->addText('datetime', 'Datum')
+        $form->addText('datetime', 'Datum zaplacení:*')
             ->setType('date')
             ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Položka')
-            ->setHtmlAttribute('autofocus');
+            ->setHtmlAttribute('placeholder', 'Datum zaplacení');
 
-        $form->addUpload('path', 'Doklad:')
-            ->addRule($form::MIME_TYPE, 'Doklad musí být, JPEG, PNG, GIF or WebP.', 'image/gif,image/webp,image/png,image/jpeg') //application/x-pdf,application/pdf,
+        $form->addUpload('path', 'Doklad:*')
+            ->addRule($form::IMAGE, 'Logo musí být JPEG, PNG, GIF or WebP.')
             ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 5 MB.', 1024 * 1024 * 5)
             ->setRequired();
 
-        $form->addSubmit('addExpenses', 'Přidat');
+        $form->addSubmit('addExpenses', 'Přidat výdaj');
 
         return $form;
     }
-
-    public function deleteExpensesForm(): Form
-    {
-        $array = array();
-
-        $items = $this->connection->query('SELECT * FROM expenses')->fetchall();
-
-        foreach ($items as $row) {
-            $array[$row->id] = $row->items;
-        }
-
-        $form = $this->formFactory->create();
-
-        $form->addSelect('id', 'Položka', $array)
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Položka')
-            ->setHtmlAttribute('autofocus');  
-
-        $form->addSubmit('addExpenses', 'Vymazat');
-
-        return $form;
-    }
- 
 }

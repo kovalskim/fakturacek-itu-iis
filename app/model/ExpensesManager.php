@@ -1,12 +1,15 @@
 <?php
 
-/** Author: Dalibor Kyjovský */
+namespace App\model;
+
+/** Author: Dalibor Kyjovský, Radek Jůzl */
 
 namespace App\model;
 
 use App\repository\ExpensesRepository;
 use App\model\UserManager;
 use Exception;
+use Nette\Utils\FileSystem;
 
 class ExpensesManager
 {
@@ -22,17 +25,10 @@ class ExpensesManager
 
     public function deleteExpense($primary)
     {
+        $image_path = $this->expensesRepository->getPathById($primary);
+        $image_path = "../".$image_path;
+        FileSystem::delete($image_path);
         $this->expensesRepository->deleteExpensesByUserId($primary);
-
-    }
-
-    public function editExpenseFormValidate($form, $values = null)
-    {
-        if(!$values)
-        {
-            $values = $form->getValues();
-        }
-
     }
 
     public function editExpenseFormSucceeded($form, $values = null)
@@ -41,9 +37,13 @@ class ExpensesManager
         {
             $values = $form->getValues();
         }
-
-        $id = $values->id;
-
-        $this->expensesRepository->updateExpenseById($id, (array)$values);
+        $values_edit = [
+            "datetime" => $values->datetime,
+            "items" => $values->items,
+            "price" => $values->price,
+            "expenses_cat_id" => $values->cat_id,
+            "id" => $values->id
+        ];
+        $this->expensesRepository->updateExpenseById($values->id, $values_edit);
     }
 }

@@ -1,6 +1,6 @@
 <!-- Author: Dalibor Kyjovský -->
 {define row-actions}
-    <a href="{plink :Business:Expenses:document $primary}"  class=" btn btn-sm btn-primary mt-1">Zobrazit</a>
+    <a href="{plink :Business:Expenses:document $primary}"  class=" btn btn-sm btn-primary mt-1">Detail</a>
     <a href="{link edit! $primary}" class="ajax btn btn-sm btn-primary mt-1">Upravit</a>
     <a href="{link deleteExpense! $primary}" class="ajax btn btn-sm btn-danger mt-1">Vymazat</a>
 {/define}
@@ -9,8 +9,12 @@
     {$row->price} Kč
 {/define}
 
-{define cell-category_name}
-    {$row->category_name}<br>
+{define cell-cat_id}
+    {if $row->name == null}
+       Výchozí
+    {else}
+        {$row->name}
+    {/if}
 {/define}
 
 {define cell-datetime}

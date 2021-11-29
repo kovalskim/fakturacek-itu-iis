@@ -5,17 +5,17 @@
 namespace App\BusinessModule\presenters;
 
 use App\forms\ExpensesFormFactory;
-use App\forms\CategoryFormFactory;
 use App\model\DatagridManager;
 use App\repository\ExpensesRepository;
 use App\repository\CategoryRepository;
+use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
+use Nette\Utils\FileSystem;
 use Nextras\Datagrid\Datagrid;
 use App\model\ExpensesManager;
 use App\model\ImageUploader;
-use Nette\Utils\DateTime;
 use Nette\Forms\Container;
 
 final class ExpensesPresenter extends BasePresenter
@@ -38,10 +38,13 @@ final class ExpensesPresenter extends BasePresenter
     /** @var User */
     public $user;
 
+    /** @var CategoryRepository */
+    private $categoryRepository;
 
     private $expensesTable = 'expenses';
+    private $defaultCategories;
 
-    public function __construct(ExpensesFormFactory $expensesFormFactory, DatagridManager  $datagridManager, User $user, ExpensesRepository $expensesRepository, ExpensesManager $expensesManager, ImageUploader $imageUploader)
+    public function __construct(ExpensesFormFactory $expensesFormFactory, DatagridManager  $datagridManager, User $user, ExpensesRepository $expensesRepository, ExpensesManager $expensesManager, ImageUploader $imageUploader, CategoryRepository $categoryRepository)
     {
         parent::__construct();
         $this->expensesFormFactory = $expensesFormFactory;
@@ -50,14 +53,14 @@ final class ExpensesPresenter extends BasePresenter
         $this->user = $user;
         $this->expensesRepository = $expensesRepository;
         $this->imageUploader = $imageUploader;
-
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function actionDefault()
     {
-       // $settingData = $this->settingInvoicesRepository->selectAll($this->user->getId());
-       //$expense_id = $this->expensesRepository->getLastExpenseId();
-     //  echo($this->expensesRepository->getLastExpenseId()->id);
+        $user_id = $this->user->getId();
+        $this->defaultCategories = $this->categoryRepository->selectAllCategoryById($user_id);
+        $this->getComponent("addExpensesForm")->getComponent('expenses_cat_id')->setItems($this->defaultCategories);
     }
 
     public function createComponentAddExpensesForm(): Form
@@ -72,23 +75,38 @@ final class ExpensesPresenter extends BasePresenter
      */
     public function createAddExpensesFormSucceeded($form, $values)
     {
-        $path = $this->imageUploader->uploadDocumentFormSucceeded($form,$values);
-        $user_id = $this->user->getId();
-
-        $row = ((array) $values) + ['users_id' => $user_id]; 
-
         try
         {
+            $this->imageUploader->uploadImgFormSucceeded($form,$values, "expenses");
+            $user_id = $this->user->getId();
+            $row = ((array) $values) + ['users_id' => $user_id];
             $this->expensesRepository->insertExpensesByUserId($row);
+            $this->flashMessage('Výdaj byl přidán', "success");
+            if($this->isAjax())
+            {
+                $form->reset();
+                $this->redrawControl('expensesForm');
+                $this['datagrid']->redrawControl('rows');
+                $this->redrawControl('flashes');
+            }
+            else
+            {
+                $this->redirect('this');
+            }
+
         }
         catch (Exception $e)
         {
             $this->flashMessage($e->getMessage(), 'danger');
-            $this->redirect(":Business:Expenses:default");
+            if($this->isAjax())
+            {
+                $this->redrawControl('flashes');
+            }
+            else
+            {
+                $this->redirect('this');
+            }
         }
-
-        $this->flashMessage('Výdaj byl přidán');
-        $this->redirect('this');
     }
 
     public function createComponentDatagrid(): Datagrid
@@ -97,46 +115,54 @@ final class ExpensesPresenter extends BasePresenter
 
         $grid = $this->datagridManager->createDatagrid($this->expensesTable, $this->getName());
 
-        $grid->addColumn('items', 'Položky')->enableSort(Datagrid::ORDER_ASC);
-        $grid->addColumn('price', 'Cena')->enableSort(Datagrid::ORDER_ASC);
-        $grid->addColumn('categories_id', 'Kategorie');
-        $grid->addColumn('datetime', 'Datum')->enableSort(Datagrid::ORDER_ASC);
-        //$grid->addColumn('path', 'Doklad');
-        $grid->setFilterFormFactory([$this, 'datagridFilterFormFactory']);
+        $grid->addColumn('datetime', 'Datum zaplacení')->enableSort(Datagrid::ORDER_DESC);
+        $grid->addColumn('items', 'Název položky');
+        $grid->addColumn('price', 'Cena');
+        $grid->addColumn('cat_id', 'Kategorie');
 
+        $grid->setFilterFormFactory([$this, 'datagridFilterFormFactory']);
         $grid->setEditFormFactory([$this, 'datagridEditFormFactory']);
         $grid->setEditFormCallback([$this, 'editFormSucceeded']);
-
         $grid->setDeleteExpenseCallback([$this, 'deleteExpense']);
-
         
         $grid->addGlobalAction('deleteExpense', 'Vymazat', function (array $ids, Datagrid $grid) {
             foreach ($ids as $id) {
+                $image_path = $this->expensesRepository->getPathById($id);
+                $image_path = "../".$image_path;
+                FileSystem::delete($image_path);
                 $this->expensesManager->deleteExpense($id);
             }
-            $this->flashMessage('Výdaj byl vymazán', 'success');
+            $this->flashMessage('Výdaje byly vymazány', 'success');
             $this->redrawControl('flashes');
             $grid->redrawControl('rows');
-
         });
 
         return $grid;
     }
 
+    public function actionDocument($id)
+    {
+
+    }
+
     public function renderDocument($id)
     {
-        $this->template->document = $this->expensesRepository->getPathById($id);
+        $this->template->img_path = $this->expensesRepository->getPathById($id);
     }
 
     public function datagridFilterFormFactory(): Container
     {
         $form = new Container();
+        $form->addText('datetime')
+            ->setType('date')
+            ->setHtmlAttribute('placeholder', 'Datum zaplacení');
         $form->addText('items')
-            ->setHtmlAttribute('placeholder', 'Položka');
+            ->setHtmlAttribute('placeholder', 'Název položky');
         $form->addText('price')
             ->setHtmlAttribute('placeholder', 'Cena');
-        $form->addText('categories_id')
-            ->setHtmlAttribute('placeholder', 'Kategorie');
+        $form->addSelect('cat_id', 'Kategorie', $this->defaultCategories)
+            ->setHtmlAttribute('placeholder', 'Kategorie')
+            ->setPrompt("-- Výchozí --");
 
         $form->addSubmit('filter', 'Filtrovat');
         $form->addSubmit('cancel', 'Zrušit');
@@ -146,44 +172,37 @@ final class ExpensesPresenter extends BasePresenter
 
     public function datagridEditFormFactory($row): Container
     {
-
-        $arrayCategory = array();
-        $categoriesName = $this->connection->query('SELECT * FROM categories')->fetchall(); //TODO dat do repository
-
-        foreach ($categoriesName as $idecko) {
-            $arrayCategory[$idecko->id] = $idecko->id;
-        }
-
         $form = new Container();
+
+        $form->addText('datetime', 'Datum')
+            ->setType('date')
+            ->setRequired()
+            ->setHtmlAttribute('placeholder', 'Datum zaplacení')
+            ->setHtmlAttribute('autofocus');
 
         $form->addText('items')
             ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Název');
+            ->setHtmlAttribute('placeholder', 'Název položky');
 
         $form->addText('price')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Cena');
 
-
-        $form->addSelect('categories_id', 'Kategorie', $arrayCategory)
+        $form->addSelect('cat_id', 'Kategorie', $this->defaultCategories)
             ->setHtmlAttribute('placeholder', 'Kategorie')
-            ->setHtmlAttribute('autofocus');
+            ->setPrompt("-- Výchozí --");
 
         $form->addSubmit('save', 'Uložit');
         $form->addSubmit('cancel', 'Zrušit');
 
+        //todo:validace
+
         if ($row) {
             $form->setDefaults($row);
+            $form["datetime"]->setDefaultValue($row->datetime->format('Y-m-d'));
         }
 
-        $form->onValidate[] = [$this, "editFormValidate"];
-
         return $form;
-    }
-
-    public function editFormValidate(Container $form)
-    {
-        $this->expensesManager->editExpenseFormValidate($form);
     }
 
     public function editFormSucceeded(Container $form)
@@ -196,14 +215,8 @@ final class ExpensesPresenter extends BasePresenter
 
     public function deleteExpense($primary)
     {
-        if($this->expensesManager->deleteExpense($primary)){ //TODO
-            $this->flashMessage('Výdaj nebyl vymazán.', 'success');
-        }
-        else {
-            $this->flashMessage('Výdaj byl vymazán.', 'success');
-        }
+        $this->expensesManager->deleteExpense($primary);
+        $this->flashMessage('Výdaj byl vymazán.', 'success');
         $this->redrawControl('flashes');
     }
-
-
 }

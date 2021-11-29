@@ -41,7 +41,14 @@ class DatagridManager
         $grid = new DatagridExtended();
 
         /** Primary key is always id */
-        $grid->setRowPrimaryKey('id');
+        if($this->presenter_params[1] == "Category")
+        {
+            $grid->setRowPrimaryKey('cat_id');
+        }
+        else
+        {
+            $grid->setRowPrimaryKey('id');
+        }
 
         $grid->setDatasourceCallback([$this, 'getDataSource']);
 
@@ -94,13 +101,12 @@ class DatagridManager
            $builder->andWhere("role != %s", "admin");
         }
         elseif($this->presenter_params[1] == 'Expenses')
-        {   //TODO: nejde ajax a upravy s tim
-           // $user_id = $this->user->getId();
-           //$builder->andWhere('users_id = %i', $user_id);
-            //$builder->select('*');
-           
-            //$builder->joinInner('categories', 'expenses.categories_id = categories.id');
-           // $builder->andWhere("role != %s", "admin");
+        {
+            $user_id = $this->user->getId();
+            $builder->select("*, expenses.id as id, expenses.users_id as users_id, categories.users_id as cat_users_id");
+            $builder->joinLeft("categories", "expenses.expenses_cat_id = categories.cat_id");
+            $builder->andWhere('expenses.users_id = %i', $user_id);
+            //$builder->andWhere('categories.users_id = %i', $user_id);
         }
         elseif($this->presenter_params[1] == 'Invoicing')
         {
@@ -114,13 +120,7 @@ class DatagridManager
                 $user_id = $this->user->getId();
                 $builder->andWhere('users_id = %i', $user_id);
             }
-            //Expenses only from actual user
-            elseif($this->presenter_params[1] == 'Expenses')
-            {
-                $user_id = $this->user->getId();
-                $builder->andWhere('users_id = %i', $user_id);
-            }
-            //Daliborko - Only actual user
+
             elseif($this->presenter_params[1] == 'Category')
             {
                 $user_id = $this->user->getId();

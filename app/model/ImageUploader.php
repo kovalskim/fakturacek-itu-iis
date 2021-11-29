@@ -80,6 +80,7 @@ class ImageUploader
     {
         $end = 1;
         $name = "";
+        $nameFolder = "";
         if($type == "avatars")
         {
             $nameFolder = "avatars";
@@ -140,8 +141,6 @@ class ImageUploader
         $this->settingInvoicesRepository->updateSetting($data, $user_id);
     }
 
-
-    //TODO
     public function saveExpenses($form, $values, $name, $img)
     {
         $values->path = "www/expenses/".$name;
@@ -166,6 +165,10 @@ class ImageUploader
         elseif($type == "expenses")
         {
             $path = $values->path;
+        }
+        else
+        {
+            $path = null;
         }
 
         try
@@ -194,29 +197,4 @@ class ImageUploader
             $this->saveExpenses($form, $values, $name, $loadImg);
         }
     }
-
-
-
-    /**
-     * @throws Exception
-     */
-    public function uploadDocumentFormSucceeded($form, $values)
-    {
-
-        $path = $values->path;
-
-        try
-        {   //TODO pdf fuj
-            $loadImg = $this->loadImg($path);
-        }
-        catch (Exception $e)
-        {
-            throw new Exception('Obrázek nebyl nahrán');
-        }
-
-            $name = $this->generateNameImg("expenses");
-            $this->saveExpenses($form, $values, $name, $loadImg);
-        
-    }
-
 }
