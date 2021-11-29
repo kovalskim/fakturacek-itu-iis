@@ -25,7 +25,7 @@ CREATE TABLE `accountant_permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `accountant_permission` (`id`, `users_id`, `accountant_id`, `created`, `hash`, `hash_validity`, `request_status`, `who`) VALUES
-(1,	1,	2,	'2021-11-29 09:42:43',	NULL,	NULL,	'active',	'accountant');
+(1,	2,	3,	'2021-11-29 16:07:31',	NULL,	NULL,	'active',	'accountant');
 
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
@@ -37,8 +37,6 @@ CREATE TABLE `categories` (
   CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
-INSERT INTO `categories` (`cat_id`, `name`, `users_id`) VALUES
-(3,	'Radek Jůzl',	6);
 
 DROP TABLE IF EXISTS `clients`;
 CREATE TABLE `clients` (
@@ -58,7 +56,7 @@ CREATE TABLE `clients` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `clients` (`id`, `name`, `cin`, `vat`, `street`, `city`, `zip`, `email`, `phone`, `users_id`) VALUES
-(1,	'Radek Jůzl',	'',	'',	'Kam 204',	'Nikam',	'39601',	'radekjuzl@seznam.cz',	'',	1);
+(1,	'Josef Novák',	'',	'',	'Technická 3058/10',	'Brno-Královo Pole',	'61600',	'',	'123456789',	2);
 
 DROP TABLE IF EXISTS `expenses`;
 CREATE TABLE `expenses` (
@@ -76,6 +74,8 @@ CREATE TABLE `expenses` (
   CONSTRAINT `expenses_ibfk_2` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
+INSERT INTO `expenses` (`id`, `users_id`, `path`, `expenses_cat_id`, `items`, `price`, `datetime`) VALUES
+(1,	2,	'www/expenses/3BDZB675UC.jpeg',	NULL,	'První položka',	450,	'2021-11-29 00:00:00');
 
 DROP TABLE IF EXISTS `invoices`;
 CREATE TABLE `invoices` (
@@ -114,9 +114,7 @@ CREATE TABLE `invoices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `invoices` (`id`, `users_id`, `user_name`, `user_street`, `user_city`, `user_zip`, `user_cin`, `user_vat`, `user_phone`, `user_email`, `client_id`, `client_name`, `client_street`, `client_city`, `client_zip`, `client_cin`, `client_vat`, `client_phone`, `client_email`, `created`, `due_date`, `after_due_date`, `account_number`, `variable_symbol`, `logo_path`, `vat_note`, `footer_note`, `status`, `suma`) VALUES
-(1,	1,	'OSVČ',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'48864820',	NULL,	'',	'osvc@fakturacek.cz',	1,	'Radek Jůzl',	'Kam 204',	'Nikam',	'39601',	'',	'',	'',	'radekjuzl@seznam.cz',	'2021-11-28 22:45:00',	'2021-12-12 23:45:00',	0,	'10006-18432071/0600',	'211101',	NULL,	0,	'0',	'canceled',	2750),
-(2,	1,	'OSVČ',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'48864820',	NULL,	'',	'osvc@fakturacek.cz',	1,	'Radek Jůzl',	'Kam 204',	'Nikam',	'39601',	'',	'',	'',	'radekjuzl@seznam.cz',	'2021-11-29 08:12:27',	'2021-11-12 08:12:27',	1,	'10006-18432071/0600',	'211102',	NULL,	0,	'0',	'unpaid',	600),
-(3,	1,	'OSVČ',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'48864820',	NULL,	'',	'osvc@fakturacek.cz',	NULL,	'Radek Jůzl',	'Kam 204',	'Nikam',	'39601',	'',	'',	'',	'radekjuzl@seznam.cz',	'2021-11-29 08:12:44',	'2021-12-13 09:12:44',	0,	'10006-18432071/0600',	'211103',	NULL,	0,	'0',	'unpaid',	2500);
+(1,	2,	'OSVC',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'68396201',	'',	'+420123456789',	'osvc@fakturacek.cz',	NULL,	'Josef Novák',	'Technická 3058/10',	'Brno-Královo Pole',	'61600',	'',	'',	'123456789',	'',	'2021-11-29 16:16:34',	'2021-12-13 17:16:34',	0,	'10006-18432071/0600',	'211101',	'www/logo/Q07V3QE7O3.jpeg',	0,	'0',	'unpaid',	12865.4);
 
 DROP TABLE IF EXISTS `invoices_items`;
 CREATE TABLE `invoices_items` (
@@ -133,9 +131,8 @@ CREATE TABLE `invoices_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `invoices_items` (`id`, `invoices_id`, `name`, `count`, `unit_price`, `type`, `suma`) VALUES
-(1,	1,	'Prvni',	55,	50,	'hours',	2750),
-(2,	2,	'Hej',	50,	12,	'hours',	600),
-(3,	3,	'Prvni',	50,	50,	'hours',	2500);
+(1,	1,	'První',	50,	250,	'hours',	12500),
+(2,	1,	'Druhá',	12,	30.45,	'pieces',	365.4);
 
 DROP TABLE IF EXISTS `setting_invoices`;
 CREATE TABLE `setting_invoices` (
@@ -152,7 +149,7 @@ CREATE TABLE `setting_invoices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `setting_invoices` (`id`, `account_number`, `variable_symbol`, `logo_path`, `vat_note`, `footer_note`, `users_id`) VALUES
-(1,	'10006-18432071/0600',	'YYMM00',	NULL,	0,	'',	1);
+(1,	'10006-18432071/0600',	'YYMM00',	'www/logo/Q07V3QE7O3.jpeg',	0,	'Jsem osoba zapsána v živnostenském rejstříku',	2);
 
 DROP TABLE IF EXISTS `texts`;
 CREATE TABLE `texts` (
@@ -164,7 +161,7 @@ CREATE TABLE `texts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `texts` (`id`, `type`, `text`, `img_path`) VALUES
-(1,	'aboutus',	'<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Et harum quidem rerum facilis est et <a href=\"https://www.fit.vut.cz/.en\">expedita</a> distinctio. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.&nbsp;</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi imperdiet, mauris ac auctor dictum, nisl ligula egestas nulla, et sollicitudin sem <strong>purus</strong> in lacus. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.&nbsp;</p><p>Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p><ol><li><em>Lorem</em></li><li>ipsum</li><li>dolor</li></ol>',	'www/img/aboutus.jpeg'),
+(1,	'aboutus',	'<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Et harum quidem rerum facilis est et <a href=\\\"https://www.fit.vut.cz/.en\\\">expedita</a> distinctio. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.&nbsp;</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi imperdiet, mauris ac auctor dictum, nisl ligula egestas nulla, et sollicitudin sem <strong>purus</strong> in lacus. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.&nbsp;</p><p>Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p><ol><li><em>Lorem</em></li><li>ipsum</li><li>dolor</li></ol>',	'www/img/aboutus.jpeg'),
 (2,	'contact',	'<p><strong>Lorem </strong>ipsum dolor sit amet, consectetuer adipiscing elit. <em>Aliquam ornare wisi eu metus.</em> Ut tempus purus at lorem. Nullam sit amet magna in magna gravida vehicula. Suspendisse sagittis ultrices augue. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor.</p>',	'www/img/contact.jpeg');
 
 DROP TABLE IF EXISTS `users`;
@@ -189,12 +186,9 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `users` (`id`, `cin`, `vat`, `name`, `email`, `phone`, `password`, `hash`, `hash_validity`, `role`, `street`, `city`, `zip`, `avatar_path`, `status`, `email_verification`) VALUES
-(1,	'48864820',	NULL,	'OSVČ',	'osvc@fakturacek.cz',	'',	'$2y$10$Zz1ULBSoD.O8U8Qx03Eje.QwekTMO5JRdNYuOpZWq8JLWlYuKzBzy',	NULL,	NULL,	'business',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	NULL,	'active',	'2021-11-28 21:41:20'),
-(2,	'68396201',	NULL,	'Účetní',	'ucetni@fakturacek.cz',	'',	'$2y$10$k2fb6Sklzi9z.tS0bM8yEOjAGS7xj0vbskNpDUHg3zkDDzAc5V/UK',	NULL,	NULL,	'accountant',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	NULL,	'active',	'2021-11-28 21:43:43'),
-(3,	NULL,	NULL,	'Admin',	'ad2in@fakturacek.cz',	'',	'$2y$10$Bn4AnxPOleq.cSIVdCPPWO9Mpn5/xK3MAqX5Q4R.bdy8Ev5pnXmzi',	NULL,	NULL,	'admin',	NULL,	NULL,	NULL,	NULL,	'active',	'2021-11-28 22:58:15'),
-(4,	NULL,	NULL,	'Hej',	'radekjuzl@seznam.cz',	NULL,	'$2y$10$VGDtbbNsiMTK6.iVZws0XuGd1Ijhql9HjxCvBEBeR00pxPtIzFuWW',	NULL,	NULL,	'admin',	NULL,	NULL,	NULL,	NULL,	'active',	NULL),
-(5,	NULL,	NULL,	'adminss',	'adminss@seznam.cz',	NULL,	'$2y$10$8GrnTaRbspqBh6PssuqmSeOoxGDSfnp7Peabn4lL.70Quvo75GeWq',	NULL,	NULL,	'admin',	NULL,	NULL,	NULL,	NULL,	'active',	NULL),
-(6,	'48864820',	NULL,	'OSVČ2',	'osvc2@fakturacek.cz',	'',	'$2y$10$Zz1ULBSoD.O8U8Qx03Eje.QwekTMO5JRdNYuOpZWq8JLWlYuKzBzy',	NULL,	NULL,	'business',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	NULL,	'active',	'2021-11-28 21:41:20');
+(1,	NULL,	NULL,	'Admin Testovič',	'admin@fakturacek.cz',	'',	'$2y$10$Ek9XTxapi6DV4Y8UIHONwe6T2JzlIhIY8Xp9m3MukIR7y5B2gV3aO',	NULL,	NULL,	'admin',	NULL,	NULL,	NULL,	NULL,	'active',	NULL),
+(2,	'68396201',	'',	'OSVC',	'osvc@fakturacek.cz',	'+420123456789',	'$2y$10$XymTeneV4ATBG9uLyGAzAe0f1c6kqGXB3CVfebR48MAMMvHaIWEZq',	NULL,	NULL,	'business',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'www/avatars/F18NJDE2PO.jpeg',	'active',	'2021-11-29 16:54:34'),
+(3,	'48864820',	NULL,	'Účetní Testová',	'ucetni@fakturacek.cz',	'',	'$2y$10$97B3IsdQqL74M2XJf4E3Su.E3GCbb6A3nFf3IZfoSriukbSwbxPia',	NULL,	NULL,	'accountant',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'www/avatars/N9UBTNPWNS.jpeg',	'active',	'2021-11-29 16:55:27');
 
 DROP TABLE IF EXISTS `users_last_login`;
 CREATE TABLE `users_last_login` (
@@ -207,11 +201,9 @@ CREATE TABLE `users_last_login` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `users_last_login` (`id`, `users_id`, `timestamp`) VALUES
-(7,	3,	'2021-11-28 21:58:34'),
-(16,	6,	'2021-11-29 08:53:54'),
-(17,	2,	'2021-11-29 09:42:33'),
-(18,	4,	'2021-11-29 12:23:53'),
-(19,	1,	'2021-11-29 12:24:29');
+(4,	1,	'2021-11-29 15:58:43'),
+(5,	3,	'2021-11-29 15:59:50'),
+(6,	2,	'2021-11-29 16:08:29');
 
 DROP TABLE IF EXISTS `users_last_password_change`;
 CREATE TABLE `users_last_password_change` (
@@ -223,9 +215,5 @@ CREATE TABLE `users_last_password_change` (
   CONSTRAINT `users_last_password_change_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
-INSERT INTO `users_last_password_change` (`id`, `users_id`, `timestamp`) VALUES
-(1,	3,	'2021-11-28 21:54:32'),
-(3,	4,	'2021-11-28 22:10:19'),
-(4,	5,	'2021-11-28 22:11:49');
 
--- 2021-11-29 12:50:31
+-- 2021-11-29 16:19:13
