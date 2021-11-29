@@ -22,7 +22,7 @@ final class ContactPresenter extends BasePresenter
     /** @var MailSender */
     private $mailSender;
 
-    const INFO_EMAIL = 'info@fakturacek.cz';
+    const INFO_EMAIL = 'info@fakturacek.pixla.rekode.cz';
 
     public function __construct(TextRepository $textRepository, ContactFormFactory $contactFormFactory, MailSender $mailSender)
     {

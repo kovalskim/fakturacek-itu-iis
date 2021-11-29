@@ -13,7 +13,7 @@ use Nette\Mail\SendmailMailer;
 
 class MailSender
 {
-    const NOREPLY_EMAIL = 'noreply@fakturacek.cz';
+    const NOREPLY_EMAIL = 'noreply@fakturacek.pixla.rekode.cz';
     const WEBPAGE_NAME = 'Fakturáček';
 
     /** @var LinkGenerator */
