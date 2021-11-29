@@ -16,6 +16,7 @@ abstract class BasePresenter extends Presenter
     /** @var User @inject */
     public $user;
 
+    /** Redirect according logged user to his module */
     public function beforeRender()
     {
         $this->setLayout('public');

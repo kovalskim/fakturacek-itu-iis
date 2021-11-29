@@ -29,6 +29,7 @@ final class HomepagePresenter extends BasePresenter
 
     public function renderDefault()
     {
+        /** Get data for business dashboard */
         $user_id = $this->user->getId();
         $this->template->unpaidInvoices = $this->invoicingRepository->getUnpaidInvoicesByUserId($user_id);
         $this->template->afterDueDateInvoices = $this->invoicingRepository->getAfterDueDateInvoicesByUserId($user_id);

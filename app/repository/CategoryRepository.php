@@ -4,7 +4,6 @@
 
 namespace App\repository;
 
-
 class CategoryRepository extends AllRepository
 {
     private $table = 'categories';

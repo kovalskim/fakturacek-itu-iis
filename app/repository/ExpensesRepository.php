@@ -4,8 +4,6 @@
 
 namespace App\repository;
 
-use Nextras\Dbal\Result\Row;
-
 class ExpensesRepository extends AllRepository
 {
     private $table = 'expenses';

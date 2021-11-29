@@ -4,7 +4,6 @@
 
 namespace App\repository;
 
-
 use Nextras\Dbal\Result\Row;
 
 class ClientRepository extends AllRepository

@@ -4,12 +4,9 @@
 
 namespace App\repository;
 
-use Nextras\Dbal\Result\Row;
-
 class StatisticsRepository extends AllRepository
 {
     private $expencesTable = "expenses";
-    private $invoices_itemsTable = "invoices_items";
 
     public function getSumExpenses($id)
     {

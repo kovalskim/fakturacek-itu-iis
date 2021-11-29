@@ -132,6 +132,9 @@ final class ClientsPresenter extends BasePresenter
         return $grid;
     }
 
+    /**
+     * Filter form for datagrid
+     */
     public function datagridFilterFormFactory(): Container
     {
         $form = new Container();
