@@ -178,19 +178,23 @@ final class ExpensesPresenter extends BasePresenter
             ->setType('date')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Datum zaplacení')
-            ->setHtmlAttribute('autofocus');
+            ->setHtmlAttribute('autofocus')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('items')
             ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Název položky');
+            ->setHtmlAttribute('placeholder', 'Název položky')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('price')
             ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Cena');
+            ->setHtmlAttribute('placeholder', 'Cena')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addSelect('cat_id', 'Kategorie', $this->defaultCategories)
             ->setHtmlAttribute('placeholder', 'Kategorie')
-            ->setPrompt("-- Výchozí --");
+            ->setPrompt("-- Výchozí --")
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addSubmit('save', 'Uložit');
         $form->addSubmit('cancel', 'Zrušit');

@@ -132,7 +132,8 @@ final class CategoryPresenter extends BasePresenter
         $form = new Container();
         $form->addText('name')
             ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Název kategorie');
+            ->setHtmlAttribute('placeholder', 'Název kategorie')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addSubmit('save', 'Uložit');
         $form->addSubmit('cancel', 'Zrušit');

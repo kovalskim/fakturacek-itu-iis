@@ -165,7 +165,7 @@ final class ClientsPresenter extends BasePresenter
 
         return $form;
     }
-    //TODO: Class form control
+
     /**
      * Client editing form
      */
@@ -174,27 +174,34 @@ final class ClientsPresenter extends BasePresenter
         $form = new Container();
         $form->addText('name')
             ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Jméno a příjmení');
+            ->setHtmlAttribute('placeholder', 'Jméno a příjmení')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('cin')
-            ->setHtmlAttribute('placeholder', 'IČ');
+            ->setHtmlAttribute('placeholder', 'IČ')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('vat')
-            ->setHtmlAttribute('placeholder', 'DIČ');
+            ->setHtmlAttribute('placeholder', 'DIČ')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addEmail('email')
-            ->setHtmlAttribute('placeholder', 'E-mail');
+            ->setHtmlAttribute('placeholder', 'E-mail')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('phone')
-            ->setHtmlAttribute('placeholder', 'Telefon');
+            ->setHtmlAttribute('placeholder', 'Telefon')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('street', 'Ulice a č.p.')
             ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Ulice a č.p.');
+            ->setHtmlAttribute('placeholder', 'Ulice a č.p.')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('city', 'Město')
             ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Město');
+            ->setHtmlAttribute('placeholder', 'Město')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('zip', 'PSČ')
             ->setRequired()
@@ -202,7 +209,8 @@ final class ClientsPresenter extends BasePresenter
                 return str_replace(' ', '', $value);
             })
             ->setHtmlAttribute("inputmode", "numeric")
-            ->setHtmlAttribute('placeholder', 'PSČ');
+            ->setHtmlAttribute('placeholder', 'PSČ')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addSubmit('save', 'Uložit');
         $form->addSubmit('cancel', 'Zrušit');
