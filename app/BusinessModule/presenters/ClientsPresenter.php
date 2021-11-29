@@ -82,7 +82,7 @@ final class ClientsPresenter extends BasePresenter
         $row = ((array) $values) + ['users_id' => $user_id]; /** Add client to the directory with user id */
         $this->clientRepository->insertClientByUserId($row);
 
-        $this->flashMessage('Klient byl přidán');
+        $this->flashMessage('Klient byl přidán', "success");
 
         if($this->isAjax())
         {
@@ -165,7 +165,7 @@ final class ClientsPresenter extends BasePresenter
 
         return $form;
     }
-
+    //TODO: Class form control
     /**
      * Client editing form
      */
