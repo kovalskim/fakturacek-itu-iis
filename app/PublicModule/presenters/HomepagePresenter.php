@@ -120,7 +120,16 @@ final class HomepagePresenter extends BasePresenter
         {
             $this->flashMessage($e->getMessage(), 'danger');
         }
-        $this->redirect('this');
+        if($this->isAjax())
+        {
+            $form->reset();
+            $this->redrawControl('forgottenPasswordForm');
+            $this->redrawControl('flashes');
+        }
+        else
+        {
+            $this->redirect('this');
+        }
     }
 
     /**
