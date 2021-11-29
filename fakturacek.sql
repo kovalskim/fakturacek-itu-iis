@@ -1,4 +1,4 @@
--- Adminer 4.3.1 MySQL dump
+-- Adminer 4.8.1 MySQL 5.5.5-10.4.21-MariaDB dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -25,25 +25,20 @@ CREATE TABLE `accountant_permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `accountant_permission` (`id`, `users_id`, `accountant_id`, `created`, `hash`, `hash_validity`, `request_status`, `who`) VALUES
-(23,	4,	3,	'2021-11-26 21:14:39',	NULL,	NULL,	'wait',	'business'),
-(24,	2,	3,	'2021-11-26 21:14:42',	NULL,	NULL,	'active',	'business');
+(1,	1,	2,	'2021-11-29 09:42:43',	NULL,	NULL,	'active',	'accountant');
 
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cat_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
   `users_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`cat_id`),
   KEY `categories_ibfk_1` (`users_id`),
   CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
-INSERT INTO `categories` (`id`, `name`, `users_id`) VALUES
-(3,	'Hej',	4),
-(4,	'blbec',	2),
-(5,	'debil',	2),
-(6,	'blbec',	2),
-(7,	'dva blbečci vedle sebe',	2);
+INSERT INTO `categories` (`cat_id`, `name`, `users_id`) VALUES
+(3,	'Radek Jůzl',	6);
 
 DROP TABLE IF EXISTS `clients`;
 CREATE TABLE `clients` (
@@ -63,31 +58,24 @@ CREATE TABLE `clients` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `clients` (`id`, `name`, `cin`, `vat`, `street`, `city`, `zip`, `email`, `phone`, `users_id`) VALUES
-(1,	'Pepa z depa',	'12345679',	NULL,	'Radkovo 245',	'Plzeň',	'43245',	'pepa@zdepa.cz',	NULL,	2),
-(2,	'Radek Jůzl',	'',	'',	'Smradlavá 44',	'Humpolec',	'23105',	'radekjuzl@seznam.cz',	'',	2),
-(3,	'Radek Jůzl',	'',	'',	'Kam 204',	'Nikam',	'39601',	'radekjuzl@seznam.cz',	'',	2);
+(1,	'Radek Jůzl',	'',	'',	'Kam 204',	'Nikam',	'39601',	'radekjuzl@seznam.cz',	'',	1);
 
 DROP TABLE IF EXISTS `expenses`;
 CREATE TABLE `expenses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `users_id` int(11) NOT NULL,
   `path` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
-  `categories_id` int(11) DEFAULT NULL,
+  `expenses_cat_id` int(11) DEFAULT NULL,
   `items` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
   `price` float NOT NULL,
   `datetime` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `categories_id` (`categories_id`),
+  KEY `categories_id` (`expenses_cat_id`),
   KEY `users_id` (`users_id`),
-  CONSTRAINT `expenses_ibfk_1` FOREIGN KEY (`categories_id`) REFERENCES `categories` (`id`),
+  CONSTRAINT `expenses_ibfk_1` FOREIGN KEY (`expenses_cat_id`) REFERENCES `categories` (`cat_id`),
   CONSTRAINT `expenses_ibfk_2` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
-INSERT INTO `expenses` (`id`, `users_id`, `path`, `categories_id`, `items`, `price`, `datetime`) VALUES
-(8,	4,	'D:\\xampp\\tmp\\php80D8.tmp',	NULL,	'Hej',	150,	'2021-11-27 00:00:00'),
-(9,	4,	'www/expenses/788H34TQHK.jpeg',	NULL,	'Hej',	200,	'2021-11-27 00:00:00'),
-(10,	4,	'www/expenses/YE0DAXEZ1F.jpeg',	4,	'blbeček',	147,	'2021-01-01 00:00:00'),
-(11,	2,	'www/expenses/42PEK56ZZD.jpeg',	6,	'asfdasf',	50,	'2021-11-17 00:00:00');
 
 DROP TABLE IF EXISTS `invoices`;
 CREATE TABLE `invoices` (
@@ -126,8 +114,9 @@ CREATE TABLE `invoices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `invoices` (`id`, `users_id`, `user_name`, `user_street`, `user_city`, `user_zip`, `user_cin`, `user_vat`, `user_phone`, `user_email`, `client_id`, `client_name`, `client_street`, `client_city`, `client_zip`, `client_cin`, `client_vat`, `client_phone`, `client_email`, `created`, `due_date`, `after_due_date`, `account_number`, `variable_symbol`, `logo_path`, `vat_note`, `footer_note`, `status`, `suma`) VALUES
-(1,	2,	'Martin Kovalski',	'Stará osada',	'Brno',	'51202',	'12345678',	NULL,	NULL,	'email@panapodnikatele.cz',	1,	'Pepa z depa',	'Radkovo 245',	'Plzeň',	'43245',	'12345679',	NULL,	NULL,	'pepa@zdepa.cz',	'2021-11-24 17:47:27',	'2021-12-08 18:47:27',	0,	'123/2010',	'2021001',	NULL,	0,	'Jsem osoba zapsaná v rejstříku někde',	'canceled',	4325),
-(7,	2,	'Business',	'Kolejní 66',	'Brno',	'45678',	'61019836',	NULL,	'',	'business@fakturacek.cz',	2,	'Radek Jůzl',	'Smradlavá 44',	'Humpolec',	'23105',	'10152679',	'',	'',	'radekjuzl@seznam.cz',	'2021-11-25 17:35:13',	'2021-12-09 18:35:13',	1,	'10006-18432071/0600',	'2121002',	NULL,	0,	'0',	'unpaid',	352.5);
+(1,	1,	'OSVČ',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'48864820',	NULL,	'',	'osvc@fakturacek.cz',	1,	'Radek Jůzl',	'Kam 204',	'Nikam',	'39601',	'',	'',	'',	'radekjuzl@seznam.cz',	'2021-11-28 22:45:00',	'2021-12-12 23:45:00',	0,	'10006-18432071/0600',	'211101',	NULL,	0,	'0',	'canceled',	2750),
+(2,	1,	'OSVČ',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'48864820',	NULL,	'',	'osvc@fakturacek.cz',	1,	'Radek Jůzl',	'Kam 204',	'Nikam',	'39601',	'',	'',	'',	'radekjuzl@seznam.cz',	'2021-11-29 08:12:27',	'2021-11-12 08:12:27',	1,	'10006-18432071/0600',	'211102',	NULL,	0,	'0',	'unpaid',	600),
+(3,	1,	'OSVČ',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'48864820',	NULL,	'',	'osvc@fakturacek.cz',	NULL,	'Radek Jůzl',	'Kam 204',	'Nikam',	'39601',	'',	'',	'',	'radekjuzl@seznam.cz',	'2021-11-29 08:12:44',	'2021-12-13 09:12:44',	0,	'10006-18432071/0600',	'211103',	NULL,	0,	'0',	'unpaid',	2500);
 
 DROP TABLE IF EXISTS `invoices_items`;
 CREATE TABLE `invoices_items` (
@@ -144,10 +133,9 @@ CREATE TABLE `invoices_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `invoices_items` (`id`, `invoices_id`, `name`, `count`, `unit_price`, `type`, `suma`) VALUES
-(1,	1,	'Práce na silnici',	3,	700,	'hours',	2100),
-(2,	1,	'Dloubaní se v nose',	2,	300,	'pieces',	600),
-(9,	7,	'Prvni',	14.5,	20,	'hours',	290),
-(10,	7,	'Druha',	12.5,	5,	'hours',	62.5);
+(1,	1,	'Prvni',	55,	50,	'hours',	2750),
+(2,	2,	'Hej',	50,	12,	'hours',	600),
+(3,	3,	'Prvni',	50,	50,	'hours',	2500);
 
 DROP TABLE IF EXISTS `setting_invoices`;
 CREATE TABLE `setting_invoices` (
@@ -164,8 +152,7 @@ CREATE TABLE `setting_invoices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `setting_invoices` (`id`, `account_number`, `variable_symbol`, `logo_path`, `vat_note`, `footer_note`, `users_id`) VALUES
-(1,	'10006-18432071/0600',	'YY000',	NULL,	0,	'',	2),
-(2,	'10006-18432071/0600',	'YY0000',	'www/logo/NOP3TF75OI.jpeg',	0,	'',	4);
+(1,	'10006-18432071/0600',	'YYMM00',	NULL,	0,	'',	1);
 
 DROP TABLE IF EXISTS `texts`;
 CREATE TABLE `texts` (
@@ -202,11 +189,12 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `users` (`id`, `cin`, `vat`, `name`, `email`, `phone`, `password`, `hash`, `hash_validity`, `role`, `street`, `city`, `zip`, `avatar_path`, `status`, `email_verification`) VALUES
-(1,	NULL,	NULL,	'Admin',	'admin@fakturacek.cz',	NULL,	'$2y$10$EkpTYHKufe7jCAwEzYEr2OTa5tdPNGCRGF6fqufVte.jC73fvym1G',	NULL,	NULL,	'admin',	NULL,	NULL,	NULL,	NULL,	'active',	'2021-11-24 20:40:21'),
-(2,	'61019836',	NULL,	'Business',	'business@fakturacek.cz',	'',	'$2y$10$UujM3C3lJFY4dlkuy88LteFX06bCNG8LGNSa9Rc5J9/qxavJ86eF.',	NULL,	NULL,	'business',	'Kolejní 66',	'Brno',	'45678',	NULL,	'active',	'2021-11-25 00:23:35'),
-(3,	'71048065',	NULL,	'Accountant',	'accountant@fakturacek.cz',	'123456789',	'$2y$10$KUkctHpRXI71vM41yRI/Q.Sxm3FiYF3JX6tf88qBzdwbffeuiNQ32',	NULL,	NULL,	'accountant',	'test 55',	'Testova',	'12345',	NULL,	'active',	'2021-11-25 15:50:44'),
-(4,	'25690477',	'',	'Radek Jůzl',	'radekjuzl@seznam.cz',	'',	'$2y$10$9wmvZe/2LlrJkskUJFXqSOm7MS4xlOa7XxKxjqQV5EtcYEjyqv9S2',	NULL,	NULL,	'business',	'Kam 204',	'Nikam',	'39601',	NULL,	'active',	'2021-11-25 14:20:10'),
-(5,	'08391335',	NULL,	'Radek Jůzl',	'accountant2@fakturacek.cz',	'',	'$2y$10$Rrz7zBRe/D9gSySjdmJcaOSpfTiHGbcDDBS0cgZUTaoLyJezzb2Aa',	NULL,	NULL,	'accountant',	'Kam 204',	'Nikam',	'39601',	NULL,	'active',	'2021-11-26 23:00:13');
+(1,	'48864820',	NULL,	'OSVČ',	'osvc@fakturacek.cz',	'',	'$2y$10$Zz1ULBSoD.O8U8Qx03Eje.QwekTMO5JRdNYuOpZWq8JLWlYuKzBzy',	NULL,	NULL,	'business',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	NULL,	'active',	'2021-11-28 21:41:20'),
+(2,	'68396201',	NULL,	'Účetní',	'ucetni@fakturacek.cz',	'',	'$2y$10$k2fb6Sklzi9z.tS0bM8yEOjAGS7xj0vbskNpDUHg3zkDDzAc5V/UK',	NULL,	NULL,	'accountant',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	NULL,	'active',	'2021-11-28 21:43:43'),
+(3,	NULL,	NULL,	'Admin',	'ad2in@fakturacek.cz',	'',	'$2y$10$Bn4AnxPOleq.cSIVdCPPWO9Mpn5/xK3MAqX5Q4R.bdy8Ev5pnXmzi',	NULL,	NULL,	'admin',	NULL,	NULL,	NULL,	NULL,	'active',	'2021-11-28 22:58:15'),
+(4,	NULL,	NULL,	'Hej',	'radekjuzl@seznam.cz',	NULL,	'$2y$10$VGDtbbNsiMTK6.iVZws0XuGd1Ijhql9HjxCvBEBeR00pxPtIzFuWW',	NULL,	NULL,	'admin',	NULL,	NULL,	NULL,	NULL,	'active',	NULL),
+(5,	NULL,	NULL,	'adminss',	'adminss@seznam.cz',	NULL,	'$2y$10$8GrnTaRbspqBh6PssuqmSeOoxGDSfnp7Peabn4lL.70Quvo75GeWq',	NULL,	NULL,	'admin',	NULL,	NULL,	NULL,	NULL,	'active',	NULL),
+(6,	'48864820',	NULL,	'OSVČ2',	'osvc2@fakturacek.cz',	'',	'$2y$10$Zz1ULBSoD.O8U8Qx03Eje.QwekTMO5JRdNYuOpZWq8JLWlYuKzBzy',	NULL,	NULL,	'business',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	NULL,	'active',	'2021-11-28 21:41:20');
 
 DROP TABLE IF EXISTS `users_last_login`;
 CREATE TABLE `users_last_login` (
@@ -219,11 +207,11 @@ CREATE TABLE `users_last_login` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `users_last_login` (`id`, `users_id`, `timestamp`) VALUES
-(76,	3,	'2021-11-27 01:19:39'),
-(81,	4,	'2021-11-27 22:24:11'),
-(82,	2,	'2021-11-27 22:25:35'),
-(83,	5,	'2021-11-27 22:51:54'),
-(85,	1,	'2021-11-27 23:07:27');
+(7,	3,	'2021-11-28 21:58:34'),
+(16,	6,	'2021-11-29 08:53:54'),
+(17,	2,	'2021-11-29 09:42:33'),
+(18,	4,	'2021-11-29 12:23:53'),
+(19,	1,	'2021-11-29 12:24:29');
 
 DROP TABLE IF EXISTS `users_last_password_change`;
 CREATE TABLE `users_last_password_change` (
@@ -236,6 +224,8 @@ CREATE TABLE `users_last_password_change` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `users_last_password_change` (`id`, `users_id`, `timestamp`) VALUES
-(1,	4,	'2021-11-26 13:37:24');
+(1,	3,	'2021-11-28 21:54:32'),
+(3,	4,	'2021-11-28 22:10:19'),
+(4,	5,	'2021-11-28 22:11:49');
 
--- 2021-11-28 12:47:52
+-- 2021-11-29 12:50:31
