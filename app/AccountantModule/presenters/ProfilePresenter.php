@@ -68,6 +68,10 @@ final class ProfilePresenter extends BasePresenter
     public function editProfileFormValidate($form, $values)
     {
         $this->profileManager->editProfileFormValidate($form, $values);
+        if($this->isAjax())
+        {
+            $this->redrawControl("editProfileForm");
+        }
     }
 
     /**

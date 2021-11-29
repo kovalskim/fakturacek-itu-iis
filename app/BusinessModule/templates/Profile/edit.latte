@@ -4,7 +4,9 @@
     <div class="row">
         <h1 n:block=title>Úprava profilu</h1>
         <div class="col-lg-6">
-            {control editProfileForm}
+            {snippet editProfileForm}
+                {control editProfileForm}
+            {/snippet}
         </div>
     </div>
 {/block}
