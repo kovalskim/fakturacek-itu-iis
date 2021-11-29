@@ -20,6 +20,8 @@ class LogInFormFactory
     {
         $form = $this->formFactory->create();
 
+        $form->setHtmlAttribute('class', 'ajax');
+
         $form->addEmail('email', 'E-mail:*')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'E-mail')
@@ -37,6 +39,8 @@ class LogInFormFactory
     public function createRegistrationForm(): Form
     {
         $form = $this->formFactory->create();
+
+        $form->setHtmlAttribute('class', 'ajax');
 
         $form->addEmail('email', 'E-mail:*')
             ->setRequired()

@@ -43,6 +43,10 @@ final class RegistrationPresenter extends BasePresenter
     public function registrationFormValidate($form, $values)
     {
         $this->userManager->registrationFormValidate($form, $values);
+        if($this->isAjax())
+        {
+            $this->redrawControl('registrationForm');
+        }
     }
 
     /**
@@ -51,7 +55,6 @@ final class RegistrationPresenter extends BasePresenter
     public function registrationFormSucceeded($form, $values)
     {
         $this->userManager->registrationFormSucceeded($form, $values);
-
         $this->flashMessage("Registrace se povedla", "success");
         $this->redirect(":Public:Homepage:default");
     }

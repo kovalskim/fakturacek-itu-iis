@@ -60,7 +60,7 @@ final class HomepagePresenter extends BasePresenter
     public function logInFormSucceeded($form, $values)
     {
         $this->user->setAuthenticator($this->authenticator);
-
+        $error = 0;
         try
         {
             $this->user->login($values->email, $values->password);
@@ -69,13 +69,27 @@ final class HomepagePresenter extends BasePresenter
         catch (Exception $e)
         {
             $this->flashMessage($e->getMessage(), 'danger');
-            $this->redirect('this');
+            $error = 1;
+            if($this->isAjax())
+            {
+                $form->reset();
+                $this->redrawControl('logInForm');
+                $this->redrawControl('flashes');
+            }
+            else
+            {
+                $this->redirect('this');
+            }
         }
 
-        $this->userRepository->deleteLastLoginById($this->user->getId());
-        $this->userRepository->insertLastLoginById($this->user->getId());
-        $this->flashMessage('Uživatel byl přihlášen', 'success');
-        $this->redirect('this');
+        if(!$error)
+        {
+            $this->userRepository->deleteLastLoginById($this->user->getId());
+            $this->userRepository->insertLastLoginById($this->user->getId());
+
+            $this->flashMessage('Uživatel byl přihlášen', 'success');
+            $this->redirect('this');
+        }
     }
 
     public function actionForgottenPassword()

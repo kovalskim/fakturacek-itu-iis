@@ -5,7 +5,9 @@
 		<div class="col-lg-4">
 			<img src="{$basePath}/img/ico.svg" width="80px" class="d-block m-auto mb-4"/>
 			<h1 n:block=title class="text-center">Přihlásit se</h1>
-			{control logInForm}
+			{snippet logInForm}
+				{control logInForm}
+			{/snippet}
 			<p class="text-end">
 				<a href="{link :Public:Homepage:ForgottenPassword}">Zapomenuté heslo</a>
 			</p>

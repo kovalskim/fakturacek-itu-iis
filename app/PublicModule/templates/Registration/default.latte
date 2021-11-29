@@ -5,7 +5,9 @@
         <div class="col-lg-6">
             <img src="{$basePath}/img/ico.svg" width="80px" class="d-block m-auto mb-4"/>
             <h1 class="text-center" n:block=title>Registrace</h1>
-            {control registrationForm}
+            {snippet registrationForm}
+                {control registrationForm}
+            {/snippet}
         </div>
     </div>
 {/block}
