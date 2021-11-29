@@ -38,18 +38,22 @@ abstract class BasePresenter extends Presenter
         $this->userRepository = $userRepository;
     }
 
-    public function beforeRender()
+    /**
+     * @throws AbortException
+     */
+    public function startup()
     {
-        if($this->user->isLoggedIn() && $this->user->getRoles()[0] == "business")
-        {
-            $this->setLayout('business');
-            $this->template->avatar = $this->userRepository->getUserAvatar($this->user->getId());
-        }
-        else
+        if(!($this->user->isLoggedIn() && $this->user->getRoles()[0] == "business"))
         {
             $this->flashMessage('Přístup odepřen', 'danger');
             $this->redirect(':Public:Homepage:default');
         }
+    }
+    
+    public function beforeRender()
+    {
+        $this->setLayout('business');
+        $this->template->avatar = $this->userRepository->getUserAvatar($this->user->getId());
     }
 
     /**
