@@ -110,6 +110,7 @@ final class HomepagePresenter extends BasePresenter
 
     /**
      * @throws AbortException
+     * Action for create new password after forgotten password
      */
     public function actionNewPassword($token)
     {
@@ -169,6 +170,7 @@ final class HomepagePresenter extends BasePresenter
 
     /**
      * @throws AbortException
+     * Action for verifying e-mail address (business, accountant)
      */
     public function actionVerifyAccount($token)
     {

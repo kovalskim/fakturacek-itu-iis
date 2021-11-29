@@ -22,7 +22,6 @@ final class TextsPresenter extends BasePresenter
     /** @var TextsManager */
     private $textsManager;
 
-
     public function __construct(TextRepository $textRepository, TextsFormFactory $textsFormFactory, TextsManager $textsManager)
     {
         parent::__construct();

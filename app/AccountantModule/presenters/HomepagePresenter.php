@@ -55,6 +55,7 @@ final class HomepagePresenter extends BasePresenter
 
     /**
      * @throws AbortException
+     * Joining user with accountant
      */
     public function clientConnectionFormSucceeded($form, $values)
     {

@@ -24,6 +24,7 @@ final class HomepagePresenter extends BasePresenter
 
     public function renderDefault()
     {
+        /** Counts for statistics on dasboard */
         $this->template->adminCount = $this->adminDashboardRepository->getAdminCount();
         $this->template->accountantCount = $this->adminDashboardRepository->getAccountantCount();
         $this->template->businessCount = $this->adminDashboardRepository->getBusinessCount();

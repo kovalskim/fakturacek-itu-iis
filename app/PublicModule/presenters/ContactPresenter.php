@@ -85,6 +85,7 @@ final class ContactPresenter extends BasePresenter
 
     public function renderDefault()
     {
-        $this->template->text = $this->textRepository->getTextByType("contact"); /** Load text and picture from database */
+        /** Load text and picture from database */
+        $this->template->text = $this->textRepository->getTextByType("contact");
     }
 }

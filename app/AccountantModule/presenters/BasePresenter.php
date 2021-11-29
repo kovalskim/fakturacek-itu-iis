@@ -14,6 +14,9 @@ use Nextras\Dbal\Connection;
 
 abstract class BasePresenter extends Presenter
 {
+    /**
+     * Security trait for safe deleting
+     */
     use SecuredLinksPresenterTrait;
 
     /** @var Connection @inject */
@@ -40,6 +43,7 @@ abstract class BasePresenter extends Presenter
 
     /**
      * @throws AbortException
+     * Start up method - check if user is logged in and in correct role
      */
     public function startup()
     {
@@ -51,6 +55,9 @@ abstract class BasePresenter extends Presenter
         }
     }
 
+    /**
+     * Set different layout for current module and load avatar path to navbar
+     */
     public function beforeRender()
     {
         $this->setLayout('accountant');
@@ -59,6 +66,7 @@ abstract class BasePresenter extends Presenter
 
     /**
      * @throws AbortException
+     * Handle for log out and delete session
      */
     public function handleLogOut()
     {

@@ -49,6 +49,7 @@ final class AdministratorsPresenter extends BasePresenter
 
     /**
      * @throws AbortException
+     * Add new administrator and view flash message and redraw it
      */
     public function createAdministratorFormSucceeded($form, $values)
     {
@@ -87,6 +88,9 @@ final class AdministratorsPresenter extends BasePresenter
 
     }
 
+    /**
+     * List of administrators in one table
+     */
     public function createComponentDatagrid(): Datagrid
     {
         $grid = $this->datagridManager->createDatagrid($this->userTable, $this->getName());
@@ -124,6 +128,9 @@ final class AdministratorsPresenter extends BasePresenter
         return $grid;
     }
 
+    /**
+     * Form for filtering in datagrid
+     */
     public function datagridFilterFormFactory(): Container
     {
         $form = new Container();
@@ -149,6 +156,9 @@ final class AdministratorsPresenter extends BasePresenter
         return $form;
     }
 
+    /**
+     * Handle for banning administrator
+     */
     public function ban($primary)
     {
         $this->administratorsManager->ban($primary);
@@ -156,6 +166,9 @@ final class AdministratorsPresenter extends BasePresenter
         $this->redrawControl('flashes');
     }
 
+    /**
+     * Handle for allowing access for administrator
+     */
     public function allow($primary)
     {
         $this->administratorsManager->allow($primary);

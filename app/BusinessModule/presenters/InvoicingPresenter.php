@@ -69,9 +69,11 @@ final class InvoicingPresenter extends BasePresenter
         $this->mailSender = $mailSender;
     }
 
+    /**
+     * Update after due date invoices when user go to this page
+     */
     public function actionDefault()
     {
-
         $this->invoicingRepository->updateAfterDueDateInvoicesByUserId($this->user->getId());
     }
 
@@ -99,7 +101,7 @@ final class InvoicingPresenter extends BasePresenter
                 $this->invoicingRepository->updateInvoiceStatus($id, 'paid');
                 $invoice = $this->invoicingRepository->getInvoiceDataById($id);
 
-                //email o zaplaceni
+                /** E-mail about paid invoice */
                 $subject = "Faktura č. " . $invoice->variable_symbol;
                 $body = 'paidInvoiceTemplate.latte';
                 $params = [
@@ -120,7 +122,7 @@ final class InvoicingPresenter extends BasePresenter
 
                 $invoice = $this->invoicingRepository->getInvoiceDataById($id);
 
-                //email o zrušeni
+                /** E-mail about canceled invoice */
                 $subject = "Faktura č. " . $invoice->variable_symbol;
                 $body = 'canceledInvoiceTemplate.latte';
                 $params = [
@@ -147,7 +149,7 @@ final class InvoicingPresenter extends BasePresenter
         $invoice = $this->invoicingRepository->getInvoiceDataById($primary);
         if($status == 'paid')
         {
-            //email o zaplaceni
+            /** E-mail about paid invoice */
             $subject = "Faktura č. " . $invoice->variable_symbol;
             $body = 'paidInvoiceTemplate.latte';
             $params = [
@@ -159,7 +161,7 @@ final class InvoicingPresenter extends BasePresenter
         }
         elseif($status == 'canceled')
         {
-            //email o zrušeni
+            /** E-mail about canceled invoice */
             $subject = "Faktura č. " . $invoice->variable_symbol;
             $body = 'canceledInvoiceTemplate.latte';
             $params = [
@@ -202,6 +204,7 @@ final class InvoicingPresenter extends BasePresenter
         return $form;
     }
 
+    /** Check if user can view this current invoice */
     public function actionInvoice($id)
     {
         $user_id = $this->user->getId();
@@ -222,6 +225,7 @@ final class InvoicingPresenter extends BasePresenter
 
     public function actionNewInvoice($id)
     {
+        /** Check if settings was fill in */
         $user_id = $this->user->getId();
         $settings = $this->settingInvoicesRepository->selectAll($user_id);
         if($settings->account_number == null)
@@ -230,6 +234,7 @@ final class InvoicingPresenter extends BasePresenter
             $this->redirect(':Business:SettingInvoices:default');
         }
 
+        /** Check if will be fill default values from past invoice */
         if($id)
         {
             $form = $this->getComponent('createInvoiceForm');
@@ -259,6 +264,7 @@ final class InvoicingPresenter extends BasePresenter
         }
     }
 
+    /** Search handle - returns search results */
     public function handleSearch()
     {
         if($this->isAjax())
@@ -272,6 +278,7 @@ final class InvoicingPresenter extends BasePresenter
         }
     }
 
+    /** Select action and fill in default value to add invoice form */
     public function handleSelect($selected_client_id)
     {
         if($this->isAjax())
@@ -296,6 +303,7 @@ final class InvoicingPresenter extends BasePresenter
         return $form;
     }
 
+    /** Redraw (multiplier) */
     public function createInvoiceFormAnchor($form)
     {
         $this->redrawControl('createInvoiceForm');
@@ -313,13 +321,17 @@ final class InvoicingPresenter extends BasePresenter
     public function createInvoiceFormSucceeded($form, $values)
     {
         $user_id = $this->user->getId();
+        /** Get business user data for save to invoice */
         $user = $this->userRepository->getUserById($user_id);
 
+        /** Get due date from due days number */
         $created = new DateTime();
         $due_date = $created->modifyClone('+' . $values->due_days_number . ' day');
 
+        /** Get settings for invoice */
         $setting_invoices = $this->settingInvoicesRepository->selectAll($user_id);
 
+        /** Generate new variable symbol according to pattern */
         $variable_symbol_pattern = $setting_invoices->variable_symbol;
         $variable_symbol = $this->invoicingManager->getNewVariableSymbol($user_id, $variable_symbol_pattern);
 
@@ -351,6 +363,8 @@ final class InvoicingPresenter extends BasePresenter
             'status' => 'unpaid',
             'suma' => 0
         ];
+
+        /** Check if client is from list */
         if($values->id)
         {
             $invoice_values += ['client_id' => $values->id];
@@ -360,20 +374,24 @@ final class InvoicingPresenter extends BasePresenter
             $invoice_values += ['client_id' => null];
         }
 
-
+        /** Save invoice to database */
         $this->invoicingRepository->insertInvoice($invoice_values);
         $id_invoices = $this->invoicingRepository->lasIdInvoice();
 
+        /** Save items to database and get suma */
         $suma = $this->invoicingManager->saveInvoicesItems($values, $id_invoices);
         $invoice_values['suma'] = $suma;
 
+        /** Update suma price in database */
         $this->invoicingRepository->updateSuma($suma, $id_invoices);
 
+        /** Export pdf */
         $pdf = $this->getExportPdf($id_invoices);
 
+        /** If client has e-mail address - send e-mail with invoice attachment */
         if($values->email)
         {
-            //poslu fa na mail
+            //send on e-mail
             $content = $pdf->Output('invoice.pdf', 'S');
 
             $subject = "Faktura č. " . $variable_symbol;
@@ -388,7 +406,7 @@ final class InvoicingPresenter extends BasePresenter
         }
         else
         {
-            //stahnu
+            //download
             //$pdf->Output('invoice.pdf', 'D');
             $this->flashMessage("Faktura byla uložena", "success");
         }
@@ -409,6 +427,7 @@ final class InvoicingPresenter extends BasePresenter
 
     /**
      * @throws Exception
+     * Get template for pdf generating and generate pdf with invoice and invoice items data
      */
     public function getExportPdf($invoice_id): Mpdf
     {
@@ -435,6 +454,7 @@ final class InvoicingPresenter extends BasePresenter
     /**
      * @secured
      * @throws Exception
+     * Handle for export and downloading invoices
      */
     public function handleDownloadInvoice($invoice_id)
     {
@@ -444,10 +464,13 @@ final class InvoicingPresenter extends BasePresenter
         $this->redirect('this');
     }
 
+    /**
+     * Send reminder to client after due date
+     */
     public function sendReminder($primary)
     {
        $invoice = $this->invoicingRepository->getInvoiceDataById($primary);
-        //email varovani
+        //warning e-mail
         $subject = "Faktura č. " . $invoice->variable_symbol;
         $body = 'invoiceAfterDueDateTemplate.latte';
         $params = [

@@ -77,6 +77,7 @@ final class RouterFactory
         'nahratAvatar' => 'upload'
     ];
 
+    /** Filter in and out for translate english name of presenters to czech urls */
 	public static function createRouter(): RouteList
 	{
 		$router = new RouteList;
