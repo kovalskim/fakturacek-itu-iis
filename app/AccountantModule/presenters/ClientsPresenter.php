@@ -337,7 +337,6 @@ final class ClientsPresenter extends BasePresenter
         $grid->addColumn('items', 'Název položky')->enableSort();
         $grid->addColumn('price', 'Cena')->enableSort();
         $grid->addColumn('name', 'Kategorie')->enableSort();
-        $grid->addColumn('path', 'Účtenka');
 
         $grid->setFilterFormFactory([$this, 'datagridFilterExpensesFormFactory']);
 
