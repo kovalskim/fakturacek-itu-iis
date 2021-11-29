@@ -282,7 +282,7 @@ final class ClientsPresenter extends BasePresenter
     {
         $grid = $this->datagridManager->createDatagrid('invoices', $this->getName(), $this->client_id, "invoices");
 
-        $grid->addColumn('created', 'Datum vystavení')->enableSort(Datagrid::ORDER_ASC);
+        $grid->addColumn('created', 'Datum vystavení')->enableSort(Datagrid::ORDER_DESC);
         $grid->addColumn('client_name', 'Klient')->enableSort();
         $grid->addColumn('variable_symbol', 'VS')->enableSort();
         $grid->addColumn('suma', 'Celkem')->enableSort();
@@ -333,7 +333,7 @@ final class ClientsPresenter extends BasePresenter
     {
         $grid = $this->datagridManager->createDatagrid('expenses', $this->getName(), $this->client_id, "expenses");
 
-        $grid->addColumn('datetime', 'Datum zaplacení')->enableSort(Datagrid::ORDER_ASC);
+        $grid->addColumn('datetime', 'Datum zaplacení')->enableSort(Datagrid::ORDER_DESC);
         $grid->addColumn('items', 'Název položky')->enableSort();
         $grid->addColumn('price', 'Cena')->enableSort();
         $grid->addColumn('name', 'Kategorie')->enableSort();
@@ -351,6 +351,7 @@ final class ClientsPresenter extends BasePresenter
         $form = new Container();
 
         $form->addText('datetime')
+            ->setType('date')
             ->setHtmlAttribute('placeholder', 'Datum zaplacení');
 
         $form->addText('items')
