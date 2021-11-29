@@ -43,6 +43,7 @@ abstract class BasePresenter extends Presenter
      */
     public function startup()
     {
+        parent::startup();
         if(!($this->user->isLoggedIn() && $this->user->getRoles()[0] == "admin"))
         {
             $this->flashMessage('Přístup odepřen', 'danger');

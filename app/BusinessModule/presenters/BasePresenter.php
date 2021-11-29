@@ -43,13 +43,14 @@ abstract class BasePresenter extends Presenter
      */
     public function startup()
     {
+        parent::startup();
         if(!($this->user->isLoggedIn() && $this->user->getRoles()[0] == "business"))
         {
             $this->flashMessage('Přístup odepřen', 'danger');
             $this->redirect(':Public:Homepage:default');
         }
     }
-    
+
     public function beforeRender()
     {
         $this->setLayout('business');
