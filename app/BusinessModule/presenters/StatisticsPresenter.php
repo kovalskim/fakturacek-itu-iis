@@ -32,7 +32,12 @@ final class StatisticsPresenter extends BasePresenter
     {
         $this->template->expenses = $this->statisticsRepository->getSumExpenses($this->user->getId());
         $this->template->revenues = $this->statisticsRepository->getSumRevenues($this->user->getId());
-        $this->template->sumRevenuesLast30 = $this->statisticsRepository->getSumRevenuesLast30day($this->user->getId());
-        $this->template->sumExpensesLast30 = $this->statisticsRepository->getSumExpensesLast30day($this->user->getId());
+
+        $this->template->getExpensesPerYear = $this->statisticsRepository->getExpensesPerYear($this->user->getId());
+        $this->template->getRevenuesPerYear = $this->statisticsRepository->getRevenuesPerYear($this->user->getId());
+        $this->template->getExpensesPerMonth = $this->statisticsRepository->getExpensesPerMonth($this->user->getId());
+        $this->template->getRevenuesPerMonth = $this->statisticsRepository->getRevenuesPerMonth($this->user->getId());
+        $this->template->getExpensesPerTMonths = $this->statisticsRepository->getExpensesPerTMonths($this->user->getId());
+        $this->template->getRevenuesPerTMonths = $this->statisticsRepository->getRevenuesPerTMonths($this->user->getId());
     }
 }

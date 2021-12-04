@@ -1,9 +1,14 @@
-<!-- Author: Martin Kovalski -->
+<!-- Author: Dalibor Kyjovský -->
 {block content}
 <div class="row">
     <h1 n:block=title>Statistiky</h1>
-    <div class="col-sm-6 text-center">
-        {if $revenues > 0 or $expenses > 0}
+    <div>
+        {if $expenses > 0 or $revenues > 0}
+        <div class="btn-group">
+        <button type="button" id="year" class="btn btn-primary active ajax">Roky</button>
+        <!--<button type="button" id="tmonths"class="btn btn-primary ajax">Čtvrtletí</button>-->
+        <button type="button" id="month" class="btn btn-primary ajax">Měsíce</button>
+    </div>
             <div id="chart_wrap">
                 <div id="chart_div"></div>
             </div>
@@ -12,68 +17,178 @@
         {/if}
 
     </div>
-    <div class="col-sm-6 text-center">
-        {if $revenues > 0 or $expenses > 0}
-            <div id="chart_wrap">
-                <div id="chart_div_last"></div>
-            </div>
-        {else}
-            <p>Prozatím nejsou k zobrazení žádná data.</p>
-        {/if}
-    </div>
 </div>
 
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     google.charts.load("current", { packages:["corechart"] } );
-    google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawVisualization);
 
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Transakce', 'Objem'],
-            ['Příjmy', parseInt({$revenues})],
-            ['Výdaje', parseInt({$expenses})]
-        ]);
+    let year = 1;
+    let month = 0;
+    let tmonths = 0;
+
+
+    function getData() {
+        if(year)
+        {
+            var expensesP = {$getExpensesPerYear};
+            var revenuesP = {$getRevenuesPerYear};
+        }
+        else if(month)
+        {
+            var expensesP = {$getExpensesPerMonth};
+            var revenuesP = {$getRevenuesPerMonth};
+        }
+        else if(tmonths)
+        {
+            var expensesP = {$getExpensesPerTMonths};
+            var revenuesP = {$getRevenuesPerTMonths};
+        }
+        var perYear = {};
+        for (let i = 0; i < expensesP.length; i++) {
+            if(expensesP[i].date.toString() == "January") {
+                expensesP[i].date = "Leden";
+            } else if(expensesP[i].date.toString() == "February") {
+                expensesP[i].date = "Únor";
+            } else if(expensesP[i].date.toString() == "March") {
+                expensesP[i].date = "Březen";
+            } else if(expensesP[i].date.toString() == "April") {
+                expensesP[i].date = "Duben";
+            } else if(expensesP[i].date.toString() == "May") {
+                expensesP[i].date = "Květen";
+            } else if(expensesP[i].date.toString() == "June") {
+                expensesP[i].date = "Červen";
+            } else if(expensesP[i].date.toString() == "July") {
+                expensesP[i].date = "Červenec";
+            } else if(expensesP[i].date.toString() == "August") {
+                expensesP[i].date = "Srpen";
+            } else if(expensesP[i].date.toString() == "September") {
+                expensesP[i].date = "Září";
+            } else if(expensesP[i].date.toString() == "October") {
+                expensesP[i].date = "Říjen";
+            } else if(expensesP[i].date.toString() == "November") {
+                expensesP[i].date = "Listopad";
+            } else if(expensesP[i].date.toString() == "December") {
+                expensesP[i].date = "Prosinec";
+            }
+            perYear[expensesP[i].date] = [
+                expensesP[i].date.toString(),
+                expensesP[i].expenses,
+                0
+            ];
+        }
+        
+
+        for (let i = 0; i < revenuesP.length; i++) {
+            if(revenuesP[i].date.toString() == "January") {
+                revenuesP[i].date = "Leden";
+            } else if(revenuesP[i].date.toString() == "February") {
+                revenuesP[i].date = "Únor";
+            } else if(revenuesP[i].date.toString() == "March") {
+                revenuesP[i].date = "Březen";
+            } else if(revenuesP[i].date.toString() == "April") {
+                revenuesP[i].date = "Duben";
+            } else if(revenuesP[i].date.toString() == "May") {
+                revenuesP[i].date = "Květen";
+            } else if(revenuesP[i].date.toString() == "June") {
+                revenuesP[i].date = "Červen";
+            } else if(revenuesP[i].date.toString() == "July") {
+                revenuesP[i].date = "Červenec";
+            } else if(revenuesP[i].date.toString() == "August") {
+                revenuesP[i].date = "Srpen";
+            } else if(revenuesP[i].date.toString() == "September") {
+                revenuesP[i].date = "Září";
+            } else if(revenuesP[i].date.toString() == "October") {
+                revenuesP[i].date = "Říjen";
+            } else if(revenuesP[i].date.toString() == "November") {
+                revenuesP[i].date = "Listopad";
+            } else if(revenuesP[i].date.toString() == "December") {
+                revenuesP[i].date = "Prosinec";
+            }
+            if (!perYear[revenuesP[i].date]) {
+                perYear[revenuesP[i].date] = [
+                    revenuesP[i].date.toString(),
+                    0,
+                    0,
+                ];
+            }
+            perYear[revenuesP[i].date][2] = revenuesP[i].revenues;
+        }
+      
+      console.log(perYear);
+        var graphData = [
+            ['Období', 'Výdaje', 'Příjmy'],
+        ];
+        for (let i in perYear) {
+            graphData.push([
+                perYear[i][0],
+                perYear[i][1],
+                perYear[i][2],
+            ]);
+        }
+        return graphData;
+    }
+    
+
+    function drawVisualization() {
+        var data = google.visualization.arrayToDataTable(getData());
 
         var options = {
-            title: 'Celkové příjmy vs.výdaje',
-            is3D: true,
+            height: '30%',
+          vAxis: { title: 'Kč' } ,
+          seriesType: 'bars',
+          series: { 3: { type: 'line' } }
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
         chart.draw(data, options);
-
-        var data_last = google.visualization.arrayToDataTable([
-            ['Transakce', 'Objem'],
-            ['Příjmy', parseInt({$sumRevenuesLast30})],
-            ['Výdaje', parseInt({$sumExpensesLast30})]
-        ]);
-
-        var options_last = {
-            title: 'Přijmy vs. výdaje za posledních 30 dní',
-            is3D: true,
-        };
-
-        var chartLast = new google.visualization.PieChart(document.getElementById('chart_div_last'));
-        chartLast.draw(data_last, options_last);
 
     }
 
+
     $(window).on("throttledresize", function (event) {
         var options = {
-            width: '50%',
-            height: '50%'
+            width: '40%',
+            height: '40%'
         };
 
-        var data = google.visualization.arrayToDataTable([]);
-        drawChart(data, options);
-
-        var data_last = google.visualization.arrayToDataTable([]);
-        drawChart(data_last, options);
+        getData();
+        drawVisualization();
     });
 
+    $("#year").click(function (event) {
+        month = 0;
+        year = 1;
+        tmonths = 0;
+        getData();
+        drawVisualization();
+    });
+
+    $("#month").click(function (event) {
+        month = 1;
+        year = 0;
+        tmonths = 0;
+        getData();
+        drawVisualization();
+    });
+
+    $("#tmonths").click(function (event) {
+        month = 0;
+        year = 0;
+        tmonths = 1
+        getData();
+        drawVisualization();
+    });
+
+    $(".btn-group > .btn").click(function(){
+        $(".btn-group > .btn").removeClass("active");
+        $(this).addClass("active");
+});
+
 </script>
+
 {/block}
 
  

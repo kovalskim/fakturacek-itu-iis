@@ -10,7 +10,7 @@ class StatisticsRepository extends AllRepository
 
     public function getSumExpenses($id)
     {
-        return $this->connection->query("SELECT SUM(price) as suma FROM %table WHERE users_id = %i", $this->expencesTable, $id)->fetchField();
+        return $this->connection->query("SELECT SUM(price) as suma FROM `expenses` WHERE expenses.users_id = %i", $id)->fetchField();
     }
 
     public function getSumRevenues($id)
@@ -18,20 +18,61 @@ class StatisticsRepository extends AllRepository
         return $this->connection->query("SELECT SUM(invoices.suma) as suma FROM invoices WHERE invoices.users_id=%i AND invoices.status='paid';", $id)->fetchField();
     }
 
-    public function getSumInvoices($id)
+
+    public function getExpensesPerYear($id)
     {
-        return $this->connection->query("SELECT COUNT(invoices.id) as pocet FROM `invoices` WHERE users_id = %i;", $id)->fetchField();
+        return $this->connection->query("SELECT SUM(expenses.price) as `expenses`, YEAR(datetime) as `date`
+        FROM expenses 
+        WHERE expenses.users_id = %i
+        GROUP BY YEAR(expenses.datetime)
+        Order BY expenses.datetime;", $id)->fetchAll();
     }
 
-    public function getSumRevenuesLast30day($id)
+    public function getRevenuesPerYear($id)
     {
-        return $this->connection->query("SELECT SUM(invoices.suma) as suma FROM invoices WHERE invoices.users_id=%i AND invoices.status='paid' AND invoices.created > current_date - interval 30 day", $id)->fetchField();
+        return $this->connection->query("SELECT SUM(invoices.suma) as `revenues`, YEAR(invoices.created) as `date` 
+        FROM invoices 
+        WHERE invoices.users_id = %i AND invoices.status = 'paid' 
+        GROUP BY YEAR(invoices.created) 
+        Order BY invoices.created
+        LIMIT 5", $id)->fetchAll();
     }
 
-    public function getSumExpensesLast30day($id)
+    public function getExpensesPerMonth($id)
     {
-        return $this->connection->query("SELECT SUM(price) as suma FROM expenses WHERE users_id = %i AND expenses.datetime > current_date - interval 30 day", $id)->fetchField();
+        return $this->connection->query("SELECT SUM(expenses.price) as `expenses`, monthname(datetime) as `date` 
+        FROM expenses WHERE expenses.users_id = %i AND YEAR(expenses.datetime) = YEAR(CURDATE())
+        GROUP BY MONTH(expenses.datetime) 
+        Order BY expenses.datetime
+        LIMIT 5
+        ", $id)->fetchAll();
     }
+
+    public function getRevenuesPerMonth($id)
+    {
+        return $this->connection->query("SELECT SUM(invoices.suma) as `revenues`, monthname(invoices.created) as `date` 
+        FROM invoices WHERE invoices.users_id = %i 
+        GROUP BY MONTH(invoices.created) 
+        Order BY invoices.created
+        LIMIT 5
+        ", $id)->fetchAll();
+    }
+
+    public function getExpensesPerTMonths($id)
+    {
+        return $this->connection->query("SELECT SUM(expenses.price) as `expenses`, monthname(datetime) as `date` FROM expenses WHERE expenses.users_id = %i GROUP BY MONTH(expenses.datetime) Order BY expenses.datetime
+        ", $id)->fetchAll();
+    }
+
+    public function getRevenuesPerTMonths($id)
+    {
+        return $this->connection->query("SELECT SUM(invoices.suma) as `revenues`, monthname(invoices.created) as `date` FROM invoices WHERE invoices.users_id = %i GROUP BY MONTH(invoices.created) Order BY invoices.created
+        ", $id)->fetchAll();
+    }
+
+
+
+
 
 
 }
