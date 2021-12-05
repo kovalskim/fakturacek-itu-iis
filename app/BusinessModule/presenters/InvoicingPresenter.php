@@ -493,9 +493,12 @@ final class InvoicingPresenter extends BasePresenter
             ];
 
             $this->mailSender->sendEmail($invoice->client_email, $subject, $body, $params);
+            $this->flashMessage('E-mail byl odeslán', 'success');
        }
-
-        $this->flashMessage('E-mail byl odeslán', 'success');
+       else
+       {
+           $this->flashMessage('Klient nemá vyplněn e-mailovou adresu, upozornění nelze odeslat', 'warning');
+       }
         $this->redrawControl('flashes');
     }
 }
