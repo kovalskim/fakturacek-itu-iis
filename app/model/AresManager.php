@@ -103,10 +103,10 @@ class AresManager
             }
 
             return [
-                "jmeno" => $jmeno,
-                "mesto" => $mesto,
-                "uliceCislo" => $ulice . " " . $domovni . isset($orientacni),
-                "psc" => $psc
+                "name" => $jmeno,
+                "city" => $mesto,
+                "street" => $ulice . " " . $domovni . isset($orientacni),
+                "zip" => $psc
             ];
         }
         return null;

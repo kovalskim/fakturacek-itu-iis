@@ -5,6 +5,7 @@
 namespace App\PublicModule\presenters;
 
 use App\forms\LogInFormFactory;
+use App\model\AresManager;
 use App\model\UserManager;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
@@ -17,11 +18,15 @@ final class RegistrationPresenter extends BasePresenter
     /** @var UserManager */
     private $userManager;
 
-    public function __construct(LogInFormFactory $logInFormFactory, UserManager $userManager)
+    /** @var AresManager */
+    private $aresManager;
+
+    public function __construct(LogInFormFactory $logInFormFactory, UserManager $userManager, AresManager $aresManager)
     {
         parent::__construct();
         $this->logInFormFactory = $logInFormFactory;
         $this->userManager = $userManager;
+        $this->aresManager = $aresManager;
     }
 
     public function actionDefault()
@@ -57,5 +62,19 @@ final class RegistrationPresenter extends BasePresenter
         $this->userManager->registrationFormSucceeded($form, $values);
         $this->flashMessage("Registrace byla úspěšná", "success");
         $this->redirect(":Public:Homepage:default");
+    }
+
+    public function handleLoadPersonalInfoFromAres()
+    {
+        if($this->isAjax())
+        {
+            $cin = $this->getParameter('cin');
+            if($cin != null)
+            {
+                $data = $this->aresManager->parseDataFromAres($cin);
+                $this->getComponent('registrationForm')->setDefaults($data);
+                $this->redrawControl('registrationForm');
+            }
+        }
     }
 }

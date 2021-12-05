@@ -6,8 +6,48 @@
             <img src="{$basePath}/img/ico.svg" width="80px" class="d-block m-auto mb-4"/>
             <h1 class="text-center" n:block=title>Registrace</h1>
             {snippet registrationForm}
-                {control registrationForm}
+                {form registrationForm}
+                    {label email}
+                    {input email class => 'form-control'}
+                    {label password}
+                    {input password class => 'form-control'}
+                    {label passwordAgain}
+                    {input passwordAgain class => 'form-control'}
+            <a href="#" onclick="loadData()" class="ajax btn btn-secondary btn-sm">Načíst údaje</a>
+                    {label cin}
+                    {input cin class => 'form-control'}
+                    {label name}
+                    {input name class => 'form-control'}
+                    {label street}
+                    {input street class => 'form-control'}
+                    {label city}
+                    {input city class => 'form-control'}
+                    {label zip}
+                    {input zip class => 'form-control'}
+                    {label phone}
+                    {input phone class => 'form-control'}
+                    {label role}
+                    {input role:business class => 'form-check-input'}
+                    {label role:business}
+                    {input role:accountant class => 'form-check-input'}
+                    {label role:accountant}
+                    <br>
+                    {input registration class => 'btn btn-primary'}
+                {/form}
             {/snippet}
         </div>
     </div>
+
+    <script>
+        function loadData()
+        {
+            $.nette.ajax({
+                type: 'POST',
+                url: {link loadPersonalInfoFromAres!},
+                data: {
+                    cin: $(document.getElementById('frm-registrationForm-cin')).val(),
+                }
+            })
+        }
+    </script>
 {/block}
