@@ -101,15 +101,18 @@ final class InvoicingPresenter extends BasePresenter
                 $this->invoicingRepository->updateInvoiceStatus($id, 'paid');
                 $invoice = $this->invoicingRepository->getInvoiceDataById($id);
 
-                /** E-mail about paid invoice */
-                $subject = "Faktura č. " . $invoice->variable_symbol;
-                $body = 'paidInvoiceTemplate.latte';
-                $params = [
-                    'subject' => $subject,
-                    'name' => $invoice->user_name
-                ];
+                if($invoice->client_email)
+                {
+                    /** E-mail about paid invoice */
+                    $subject = "Faktura č. " . $invoice->variable_symbol;
+                    $body = 'paidInvoiceTemplate.latte';
+                    $params = [
+                        'subject' => $subject,
+                        'name' => $invoice->user_name
+                    ];
 
-                $this->mailSender->sendEmail($invoice->client_email, $subject, $body, $params);
+                    $this->mailSender->sendEmail($invoice->client_email, $subject, $body, $params);
+                }
             }
             $this->flashMessage('Faktury byly označené jako zaplacené', 'success');
             $this->redrawControl('flashes');
@@ -122,15 +125,18 @@ final class InvoicingPresenter extends BasePresenter
 
                 $invoice = $this->invoicingRepository->getInvoiceDataById($id);
 
-                /** E-mail about canceled invoice */
-                $subject = "Faktura č. " . $invoice->variable_symbol;
-                $body = 'canceledInvoiceTemplate.latte';
-                $params = [
-                    'subject' => $subject,
-                    'name' => $invoice->user_name
-                ];
+                if($invoice->client_email)
+                {
+                    /** E-mail about canceled invoice */
+                    $subject = "Faktura č. " . $invoice->variable_symbol;
+                    $body = 'canceledInvoiceTemplate.latte';
+                    $params = [
+                        'subject' => $subject,
+                        'name' => $invoice->user_name
+                    ];
 
-                $this->mailSender->sendEmail($invoice->client_email, $subject, $body, $params);
+                    $this->mailSender->sendEmail($invoice->client_email, $subject, $body, $params);
+                }
             }
             $this->flashMessage('Faktury byly stornovány', 'success');
             $this->redrawControl('flashes');
@@ -147,7 +153,7 @@ final class InvoicingPresenter extends BasePresenter
     {
         $this->invoicingRepository->updateInvoiceStatus($primary, $status);
         $invoice = $this->invoicingRepository->getInvoiceDataById($primary);
-        if($status == 'paid')
+        if($status == 'paid' && $invoice->client_email != null)
         {
             /** E-mail about paid invoice */
             $subject = "Faktura č. " . $invoice->variable_symbol;
@@ -159,7 +165,7 @@ final class InvoicingPresenter extends BasePresenter
 
             $this->mailSender->sendEmail($invoice->client_email, $subject, $body, $params);
         }
-        elseif($status == 'canceled')
+        elseif($status == 'canceled' && $invoice->client_email != null)
         {
             /** E-mail about canceled invoice */
             $subject = "Faktura č. " . $invoice->variable_symbol;
@@ -476,15 +482,18 @@ final class InvoicingPresenter extends BasePresenter
     public function sendReminder($primary)
     {
        $invoice = $this->invoicingRepository->getInvoiceDataById($primary);
-        //warning e-mail
-        $subject = "Faktura č. " . $invoice->variable_symbol;
-        $body = 'invoiceAfterDueDateTemplate.latte';
-        $params = [
-            'subject' => $subject,
-            'name' => $invoice->user_name
-        ];
+       if($invoice->client_email)
+       {
+            //warning e-mail
+            $subject = "Faktura č. " . $invoice->variable_symbol;
+            $body = 'invoiceAfterDueDateTemplate.latte';
+            $params = [
+                'subject' => $subject,
+                'name' => $invoice->user_name
+            ];
 
-        $this->mailSender->sendEmail($invoice->client_email, $subject, $body, $params);
+            $this->mailSender->sendEmail($invoice->client_email, $subject, $body, $params);
+       }
 
         $this->flashMessage('E-mail byl odeslán', 'success');
         $this->redrawControl('flashes');
