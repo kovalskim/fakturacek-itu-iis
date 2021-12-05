@@ -69,12 +69,25 @@ final class RegistrationPresenter extends BasePresenter
         if($this->isAjax())
         {
             $cin = $this->getParameter('cin');
+            $form = $this->getComponent('registrationForm');
             if($cin != null)
             {
                 $data = $this->aresManager->parseDataFromAres($cin);
-                $this->getComponent('registrationForm')->setDefaults($data);
-                $this->redrawControl('registrationForm');
+                if($data)
+                {
+                    $form->setDefaults($data);
+                }
+                else
+                {
+                    $form->setDefaults(['cin' => $cin]);
+                    $form['cin']->addError('Toto IČ neexistuje');
+                }
             }
+            else
+            {
+                $form['cin']->addError('IČ nebylo zadáno');
+            }
+            $this->redrawControl('registrationForm');
         }
     }
 }

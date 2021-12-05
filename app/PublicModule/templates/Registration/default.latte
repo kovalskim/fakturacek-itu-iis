@@ -6,34 +6,41 @@
             <img src="{$basePath}/img/ico.svg" width="80px" class="d-block m-auto mb-4"/>
             <h1 class="text-center" n:block=title>Registrace</h1>
             {snippet registrationForm}
-                {form registrationForm}
-                    {label email}
-                    {input email class => 'form-control'}
-                    {label password}
-                    {input password class => 'form-control'}
-                    {label passwordAgain}
-                    {input passwordAgain class => 'form-control'}
-            <a href="#" onclick="loadData()" class="ajax btn btn-secondary btn-sm">Načíst údaje</a>
-                    {label cin}
-                    {input cin class => 'form-control'}
-                    {label name}
-                    {input name class => 'form-control'}
-                    {label street}
-                    {input street class => 'form-control'}
-                    {label city}
-                    {input city class => 'form-control'}
-                    {label zip}
-                    {input zip class => 'form-control'}
-                    {label phone}
-                    {input phone class => 'form-control'}
-                    {label role}
-                    {input role:business class => 'form-check-input'}
-                    {label role:business}
-                    {input role:accountant class => 'form-check-input'}
-                    {label role:accountant}
-                    <br>
-                    {input registration class => 'btn btn-primary'}
-                {/form}
+                <div class="row">
+                    {form registrationForm}
+                        {label cin class => 'mt-2'}
+                        <div class="input-group">
+                            <input n:name=cin class="form-control {if $form['cin']->error}is-invalid{/if}" />
+                            <button type="button" onclick="loadData()" class="ajax btn btn-secondary">
+                                Načíst údaje
+                            </button>
+                        </div>
+                        <div n:ifcontent class="invalid-feedback d-block">{inputError cin}</div>
+                        {label name class => 'mt-2'}
+                        {input name class => 'form-control'}
+                        {label street class => 'mt-2'}
+                        {input street class => 'form-control'}
+                        {label city class => 'mt-2'}
+                        {input city class => 'form-control'}
+                        {label zip class => 'mt-2'}
+                        {input zip class => 'form-control'}
+                        {label email}
+                        {input email class => 'form-control'}
+                        {label password class => 'mt-2'}
+                        {input password class => 'form-control'}
+                        {label passwordAgain class => 'mt-2'}
+                        {input passwordAgain class => 'form-control'}
+                        {label phone class => 'mt-2'}
+                        {input phone class => 'form-control'}
+                        {label role class => 'mt-2'}
+                        {input role:business class => 'form-check-input mt-2'}
+                        {label role:business}
+                        {input role:accountant class => 'form-check-input mt-2'}
+                        {label role:accountant}
+                        <br>
+                        {input registration class => 'btn btn-primary mt-2'}
+                    {/form}
+                </div>
             {/snippet}
         </div>
     </div>

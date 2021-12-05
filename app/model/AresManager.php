@@ -103,6 +103,7 @@ class AresManager
             }
 
             return [
+                "cin" => $cin,
                 "name" => $jmeno,
                 "city" => $mesto,
                 "street" => $ulice . " " . $domovni . isset($orientacni),
