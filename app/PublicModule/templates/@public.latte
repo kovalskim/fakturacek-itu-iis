@@ -13,7 +13,6 @@
 
         <!-- CSS styles -->
         <link rel="stylesheet" href="{$basePath}/css/styles.css"/>
-        <link href="{$basePath}/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <!--// CSS styles -->
     </head>
@@ -26,6 +25,39 @@
             $(function () {
                 $.nette.init();
             });
+
+            //https://gist.github.com/duskohu/7591174
+            (function ($, undefined) {
+
+                $.nette.ext('spinner', {
+                    init: function (x) {
+                        this.spinner = this.createSpinner();
+                        this.spinner.appendTo('body');
+                    },
+                    start: function (jqXHR, settings) {
+                        this.spinner.css({
+                            left: '50%',
+                            top: '50%'
+                        });
+                        this.spinner.show(this.speed);
+                    },
+                    complete: function () {
+                        this.spinner.hide(this.speed);
+                    }
+                }, {
+                    createSpinner: function () {
+                        return $('<div>', {
+                            id: 'ajax-spinner',
+                            css: {
+                                display: 'none'
+                            }
+                        });
+                    },
+                    spinner: null,
+                    speed: undefined
+                });
+
+            })(jQuery);
         </script>
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
