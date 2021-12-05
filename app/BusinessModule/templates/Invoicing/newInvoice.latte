@@ -42,7 +42,12 @@
                 </div>
                 <div class="col-sm-6 pt-3">
                     {label cin}
-                    <input n:name="cin" class="form-control {if $form['cin']->error}is-invalid{/if}"/>
+                    <div class="input-group">
+                            <input n:name=cin class="form-control {if $form['cin']->error}is-invalid{/if}" />
+                            <button type="button" onclick="loadData()" class="ajax btn btn-secondary">
+                                Načíst údaje
+                            </button>
+                    </div>
                     <div n:ifcontent class="invalid-feedback d-block">{inputError cin}</div>
                     {label vat class => 'mt-2'}
                     {input vat class => 'form-control'}
@@ -111,6 +116,19 @@
                 }
             })
         });
+    </script>
+
+    <script>
+        function loadData()
+        {
+            $.nette.ajax({
+                type: 'POST',
+                url: {link loadPersonalInfoFromAres!},
+                data: {
+                    cin: $(document.getElementById('frm-createInvoiceForm-cin')).val(),
+                }
+            })
+        }
     </script>
 {/block}
 

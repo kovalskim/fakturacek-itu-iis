@@ -5,6 +5,7 @@
 namespace App\BusinessModule\presenters;
 
 use App\forms\InvoicingFormFactory;
+use App\model\AresManager;
 use App\model\ClientsManager;
 use App\model\DatagridManager;
 use App\model\InvoicingManager;
@@ -55,7 +56,10 @@ final class InvoicingPresenter extends BasePresenter
     /** @var MailSender */
     public $mailSender;
 
-    public function __construct(DatagridManager $datagridManager, InvoicingManager $invoicingManager, InvoicingRepository $invoicingRepository, InvoicingFormFactory $invoicingFormFactory, ClientRepository $clientRepository, ClientsManager $clientsManager, UserRepository $userRepository, SettingInvoicesRepository $settingInvoicesRepository, MailSender $mailSender)
+    /** @var AresManager */
+    private $aresManager;
+
+    public function __construct(DatagridManager $datagridManager, InvoicingManager $invoicingManager, InvoicingRepository $invoicingRepository, InvoicingFormFactory $invoicingFormFactory, ClientRepository $clientRepository, ClientsManager $clientsManager, UserRepository $userRepository, SettingInvoicesRepository $settingInvoicesRepository, MailSender $mailSender, AresManager $aresManager)
     {
         parent::__construct();
         $this->datagridManager = $datagridManager;
@@ -67,6 +71,7 @@ final class InvoicingPresenter extends BasePresenter
         $this->userRepository = $userRepository;
         $this->settingInvoicesRepository = $settingInvoicesRepository;
         $this->mailSender = $mailSender;
+        $this->aresManager = $aresManager;
     }
 
     /**
@@ -500,5 +505,32 @@ final class InvoicingPresenter extends BasePresenter
            $this->flashMessage('Klient nemá vyplněn e-mailovou adresu, upozornění nelze odeslat', 'warning');
        }
         $this->redrawControl('flashes');
+    }
+
+    public function handleLoadPersonalInfoFromAres()
+    {
+        if($this->isAjax())
+        {
+            $cin = $this->getParameter('cin');
+            $form = $this->getComponent('createInvoiceForm');
+            if($cin != null)
+            {
+                $data = $this->aresManager->parseDataFromAres($cin);
+                if($data)
+                {
+                    $form->setDefaults($data);
+                }
+                else
+                {
+                    $form->setDefaults(['cin' => $cin]);
+                    $form['cin']->addError('Toto IČ neexistuje');
+                }
+            }
+            else
+            {
+                $form['cin']->addError('IČ nebylo zadáno');
+            }
+            $this->redrawControl('clientForm');
+        }
     }
 }

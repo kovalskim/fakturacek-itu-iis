@@ -247,4 +247,31 @@ final class ClientsPresenter extends BasePresenter
         $this->flashMessage('Klient byl smazán', 'success');
         $this->redrawControl('flashes');
     }
+
+    public function handleLoadPersonalInfoFromAres()
+    {
+        if($this->isAjax())
+        {
+            $cin = $this->getParameter('cin');
+            $form = $this->getComponent('addClientForm');
+            if($cin != null)
+            {
+                $data = $this->aresManager->parseDataFromAres($cin);
+                if($data)
+                {
+                    $form->setDefaults($data);
+                }
+                else
+                {
+                    $form->setDefaults(['cin' => $cin]);
+                    $form['cin']->addError('Toto IČ neexistuje');
+                }
+            }
+            else
+            {
+                $form['cin']->addError('IČ nebylo zadáno');
+            }
+            $this->redrawControl('clientForm');
+        }
+    }
 }
