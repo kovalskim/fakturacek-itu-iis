@@ -1,4 +1,4 @@
--- Adminer 4.3.1 MySQL dump
+-- Adminer 4.8.1 MySQL 5.5.5-10.4.21-MariaDB dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -37,6 +37,8 @@ CREATE TABLE `categories` (
   CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
+INSERT INTO `categories` (`cat_id`, `name`, `users_id`) VALUES
+(1,	'Test',	2);
 
 DROP TABLE IF EXISTS `clients`;
 CREATE TABLE `clients` (
@@ -56,7 +58,8 @@ CREATE TABLE `clients` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `clients` (`id`, `name`, `cin`, `vat`, `street`, `city`, `zip`, `email`, `phone`, `users_id`) VALUES
-(1,	'Josef Novák',	'',	'',	'Technická 3058/10',	'Brno-Královo Pole',	'61600',	'',	'123456789',	2);
+(1,	'Josef Novák',	'',	'',	'Technická 3058/10',	'Brno-Královo Pole',	'61600',	'',	'123456789',	2),
+(2,	'Tomáš Novák',	'',	'',	'Kolejní 2906/4',	'Brno-Královo Pole',	'61200',	'xjuzlr00@stud.fit.vutbr.cz',	'',	2);
 
 DROP TABLE IF EXISTS `expenses`;
 CREATE TABLE `expenses` (
@@ -75,7 +78,9 @@ CREATE TABLE `expenses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `expenses` (`id`, `users_id`, `path`, `expenses_cat_id`, `items`, `price`, `datetime`) VALUES
-(1,	2,	'www/expenses/3BDZB675UC.jpeg',	NULL,	'První položka',	450,	'2021-11-29 00:00:00');
+(1,	2,	'www/expenses/3BDZB675UC.jpeg',	NULL,	'První položka',	450,	'2021-11-29 00:00:00'),
+(2,	2,	'www/expenses/OCPKYZLKHH.jpeg',	1,	'Druhá položka',	350,	'2021-10-11 00:00:00'),
+(3,	2,	'www/expenses/1EM2XZT42E.jpeg',	1,	'Třetí položka',	1251.5,	'2021-12-05 00:00:00');
 
 DROP TABLE IF EXISTS `invoices`;
 CREATE TABLE `invoices` (
@@ -114,7 +119,11 @@ CREATE TABLE `invoices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 INSERT INTO `invoices` (`id`, `users_id`, `user_name`, `user_street`, `user_city`, `user_zip`, `user_cin`, `user_vat`, `user_phone`, `user_email`, `client_id`, `client_name`, `client_street`, `client_city`, `client_zip`, `client_cin`, `client_vat`, `client_phone`, `client_email`, `created`, `due_date`, `after_due_date`, `account_number`, `variable_symbol`, `logo_path`, `vat_note`, `footer_note`, `status`, `suma`) VALUES
-(1,	2,	'OSVC',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'68396201',	'',	'+420123456789',	'osvc@fakturacek.pixla.rekode.cz',	NULL,	'Josef Novák',	'Technická 3058/10',	'Brno-Královo Pole',	'61600',	'',	'',	'123456789',	'',	'2021-11-29 16:16:34',	'2021-12-13 17:16:34',	0,	'10006-18432071/0600',	'211101',	'www/logo/Q07V3QE7O3.jpeg',	0,	'0',	'unpaid',	12865.4);
+(1,	2,	'OSVC',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'68396201',	'',	'+420123456789',	'osvc@fakturacek.pixla.rekode.cz',	NULL,	'Josef Novák',	'Technická 3058/10',	'Brno-Královo Pole',	'61600',	'',	'',	'123456789',	'',	'2021-10-29 15:16:34',	'2021-11-13 17:16:34',	0,	'10006-18432071/0600',	'211101',	'www/logo/Q07V3QE7O3.jpeg',	0,	'0',	'paid',	12865.4),
+(2,	2,	'OSVC',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'68396201',	'',	'+420123456789',	'osvc@fakturacek.pixla.rekode.cz',	2,	'Tomáš Novák',	'Kolejní 2906/4',	'Brno-Královo Pole',	'61200',	'',	'',	'',	'xjuzlr00@stud.fit.vutbr.cz',	'2021-11-05 19:53:01',	'2021-11-19 20:53:01',	1,	'10006-18432071/0600',	'211202',	'www/logo/Q07V3QE7O3.jpeg',	0,	'0',	'unpaid',	19700),
+(3,	2,	'OSVC',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'68396201',	'',	'+420123456789',	'osvc@fakturacek.pixla.rekode.cz',	NULL,	'Jirka Novák',	'Opletalova 38',	'Staré Město',	'11000',	'',	'',	'224491111',	'',	'2021-12-03 19:55:13',	'2021-12-17 20:55:13',	0,	'10006-18432071/0600',	'211203',	'www/logo/Q07V3QE7O3.jpeg',	0,	'0',	'paid',	360),
+(4,	2,	'OSVC',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'68396201',	'',	'+420123456789',	'osvc@fakturacek.pixla.rekode.cz',	2,	'Tomáš Novák',	'Kolejní 2906/4',	'Brno-Královo Pole',	'61200',	'',	'',	'',	'xjuzlr00@stud.fit.vutbr.cz',	'2021-12-01 20:11:21',	'2021-12-15 21:11:21',	0,	'10006-18432071/0600',	'211204',	'www/logo/Q07V3QE7O3.jpeg',	0,	'0',	'paid',	34900),
+(5,	2,	'OSVC',	'Božetěchova 1/2',	'Brno-Královo Pole',	'61200',	'68396201',	'',	'+420123456789',	'osvc@fakturacek.pixla.rekode.cz',	1,	'Josef Novák',	'Technická 3058/10',	'Brno-Královo Pole',	'61600',	'',	'',	'123456789',	'',	'2021-12-05 20:13:22',	'2021-12-19 21:13:22',	0,	'10006-18432071/0600',	'211205',	'www/logo/Q07V3QE7O3.jpeg',	0,	'0',	'canceled',	27500);
 
 DROP TABLE IF EXISTS `invoices_items`;
 CREATE TABLE `invoices_items` (
@@ -132,7 +141,13 @@ CREATE TABLE `invoices_items` (
 
 INSERT INTO `invoices_items` (`id`, `invoices_id`, `name`, `count`, `unit_price`, `type`, `suma`) VALUES
 (1,	1,	'První',	50,	250,	'hours',	12500),
-(2,	1,	'Druhá',	12,	30.45,	'pieces',	365.4);
+(2,	1,	'Druhá',	12,	30.45,	'pieces',	365.4),
+(3,	2,	'První',	50,	250,	'pieces',	12500),
+(4,	2,	'Druhá',	12,	600,	'hours',	7200),
+(5,	3,	'První',	24,	15,	'hours',	360),
+(6,	4,	'Práce',	24,	950,	'hours',	22800),
+(7,	4,	'Materiál',	55,	220,	'pieces',	12100),
+(8,	5,	'První',	550,	50,	'hours',	27500);
 
 DROP TABLE IF EXISTS `setting_invoices`;
 CREATE TABLE `setting_invoices` (
@@ -203,7 +218,7 @@ CREATE TABLE `users_last_login` (
 INSERT INTO `users_last_login` (`id`, `users_id`, `timestamp`) VALUES
 (4,	1,	'2021-11-29 15:58:43'),
 (5,	3,	'2021-11-29 15:59:50'),
-(6,	2,	'2021-11-29 16:08:29');
+(8,	2,	'2021-12-05 20:43:06');
 
 DROP TABLE IF EXISTS `users_last_password_change`;
 CREATE TABLE `users_last_password_change` (
@@ -216,4 +231,4 @@ CREATE TABLE `users_last_password_change` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 
--- 2021-11-29 22:56:54
+-- 2021-12-05 20:48:06
