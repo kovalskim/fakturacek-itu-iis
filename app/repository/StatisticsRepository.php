@@ -51,7 +51,7 @@ class StatisticsRepository extends AllRepository
     public function getRevenuesPerMonth($id)
     {
         return $this->connection->query("SELECT SUM(invoices.suma) as `revenues`, monthname(invoices.created) as `date` 
-        FROM invoices WHERE invoices.users_id = %i 
+        FROM invoices WHERE invoices.users_id = %i AND invoices.status = 'paid'
         GROUP BY MONTH(invoices.created) 
         Order BY invoices.created
         LIMIT 5
@@ -69,10 +69,5 @@ class StatisticsRepository extends AllRepository
         return $this->connection->query("SELECT SUM(invoices.suma) as `revenues`, monthname(invoices.created) as `date` FROM invoices WHERE invoices.users_id = %i GROUP BY MONTH(invoices.created) Order BY invoices.created
         ", $id)->fetchAll();
     }
-
-
-
-
-
 
 }
