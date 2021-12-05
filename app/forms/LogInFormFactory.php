@@ -86,7 +86,8 @@ class LogInFormFactory
             ->setHtmlAttribute('placeholder', 'PSČ');
 
         $form->addText('phone', 'Telefon:')
-            ->setHtmlAttribute('placeholder', 'Telefon');
+            ->setHtmlAttribute('placeholder', 'Telefon')
+            ->addRule($form::MAX_LENGTH, 'Text je příliš dlouhý', 13);
 
         $form->addRadioList('role', 'Role:*', ["business" => 'OSVČ', "accountant" => 'Účetní'])
             ->setDefaultValue("business")
@@ -196,7 +197,8 @@ class LogInFormFactory
             ->setHtmlAttribute('placeholder', 'PSČ');
 
         $form->addText('phone', 'Telefon:')
-            ->setHtmlAttribute('placeholder', 'Telefon');
+            ->setHtmlAttribute('placeholder', 'Telefon')
+            ->addRule($form::MAX_LENGTH, 'Text je příliš dlouhý', 13);
 
         $form->addSubmit('send', 'Uložit změny');
 

@@ -52,7 +52,8 @@ class AdministratorsFormFactory
             ->setHtmlAttribute('placeholder', 'Jméno a příjmení');
 
         $form->addText('phone', 'Telefon:')
-            ->setHtmlAttribute('placeholder', 'Telefon');
+            ->setHtmlAttribute('placeholder', 'Telefon')
+            ->addRule($form::MAX_LENGTH, 'Text je příliš dlouhý', 13);
 
         $form->addSubmit('send', 'Uložit změny');
 

@@ -56,7 +56,8 @@ class InvoicingFormFactory
             ->setHtmlAttribute('placeholder', 'DIČ');
 
         $form->addText('phone', 'Telefon:')
-            ->setHtmlAttribute('placeholder', 'Telefon');
+            ->setHtmlAttribute('placeholder', 'Telefon')
+            ->addRule($form::MAX_LENGTH, 'Text je příliš dlouhý', 13);
 
         $form->addEmail('email', 'E-mail:')
             ->setHtmlAttribute('placeholder', 'E-mail');

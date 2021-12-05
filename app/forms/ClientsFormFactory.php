@@ -57,7 +57,8 @@ class ClientsFormFactory
             ->setHtmlAttribute('placeholder', 'PSČ');
 
         $form->addText('phone', 'Telefon:')
-            ->setHtmlAttribute('placeholder', 'Telefon');
+            ->setHtmlAttribute('placeholder', 'Telefon')
+            ->addRule($form::MAX_LENGTH, 'Text je příliš dlouhý', 13);
 
         $form->addSubmit('addClient', 'Přidat');
 
