@@ -376,7 +376,7 @@ final class InvoicingPresenter extends BasePresenter
             'variable_symbol' => $variable_symbol,
             'logo_path' => $setting_invoices->logo_path,
             'vat_note' => $setting_invoices->vat_note,
-            'footer_note' => $setting_invoices->vat_note,
+            'footer_note' => $setting_invoices->footer_note,
             'status' => 'unpaid',
             'suma' => 0
         ];
