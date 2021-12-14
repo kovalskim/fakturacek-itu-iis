@@ -90,7 +90,7 @@ class AresManager
             $position = strpos($xml, "Cislo_orientacni");
             if(!($position === false))
             {
-                $orientacni = "/" . $this->loadData($position+17, $xml);
+                $orientacni = "/" . ($this->loadData($position+17, $xml));
             }
 
             $position = strpos($xml, "PSC");
