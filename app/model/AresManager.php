@@ -86,10 +86,11 @@ class AresManager
                 return null;
             }
 
+            $orientacni = "";
             $position = strpos($xml, "Cislo_orientacni");
             if(!($position === false))
             {
-                $orientacni = "/". ($this->loadData($position+19, $xml));
+                $orientacni = "/" . $this->loadData($position+17, $xml);
             }
 
             $position = strpos($xml, "PSC");
@@ -106,7 +107,7 @@ class AresManager
                 "cin" => $cin,
                 "name" => $jmeno,
                 "city" => $mesto,
-                "street" => $ulice . " " . $domovni . isset($orientacni),
+                "street" => $ulice . " " . $domovni . $orientacni,
                 "zip" => $psc
             ];
         }
